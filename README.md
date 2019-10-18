@@ -1,5 +1,4 @@
-pip install -U mypy
-pip install -U flask 
+`pip install -U flask mypy`
 
 run `mypy .` for type checking
 

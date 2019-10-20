@@ -1,3 +1,6 @@
 #!/bin/sh
+db='university.db'
 
-sqlite3 university.db < schema.sql
+sqlite3 $db < schema.sql
+sqlite3 $db < setup_enums.sql
+

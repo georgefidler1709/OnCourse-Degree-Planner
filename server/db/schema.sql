@@ -108,12 +108,12 @@ create table CourseOfferings (
 	primary key (course_id, session_year, session_term)
 );
 
-create table CouseRequirementTypes (
-	name varchar(100),
+create table CourseRequirementTypes (
+	name varchar(100) unique,
 	id integer primary key
 );
 
 create table CourseFilterTypes (
-	name varchar(100),
+	name varchar(100) unique,
 	id integer primary key
 );

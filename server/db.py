@@ -7,7 +7,6 @@ import sqlite3
 import click
 from flask import current_app, g, Flask
 from flask.cli import with_appcontext
-# from werkzeug.local import LocalProxy
 
 def get_db() -> sqlite3.Connection:
     if 'db' not in g:
@@ -25,7 +24,7 @@ def close_db(err : str = None) -> None:
     if db is not None:
         db.close()
 
-def init_db(app : Flask, remake : bool = True) -> None:
+def init_db(app : Flask, remake : bool = False) -> None:
     '''
     Initialize db and populate it with information
     '''
@@ -46,21 +45,10 @@ def init_db(app : Flask, remake : bool = True) -> None:
         with current_app.open_resource('db/data.sql') as f:
             db.executescript(f.read().decode('utf8'))
 
-# @click.command('init-db')
-@with_appcontext
-def init_db_command() -> None:
-    '''
-    Clear data and create tables
-    '''
-    init_db()
-    print("Initialized the database.")
-    # click.echo('Initialized the database.')
 
 def init_app(app : Flask) -> None:
     '''
     Init database for given flask app
     '''
-    # db = LocalProxy(get_db)
     app.teardown_appcontext(close_db)
-    # app.cli.add_command(init_db_command)
     init_db(app)

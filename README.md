@@ -19,3 +19,5 @@ run `mypy .` for type checking
 
 From root folder, run `./start.sh`. 
 
+* if you want to re-generate the database, go to `./server/db.py` and set `init_db()`'s argument `remake=True`
+

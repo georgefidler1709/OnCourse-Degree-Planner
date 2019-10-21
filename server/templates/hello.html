@@ -2,3 +2,8 @@
 
 Search for your degree by name or code
 
+<ul>
+    {% for code in degrees %}
+        <li> {{code}} - {{degrees[code]}}</li>
+    {% endfor %}
+</ul>

@@ -7,6 +7,7 @@ import sqlite3
 import click
 from flask import current_app, g, Flask
 from flask.cli import with_appcontext
+# from werkzeug.local import LocalProxy
 
 def get_db() -> sqlite3.Connection:
     if 'db' not in g:
@@ -15,6 +16,7 @@ def get_db() -> sqlite3.Connection:
             detect_types=sqlite3.PARSE_DECLTYPES
         )
         g.db.row_factory = sqlite3.Row
+        print("===> putting db in g")
 
     return g.db
 
@@ -57,5 +59,6 @@ def init_app(app : Flask) -> None:
     '''
     Init database for given flask app
     '''
+    # db = LocalProxy(get_db)
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)

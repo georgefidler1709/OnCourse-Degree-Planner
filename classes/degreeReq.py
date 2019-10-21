@@ -21,7 +21,7 @@ class DegreeReq(object):
 
     # check list of courses and determine whether this course list
     # fulfills this requirement
-    def isFulfilled(self, courses, university):
+    def fulfilled(self, courses, university):
         # TODO
         # university.filterCourses(self.filter)
         # check courses in courses against filtered list

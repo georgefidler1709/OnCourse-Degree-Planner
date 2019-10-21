@@ -12,18 +12,23 @@ filter of courses.
 [MORE INFO ABOUT CLASS]
 """
 
+
+from university import University
+
 class DegreeReq(object):
 
     def __init__(self):
         # input as separate variables? or some other format
         # self.units =
         # self.filter =
+        pass
 
     # check list of courses and determine whether this course list
     # fulfills this requirement
-    def fulfilled(self, courses, university):
+    def fulfilled(self, courses: list, university: University) -> bool:
         # TODO
         # university.filterCourses(self.filter)
         # check courses in courses against filtered list
         # count uoc
         # check against self.units
+        pass

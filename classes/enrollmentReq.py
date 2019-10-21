@@ -10,13 +10,21 @@ The course requirement to be enrolled in a specific degree program
 [MORE INFO ABOUT CLASS]
 """
 
+from typing import List
+
+from course import Course
+from degree import Degree
+from program import Program
+from singleReq import SingleReq
+
 class EnrollmentReq(SingleReq):
 
-    def __init__(self, degree):
+    def __init__(self, degree: Degree):
         super().__init__()
         self.degree = degree
 
     # Input: Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
-    def fulfilled(self, program, term, coreq=false):
-        return program.degree() == degree
+    def fulfilled(self, program: Program, term: int,
+            additionalCourses: List[Course]=[], coreq: bool=False) -> bool:
+        return program.degree == self.degree

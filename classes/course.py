@@ -12,52 +12,49 @@ concerning requirements.
 [MORE INFO ABOUT CLASS]
 """
 
+from typing import List
+
+from courseReq import CourseReq
+from program import Program
+
 class Course(object):
 
-    def __init__(self):
+    def __init__(self, code: str, name: str, units: int, terms: List[int],
+            prereqs: CourseReq, coreqs: CourseReq, exclusions: CourseReq):
         # figure out inputs - database or variables?
         # to be assigned:
-        # self.code =
-        # self.name =
-        # self.units =
-        # self.terms
-        # self.prereqs # CourseRequirement
-        # self.coreqs #CourseRequirement
-        # self.exclusions # <List>Course
-
-    @property
-    def code(self):
-        return self.code
-    
-    @property
-    def name(self):
-        return self.name
-
-    @property
-    def units(self):
-        return self.units
-    
-    @property
-    def terms(self):
-        return self.terms
+        self.code = code
+        self.name = name
+        self.units = units
+        self.terms = terms
+        self.prereqs = prereqs
+        self.coreqs = coreqs
+        self.exclusions = exclusions
 
     # Add an offering of this course in a given term
-    def addOffering(self, term):
-        terms.add(term)
+    def addOffering(self, term: int) -> None:
+        self.terms.append(term)
 
     # Possibly need to be able to modify prereqs/coreqs?
     # Later release
 
-    # Input: List of CourseEnrollments and a proposed term for enrollment
+    # Input: The program of the student trying to take the course, and the term they're taking it in
     # Return: whether the prerequisites have been fulfilled
-    def prereqsFulfilled(self, term, courses):
-        return prereqs.fulfilled(courses, term)
+    def prereqsFulfilled(self, program: Program, term: int) -> bool:
+        return self.prereqs.fulfilled(program, term, coreq=False)
+
+    # Input: The program of the student trying to take the course, the term they're taking it in,
+    # and any additional courses they are taking that term
+    # Return: whether the corequisites have been fulfilled
+    def coreqsFulfilled(self, program: Program, term: int, additionalCourses: List[Course]) -> bool:
+        return self.coreqs.fulfilled(program, term, additionalCourses, coreq=True)
 
     # THINK about corequisites - what if prerequisite OR corequisite?
 
-    # Input: list of CourseEnrollments
+    # Input: The program of the student trying to take the course, the term they are taking it in,
+    # and any additional courses they are taking that term
     # Return: whether any exclusion courses have been taken
-    def excluded(self, courses):
-        # TODO
+    def excluded(self, program: Program, term: int, additionalCourses: List[Course]) -> bool:
+        return self.exclusions.fulfilled(program, term, additionalCourses, coreq=True)
 
 

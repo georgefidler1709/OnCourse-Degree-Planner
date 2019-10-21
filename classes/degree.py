@@ -20,27 +20,30 @@ class Degree(object):
         # self.numCode = int
         # self.name = String
         # self.requirements = <List>DegreeReq
+        pass
 
     @property
-    def code(self):
+    def code(self) -> str:
         return self.code
 
     @property
-    def numCode(self):
+    def numCode(self) -> str:
         return self.numCode
-    
+
     @property
-    def name(self):
+    def name(self) -> str:
         return self.name
 
     # Input: either nothing or a list of completed courses (<List>CourseEnrollment)
     # Return: list of requirements remaining for completion
-    def getRequirements(courses=None):
+    def getRequirements(self, courses: list=None) -> list:
         # TODO
+        pass
 
     # Input: list of courses completed
     # Return: boolean indicating whether degree completed
-    def complete(self, courses):
+    def complete(self, courses: list) -> bool:
         # TODO
         # NOTE we might have to consider how to handle one course
         # fulfilling multiple requirements
+        pass

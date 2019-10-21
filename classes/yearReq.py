@@ -10,13 +10,20 @@ The course requirement to be in a specific year of a degree before enrolling
 [MORE INFO ABOUT CLASS]
 """
 
+from typing import List
+
+from course import Course
+from program import Program
+from singleReq import SingleReq
+
 class YearReq(SingleReq):
 
-    def __init__(self, year):
+    def __init__(self, year: int):
         super().__init__()
         self.year = year
 
     # Input: Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
-    def fulfilled(self, program, term, coreq=false):
-        
+    def fulfilled(self, program: Program, term: int,
+            additionalCourses: List[Course]=[], coreq: bool=False) -> bool:
+        pass

@@ -17,5 +17,7 @@ run `mypy .` for type checking
 
 # Run Flask Server
 
-run `FLASK_APP=server FLASK_ENV=development flask run` for debugging
+From root folder, run `./start.sh`. 
+
+* if you want to re-generate the database, go to `./server/db.py` and set `init_db()`'s argument `remake=True`
 

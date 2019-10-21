@@ -1,2 +1,27 @@
-<!doctype html>
-{{text}}
+<h1>On Course: A UNSW Degree Planner</h1>
+
+<!--TODO make a macro for flashed messages when you have framework up -->
+{% with msgs = get_flashed_messages() %}
+    {% if msgs %}
+        <ul>
+            {% for m in msgs %}
+                <li>{{ m }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+Search for your degree by name or code
+
+<!--TODO George please figure out how to make this a search with dropdown to complete -->
+<ul>
+    {% for code in degrees %}
+        <li> {{code}} - {{degrees[code]}}</li>
+    {% endfor %}
+</ul>
+
+<form action="{{url_for('hello_bp.hello')}}" method="POST">
+    Degree Code (no validation atm since placeholder, enter 3778):<br>
+    <input type="text" name="degree" required><br>
+    <input type="submit" value="Generate">
+</form>

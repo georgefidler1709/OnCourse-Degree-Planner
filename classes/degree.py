@@ -42,3 +42,5 @@ class Degree(object):
     # Return: boolean indicating whether degree completed
     def isComplete(self, courses):
         # TODO
+        # NOTE we might have to consider how to handle one course
+        # fulfilling multiple requirements

@@ -1,0 +1,16 @@
+/* Style the degree suggestion units */
+.suggestion {
+  border: 1px solid #575756;
+  border-radius: 10px;
+  background-color: #c2eced;
+  padding: 10px;
+  align-self: center;
+}
+
+.suggestion-title {
+  pointer-events: none;
+}
+
+.suggestion-desc {
+  pointer-events: none;
+}

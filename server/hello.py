@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template;
 
-bp = Blueprint("hello", __name__, url_prefix='/hello');
+hello_bp = Blueprint("hello_bp", __name__,
+	template_folder='templates', static_folder='static');
 
-@bp.route('')
+@hello_bp.route('/', methods=['GET'])
 def hello() -> str:
     return render_template('hello.html', text='hello world');

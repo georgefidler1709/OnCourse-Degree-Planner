@@ -4,8 +4,10 @@ from . import hello;
 
 def create_app() -> Flask:
     app = Flask(__name__);
-    app.config.from_mapping(SECRET_KEY='test');
+    app.config.from_object('config.Config');
 
-    app.register_blueprint(hello.bp);
+    with app.app_context():
+    	app.register_blueprint(hello.hello_bp);
 
+    print("===> returning app")
     return app;

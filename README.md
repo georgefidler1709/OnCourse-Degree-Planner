@@ -17,5 +17,5 @@ run `mypy .` for type checking
 
 # Run Flask Server
 
-run `FLASK_APP=server FLASK_ENV=development flask run` for debugging
+From root folder, run `./start.sh`. 
 

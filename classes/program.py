@@ -11,28 +11,28 @@ study.
 [MORE INFO ABOUT CLASS]
 """
 
-# imports go here
+from typing import List
+
+from course import Course
+from courseReq import CourseReq
+from degree import Degree
 
 class Program(object):
 
-    def __init__(self, degree, coursesTaken):
+    def __init__(self, degree: Degree, coursesTaken: List[Course]):
         self.degree = degree # Degree
-        self.courses = courses # <List>CourseEnrollment
+        self.courses = coursesTaken # <List>CourseEnrollment
 
     @property
-    def degree(self):
-        return self.degree
-
-    @property
-    def coursesTaken(self):
+    def coursesTaken(self) -> List[Course]:
         return self.courses
 
-    def addCourse(self, course):
-        courses.add(course)
+    def addCourse(self, course: Course) -> None:
+        self.courses.append(course)
 
-    def removeCourse(self, course):
-        courses.remove(course)
+    def removeCourse(self, course: Course) -> None:
+        self.courses.remove(course)
 
-    def getOutstandingReqs(self):
-        return degree.getRequirements(courses)
+    def getOutstandingReqs(self) -> List[CourseReq]:
+        return self.degree.getRequirements(self.courses)
 

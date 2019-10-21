@@ -11,16 +11,22 @@ Abstract class which collects the two kinds of composite requirement (AND/OR)
 [MORE INFO ABOUT CLASS]
 """
 
-from abc import abc
+from abc import ABC, abstractmethod
+from typing import List
+
+from course import Course
+from courseReq import CourseReq
+from program import Program
 
 class CompositeReq(CourseReq, ABC):
-    
-    def __init__(self, reqs):
+
+    def __init__(self, reqs: list):
         super().__init__()
         self.reqs = reqs # <List>CourseReq
 
     # Input: Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     @abstractmethod
-    def fulfilled(self, program, term, coreq=false):
+    def fulfilled(self, program: Program, term: int,
+            additionalCourses: List[Course]=[], coreq: bool=False) -> bool:
         pass

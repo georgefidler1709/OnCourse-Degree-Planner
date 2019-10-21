@@ -11,7 +11,11 @@ of course requirements.
 [MORE INFO ABOUT CLASS]
 """
 
-from abc import ABC
+from abc import ABC, abstractmethod
+from typing import List
+
+from course import Course
+from program import Program
 
 class CourseReq(ABC):
 
@@ -20,7 +24,8 @@ class CourseReq(ABC):
 
     # Input: Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
-    # coreq set to false, if true then terms allowed include input term
+    # coreq set to False, if true then terms allowed include input term
     @abstractmethod
-    def fulfilled(self, program, term, coreq=false):
+    def fulfilled(self, program: Program, term: int,
+            additionalCourses: List[Course]=[], coreq: bool=False) -> bool:
         pass

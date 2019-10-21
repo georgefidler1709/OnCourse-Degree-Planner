@@ -12,24 +12,22 @@ will be taken.
 [MORE INFO ABOUT CLASS]
 """
 
+from course import Course
+
 class CourseEnrollment(object):
 
-    def __init__(self, course, term):
+    def __init__(self, course: Course, term: int):
         self.course = course
         self.term = term
 
     @property
-    def courseCode(self):
-        return course.code()
+    def courseCode(self) -> str:
+        return self.course.code
 
     @property
-    def term(self):
-        return self.term
-    
-    @property
-    def courseName(self):
-        return course.name()
+    def courseName(self) -> str:
+        return self.course.name
 
     @property
-    def uocCount(self):
-        return course.units()
+    def uocCount(self) -> int:
+        return self.course.units

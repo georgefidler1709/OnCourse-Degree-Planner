@@ -17,7 +17,7 @@ class Program(object):
 
     def __init__(self, degree, coursesTaken):
         self.degree = degree # Degree
-        self.coursesTaken = coursesTaken # <List>CourseEnrollment
+        self.courses = courses # <List>CourseEnrollment
 
     @property
     def degree(self):
@@ -25,14 +25,14 @@ class Program(object):
 
     @property
     def coursesTaken(self):
-        return self.coursesTaken
+        return self.courses
 
     def addCourse(self, course):
-        coursesTaken.add(course)
+        courses.add(course)
 
     def removeCourse(self, course):
-        coursesTaken.remove(course)
+        courses.remove(course)
 
     def getOutstandingReqs(self):
-        return degree.getRequirements(coursesTaken)
+        return degree.getRequirements(courses)
 

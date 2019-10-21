@@ -33,14 +33,14 @@ class Degree(object):
     def name(self):
         return self.name
 
-    # Input: either nothing or a list of completed courses
+    # Input: either nothing or a list of completed courses (<List>CourseEnrollment)
     # Return: list of requirements remaining for completion
     def getRequirements(courses=None):
         # TODO
 
     # Input: list of courses completed
     # Return: boolean indicating whether degree completed
-    def isComplete(self, courses):
+    def complete(self, courses):
         # TODO
         # NOTE we might have to consider how to handle one course
         # fulfilling multiple requirements

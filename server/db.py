@@ -24,26 +24,27 @@ def close_db(err : str = None) -> None:
     if db is not None:
         db.close()
 
-def init_db(app : Flask, remake : bool = False) -> None:
+@click.command('init-db')
+@with_appcontext
+def init_db() -> None:
     '''
     Initialize db and populate it with information
     '''
-    db_path = app.config['DATABASE']
+    db_path = current_app.config['DATABASE']
 
-    if remake and os.path.exists(db_path):
+    if os.path.exists(db_path):
         os.remove(db_path)
 
     db = get_db()
 
-    if remake:
-        with current_app.open_resource('db/schema.sql') as f:
-            db.executescript(f.read().decode('utf8'))
+    with current_app.open_resource('db/schema.sql') as f:
+        db.executescript(f.read().decode('utf8'))
 
-        with current_app.open_resource('db/setup_enums.sql') as f:
-            db.executescript(f.read().decode('utf8'))
+    with current_app.open_resource('db/setup_enums.sql') as f:
+        db.executescript(f.read().decode('utf8'))
 
-        with current_app.open_resource('db/data.sql') as f:
-            db.executescript(f.read().decode('utf8'))
+    with current_app.open_resource('db/data.sql') as f:
+        db.executescript(f.read().decode('utf8'))
 
 
 def init_app(app : Flask) -> None:
@@ -51,4 +52,4 @@ def init_app(app : Flask) -> None:
     Init database for given flask app
     '''
     app.teardown_appcontext(close_db)
-    init_db(app)
+    app.cli.add_command(init_db)

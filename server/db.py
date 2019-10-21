@@ -16,7 +16,6 @@ def get_db() -> sqlite3.Connection:
             detect_types=sqlite3.PARSE_DECLTYPES
         )
         g.db.row_factory = sqlite3.Row
-        print("===> putting db in g")
 
     return g.db
 
@@ -26,11 +25,12 @@ def close_db(err : str = None) -> None:
     if db is not None:
         db.close()
 
-def init_db(remake : bool = True) -> None:
+def init_db(app : Flask, remake : bool = True) -> None:
     '''
     Initialize db and populate it with information
     '''
-    db_path = current_app.config['DATABASE']
+    db_path = app.config['DATABASE']
+
     if remake and os.path.exists(db_path):
         os.remove(db_path)
 
@@ -46,14 +46,15 @@ def init_db(remake : bool = True) -> None:
         with current_app.open_resource('db/data.sql') as f:
             db.executescript(f.read().decode('utf8'))
 
-@click.command('init-db')
+# @click.command('init-db')
 @with_appcontext
 def init_db_command() -> None:
     '''
     Clear data and create tables
     '''
     init_db()
-    click.echo('Initialized the database.')
+    print("Initialized the database.")
+    # click.echo('Initialized the database.')
 
 def init_app(app : Flask) -> None:
     '''
@@ -61,4 +62,5 @@ def init_app(app : Flask) -> None:
     '''
     # db = LocalProxy(get_db)
     app.teardown_appcontext(close_db)
-    app.cli.add_command(init_db_command)
+    # app.cli.add_command(init_db_command)
+    init_db(app)

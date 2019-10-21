@@ -41,6 +41,9 @@ def init_db(remake : bool = True) -> None:
         with current_app.open_resource('db/setup_enums.sql') as f:
             db.executescript(f.read().decode('utf8'))
 
+        with current_app.open_resource('db/data.sql') as f:
+            db.executescript(f.read().decode('utf8'))
+
 @click.command('init-db')
 @with_appcontext
 def init_db_command() -> None:

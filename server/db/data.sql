@@ -1,0 +1,1 @@
+insert into Degrees (name, id) VALUES ('Computer Science', 3778)

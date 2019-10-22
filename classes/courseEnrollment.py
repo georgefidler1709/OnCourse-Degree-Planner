@@ -13,16 +13,17 @@ will be taken.
 """
 
 import course
+import term
 
 class CourseEnrollment(object):
 
-    def __init__(self, course: course.Course, term: int):
+    def __init__(self, course: course.Course, term: term.Term):
         self.course = course
         self.term = term
 
     @property
     def course_code(self) -> str:
-        return self.course.code
+        return self.course.courseCode
 
     @property
     def course_name(self) -> str:

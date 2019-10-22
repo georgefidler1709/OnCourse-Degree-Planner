@@ -20,14 +20,12 @@ import program
 
 class Course(object):
 
-    def __init__(self, code: str, name: str, units: int, terms: List[int],
+    def __init__(self, subject: str, code: int, name: str, units: int, terms: List[int],
             prereqs: courseReq.CourseReq, coreqs: courseReq.CourseReq, exclusions: courseReq.CourseReq):
         # figure out inputs - database or variables?
         # to be assigned:
+        self.subject = subject
         self.code = code
-        self.letter_code = code[:4]
-        self.number_code = code[4:]
-        self.level = int(self.number_code[0])
         self.name = name
         self.units = units
         # TODO: decide whether we want to allow different terms for different years
@@ -36,6 +34,18 @@ class Course(object):
         self.prereqs = prereqs
         self.coreqs = coreqs
         self.exclusions = exclusions
+
+    @property
+    def courseCode(self):
+        return self.subject + str(self.code)
+
+    @property
+    def subjectArea(self):
+        return self.subject
+
+    @property
+    def level(self):
+        return self.code/1000
 
     # Add an offering of this course in a given term
     def addOffering(self, term: int) -> None:
@@ -73,7 +83,7 @@ class Course(object):
         # save the course itself
         g.db.execute('''insert into Courses(letter_code, number_code, level, name, units, prereq,
         coreq, exclusion) values (?, ?, ?, ?, ?, ?, ?)''',
-        self.letter_code, self.number_code, self.level, self.name, self.units, prereq_id, coreq_id,
+        self.subject, self.code, self.level, self.name, self.units, prereq_id, coreq_id,
         exclusions_id)
 
         course_id = g.db.lastrowid

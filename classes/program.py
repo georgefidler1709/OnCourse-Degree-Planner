@@ -14,24 +14,27 @@ study.
 from typing import List
 
 import course
+import courseEnrollment
 import courseReq
 import degree
+import term
 
 
 class Program(object):
 
-    def __init__(self, degree: degree.Degree, coursesTaken: List[course.Course]):
+    def __init__(self, degree: degree.Degree, coursesTaken: List[courseEnrollment.CourseEnrollment]):
         self.degree = degree # degree.Degree
         self.courses = coursesTaken # <List>CourseEnrollment
 
     @property
-    def courses_taken(self) -> List[course.Course]:
+    def coursesTaken(self) -> List[courseEnrollment.CourseEnrollment]:
         return self.courses
 
-    def add_course(self, course: course.Course) -> None:
-        self.courses.append(course)
+    def addCourse(self, course: course.Course, term: term.Term) -> None:
+        enrollment = courseEnrollment.CourseEnrollment(course, term)
+        self.courses.append(enrollment)
 
-    def remove_course(self, course: course.Course) -> None:
+    def removeCourse(self, course: courseEnrollment.CourseEnrollment) -> None:
         self.courses.remove(course)
 
     def get_outstanding_reqs(self) -> List[courseReq.CourseReq]:

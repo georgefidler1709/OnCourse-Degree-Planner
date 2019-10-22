@@ -12,7 +12,8 @@ will be taken.
 [MORE INFO ABOUT CLASS]
 """
 
-from course import Course
+import course
+Course = course.Course
 
 class CourseEnrollment(object):
 

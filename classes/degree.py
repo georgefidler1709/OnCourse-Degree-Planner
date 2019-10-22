@@ -12,10 +12,14 @@ requirements.
 [MORE INFO ABOUT CLASS]
 """
 
-from flask import g
-from typing import List
+import flask
+g = flask.g
+import typing
+List = typing.List
 
-from degreeReq import DegreeReq
+import degreeReq
+
+DegreeReq = degreeReq.DegreeReq
 
 class Degree(object):
 

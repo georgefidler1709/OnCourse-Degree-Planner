@@ -10,12 +10,18 @@ A course requirement that requires at least one of multiple requirements to be m
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List
+import typing
+List = typing.List
 
-from compositeReq import CompositeReq
-from course import Course
-from courseReq import CourseReq
-from program import Program
+import compositeReq
+import course
+import courseReq
+import program
+
+CompositeReq = compositeReq.CompositeReq
+Course = course.Course
+CourseReq = courseReq.CourseReq
+Program = program.Program
 
 class OrReq(CompositeReq):
 

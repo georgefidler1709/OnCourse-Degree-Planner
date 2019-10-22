@@ -12,11 +12,16 @@ concerning requirements.
 [MORE INFO ABOUT CLASS]
 """
 
-from flask import g
-from typing import List
+import flask
+g = flask.g
+import typing
+List = typing.List
 
-from courseReq import CourseReq
-from program import Program
+import courseReq
+import program
+
+CourseReq = courseReq.CourseReq
+Program = program.Program
 
 class Course(object):
 

@@ -12,11 +12,16 @@ Abstract class which collects the different types of single course requirement
 """
 
 from abc import ABC, abstractmethod
-from typing import List
+import typing
+List = typing.List
 
-from course import Course
-from courseReq import CourseReq
-from program import Program
+import course
+import courseReq
+import program
+
+Course = course.Course
+CourseReq = courseReq.CourseReq
+Program = program.Program
 
 class SingleReq(CourseReq, ABC):
 

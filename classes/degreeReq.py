@@ -13,8 +13,11 @@ filter of courses.
 """
 
 
-from courseFilter import CourseFilter
-from university import University
+import courseFilter
+import university
+
+CourseFilter = courseFilter.CourseFilter
+University = university.University
 
 class DegreeReq(object):
 

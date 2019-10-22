@@ -10,11 +10,16 @@ Implementation of the University class which is a database of courses and progra
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List
+import typing
+List = typing.List
 
-from degree import Degree
-from course import Course
-from courseFilter import CourseFilter
+import degree
+import course
+import courseFilter
+
+Degree = degree.Degree
+Course = course.Course
+CourseFilter = courseFilter.CourseFilter
 
 class University(object):
 

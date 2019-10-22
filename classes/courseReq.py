@@ -12,11 +12,16 @@ of course requirements.
 """
 
 from abc import ABC, abstractmethod
-from flask import g
-from typing import List
+import flask
+g = flask.g
+import typing
+List = typing.List
 
-from course import Course
-from program import Program
+import course
+import program
+
+Course = course.Course
+Program = program.Program
 
 class CourseReq(ABC):
 

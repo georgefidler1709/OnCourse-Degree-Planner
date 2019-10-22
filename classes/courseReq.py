@@ -1,27 +1,23 @@
 """
 COMP4290 Group Project
-Team: On Course
+Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 courseReq.py
-Implementation of the CourseReq class, an abstract class which collects types
+Implementation of the courseReq.CourseReq class, an abstract class which collects types
 of course requirements.
 
 [MORE INFO ABOUT CLASS]
 """
 
 from abc import ABC, abstractmethod
-import flask
-g = flask.g
-import typing
-List = typing.List
+from flask import g
+from typing import List
 
 import course
 import program
 
-Course = course.Course
-Program = program.Program
 
 class CourseReq(ABC):
 
@@ -40,12 +36,12 @@ class CourseReq(ABC):
         return g.db.execute('select id from CourseRequirementTypes where name = ?',
                 self.requirement_name)
 
-        # Input: Program of study, term this course is to be taken
+        # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     # coreq set to False, if true then terms allowed include input term
     @abstractmethod
-    def fulfilled(self, program: Program, term: int,
-            additional_courses: List[Course]=[], coreq: bool=False) -> bool:
+    def fulfilled(self, program: program.Program, term: int,
+            additional_courses: List[course.Course]=[], coreq: bool=False) -> bool:
         pass
 
     # Saves the requirement in the database

@@ -1,6 +1,6 @@
 """
 COMP4290 Group Project
-Team: On Course
+Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
@@ -16,12 +16,10 @@ filter of courses.
 import courseFilter
 import university
 
-CourseFilter = courseFilter.CourseFilter
-University = university.University
 
 class DegreeReq(object):
 
-    def __init__(self, filter: CourseFilter, uoc: int):
+    def __init__(self, filter: courseFilter.CourseFilter, uoc: int):
         # input as separate variables? or some other format
         self.uoc = uoc
         self.filter = filter
@@ -29,7 +27,7 @@ class DegreeReq(object):
 
     # check list of courses and determine whether this course list
     # fulfills this requirement
-    def fulfilled(self, courses: list, university: University) -> bool:
+    def fulfilled(self, courses: list, university: university.University) -> bool:
         # TODO
         # university.filterCourses(self.filter)
         # check courses in courses against filtered list

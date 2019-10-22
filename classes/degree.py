@@ -1,29 +1,26 @@
 """
 COMP4290 Group Project
-Team: On Course
+Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 degree.py
-Implementation of the Degree class which is an object corresponding to a degree
+Implementation of the degree.Degree class which is an object corresponding to a degree
 offered by the university, and contains information about the degree completion
 requirements.
 
 [MORE INFO ABOUT CLASS]
 """
 
-import flask
-g = flask.g
-import typing
-List = typing.List
+from flask import g
+from typing import List
 
 import degreeReq
 
-DegreeReq = degreeReq.DegreeReq
 
 class Degree(object):
 
-    def __init__(self, num_code: int, code: str, name: str, year: int, requirements: List[DegreeReq]):
+    def __init__(self, num_code: int, code: str, name: str, year: int, requirements: List[degreeReq.DegreeReq]):
         self.name = name
         self.num_code = num_code
         self.code = code

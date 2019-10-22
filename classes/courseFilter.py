@@ -12,18 +12,42 @@ of filters for courses.
 """
 
 from abc import ABC, abstractmethod
+from flask import g
 from typing import List
 
-from course import Course
-from program import Program
+import course
+import program
+
 
 class CourseFilter(ABC):
 
     def __init__(self):
         pass
 
+    # The name of the requirement for the database
+    @property
+    @abstractmethod
+    def filter_name(self) -> str:
+        return "GenericRequirement"
+
+    # The id of the requirement for the database
+    @property
+    def filter_id(self) -> int:
+        return g.db.execute('select id from CourseFilterTypes where name = ?', self.filter_name)
+
+
+
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     @abstractmethod
-    def acceptsCourse(self, course: Course, program: Program) -> bool:
+    def accepts_course(self, course: 'course.Course', program: 'program.Program') -> bool:
         pass
+
+    # Saves the filter in the database
+    # Return: the id of the filter in the database
+    @abstractmethod
+    def save(self) -> int:
+        g.db.execute('''insert into CourseFilters(type_id) values(?)''',
+                self.filter_id)
+
+        return g.db.lastrowid

@@ -1,6 +1,6 @@
 """
 COMP4290 Group Project
-Team: On Course
+Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
@@ -12,21 +12,22 @@ A filter that only allows courses that match all of the provided filters
 
 from typing import List
 
-from course import Course
-from courseFilter import CourseFilter
-from program import Program
+import course
+import courseFilter
+import program
 
-class FieldFilter(CourseFilter):
 
-    def __init__(self, filters: List[CourseFilter]):
+class FieldFilter(courseFilter.CourseFilter):
+
+    def __init__(self, filters: List[courseFilter.CourseFilter]):
         super().__init__()
         self.filters = filters
 
-    # Input: Course, program the student is enrolled in
+    # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def acceptsCourse(self, course: Course, program: Program) -> bool:
+    def accepts_course(self, course: course.Course, program: program.Program) -> bool:
         # make an iterable where element at a position is True if the filter at that position accepts
-        individualAcceptance = map(lambda x: x.acceptsCourse(course, program), self.filters)
+        individual_acceptance = map(lambda x: x.accepts_course(course, program), self.filters)
 
         # Only accept if all of the filters accepted
-        return all(individualAcceptance)
+        return all(individual_acceptance)

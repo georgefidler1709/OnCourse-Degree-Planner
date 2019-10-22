@@ -1,6 +1,6 @@
 """
 COMP4290 Group Project
-Team: On Course
+Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
@@ -12,38 +12,39 @@ Implementation of the University class which is a database of courses and progra
 
 from typing import List
 
-from degree import Degree
-from course import Course
-from courseFilter import CourseFilter
+import degree
+import course
+import courseFilter
+
 
 class University(object):
 
-    def __init__(self, degrees: List[Degree], courses: List[Course]):
+    def __init__(self, degrees: List['degree.Degree'], courses: List['course.Course']):
         # need to decide how degree/course details passed in
-        # unpack and create Degree and Course objects
+        # unpack and create degree.Degree and course.Course objects
         self.degrees = degrees
         self.courses = courses
 
     # Input: degree letter code (eg. COMPA1)
-    # Return: corresponding Degree object
-    def findDegreeByLetterCode(self, letter_code: str) -> Degree:
+    # Return: corresponding degree.Degree object
+    def findDegreeByLetterCode(self, letter_code: str) -> 'degree.Degree':
         # TODO
         pass
 
     # Input: degree numerical code (eg. 3778)
-    # Return: corresponding Degree object
-    def findDegreeByNumberCode(self, numeric_code: int) -> Degree:
+    # Return: corresponding degree.Degree object
+    def findDegreeByNumberCode(self, numeric_code: int) -> 'degree.Degree':
         # TODO
         pass
 
     # Input: course code (eg. COMP1511)
     # Return: corresponding Course object from self.courses
-    def findCourse(self, code: str) -> Course:
+    def findCourse(self, code: str) -> 'course.Course':
         # TODO
         pass
 
     # Input: A filter string [ITEMISE THESE HERE]
     # Return: List of courses that match the requested filter
-    def filterCourses(self, filter: CourseFilter) -> List[Course]:
+    def filterCourses(self, filter: 'courseFilter.CourseFilter') -> List['course.Course']:
         # TODO
         pass

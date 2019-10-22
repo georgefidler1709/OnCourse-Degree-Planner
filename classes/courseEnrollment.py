@@ -1,6 +1,6 @@
 """
 COMP4290 Group Project
-Team: On Course
+Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
@@ -12,22 +12,21 @@ will be taken.
 [MORE INFO ABOUT CLASS]
 """
 
-from course import Course
+import course
+import term
 
 class CourseEnrollment(object):
 
-    def __init__(self, course: Course, term: int):
+    def __init__(self, course: 'course.Course', term: term.Term):
         self.course = course
         self.term = term
 
-    @property
     def courseCode(self) -> str:
-        return self.course.code
+        return self.course.courseCode
 
-    @property
     def courseName(self) -> str:
         return self.course.name
 
-    @property
-    def uocCount(self) -> int:
+    def units(self) -> int:
         return self.course.units
+

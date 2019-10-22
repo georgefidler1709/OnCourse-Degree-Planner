@@ -1,6 +1,6 @@
 """
 COMP4290 Group Project
-Team: On Course
+Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
@@ -10,28 +10,23 @@ A course requirement that requires at least one of multiple requirements to be m
 [MORE INFO ABOUT CLASS]
 """
 
-import typing
-List = typing.List
+from typing import List
 
 import compositeReq
 import course
 import courseReq
 import program
 
-CompositeReq = compositeReq.CompositeReq
-Course = course.Course
-CourseReq = courseReq.CourseReq
-Program = program.Program
 
-class OrReq(CompositeReq):
+class OrReq(compositeReq.CompositeReq):
 
-    def __init__(self, reqs: List[CourseReq]):
+    def __init__(self, reqs: List[courseReq.CourseReq]):
         super().__init__(reqs)
 
-    # Input: Program of study, term this course is to be taken
+    # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
-    def fulfilled(self, program: Program, term: int,
-            additional_courses: List[Course]=[], coreq: bool=False) -> bool:
+    def fulfilled(self, program: program.Program, term: int,
+            additional_courses: List[course.Course]=[], coreq: bool=False) -> bool:
         individual_fulfills = map(lambda x: x.fulfilled(program, term, additional_courses, coreq),
                 self.reqs)
 

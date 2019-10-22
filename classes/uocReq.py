@@ -15,6 +15,7 @@ from typing import List
 
 import course
 import courseFilter
+import term
 import program
 import singleReq
 
@@ -28,7 +29,7 @@ class UOCReq(singleReq.SingleReq):
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
-    def fulfilled(self, program: program.Program, term: int,
+    def fulfilled(self, program: program.Program, term: term.Term,
             additional_courses: List[course.Course]=[], coreq: bool=False) -> bool:
         # TODO
         pass

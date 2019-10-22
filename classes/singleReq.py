@@ -16,6 +16,7 @@ from typing import List
 
 import course
 import courseReq
+import term
 import program
 
 
@@ -27,7 +28,7 @@ class SingleReq(courseReq.CourseReq, ABC):
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     @abstractmethod
-    def fulfilled(self, program: program.Program, term: int,
+    def fulfilled(self, program: program.Program, term: term.Term,
             additional_courses: List[course.Course]=[], coreq: bool=False) -> bool:
         pass
 

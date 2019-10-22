@@ -19,7 +19,7 @@ import university
 
 class DegreeReq(object):
 
-    def __init__(self, filter: courseFilter.CourseFilter, uoc: int):
+    def __init__(self, filter: 'courseFilter.CourseFilter', uoc: int):
         # input as separate variables? or some other format
         self.uoc = uoc
         self.filter = filter
@@ -27,7 +27,7 @@ class DegreeReq(object):
 
     # check list of courses and determine whether this course list
     # fulfills this requirement
-    def fulfilled(self, courses: list, university: university.University) -> bool:
+    def fulfilled(self, courses: list, university: 'university.University') -> bool:
         # TODO
         # university.filterCourses(self.filter)
         # check courses in courses against filtered list

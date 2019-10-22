@@ -10,6 +10,8 @@ A term study period consisting of a year and a term 1-3 or summer term.
 [MORE INFO ABOUT CLASS]
 """
 
+from flask import g
+
 class Term(object):
 
     # define a new Term object
@@ -24,7 +26,7 @@ class Term(object):
         if self.year > other.year: return False
         if self.term < other.term: return True
         return False
-    
+
     def __le__(self, other) -> bool: # For x <= y
         if self.year < other.year: return True
         if self.year > other.year: return False

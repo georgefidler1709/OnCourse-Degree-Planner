@@ -10,11 +10,16 @@ The course requirement to be in a specific year of a degree before enrolling
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List
+import typing
+List = typing.List
 
-from course import Course
-from program import Program
-from singleReq import SingleReq
+import course
+import program
+import singleReq
+
+Course = course.Course
+Program = program.Program
+SingleReq = singleReq.SingleReq
 
 class YearReq(SingleReq):
 

@@ -10,12 +10,18 @@ The course requirement to be enrolled in a specific degree program
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List
+import typing
+List = typing.List
 
-from course import Course
-from degree import Degree
-from program import Program
-from singleReq import SingleReq
+import course
+import degree
+import program
+import singleReq
+
+Course = course.Course
+Degree = degree.Degree
+Program = program.Program
+SingleReq = singleReq.SingleReq
 
 class EnrollmentReq(SingleReq):
 

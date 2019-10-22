@@ -10,13 +10,15 @@ A filter that only allows courses that match all of the provided filters
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List
+import typing
+List = typing.List
 
 import course
-Course = course.course
 import courseFilter
-CourseFilter = courseFilter.CourseFilter
 import program
+
+Course = course.course
+CourseFilter = courseFilter.CourseFilter
 Program = program.Program
 
 class FieldFilter(CourseFilter):

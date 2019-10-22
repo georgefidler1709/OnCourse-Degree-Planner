@@ -12,10 +12,14 @@ of filters for courses.
 """
 
 from abc import ABC, abstractmethod
-from typing import List
+import typing
+List = typing.List
 
-from course import Course
-from program import Program
+import course
+import program
+
+Course = course.Course
+Program = program.Program
 
 class CourseFilter(ABC):
 

@@ -11,11 +11,16 @@ study.
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List
+import typing
+List = typing.List
 
-from course import Course
-from courseReq import CourseReq
-from degree import Degree
+import course
+import courseReq
+import degree
+
+Course = course.Course
+CourseReq = courseReq.CourseReq
+Degree = degree.Degree
 
 class Program(object):
 

@@ -11,12 +11,18 @@ to enrolling, sometimes from a specific list of subjects
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List
+import typing
+List = typing.List
 
-from course import Course
-from courseFilter import CourseFilter
-from program import Program
-from singleReq import SingleReq
+import course
+import courseFilter
+import program
+import singleReq
+
+Course = course.Course
+CourseFilter = courseFilter.CourseFilter
+Program = program.Program
+SingleReq = singleReq.SingleReq
 
 class UOCReq(SingleReq):
 

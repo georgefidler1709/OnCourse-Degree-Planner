@@ -1,3 +1,5 @@
+import json;
+
 """
 COMP4290 Group Project
 Team: On course.Course
@@ -14,9 +16,6 @@ requirements.
 
 from flask import g
 from typing import List
-
-import courseEnrollment
-import degreeReq
 
 class Degree(object):
 

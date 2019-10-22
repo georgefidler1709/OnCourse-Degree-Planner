@@ -1,6 +1,6 @@
 from flask import Flask;
 
-from . import hello;
+from . import degrees;
 from . import db;
 
 def create_app() -> Flask:
@@ -11,6 +11,6 @@ def create_app() -> Flask:
 
     	db.init_app(app)
 
-    	app.register_blueprint(hello.hello_bp)
+    	app.register_blueprint(degrees.degrees_bp)
 
     return app

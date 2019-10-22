@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Suggestions from './Suggestions'
 
+import {API_ADDRESS} from './Constants'
 
 class Search extends Component {
   constructor() {
@@ -13,16 +14,15 @@ class Search extends Component {
   }
 
   getDegrees() {
-    // fetch("")
-    // .then(response => response.json())
-    // .then(response => {
-    //    const {suggestedDegrees} = response.data
-        const suggestedDegrees = [{id: 1, name:"COMP3778", description: "Bachelor of Computer Science (2019)"}, {id: 2, name:"COMP3978", description: "Bachelor of Computer Science (2016)"}]
+     fetch(API_ADDRESS + '/degrees.json')
+     .then(response => response.json())
+     .then(response => {
+        const {suggestedDegrees} = response.data
+         // const suggestedDegrees = [{id: 1, name:"COMP3778", description: "Bachelor of Computer Science (2019)"}, {id: 2, name:"COMP3978", description: "Bachelor of Computer Science (2016)"}]
         this.setState({
             degrees: suggestedDegrees
         })
-        
-    //})
+    })
   }
 
   handleInputChange(event) {

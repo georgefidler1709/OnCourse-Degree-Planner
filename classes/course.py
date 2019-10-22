@@ -21,7 +21,6 @@ import term
 
 class Course(object):
 
-<<<<<<< HEAD
     def __init__(self, subject: str, code: int, name: str, units: int, terms: List[term.Term],
             prereqs: CourseReq, coreqs: CourseReq, exclusions: CourseReq):
         # figure out inputs - database or variables?
@@ -89,10 +88,11 @@ class Course(object):
         course_id = g.db.lastrowid
 
         # save the offerings of the course
-        for session in self.terms:
-            g.db.execute('insert or ignore into Sessions(year, term) values(?, ?)', session.year, session.term)
+        for term in self.terms:
+            term.save()
+
             g.db.execute('''insert into CourseOfferings(course_id, session_year, session_term)
-                    values(?, ?, ?)''', course_id, session.year, session.term)
+                    values(?, ?, ?)''', course_id, term.year, term.term)
 
         return course_id
 

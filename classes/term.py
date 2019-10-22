@@ -60,3 +60,8 @@ class Term(object):
         if self._year < other.year: return False
         if self._term >= other.term: return True
         return False
+
+    # Saves the term in the database
+    def save(self) -> None:
+        g.db.execute('insert or ignore into Sessions(year, term) values (?, ?)', self._year,
+                self._term)

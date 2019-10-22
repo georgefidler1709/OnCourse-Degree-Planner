@@ -11,8 +11,8 @@ function Suggestions(props) {
         value={r.name}
         onClick={event => console.log(event.target.value)}
       >
-        <h1 className="suggestion-title">{r.name}</h1>
-        <p className="suggestion-desc">{r.description}</p>
+        <h1 className="suggestion-title">{r.code}</h1>
+        <p className="suggestion-desc">{r.name}</p>
       </Button>
       <br />
     </div>

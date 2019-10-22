@@ -16,18 +16,24 @@ from course import Course
 
 class CourseEnrollment(object):
 
-    def __init__(self, course: Course, term: int):
-        self.course = course
-        self.term = term
+    def __init__(self, course: Course, term: Term):
+        self._course = course
+        self._term = term
 
     @property
+    def course(self):
+        return self._course
+
+    @property
+    def term(self):
+        return self.Term
+
     def courseCode(self) -> str:
-        return self.course.code
+        return self._course.courseCode()
 
-    @property
     def courseName(self) -> str:
-        return self.course.name
+        return self._course.name
 
-    @property
-    def uocCount(self) -> int:
-        return self.course.units
+    def units(self) -> int:
+        return self._course.units
+

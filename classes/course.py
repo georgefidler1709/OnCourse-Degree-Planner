@@ -19,42 +19,46 @@ from program import Program
 
 class Course(object):
 
-    def __init__(self, subject: str, code: int, name: str, units: int, terms: List[int],
+    def __init__(self, subject: str, code: int, name: str, units: int, terms: List[Term],
             prereqs: CourseReq, coreqs: CourseReq, exclusions: CourseReq):
         # figure out inputs - database or variables?
         # to be assigned:
-        self.subject = subject
-        self.code = code
-        self.name = name
-        self.units = units
-        self.terms = terms
-        self.prereqs = prereqs
-        self.coreqs = coreqs
-        self.exclusions = exclusions
+        self._subject = subject
+        self._code = code
+        self._name = name
+        self._units = units
+        self._terms = terms
+        self._prereqs = prereqs
+        self._coreqs = coreqs
+        self._exclusions = exclusions
 
-    @property
+    # returns the SUBJxxxx course code
     def courseCode(self):
-        return self.subject + str(self.code)
+        return self._subject + str(self._code)
 
     @property
-    def subjectArea(self):
-        return self.subject
+    def name(self):
+        return self._name
+        
+    @property
+    def subject(self):
+        return self._subject
     
     @property
     def level(self)
-    return self.code/1000
+    return self._code/1000
 
     @property
     def units(self):
-        return self.units
+        return self._units
     
     @property
     def terms(self):
-        return self.terms
+        return self._terms
 
     # Add an offering of this course in a given term
-    def addOffering(self, term: int) -> None:
-        self.terms.append(term)
+    def addOffering(self, term: Term) -> None:
+        self._terms.append(term)
 
     # Possibly need to be able to modify prereqs/coreqs?
     # Later release
@@ -62,13 +66,13 @@ class Course(object):
     # Input: The program of the student trying to take the course, and the term they're taking it in
     # Return: whether the prerequisites have been fulfilled
     def prereqsFulfilled(self, program: Program, term: int) -> bool:
-        return self.prereqs.fulfilled(program, term, coreq=False)
+        return self._prereqs.fulfilled(program, term, coreq=False)
 
     # Input: The program of the student trying to take the course, the term they're taking it in,
     # and any additional courses they are taking that term
     # Return: whether the corequisites have been fulfilled
     def coreqsFulfilled(self, program: Program, term: int, additionalCourses: List[Course]) -> bool:
-        return self.coreqs.fulfilled(program, term, additionalCourses, coreq=True)
+        return self._coreqs.fulfilled(program, term, additionalCourses, coreq=True)
 
     # THINK about corequisites - what if prerequisite OR corequisite?
 
@@ -76,6 +80,6 @@ class Course(object):
     # and any additional courses they are taking that term
     # Return: whether any exclusion courses have been taken
     def excluded(self, program: Program, term: int, additionalCourses: List[Course]) -> bool:
-        return self.exclusions.fulfilled(program, term, additionalCourses, coreq=True)
+        return self._exclusions.fulfilled(program, term, additionalCourses, coreq=True)
 
 

@@ -19,21 +19,21 @@ from degree import Degree
 
 class Program(object):
 
-    def __init__(self, degree: Degree, coursesTaken: List[Course]):
-        self.degree = degree # Degree
-        self.courses = coursesTaken # <List>CourseEnrollment
+    def __init__(self, degree: Degree, coursesTaken: List[CourseEnrollment]):
+        self._degree = degree # Degree
+        self._courses = coursesTaken # <List>CourseEnrollment
 
     @property
     def coursesTaken(self) -> List[CourseEnrollment]:
-        return self.courses
+        return self._courses
 
-    def addCourse(self, course: Course, term: String) -> None:
+    def addCourse(self, course: Course, term: Term) -> None:
         enrollment = CourseEnrollment(course, term)
-        self.courses.append(enrollment)
+        self._courses.append(enrollment)
 
     def removeCourse(self, course: CourseEnrollment) -> None:
-        self.courses.remove(course)
+        self._courses.remove(course)
 
     def getOutstandingReqs(self) -> List[CourseReq]:
-        return self.degree.getRequirements(self.courses)
+        return self._degree.getRequirements(self._courses)
 

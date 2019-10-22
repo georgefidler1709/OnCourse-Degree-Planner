@@ -24,9 +24,9 @@ class FieldFilter(CourseFilter):
 
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def acceptsCourse(self, course: Course, program: Program) -> bool:
+    def accepts_course(self, course: Course, program: Program) -> bool:
         # make an iterable where element at a position is True if the filter at that position accepts
-        individualAcceptance = map(lambda x: x.acceptsCourse(course, program), self.filters)
+        individual_acceptance = map(lambda x: x.accepts_course(course, program), self.filters)
 
         # accept if any of the filters accepts
-        return any(individualAcceptance)
+        return any(individual_acceptance)

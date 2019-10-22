@@ -21,13 +21,13 @@ class CourseEnrollment(object):
         self.term = term
 
     @property
-    def courseCode(self) -> str:
+    def course_code(self) -> str:
         return self.course.code
 
     @property
-    def courseName(self) -> str:
+    def course_name(self) -> str:
         return self.course.name
 
     @property
-    def uocCount(self) -> int:
+    def uoc_count(self) -> int:
         return self.course.units

@@ -16,6 +16,8 @@ requirements.
 
 from flask import g
 from typing import List
+import courseEnrollment
+import degreeReq
 
 class Degree(object):
 

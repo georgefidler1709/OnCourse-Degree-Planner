@@ -25,10 +25,11 @@ Program = program.Program
 
 class Course(object):
 
-    def __init__(self, code: str, name: str, units: int, terms: List[int],
+    def __init__(self, subject: str, code: int, name: str, units: int, terms: List[int],
             prereqs: CourseReq, coreqs: CourseReq, exclusions: CourseReq):
         # figure out inputs - database or variables?
         # to be assigned:
+        self.subject = subject
         self.code = code
         self.letter_code = code[:4]
         self.number_code = code[4:]
@@ -41,6 +42,26 @@ class Course(object):
         self.prereqs = prereqs
         self.coreqs = coreqs
         self.exclusions = exclusions
+
+    @property
+    def courseCode(self):
+        return self.subject + str(self.code)
+
+    @property
+    def subjectArea(self):
+        return self.subject
+    
+    @property
+    def level(self)
+    return self.code/1000
+
+    @property
+    def units(self):
+        return self.units
+    
+    @property
+    def terms(self):
+        return self.terms
 
     # Add an offering of this course in a given term
     def addOffering(self, term: int) -> None:

@@ -29,13 +29,14 @@ class Program(object):
         self.courses = coursesTaken # <List>CourseEnrollment
 
     @property
-    def courses_taken(self) -> List[Course]:
+    def coursesTaken(self) -> List[CourseEnrollment]:
         return self.courses
 
-    def add_course(self, course: Course) -> None:
-        self.courses.append(course)
+    def addCourse(self, course: Course, term: String) -> None:
+        enrollment = CourseEnrollment(course, term)
+        self.courses.append(enrollment)
 
-    def remove_course(self, course: Course) -> None:
+    def removeCourse(self, course: CourseEnrollment) -> None:
         self.courses.remove(course)
 
     def get_outstanding_reqs(self) -> List[CourseReq]:

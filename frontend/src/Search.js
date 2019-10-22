@@ -16,12 +16,14 @@ class Search extends Component {
   getDegrees() {
      fetch(API_ADDRESS + '/degrees.json')
      .then(response => response.json())
-     .then(response => {
-        const {suggestedDegrees} = response.data
-         // const suggestedDegrees = [{id: 1, name:"COMP3778", description: "Bachelor of Computer Science (2019)"}, {id: 2, name:"COMP3978", description: "Bachelor of Computer Science (2016)"}]
+     .then(degrees => {
         this.setState({
-            degrees: suggestedDegrees
+            degrees: degrees
         })
+//         // const suggestedDegrees = [{id: 1, name:"COMP3778", description: "Bachelor of Computer Science (2019)"}, {id: 2, name:"COMP3978", description: "Bachelor of Computer Science (2016)"}]
+//        this.setState({
+//            degrees: suggestedDegrees
+//        })
     })
   }
 

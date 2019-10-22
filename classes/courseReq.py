@@ -5,7 +5,7 @@ Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 courseReq.py
-Implementation of the courseReq.CourseReq class, an abstract class which collects types
+Implementation of the CourseReq class, an abstract class which collects types
 of course requirements.
 
 [MORE INFO ABOUT CLASS]
@@ -16,6 +16,7 @@ from flask import g
 from typing import List
 
 import course
+import term
 import program
 
 
@@ -25,8 +26,8 @@ class CourseReq(ABC):
         super().__init__()
 
     # The name of the requirement for the database
-    @abstractmethod
     @property
+    @abstractmethod
     def requirement_name(self) -> str:
         return "GenericRequirement"
 
@@ -40,8 +41,8 @@ class CourseReq(ABC):
     # Return: Whether this requirement is fulfilled
     # coreq set to False, if true then terms allowed include input term
     @abstractmethod
-    def fulfilled(self, program: program.Program, term: int,
-            additional_courses: List[course.Course]=[], coreq: bool=False) -> bool:
+    def fulfilled(self, program: program.Program, term: term.Term,
+            additional_courses: List['course.Course']=[], coreq: bool=False) -> bool:
         pass
 
     # Saves the requirement in the database

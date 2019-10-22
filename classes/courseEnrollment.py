@@ -17,17 +17,9 @@ import term
 
 class CourseEnrollment(object):
 
-    def __init__(self, course: course.Course, term: term.Term):
+    def __init__(self, course: 'course.Course', term: term.Term):
         self.course = course
         self.term = term
-
-    @property
-    def course(self) -> course.Course:
-        return self.course
-
-    @property
-    def term(self) -> term.Term:
-        return self.term
 
     def courseCode(self) -> str:
         return self.course.courseCode

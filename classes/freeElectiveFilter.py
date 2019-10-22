@@ -17,7 +17,7 @@ from program import Program
 class FieldFilter(CourseFilter):
 
     def __init__(self):
-        pass
+        super().__init__()
 
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter

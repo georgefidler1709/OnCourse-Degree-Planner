@@ -19,6 +19,7 @@ from program import Program
 class FieldFilter(CourseFilter):
 
     def __init__(self, filters: List[CourseFilter]):
+        super().__init__()
         self.filters = filters
 
     # Input: Course, program the student is enrolled in

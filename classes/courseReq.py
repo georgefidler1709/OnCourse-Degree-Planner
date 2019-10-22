@@ -20,7 +20,7 @@ from program import Program
 class CourseReq(ABC):
 
     def __init__(self):
-        pass
+        super().__init__()
 
     # Input: Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled

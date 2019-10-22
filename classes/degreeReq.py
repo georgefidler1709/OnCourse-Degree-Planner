@@ -21,7 +21,7 @@ class DegreeReq(object):
         # input as separate variables? or some other format
         # self.units =
         # self.filter =
-        pass
+        super().__init__()
 
     # check list of courses and determine whether this course list
     # fulfills this requirement

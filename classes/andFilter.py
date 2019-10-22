@@ -12,9 +12,12 @@ A filter that only allows courses that match all of the provided filters
 
 from typing import List
 
-from course import Course
-from courseFilter import CourseFilter
-from program import Program
+import course
+Course = course.course
+import courseFilter
+CourseFilter = courseFilter.CourseFilter
+import program
+Program = program.Program
 
 class FieldFilter(CourseFilter):
 
@@ -24,9 +27,9 @@ class FieldFilter(CourseFilter):
 
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def acceptsCourse(self, course: Course, program: Program) -> bool:
+    def accepts_course(self, course: Course, program: Program) -> bool:
         # make an iterable where element at a position is True if the filter at that position accepts
-        individualAcceptance = map(lambda x: x.acceptsCourse(course, program), self.filters)
+        individual_acceptance = map(lambda x: x.accepts_course(course, program), self.filters)
 
         # Only accept if all of the filters accepted
-        return all(individualAcceptance)
+        return all(individual_acceptance)

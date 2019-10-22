@@ -13,14 +13,15 @@ filter of courses.
 """
 
 
+from courseFilter import CourseFilter
 from university import University
 
 class DegreeReq(object):
 
-    def __init__(self):
+    def __init__(self, filter: CourseFilter, uoc: int):
         # input as separate variables? or some other format
-        # self.units =
-        # self.filter =
+        self.uoc = uoc
+        self.filter = filter
         super().__init__()
 
     # check list of courses and determine whether this course list
@@ -32,3 +33,8 @@ class DegreeReq(object):
         # count uoc
         # check against self.units
         pass
+
+    # Saves the requirement in the database
+    # Return: the id of the filter in the database
+    def save(self):
+        return self.filter.save()

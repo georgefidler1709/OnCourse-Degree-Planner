@@ -26,6 +26,6 @@ class SubjectReq(SingleReq):
     # Input: Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: Program, term: int,
-            additionalCourses: List[Course]=[], coreq: bool=False) -> bool:
+            additional_courses: List[Course]=[], coreq: bool=False) -> bool:
         # TODO
         pass

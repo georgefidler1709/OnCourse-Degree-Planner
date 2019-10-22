@@ -12,6 +12,7 @@ concerning requirements.
 [MORE INFO ABOUT CLASS]
 """
 
+from flask import g
 from typing import List
 
 from courseReq import CourseReq
@@ -24,8 +25,13 @@ class Course(object):
         # figure out inputs - database or variables?
         # to be assigned:
         self.code = code
+        self.letter_code = code[:4]
+        self.number_code = code[4:]
+        self.level = int(self.number_code[0])
         self.name = name
         self.units = units
+        # TODO: decide whether we want to allow different terms for different years
+        self.years = [2020]
         self.terms = terms
         self.prereqs = prereqs
         self.coreqs = coreqs
@@ -46,15 +52,39 @@ class Course(object):
     # Input: The program of the student trying to take the course, the term they're taking it in,
     # and any additional courses they are taking that term
     # Return: whether the corequisites have been fulfilled
-    def coreqsFulfilled(self, program: Program, term: int, additionalCourses: List[Course]) -> bool:
-        return self.coreqs.fulfilled(program, term, additionalCourses, coreq=True)
+    def coreqsFulfilled(self, program: Program, term: int, additional_courses: List[Course]) -> bool:
+        return self.coreqs.fulfilled(program, term, additional_courses, coreq=True)
 
     # THINK about corequisites - what if prerequisite OR corequisite?
 
     # Input: The program of the student trying to take the course, the term they are taking it in,
     # and any additional courses they are taking that term
     # Return: whether any exclusion courses have been taken
-    def excluded(self, program: Program, term: int, additionalCourses: List[Course]) -> bool:
-        return self.exclusions.fulfilled(program, term, additionalCourses, coreq=True)
+    def excluded(self, program: Program, term: int, additional_courses: List[Course]) -> bool:
+        return self.exclusions.fulfilled(program, term, additional_courses, coreq=True)
+
+    # Saves the course in the database
+    # Return: the id of the course
+    def save(self) -> int:
+        prereq_id = self.prereqs.save()
+        coreq_id = self.coreqs.save()
+        exclusions_id = self.exclusions.save()
+
+        # save the course itself
+        g.db.execute('''insert into Courses(letter_code, number_code, level, name, units, prereq,
+        coreq, exclusion) values (?, ?, ?, ?, ?, ?, ?)''',
+        self.letter_code, self.number_code, self.level, self.name, self.units, prereq_id, coreq_id,
+        exclusions_id)
+
+        course_id = g.db.lastrowid
+
+        # save the offerings of the course
+        for year in self.years:
+            for term in self.terms:
+                g.db.execute('insert or ignore into Sessions(year, term) values(?, ?)', year, term)
+                g.db.execute('''insert into CourseOfferings(course_id, session_year, session_term)
+                        values(?, ?, ?)''', course_id, year, term)
+
+        return course_id
 
 

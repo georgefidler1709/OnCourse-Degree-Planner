@@ -22,5 +22,5 @@ class FieldFilter(CourseFilter):
 
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def acceptsCourse(self, course: Course, program: Program) -> bool:
-        pass
+    def accepts_course(self, course: Course, program: Program) -> bool:
+        return course.letter_code == self.field

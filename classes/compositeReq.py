@@ -20,7 +20,7 @@ from program import Program
 
 class CompositeReq(CourseReq, ABC):
 
-    def __init__(self, reqs: list):
+    def __init__(self, reqs: List[CourseReq]):
         super().__init__()
         self.reqs = reqs # <List>CourseReq
 
@@ -28,5 +28,5 @@ class CompositeReq(CourseReq, ABC):
     # Return: Whether this requirement is fulfilled
     @abstractmethod
     def fulfilled(self, program: Program, term: int,
-            additionalCourses: List[Course]=[], coreq: bool=False) -> bool:
+            additional_courses: List[Course]=[], coreq: bool=False) -> bool:
         pass

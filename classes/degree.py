@@ -12,7 +12,6 @@ requirements.
 [MORE INFO ABOUT CLASS]
 """
 
-<<<<<<< HEAD
 from flask import g
 from typing import List
 

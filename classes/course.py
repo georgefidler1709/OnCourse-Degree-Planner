@@ -45,7 +45,7 @@ class Course(object):
     
     @property
     def level(self) -> int:
-    return self.code/1000
+        return self.code/1000
 
     # Add an offering of this course in a given term
     def addOffering(self, term: Term) -> None:

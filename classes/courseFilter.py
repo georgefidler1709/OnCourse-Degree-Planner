@@ -28,3 +28,12 @@ class CourseFilter(ABC):
     @abstractmethod
     def accepts_course(self, course: course.Course, program: program.Program) -> bool:
         pass
+
+    # Saves the filter in the database
+    # Return: the id of the filter in the database
+    @abstractmethod
+    def save(self) -> int:
+        g.db.execute('''insert into CourseFilters(type_id) values(?)''',
+                self.requirement_id)
+
+        return g.db.lastrowid

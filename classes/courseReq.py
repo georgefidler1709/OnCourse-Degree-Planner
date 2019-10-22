@@ -48,7 +48,7 @@ class CourseReq(ABC):
     # Return: the id of the requirement in the database
     @abstractmethod
     def save(self) -> int:
-        g.db.execute('''insert into CourseRequirementTypes(type_id) values(?)''',
+        g.db.execute('''insert into CourseRequirements(type_id) values(?)''',
                 self.requirement_id)
 
         return g.db.lastrowid

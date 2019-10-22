@@ -89,11 +89,11 @@ class Course(object):
         course_id = g.db.lastrowid
 
         # save the offerings of the course
-        for year in self.years:
-            for term in self.terms:
-                g.db.execute('insert or ignore into Sessions(year, term) values(?, ?)', year, term)
-                g.db.execute('''insert into CourseOfferings(course_id, session_year, session_term)
-                        values(?, ?, ?)''', course_id, year, term)
+        for term in self.terms:
+            term.save()
+
+            g.db.execute('''insert into CourseOfferings(course_id, session_year, session_term)
+                    values(?, ?, ?)''', course_id, term.year, term.term)
 
         return course_id
 

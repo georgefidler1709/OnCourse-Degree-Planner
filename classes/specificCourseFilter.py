@@ -17,6 +17,7 @@ from program import Program
 class SpecificCourseFilter(CourseFilter):
 
     def __init__(self, course: Course):
+        super().__init__()
         self.course = course
 
     # Input: Course, program the student is enrolled in

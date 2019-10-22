@@ -20,6 +20,7 @@ from singleReq import SingleReq
 class SubjectReq(SingleReq):
 
     def __init__(self, degree: Degree):
+        super().__init__()
         self.degree = degree
 
     # Input: Program of study, term this course is to be taken

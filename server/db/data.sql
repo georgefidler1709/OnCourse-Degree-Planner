@@ -1,1 +1,1 @@
-insert into Degrees (name, id) VALUES ('Computer Science', 3778)
+insert into Degrees (name, code, id) VALUES ('Computer Science', 'COMPA1', 3778)

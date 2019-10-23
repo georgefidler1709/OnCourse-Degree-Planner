@@ -1,5 +1,5 @@
 insert into CourseRequirementTypes(name) values ('CompletedCourseRequirement');
-insert into CourseRequirementTypes(name) values ('CurrentDegreeRequirementt');
+insert into CourseRequirementTypes(name) values ('CurrentDegreeRequirement');
 insert into CourseRequirementTypes(name) values ('YearRequirement');
 insert into CourseRequirementTypes(name) values ('UocRequirement');
 insert into CourseRequirementTypes(name) values ('AndRequirement');

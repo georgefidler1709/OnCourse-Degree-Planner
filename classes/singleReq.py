@@ -29,6 +29,6 @@ class SingleReq(courseReq.CourseReq, ABC):
     # Return: Whether this requirement is fulfilled
     @abstractmethod
     def fulfilled(self, program: program.Program, term: term.Term,
-            additional_courses: List[course.Course]=[], coreq: bool=False) -> bool:
+            coreq: bool=False) -> bool:
         pass
 

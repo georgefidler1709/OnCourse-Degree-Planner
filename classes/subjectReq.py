@@ -21,13 +21,16 @@ import singleReq
 
 class SubjectReq(singleReq.SingleReq):
 
-    def __init__(self, degree: degree.Degree):
+    def __init__(self, course: course.Course):
         super().__init__()
-        self.degree = degree
+        self.course = course
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: program.Program, term: term.Term,
             additional_courses: List[course.Course]=[], coreq: bool=False) -> bool:
-        # TODO
-        pass
+        for enrollment in program.courses:
+            if enrollment.course == self.course:
+                if (coreq and enrollment.term <= term) or (enrollment.term < term):
+                return True
+        return False

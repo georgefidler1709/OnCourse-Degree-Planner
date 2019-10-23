@@ -37,12 +37,12 @@ class CourseReq(ABC):
         return g.db.execute('select id from CourseRequirementTypes where name = ?',
                 self.requirement_name)
 
-        # Input: program.Program of study, term this course is to be taken
+    # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     # coreq set to False, if true then terms allowed include input term
     @abstractmethod
     def fulfilled(self, program: program.Program, term: term.Term,
-            additional_courses: List['course.Course']=[], coreq: bool=False) -> bool:
+            coreq: bool=False) -> bool:
         pass
 
     # Saves the requirement in the database

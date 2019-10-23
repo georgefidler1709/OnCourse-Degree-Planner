@@ -21,10 +21,10 @@ class CourseEnrollment(object):
         self.course = course
         self.term = term
 
-    def courseCode(self) -> str:
-        return self.course.courseCode
+    def course_code(self) -> str:
+        return self.course.course_code
 
-    def courseName(self) -> str:
+    def course_name(self) -> str:
         return self.course.name
 
     def units(self) -> int:

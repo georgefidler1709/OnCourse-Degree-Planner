@@ -27,24 +27,24 @@ class University(object):
 
     # Input: degree letter code (eg. COMPA1)
     # Return: corresponding degree.Degree object
-    def findDegreeByLetterCode(self, letter_code: str) -> 'degree.Degree':
+    def find_degree_alpha_code(self, letter_code: str) -> 'degree.Degree':
         # TODO
         pass
 
     # Input: degree numerical code (eg. 3778)
     # Return: corresponding degree.Degree object
-    def findDegreeByNumberCode(self, numeric_code: int) -> 'degree.Degree':
+    def find_degree_number_code(self, numeric_code: int) -> 'degree.Degree':
         # TODO
         pass
 
     # Input: course code (eg. COMP1511)
     # Return: corresponding Course object from self.courses
-    def findCourse(self, code: str) -> 'course.Course':
+    def find_course(self, code: str) -> 'course.Course':
         # TODO
         pass
 
     # Input: A filter string [ITEMISE THESE HERE]
     # Return: List of courses that match the requested filter
-    def filterCourses(self, filter: 'courseFilter.CourseFilter') -> List['course.Course']:
+    def filter_courses(self, filter: 'courseFilter.CourseFilter') -> List['course.Course']:
         # TODO
         pass

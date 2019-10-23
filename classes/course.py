@@ -37,7 +37,7 @@ class Course(object):
 
     # returns the SUBJxxxx course code
     @property
-    def courseCode(self) -> str:
+    def course_code(self) -> str:
         return self.subject + str(self.code)
 
     @property
@@ -45,7 +45,7 @@ class Course(object):
         return self.code//1000
 
     # Add an offering of this course in a given term
-    def addOffering(self, term: term.Term) -> None:
+    def add_offering(self, term: term.Term) -> None:
         self.terms.append(term)
 
     # Possibly need to be able to modify prereqs/coreqs?
@@ -53,13 +53,13 @@ class Course(object):
 
     # Input: The program of the student trying to take the course, and the term they're taking it in
     # Return: whether the prerequisites have been fulfilled
-    def prereqsFulfilled(self, program: 'program.Program', term: term.Term) -> bool:
+    def prereqs_fulfilled(self, program: 'program.Program', term: term.Term) -> bool:
         return self.prereqs.fulfilled(program, term, coreq=False)
 
     # Input: The program of the student trying to take the course, the term they're taking it in,
     # and any additional courses they are taking that term
     # Return: whether the corequisites have been fulfilled
-    def coreqsFulfilled(self, program: 'program.Program', term: term.Term) -> bool:
+    def coreqs_fulfilled(self, program: 'program.Program', term: term.Term) -> bool:
         return self.coreqs.fulfilled(program, term, coreq=True)
 
     # THINK about corequisites - what if prerequisite OR corequisite?

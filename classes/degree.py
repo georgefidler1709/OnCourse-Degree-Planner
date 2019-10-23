@@ -30,7 +30,7 @@ class Degree(object):
 
     # Input: either nothing or a list of completed courses (<List>CourseEnrollment)
     # Return: list of requirements remaining for completion
-    def getRequirements(self, courses: List['courseEnrollment.CourseEnrollment']=None) -> List['degreeReq.DegreeReq']:
+    def get_requirements(self, courses: List['courseEnrollment.CourseEnrollment']=None) -> List['degreeReq.DegreeReq']:
         # TODO
         pass
 

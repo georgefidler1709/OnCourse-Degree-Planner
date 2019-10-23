@@ -14,7 +14,7 @@ filter of courses.
 
 
 import courseFilter
-import university
+import program
 
 
 class DegreeReq(object):
@@ -25,15 +25,14 @@ class DegreeReq(object):
         self.filter = filter
         super().__init__()
 
-    # check list of courses and determine whether this course list
-    # fulfills this requirement
-    def fulfilled(self, courses: list, university: 'university.University') -> bool:
-        # TODO
-        # university.filterCourses(self.filter)
-        # check courses in courses against filtered list
-        # count uoc
-        # check against self.units
-        pass
+    # Input: a program of study
+    # Return: whether this prorgram would fulfil this degree requirement
+    def fulfilled(self, program: 'program.Program') -> bool:
+        units = 0
+        for course in program.courses:
+            if self.filter.accepts_course(course, program):
+                units += course.units
+        return units >= self.uoc
 
     # Saves the requirement in the database
     # Return: the id of the filter in the database

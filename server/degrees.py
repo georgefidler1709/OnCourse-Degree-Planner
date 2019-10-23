@@ -20,9 +20,9 @@ def load_degrees() -> str:
     '''
     Loads a dict of degree choices
     '''
-    # TODO might need to change the return type based on the javascript equivalent
     res = []
     for degree in query_db('SELECT id, code, name FROM Degrees ORDER BY id'):
+        # TODO (kevin): we should load these into their respective objects first and serialise those
         res.append({
             'id' : degree['id'], 
             'code': degree['code'], 

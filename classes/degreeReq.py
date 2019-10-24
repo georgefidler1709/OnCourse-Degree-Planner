@@ -12,7 +12,7 @@ filter of courses.
 [MORE INFO ABOUT CLASS]
 """
 
-
+from abc import ABC, abstractmethod
 import courseFilter
 import program
 
@@ -27,21 +27,9 @@ class DegreeReq(object):
 
     # Input: a program of study
     # Return: whether this prorgram would fulfil this degree requirement
+    @abstractmethod
     def fulfilled(self, program: 'program.Program') -> bool:
-        units = 0
-        for course in program.courses:
-            if self.filter.accepts_course(course, program):
-                units += course.units
-        return units >= self.uoc
-
-    # Input: a program of study
-    # Return: number of units remaining to complete this requirement
-    def remaining(self, program: 'program.Program'):
-        units = 0
-        for course in program.courses:
-            if self.filter.accepts_course(course, program):
-                units += course.units
-        return self.uoc - units
+        pass
 
     # Saves the requirement in the database
     # Return: the id of the filter in the database

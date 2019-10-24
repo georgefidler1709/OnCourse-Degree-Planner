@@ -22,11 +22,12 @@ import program
 
 class Degree(object):
 
-    def __init__(self, num_code: int, name: str, year: int, requirements:
+    def __init__(self, num_code: int, name: str, year: int, duration: int, requirements:
             List['degreeReq.DegreeReq']):
         self.num_code = num_code
         self.name = name
         self.year = year
+        self.duration = duration
         self.requirements = requirements
 
     # Input: either nothing or a list of completed courses (<List>CourseEnrollment)

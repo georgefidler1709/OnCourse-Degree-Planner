@@ -7,10 +7,10 @@
   align-self: center;
 }
 
-.suggestion-title {
+.suggestion-code {
   pointer-events: none;
 }
 
-.suggestion-desc {
+.suggestion-name {
   pointer-events: none;
 }

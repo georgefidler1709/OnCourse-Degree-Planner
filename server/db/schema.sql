@@ -81,7 +81,7 @@ create table CourseRequirements (
 	uoc_amount_required integer,
 	uoc_min_level integer,
 	uoc_subject char(4),
-	uoc_course_requirements integer references CourseRequirements,
+	uoc_course_filter integer references CourseFilters,
 
 	-- And and Or requirements have relationships in CourseRequirementHierarchies
 

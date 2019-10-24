@@ -10,15 +10,22 @@ Implementation of the University class which is a database of courses and progra
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 from flask import g
+from sqlite3 import Row
 
-import degree
-import degreeReq
+import andReq
 import course
 import courseReq
 import courseFilter
+import degree
+import degreeReq
+import enrollmentReq
+import orReq
+import subjectReq
 import term
+import uocReq
+import yearReq
 
 # Temporary: only allow 2019 results
 YEAR = 2019
@@ -94,23 +101,31 @@ class University(object):
     # Return: corresponding Course object from courses
     def findCourse(self, code: str) -> Optional['course.Course']:
         subject = code[:4]
-        numeric_code = int(code[4:])
-        return self.load_course(subject, numeric_code, need_requirements=True)
+        numeric_code = code[4:]
+        
+        response = g.query_db('''select id
+                                 from Courses
+                                 where letter_code = ?
+                                 and number_code = ?''', subject, numeric_code, one=True)
+        if response is None:
+            return None
+        else:
+            (course_id, ) = response
+            return self.load_course(course_id, need_requirements=True)
 
     # Input: course subject (eg. COMP), numeric code (eg. 1511) and whether we need the requirements
     # (same as for load_degree)
     # Return: corresponding Course object
-    def load_course(self, subject: str, numeric_code: int, need_requirements: bool=True) -> Optional['course.Course']: 
-        response = g.query_db('''select id, name, units, prereq, coreq, exclusion
+    def load_course(self, course_id: int, need_requirements: bool=True) -> Optional['course.Course']: 
+        response = g.query_db('''select letter_code, number_code, name, units, prereq, coreq, exclusion
                                  from Courses
-                                 where letter_code = ?
-                                 and number_code = ?''', subject, str(numeric_code), one=True)
+                                 where id = ?''', course_id, one=True)
 
         if response is None:
             # No matching course
             return None
 
-        course_id, name, units, prereq_id, coreq_id, exclusion_id = response
+        subject, numeric_code, name, units, prereq_id, coreq_id, exclusion_id = response
 
         # Get the terms that the course runs in
         response = g.query_db('''select session_year, session_term
@@ -121,9 +136,9 @@ class University(object):
             terms.append(term.Term(year, term_num))
 
         if need_requirements:
-            prereq = load_course_requirement(prereq_id)
-            coreq = load_course_requirement(coreq_id)
-            exclusion = load_course_requirement(exclusion_id)
+            prereq = self.load_course_requirement(prereq_id)
+            coreq = self.load_course_requirement(coreq_id)
+            exclusion = self.load_course_requirement(exclusion_id)
         else:
             prereq = None
             coreq = None
@@ -183,55 +198,95 @@ class University(object):
 
         # Determine which course type it is from the name
         if type_name == 'CompletedCourseRequirement':
-            return load_completed_course_requirement(requirement_data)
+            return self.load_completed_course_requirement(requirement_data)
         elif type_name == 'CurrentDegreeRequirement':
-            return load_current_degree_requirement(requirement_data)
+            return self.load_current_degree_requirement(requirement_data)
         elif type_name == 'YearRequirement':
-            return load_year_requirement(requirement_data)
+            return self.load_year_requirement(requirement_data)
         elif type_name == 'UocRequirement':
-            return load_uoc_requirement(requirement_data)
+            return self.load_uoc_requirement(requirement_data)
         elif type_name == 'and_requirement':
-            return load_and_requirement(requirement_data)
+            return self.load_and_requirement(requirement_data)
         elif type_name == 'or_requirement':
-            return load_or_requirement(requirement_data)
+            return self.load_or_requirement(requirement_data)
         else:
             print('ERROR: No course requirement "{}"'.format(type_name))
             return None
 
-        # Input: row from the CourseRequirements table in the db for a completed course requirement
-        # Return: The relevant requirement
-        def load_completed_course_requirement(self, requirement_data: Tuple) -> Optional['completedCourseReq.CompletedCourseReq']:
-            min_mark = requirement_data['min_mark']
-            course_id = requirement_data['course_id']
+    # Input: row from the CourseRequirements table in the db for a completed course requirement
+    # Return: The relevant requirement
+    def load_completed_course_requirement(self, requirement_data: Row) -> Optional['subjectReq.SubjectReq']:
+        min_mark = requirement_data['min_mark']
+        course_id = requirement_data['course_id']
 
-            required_course = self.load_course(course_id, need_requirements=False)
+        required_course = self.load_course(course_id, need_requirements=False)
 
-            if required_course is None:
-                print('ERROR: failed to get course with id {}'.format(course_id))
-                return None
+        if required_course is None:
+            print('ERROR: failed to get course with id {}'.format(course_id))
+            return None
 
-            return completedCourseReq.CompletedCourseReq(required_course, min_mark)
+        return subjectReq.SubjectReq(required_course, min_mark)
 
-        # Input: row from the CourseRequirements table in the db for a current degree requirement
-        # Return: The relevant requirement
-        def load_current_degree_requirement(self, requirement_data: Tuple) -> Optional['degree.Degree']:
-            degree_id = requirement_data['degree_id']
+    # Input: row from the CourseRequirements table in the db for a current degree requirement
+    # Return: The relevant requirement
+    def load_current_degree_requirement(self, requirement_data: Row) -> Optional['courseReq.CourseReq']:
+        degree_id = requirement_data['degree_id']
 
-            required_degree = self.load_degree(degree_id, need_requirements=False)
-            
-            if required_degree is None:
-                print('ERROR: No degree with id {}', degree_id)
-                return None
+        required_degree = self.load_degree(degree_id, need_requirements=False)
+        
+        if required_degree is None:
+            print('ERROR: No degree with id {}', degree_id)
+            return None
 
-            return enrollmentReq.EnrollmentReq(required_degree)
+        return enrollmentReq.EnrollmentReq(required_degree)
 
-        def load_year_requirement(self, requirement_data: Tuple) -> 'yearReq.yearReq':
-            year = requirement_data['year']
+    def load_year_requirement(self, requirement_data: Row) -> 'yearReq.YearReq':
+        year = requirement_data['year']
 
-            return yearReq.YearReq(year)
+        return yearReq.YearReq(year)
 
-        #def load_uoc_requirement(self, requirement_data: Tuple)
-        #def load_and_requirement(self, requirement_data: Tuple)
-        #def load_or_requirement(self, requirement_data: Tuple)
+    def load_uoc_requirement(self, requirement_data: Row) -> 'uocReq.UOCReq':
+        uoc = requirement_data['uoc_amount_required']
+        min_level = requirement_data['uoc_min_level']
+        subject = requirement_data['uoc_subject']
+        course_filter_id = requirement_data['uoc_course_filter']
+
+        filter = self.load_course_filter(course_filter_id)
+        if filter is None:
+            print('ERROR: no course filter with id {}'.format(course_filter_id))
+
+        return uocReq.UOCReq(uoc, filter)
+        
+    def load_and_requirement(self, requirement_data: Row) -> 'andReq.AndReq':
+        requirement_id = requirement_data['id']
+        results = g.query_db('''select child_id
+                                from CourseRequirementHierarchies
+                                where parent_id = ?''', requirement_id)
+        children = []
+        for result in results:
+            (child_id, ) = result
+            child = self.load_course_requirement(child_id)
+            if child is None:
+                print('ERROR: no child with id {}'.format(child_id))
+            else:
+                children.append(child)
+
+        return andReq.AndReq(children)
+
+    def load_or_requirement(self, requirement_data: Row) -> 'orReq.OrReq':
+        requirement_id = requirement_data['id']
+        results = g.query_db('''select child_id
+                                from CourseRequirementHierarchies
+                                where parent_id = ?''', requirement_id)
+        children = []
+        for result in results:
+            (child_id, ) = result
+            child = self.load_course_requirement(child_id)
+            if child is None:
+                print('ERROR: no child with id {}'.format(child_id))
+            else:
+                children.append(child)
+
+        return orReq.OrReq(children)
 
 

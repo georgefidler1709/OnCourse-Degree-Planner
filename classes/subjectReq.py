@@ -21,9 +21,13 @@ import singleReq
 
 class SubjectReq(singleReq.SingleReq):
 
-    def __init__(self, course: course.Course):
+    def __init__(self, course: course.Course, min_mark: int=None):
         super().__init__()
         self.course = course
+        if min_mark is None:
+            self.min_mark = 50
+        else:
+            self.min_mark = min_mark
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled

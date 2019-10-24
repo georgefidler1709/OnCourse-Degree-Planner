@@ -24,7 +24,7 @@ class Program(object):
 
     def __init__(self, degree: 'degree.Degree', coursesTaken: List['courseEnrollment.CourseEnrollment']):
         self.degree = degree # degree.Degree
-        self.courses = coursesTaken # <List>CourseEnrollmentS
+        self.courses = coursesTaken # <List>CourseEnrollments
 
     def add_course(self, course: 'course.Course', term: term.Term) -> None:
         enrollment = courseEnrollment.CourseEnrollment(course, term)

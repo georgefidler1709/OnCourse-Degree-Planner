@@ -24,12 +24,22 @@ class OrReq(compositeReq.CompositeReq):
     def __init__(self, reqs: List[courseReq.CourseReq]):
         super().__init__(reqs)
 
+    @property
+    def requirement_name(self) -> str:
+        return "AndRequirement"
+
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: program.Program, term: term.Term,
-            additional_courses: List[course.Course]=[], coreq: bool=False) -> bool:
-        individual_fulfills = map(lambda x: x.fulfilled(program, term, additional_courses, coreq),
+            coreq: bool=False) -> bool:
+        individual_fulfills = map(lambda x: x.fulfilled(program, term, coreq),
                 self.reqs)
 
         # Accept if any of the requirements are fulfilled
         return any(individual_fulfills)
+    
+    # Saves the requirement in the database
+    # Return: the id of the requirement in the database
+    def save(self) -> int:
+        # TODO
+        pass

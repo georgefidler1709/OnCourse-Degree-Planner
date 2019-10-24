@@ -17,11 +17,16 @@ import courseFilter
 import program
 
 
-class FieldFilter(courseFilter.CourseFilter):
+class OrFilter(courseFilter.CourseFilter):
 
     def __init__(self, filters: List[courseFilter.CourseFilter]):
         super().__init__()
         self.filters = filters
+
+    # The name of the requirement for the database
+    @property
+    def filter_name(self) -> str:
+        return "OrFilter"
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
@@ -31,3 +36,9 @@ class FieldFilter(courseFilter.CourseFilter):
 
         # accept if any of the filters accepts
         return any(individual_acceptance)
+
+    # Saves the filter in the database
+    # Return: the id of the filter in the database
+    def save(self) -> int:
+        # TODO
+        pass

@@ -28,7 +28,7 @@ class CourseFilter(ABC):
     @property
     @abstractmethod
     def filter_name(self) -> str:
-        return "GenericRequirement"
+        return "GenericFilter"
 
     # The id of the requirement for the database
     @property

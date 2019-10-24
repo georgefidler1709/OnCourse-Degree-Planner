@@ -11,7 +11,7 @@ study.
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List
+from typing import List, Dict
 
 import course
 import courseEnrollment
@@ -24,19 +24,15 @@ class Program(object):
 
     def __init__(self, degree: 'degree.Degree', coursesTaken: List['courseEnrollment.CourseEnrollment']):
         self.degree = degree # degree.Degree
-        self.courses = coursesTaken # <List>CourseEnrollment
+        self.courses = coursesTaken # <List>CourseEnrollments
 
-    @property
-    def coursesTaken(self) -> List['courseEnrollment.CourseEnrollment']:
-        return self.courses
-
-    def addCourse(self, course: 'course.Course', term: term.Term) -> None:
+    def add_course(self, course: 'course.Course', term: term.Term) -> None:
         enrollment = courseEnrollment.CourseEnrollment(course, term)
         self.courses.append(enrollment)
 
-    def removeCourse(self, course: 'courseEnrollment.CourseEnrollment') -> None:
+    def remove_course(self, course: 'courseEnrollment.CourseEnrollment') -> None:
         self.courses.remove(course)
 
-    def get_outstanding_reqs(self) -> List['degreeReq.DegreeReq']:
-        return self.degree.getRequirements(self.courses)
+    def get_outstanding_reqs(self) -> Dict[('degreeReq.DegreeReq', int)]:
+        return self.degree.get_requirements(self)
 

@@ -24,8 +24,20 @@ class EnrollmentReq(singleReq.SingleReq):
         super().__init__()
         self.degree = degree
 
+
+    @property
+    def requirement_name(self) -> str:
+        return "CurrentDegreeRequirement"
+
+
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: program.Program, term: term.Term,
-            additional_courses: List[course.Course]=[], coreq: bool=False) -> bool:
+            coreq: bool=False) -> bool:
         return program.degree == self.degree
+
+    # Saves the requirement in the database
+    # Return: the id of the requirement in the database
+    def save(self) -> int:
+        # TODO
+        pass

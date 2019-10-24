@@ -12,9 +12,10 @@ filter of courses.
 [MORE INFO ABOUT CLASS]
 """
 
+from typing import Optional
 
 import courseFilter
-import university
+import program
 
 
 class DegreeReq(object):
@@ -25,15 +26,33 @@ class DegreeReq(object):
         self.filter = filter
         super().__init__()
 
-    # check list of courses and determine whether this course list
-    # fulfills this requirement
-    def fulfilled(self, courses: list, university: 'university.University') -> bool:
-        # TODO
-        # university.filterCourses(self.filter)
-        # check courses in courses against filtered list
-        # count uoc
-        # check against self.units
-        pass
+    # Input: a program of study
+    # Return: whether this prorgram would fulfil this degree requirement
+    def fulfilled(self, program: Optional['program.Program']) -> bool:
+        if program is None:
+            # No degree requirement should be fulfilled by default
+            return False
+
+        units = 0
+
+        for enrollment in program.courses:
+            course = enrollment.course
+            if self.filter.accepts_course(course, program):
+                units += course.units
+        return units >= self.uoc
+
+    # Input: a program of study
+    # Return: number of units remaining to complete this requirement
+    def remaining(self, program: Optional['program.Program']):
+        if program is None:
+            return self.uoc
+
+        units = 0
+        for enrollment in program.courses:
+            course = enrollment.course
+            if self.filter.accepts_course(course, program):
+                units += course.units
+        return self.uoc - units
 
     # Saves the requirement in the database
     # Return: the id of the filter in the database

@@ -13,8 +13,8 @@ function Suggestions(props: {degrees: Array<Degree>}) {
         value={r.name}
         onClick={(event: MouseEvent<HTMLButtonElement>) => console.log(event.currentTarget.value)}
       >
-        <h1 className="suggestion-title">{r.code}</h1>
-        <p className="suggestion-desc">{r.name}</p>
+        <h1 className="suggestion-code">{r.code}</h1>
+        <p className="suggestion-name">{r.name}</p>
       </Button>
       <br />
     </div>

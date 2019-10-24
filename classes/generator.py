@@ -14,14 +14,22 @@ import program
 
 class Generator(object):
 
-    def __init__(self, degree: 'degree.Degree', university: 'university.University'):
+    def __init__(self, degree: 'degree.Degree'):
         self.degree = degree
         self.term_unit_cap = 18 # default for first release
     
-    def generate(self):
+    def generate(self, university: 'university.University'):
         program = program.Program(self.degree, [])
         for req in degree.requirements:
-            while not req.fulfilled(program):
+            if isinstance(req, SpecificCourseFilter):
+                while not req.fulfilled(program):
+                    courses = university.filter_courses(req.filter)
+                    
+
+            else if isinstance(req, OrFilter):
+
+
+
                 # add a new subject
 
 

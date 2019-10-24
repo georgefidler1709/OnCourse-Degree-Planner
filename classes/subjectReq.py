@@ -32,7 +32,7 @@ class SubjectReq(singleReq.SingleReq):
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: program.Program, term: term.Term,
-            additional_courses: List[course.Course]=[], coreq: bool=False) -> bool:
+            coreq: bool=False) -> bool:
         for enrollment in program.courses:
             if enrollment.course == self.course:
                 if (coreq and enrollment.term <= term) or (enrollment.term < term):

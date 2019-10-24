@@ -266,19 +266,49 @@ def compsci_course_reqs():
 	h = Helper()
 
 	# completed course reqs you can reuse
-	dpst1091 = self.make_course_req("completed", course="DPST1091")
-	dpst1092 = self.make_course_req("completed", course="DPST1092")
+	binf4920 = self.make_course_req("completed", course="BINF4920")
 	comp1911 = self.make_course_req("completed", course="COMP1911")
 	comp1921 = self.make_course_req("completed", course="COMP1921")
 	comp1917 = self.make_course_req("completed", course="COMP1917")
 	comp1927 = self.make_course_req("completed", course="COMP1927")
+	comp1927_cr = self.make_course_req("completed", course="COMP1927", min_mark=65)
 	comp1511 = self.make_course_req("completed", course="COMP1511")
 	comp2011 = self.make_course_req("completed", course="COMP2011")
 	comp2521 = self.make_course_req("completed", course="COMP2521")
+	comp2521_cr = self.make_course_req("completed", course="COMP2521", min_mark=65)
 	comp2911 = self.make_course_req("completed", course="COMP2911")
+	comp2920 = self.make_course_req("completed", course="COMP2920")
+	comp3821 = self.make_course_req("completed", course="COMP3821")
+	comp9596 = self.make_course_req("completed", course="COMP9596")
+	comp9801 = self.make_course_req("completed", course="COMP9801")
+	comp9945 = self.make_course_req("completed", course="COMP9945")
+	comp9900 = self.make_course_req("completed", course="COMP9900")
+	dpst1013 = self.make_course_req("completed", course="DPST1013")
+	dpst1013_cr = self.make_course_req("completed", course="DPST1013", min_mark=65)
+	dpst1014 = self.make_course_req("completed", course="DPST1014")
+	dpst1091 = self.make_course_req("completed", course="DPST1091")
+	dpst1092 = self.make_course_req("completed", course="DPST1092")
+	econ1202 = self.make_course_req("completed", course="ECON1202")
+	econ2291 = self.make_course_req("completed", course="ECON2291")
 	seng1020 = self.make_course_req("completed", course="SENG1020")
 	seng1031 = self.make_course_req("completed", course="SENG1031")
 	seng1010 = self.make_course_req("completed", course="SENG1010")
+	seng4920 = self.make_course_req("completed", course="SENG4920")
+	seng4921 = self.make_course_req("completed", course="SENG4921")
+	math1090 = self.make_course_req("completed", course="MATH1090")
+	math1011 = self.make_course_req("completed", course="MATH1011")
+	math1021 = self.make_course_req("completed", course="MATH1021")
+	math1031 = self.make_course_req("completed", course="MATH1031")
+	math1131 = self.make_course_req("completed", course="MATH1131")
+	math1131_cr = self.make_course_req("completed", course="MATH1131", min_mark=65)
+	math1141 = self.make_course_req("completed", course="MATH1141")
+	math1141_cr = self.make_course_req("completed", course="MATH1141", min_mark=65)
+	math1151 = self.make_course_req("completed", course="MATH1151")
+	math1241 = self.make_course_req("completed", course="MATH1241")
+	math1251 = self.make_course_req("completed", course="MATH1251")
+
+	compenrol = self.make_course_req("current", degree_id=3778)
+	# finalyear = self.make_course_req("year", )
 
 	# COMP1511
 	self.courses_req_add("COMP1511", "ex", dpst1091)
@@ -304,12 +334,96 @@ def compsci_course_reqs():
 	self.courses_req_add("COMP2511", "pre", comp2511_and)
 	comp2511_ex = self.combine_course_req("and", [comp2911, comp2011])
 	self.courses_req_add("COMP2511", "ex", comp2511_ex)
+	print("... COMP2511")
 
 	# TODO ELENI etc.
 
+	# COMP2521
+	# Prerequisite: COMP1511 or DPST1091 or COMP1917 or COMP1921
+	comp2521_or = self.combine_course_req("or", [comp1511, dpst1091, comp1917, comp1921])
+	self.courses_req_add("COMP2521", "pre", comp2521_or)
+	self.courses_req_add("COMP2521", "ex", comp1927)
+	print("... COMP2521")
+
+
+	# COMP3900
+	# Prerequisite: COMP1531, and COMP2521 or COMP1927,
+	# and enrolled in a BSc Computer Science major with completion of 102 uoc.
+	comp3900_or = self.combine_course_req("or", [comp2521, comp1927])
+	comp3900_uoc = self.make_course_req("uoc", uoc_amount_required=102)
+	comp3900_and = self.combine_course_req("and", [comp3900_or, compenrol, comp3900_uoc])
+	self.courses_req_add("COMP3900", "pre", comp3900_and)
+	comp3900_ex = self.combine_course_req("and", [comp9596, comp9945, comp9900])
+	self.courses_req_add("COMP3900", "ex", comp3900_ex)
+	print("... COMP3900")
+
+	# COMP4920
+	# Prerequisite: COMP2511 or COMP2911, and in the final year of the BSc Computer Science
+	# or BE / BE (Hons) Bioinformatics Engineering or Computer Engineering.
+	# Software Engineering students enrol in SENG4920.
+	comp4920_or = self.combine_course_req("or", [comp2511, comp2911])
+	comp4920_and = self.combine_course_req("and", [comp4920_or, compenrol])
+	self.courses_req_add("COMP4920", "pre", comp4920_and)
+	comp4920_ex = self.combine_course_req("and", [binf4920, seng4920, seng4921, comp2920])
+	self.courses_req_add("COMP4920", "ex", comp4920_ex)
+	print("... COMP4920")
+	
+	# MATH1081
+	# Corequisite: MATH1131 or DPST1013 or MATH1141 or MATH1151
+	math1081_or = self.combine_course_req("or", [math1131, dpst1013, math1141, math1151])
+	self.courses_req_add("MATH1081", "co", math1081_or)
+	self.courses_req_add("MATH1081", "ex", math1090)
+	print("... MATH1081")
+
+	# MATH1131
+	# no prereqs
+	self.courses_req_add("MATH1131", "eq", dpst1013)
+	math1131_ex = self.combine_course_req("and", [dpst1013, math1151, math1031, math1141, econ2291, math1011, econ1202])
+	self.courses_req_add("MATH1131", "ex", math1131_ex)
+	print("... MATH1131")
+	
+	# MATH1141
+	math1141_ex = self.combine_course_req("and", [dpst1013, math1151, math1031, math1131, econ2291, math1011, econ1202])
+	self.courses_req_add("MATH1141", "ex", math1141_ex)
+	print("... MATH1141")
+
+	# MATH1231
+	# Prerequisite: MATH1131 or DPST1013 or MATH1141
+	math1231_or = self.combine_course_req("or", [math1131, dpst1013, math1141])
+	self.courses_req_add("MATH1231", "pre", math1231_or)
+	self.courses_req_add("MATH1231", "eq", dpst1014)
+	math1231_ex = self.combine_course_req("and", [dpst1014, math1251, math1021, math1241])
+	self.courses_req_add("MATH1231", "ex", math1231_ex)
+	print("... MATH1231")
+
+	# MATH1241
+	# Prerequisite: MATH1131 (CR) or MATH1141 (CR) or DPST1013 (CR)
+	math1241_or = self.combine_course_req("or", [math1131_cr, math1141_cr, dpst1013_cr])
+	self.courses_req_add("MATH1241", "pre", math1241_or)
+	math1241_ex = self.combine_course_req("and", [dpst1014, math1251, math1021, math1231])
+	self.courses_req_add("MATH1241", "ex", math1241_ex)
+	print("... MATH1241")
+
+	# COMP3121
+	# Prerequisite: COMP1927 or COMP2521
+	comp3121_or = self.combine_course_req("or", [comp1927, comp2521])
+	self.courses_req_add("COMP3121", "pre", comp3121_or)
+	comp3121_eq = self.combine_course_req("and", [comp3821, comp9801])
+	self.courses_req_add("COMP3121", "eq", comp3121_eq)
+	print("... COMP3121")
+
+	# COMP3821
+	# Prerequisite: A mark of at least 65 in COMP1927 or COMP2521
+	comp3821_or = self.combine_course_req("or", [comp1927_cr, comp2521_cr])
+	self.courses_req_add("COMP3821", "pre", comp3821_or)
+	comp3821_eq = self.combine_course_req("and", [comp3121, comp9801])
+	self.courses_req_add("COMP3821", "eq", comp3821_eq)
+	print("... COMP3821")
+
+
 	# see "On Course Database" google sheet, page "Courses" for what other courses we need
 	# then we also need degree requirements, etc. 
-
+	
 
 
 	h.close()

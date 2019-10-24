@@ -271,7 +271,11 @@ def compsci_course_reqs():
 	comp1911 = self.make_course_req("completed", course="COMP1911")
 	comp1921 = self.make_course_req("completed", course="COMP1921")
 	comp1917 = self.make_course_req("completed", course="COMP1917")
+	comp1927 = self.make_course_req("completed", course="COMP1927")
 	comp1511 = self.make_course_req("completed", course="COMP1511")
+	comp2011 = self.make_course_req("completed", course="COMP2011")
+	comp2521 = self.make_course_req("completed", course="COMP2521")
+	comp2911 = self.make_course_req("completed", course="COMP2911")
 	seng1020 = self.make_course_req("completed", course="SENG1020")
 	seng1031 = self.make_course_req("completed", course="SENG1031")
 	seng1010 = self.make_course_req("completed", course="SENG1010")
@@ -292,8 +296,15 @@ def compsci_course_reqs():
 	comp1531_ex = self.combine_course_req("and", [seng1020, seng1031, seng1010])
 	self.courses_req_add("COMP1531", "ex", comp1531_ex)
 	print("... COMP1531")
-	
+	type_id
+
 	# COMP2511
+	comp2511_small_or = self.combine_course_req("or", [comp2521, comp1927])
+	comp2511_and = self.combine_course_req("and", [comp1531, comp2511_small_or])
+	self.courses_req_add("COMP2511", "pre", comp2511_and)
+	comp2511_ex = self.combine_course_req("and", [comp2911, comp2011])
+	self.courses_req_add("COMP2511", "ex", comp2511_ex)
+
 	# TODO ELENI etc.
 
 	# see "On Course Database" google sheet, page "Courses" for what other courses we need

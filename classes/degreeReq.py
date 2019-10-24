@@ -34,6 +34,15 @@ class DegreeReq(object):
                 units += course.units
         return units >= self.uoc
 
+    # Input: a program of study
+    # Return: number of units remaining to complete this requirement
+    def remaining(self, program: 'program.Program'):
+        units = 0
+        for course in program.courses:
+            if self.filter.accepts_course(course, program):
+                units += course.units
+        return self.uoc - units
+
     # Saves the requirement in the database
     # Return: the id of the filter in the database
     def save(self):

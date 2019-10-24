@@ -6,7 +6,7 @@ const mockDegrees = [{id: 1, code:"COMP3778", name: "Bachelor of Computer Scienc
 
 describe('Rendering a degree suggestion', () => {
     it('renders without crashing', () => {
-      shallow(<Suggestions degrees={mockDegrees}/>);
+      const wrapper = shallow(<Suggestions degrees={mockDegrees}/>);
 	});
 
 	it('puts the code of provided degrees as titles', () => {

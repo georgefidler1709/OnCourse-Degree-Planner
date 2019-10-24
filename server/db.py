@@ -8,6 +8,15 @@ import click
 from flask import current_app, g, Flask
 from flask.cli import with_appcontext
 
+def query_db(query : str, args: Tuple = (), one = False) -> Tuple:
+    # query function from flask documentation
+    # https://flask.palletsprojects.com/en/1.1.x/patterns/sqlite3/#easy-querying
+
+    cur = get_db().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
+
 def get_db() -> sqlite3.Connection:
     if 'db' not in g:
         g.db = sqlite3.connect(
@@ -15,6 +24,8 @@ def get_db() -> sqlite3.Connection:
             detect_types=sqlite3.PARSE_DECLTYPES
         )
         g.db.row_factory = sqlite3.Row
+        # Add an easier way to query the database
+        g.query_db = query_db
 
     return g.db
 

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, g, current_app, request, redirect, url_for, flash
 from typing import List, Set, Dict, Tuple, Optional
 
-from .db import get_db
+from .db_setup import get_db
 
 hello_bp = Blueprint("hello_bp", __name__,
     template_folder='templates', static_folder='static');

@@ -1,7 +1,7 @@
 from flask import Flask
 
 from . import hello
-from . import db
+from . import db_setup
 
 def create_app() -> Flask:
     app = Flask(__name__, instance_relative_config=False)
@@ -9,7 +9,7 @@ def create_app() -> Flask:
 
     with app.app_context():
 
-    	db.init_app(app)
+    	db_setup.init_app(app)
 
     	app.register_blueprint(hello.hello_bp)
 

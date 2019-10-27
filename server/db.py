@@ -7,7 +7,6 @@ import sqlite3
 import click
 from flask import current_app, g, Flask
 from flask.cli import with_appcontext
-import subprocess
 
 def get_db() -> sqlite3.Connection:
     if 'db' not in g:
@@ -35,18 +34,17 @@ def init_db() -> None:
 
     if os.path.exists(db_path):
         os.remove(db_path)
-        subprocess.run(["./server/db/create_db.sh", db_path])
 
     db = get_db()
 
-    # with current_app.open_resource('db/schema.sql') as f:
-    #     db.executescript(f.read().decode('utf8'))
+    with current_app.open_resource('db/schema.sql') as f:
+        db.executescript(f.read().decode('utf8'))
 
-    # with current_app.open_resource('db/setup_enums.sql') as f:
-    #     db.executescript(f.read().decode('utf8'))
+    with current_app.open_resource('db/setup_enums.sql') as f:
+        db.executescript(f.read().decode('utf8'))
 
-    # with current_app.open_resource('db/data.sql') as f:
-    #     db.executescript(f.read().decode('utf8'))
+    with current_app.open_resource('db/data.sql') as f:
+        db.executescript(f.read().decode('utf8'))
 
 
 def init_app(app : Flask) -> None:

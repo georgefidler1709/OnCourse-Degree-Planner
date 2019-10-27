@@ -44,6 +44,14 @@ class Course(object):
     def level(self) -> int:
         return self.code//1000
 
+    # Returns whether this course has an offering in the given term
+    @property
+    def has_offering(self, term: term.Term) -> None:
+        for t in self.terms:
+            if t == term:
+                return True
+        return False
+
     # Add an offering of this course in a given term
     def add_offering(self, term: term.Term) -> None:
         self.terms.append(term)

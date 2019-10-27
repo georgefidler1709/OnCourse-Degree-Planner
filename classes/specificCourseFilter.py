@@ -21,6 +21,12 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
         super().__init__()
         self.course = course
 
+    # Returns whether this filters specific courses
+    @property
+    @abstractmethod
+    def core(self) -> bool:
+        return True
+
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     def accepts_course(self, course: course.Course, program: program.Program) -> bool:

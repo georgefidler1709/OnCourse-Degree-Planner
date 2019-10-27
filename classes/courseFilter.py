@@ -35,7 +35,11 @@ class CourseFilter(ABC):
     def filter_id(self) -> int:
         return g.db.execute('select id from CourseFilterTypes where name = ?', self.filter_name)
 
-
+    # Returns whether this filters specific courses
+    @property
+    @abstractmethod
+    def core(self) -> bool:
+        return False
 
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter

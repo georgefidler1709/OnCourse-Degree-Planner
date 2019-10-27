@@ -19,14 +19,14 @@ class Generator(object):
         self.term_unit_cap = 18 # default for first release
     
     def generate(self, university: 'university.University'):
+        
         program = program.Program(self.degree, [])
         for req in degree.requirements:
             if isinstance(req, SpecificCourseFilter):
-                while not req.fulfilled(program):
-                    courses = university.filter_courses(req.filter)
-                    
+                program.add_course(req.course)                    
 
             else if isinstance(req, OrFilter):
+
 
 
 

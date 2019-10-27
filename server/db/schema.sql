@@ -20,6 +20,7 @@ create table Courses (
 	prereq integer references CourseRequirements(id),
 	coreq integer references CourseRequirements(id),
 	exclusion integer references CourseRequirements(id),
+	equivalent integer references CourseRequirements(id),
 
 	id integer primary key,
 

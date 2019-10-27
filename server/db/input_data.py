@@ -140,13 +140,12 @@ class Helper:
 		And passes in <values>, the tuple of values for execute
 		Returns the id of this inserted item (using auto-increment)
 
-		Call self.check_exists first. This function assumes entry DNE.
+		Call self.check_exists() first. This function assumes entry DNE.
+		Or use self.safe_insert()
 
 		Assuming <msg> starts with "INSERT INTO table_name(...)", 
 		first parentheses is optional.
 		'''
-		# TODO ELENI check that the record doesn't already exist
-		# if it does, then get the id instead of trying to insert another entry
 		self.cursor.execute(msg, values)
 		self.db.commit()
 
@@ -165,8 +164,7 @@ class Helper:
 		course_id = self.get_course_id(course)
 
 		# validate field
-		# TODO we don't have "equivalent" courses, see COMP1511 page
-		field_options = ["pre", "co", "ex"]
+		field_options = ["pre", "co", "ex", "eq"]
 		if field not in field_options:
 			raise Exception(f"field {field} must be in {field_options}")
 
@@ -179,9 +177,12 @@ class Helper:
 		elif field == field_options[1]:
 			# corequisite
 			msg += "coreq"
-		else:
+		elif field == field_options[2]:
 			# exclusion
 			msg += "exclusion"
+		else:
+			# equivalent
+			msg += "equivalent"
 
 		msg += " = ? WHERE id = ?"
 
@@ -278,6 +279,8 @@ def compsci_course_reqs():
 	comp2521_cr = self.make_course_req("completed", course="COMP2521", min_mark=65)
 	comp2911 = self.make_course_req("completed", course="COMP2911")
 	comp2920 = self.make_course_req("completed", course="COMP2920")
+	comp3120 = self.make_course_req("completed", course="COMP3121")
+	comp9101 = self.make_course_req("completed", course="COMP9101")
 	comp3821 = self.make_course_req("completed", course="COMP3821")
 	comp9596 = self.make_course_req("completed", course="COMP9596")
 	comp9801 = self.make_course_req("completed", course="COMP9801")
@@ -408,7 +411,7 @@ def compsci_course_reqs():
 	# Prerequisite: COMP1927 or COMP2521
 	comp3121_or = self.combine_course_req("or", [comp1927, comp2521])
 	self.courses_req_add("COMP3121", "pre", comp3121_or)
-	comp3121_eq = self.combine_course_req("and", [comp3821, comp9801])
+	comp3121_eq = self.combine_course_req("and", [comp3821, comp9801, comp3120, comp9101])
 	self.courses_req_add("COMP3121", "eq", comp3121_eq)
 	print("... COMP3121")
 
@@ -419,10 +422,6 @@ def compsci_course_reqs():
 	comp3821_eq = self.combine_course_req("and", [comp3121, comp9801])
 	self.courses_req_add("COMP3821", "eq", comp3821_eq)
 	print("... COMP3821")
-
-
-	# see "On Course Database" google sheet, page "Courses" for what other courses we need
-	# then we also need degree requirements, etc. 
 	
 
 

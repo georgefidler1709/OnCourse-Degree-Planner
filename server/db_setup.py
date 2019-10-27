@@ -56,8 +56,11 @@ def init_db() -> None:
     courses = pandas.read_csv("server/db/courses.csv")
     courses.to_sql("Courses", db, if_exists="append", index=False)
 
-    # TODO input course requirements...
+    # input Computer Science 3778 COMPA1 course requirements
     input_data.compsci_course_reqs(db_path)
+
+    # input Sessions for arbitrary range of years
+    input_data.insert_sessions(start=2019, end=2025, db=db_path)
 
 
 

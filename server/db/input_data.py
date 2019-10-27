@@ -271,6 +271,7 @@ def compsci_course_reqs(db="university.db"):
 	Statements to insert CourseRequirements for Computer Science (3778) (COMPA1) courses
 	i.e. MVP
 	'''
+	print("==> Inserting CourseRequirements for Computer Science 3778 (COMPA1)")
 	h = Helper(dbaddr=db)
 
 	print("Making completed course requirements...")
@@ -438,6 +439,25 @@ def compsci_course_reqs(db="university.db"):
 
 	h.close()
 
+def insert_sessions(start=2019, end=2025, db='university.db'):
+	'''
+	Populates all terms (0-3) for given range of years
+	'''
+	print(f"==> Inserting Sessions from {start} to {end}")
+	h = Helper(dbaddr=db)
+
+	for year in range(start, end + 1):
+		for term in range(3 + 1):
+			msg = "INSERT INTO Sessions(year, term) VALUES (?, ?)"
+			vals = (year, term)
+			h.safe_insert(msg, vals, vals)
+
+	h.close()
+
+
+
 if __name__ == "__main__":
-	# pass
-	compsci_course_reqs()
+	
+	# Computer Science (3778) (COMPA1) courses
+	# compsci_course_reqs()
+	insert_sessions()

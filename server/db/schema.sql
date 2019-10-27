@@ -50,9 +50,9 @@ create table CourseFilters (
 
 	-- Free Elective Filter has no attributes
 
+	id integer primary key,
 	-- And and Or filters have relationships in CourseFilterHierarchies
-	unique(min_mark, course_id),
-	id integer primary key
+	unique(min_mark, course_id)
 );
 
 -- For And and Or filters, the parent is the And/Or and the child is another filter
@@ -82,12 +82,12 @@ create table CourseRequirements (
 	uoc_subject char(4),
 	uoc_course_requirements integer references CourseRequirements,
 
+	id integer primary key,
 	-- And and Or requirements have relationships in CourseRequirementHierarchies
 	unique(type_id, min_mark, course_id),
 	unique(type_id, degree_id),
 	unique(type_id, year),
-	unique(type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_requirements),
-	id integer primary key
+	unique(type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_requirements)
 );
 
 -- For And and Or requirements, the parent is the And/Or and the child is another requirement

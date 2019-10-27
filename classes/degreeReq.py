@@ -17,7 +17,7 @@ import courseFilter
 import program
 
 
-class DegreeReq(object):
+class DegreeReq(ABC):
 
     def __init__(self, filter: 'courseFilter.CourseFilter', uoc: int):
         # input as separate variables? or some other format
@@ -30,6 +30,10 @@ class DegreeReq(object):
     @abstractmethod
     def fulfilled(self, program: 'program.Program') -> bool:
         pass
+
+    # Return whether this is a core requirement
+    def core_requirement(self) -> bool:
+        return self.filter.core
 
     # Saves the requirement in the database
     # Return: the id of the filter in the database

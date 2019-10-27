@@ -51,6 +51,7 @@ class Helper:
 		<msg> is the sql insert statement in form "INSERT INTO <table>(..."
 		<values> is the tuple of values corresponding to ? in <msg>
 		<unique_values> is a tuple of values needed to check this
+		<table> is either "req", "filters", or None for types of tables with type_id arguments
 		entry is unique for the given table. Requires knowledge of
 		unique() declaratoins in schema.sql.
 		'''
@@ -89,10 +90,28 @@ class Helper:
 		elif table == "Sessions":
 			check = "SELECT year, term FROM Sessions where year = ? and term = ?"
 		elif table == "CourseFilters":
-			check = "SELECT min_mark, course_id, id FROM CourseFilters where min_mark = ? and course_id = ?"
+
+			if type_id is None:
+				raise Exception("You need to specify a type_id for CourseFilters check")
+
+			if type_id == 1:
+				# specific course filter
+				check = "SELECT type_id, min_mark, course_id FROM CourseFilters where type_id = ? and min_mark = ? and course_id = ?"
+			elif type_id == 2:
+				# gened filter
+				check = "SELECT type_id FROM CourseFilters where type_id = ?"
+			elif type_id == 3:
+				# field filter
+				check = "SELECT type_id, field_code, level FROM CourseFilters where type_id = ? and field_code = ? and level = ?"
+			elif type_id == 4:
+				# free elective filter
+				check = "SELECT type_id FROM CourseFilters where type_id = ?"
+			# TODO not checking AND or OR requirements yet cuz complicated
+
 		elif table == "CourseFilterHierarchies":
 			check = "SELECT parent_id, child_id from CourseFilterHierarchies where parent_id = ? and child_id = ?"
 		elif table == "CourseRequirements":
+
 			if type_id is None:
 				raise Exception("You need to specify a type_id for CourseRequirements check")
 
@@ -289,6 +308,85 @@ class Helper:
 				vals = (course_id, y, t)
 				self.safe_insert(msg, vals, vals)
 
+	def combine_course_filters(self, combo_type, reqs):
+		'''
+		Combines the ids of CourseFilters entries in list reqs
+		into an aggregate CourseFilters "AndFilter" or "OrFilter"
+
+		Returns id of inserted CourseFilters entry
+		'''
+		COMBO_ID_START = 5
+		valid_combos = ["and", "or"]
+		if combo_type not in valid_combos:
+			raise Exception(f"combo type {combo_type} must be a combo CourseFilterTypes: {valid_combos}")
+		combo_id = COMBO_ID_START + valid_combos.index(combo_type)
+
+		# make a CourseFilters for this combo type
+		msg = "INSERT INTO CourseFilters(type_id) VALUES (?)"
+		last_id = self.insert(msg, (combo_id,))
+
+		# for each requirement id, add it to the CourseFilterHierarchies table
+		msg = "INSERT INTO CourseFilterHierarchies(parent_id, child_id) VALUES (?, ?)"
+		for r in reqs:
+			vals = (last_id, r)
+			self.safe_insert(msg, vals, vals)
+
+		return last_id
+
+
+	def add_course_filter(self, ty, min_mark=None, course=None,
+		field_code=None, level=None, id=None):
+		'''
+		Inserts an entry into CourseFilters table
+		<ty> is the type of CourseFilters entry, must be in <valid_types> list
+		<course> is a string like "COMP1511" which will be converted to course id
+
+		Returns id of inserted CourseFilters entry
+		'''
+		valid_types = ["spec", "gen", "field", "free"]
+		if ty not in valid_types:
+			raise Exception(f"type {ty} must be a base CourseFilter: {valid_types}")
+		type_id = valid_types.index(ty) + 1
+
+		inserted_id = None
+
+		msg = "INSERT INTO CourseFilters(type_id"
+		if ty == "spec":
+			msg += ", min_mark, course_id) VALUES (?, ?, ?)"
+			course_id = self.get_course_id(course)
+			vals = (type_id, min_mark, course_id)
+		elif ty == "field":
+			msg += ", field_code, level) VALUES (?, ?, ?)"
+			vals = (type_id, field_code, level)
+		elif ty == "gen" or ty == "free":
+			msg += ") VALUES (?)"
+			vals = (type_id,)
+
+		inserted_id = self.safe_insert(msg, vals, vals, type_id)
+
+		return inserted_id
+
+	def add_degree_reqs(self, degree_code, year, filter_id, uoc_needed):
+		'''
+		Inserts entry to DegreeOfferingRequirements table
+		<degree_code> is an id of Degrees table
+		<year> is a year that degree is offered, (<year>, <degree_code>) is entry in DegreeOfferings
+		<filter_id> is the id of a CourseFilters entry describing a requirement for this DegreeOffering
+		<uoc_needed> is the associated UOC needed for this requirement
+		'''
+
+		# get DegreeOffering id from degree_code, year
+		exists, offer_id = self.check_exists("DegreeOfferings", (year, degree_code))
+
+		if not exists:
+			raise Exception(f"DegreeOffering for year = {year} and degree_id = {degree_code} DNE")
+
+		msg = '''INSERT INTO DegreeOfferingRequirements(offering_id, requirement_id, uoc_needed)
+			VALUES (?, ?, ?)'''
+		vals = (offer_id, filter_id, uoc_needed)
+		inserted_id = self.safe_insert(msg, vals, vals)
+
+		return inserted_id
 
 	def close(self):
 		self.db.close()
@@ -527,12 +625,90 @@ def insert_course_offerings(start=2019, end=2025, db='university.db'):
 
 	h.close()
 
+def insert_compsci_degree_requirements(db='university.db'):
+	'''
+	Inserts CourseFilters for COMPA1 degree and combines them into 
+	DegreeOfferingRequirements
+	'''
+	print("==> Inserting Course Filters for COMPA1 Degree")
+
+	h = Helper(dbaddr=db)
+
+	# specific course filters
+	core_courses = ["COMP1511", "COMP1521", "COMP1531", "COMP2511",
+		"COMP2521", "COMP3900", "COMP4920", "MATH1081"]
+	math1_opts = ["MATH1131", "MATH1141"]
+	math2_opts = ["MATH1231", "MATH1241"]
+	algos_opts = ["COMP3121", "COMP3821"]
+
+	print("... core courses filters")
+	core_filters = []
+	for course in core_courses:
+		core_filters.append(h.add_course_filter("spec", min_mark=50, course=course))
+
+	core_combo = h.combine_course_filters("and", core_filters)
+
+	math1_filters = []
+	for course in math1_opts:
+		math1_filters.append(h.add_course_filter("spec", min_mark=50, course=course))
+	math1_or = h.combine_course_filters("or", math1_filters)
+
+	math2_filters = []
+	for course in math2_opts:
+		math2_filters.append(h.add_course_filter("spec", min_mark=50, course=course))
+	math2_or = h.combine_course_filters("or", math2_filters)
+
+	algos_filters = []
+	for course in algos_opts:
+		algos_filters.append(h.add_course_filter("spec", min_mark=50, course=course))
+	algos_or = h.combine_course_filters("or", algos_filters)
+
+	# comp elective filters, 30 UOC level 3, 4, 6, 9
+	# "I guess you'd have OR(AND(COMP, level 3), AND(COMP, level4)) etc" - Eleni
+	# WARNING making levels a part of filter that can be None / NULL if you just need any COMP course
+	comp3 = h.add_course_filter("field", field_code="COMP", level=3)
+	comp4 = h.add_course_filter("field", field_code="COMP", level=4)
+	comp6 = h.add_course_filter("field", field_code="COMP", level=6)
+	comp9 = h.add_course_filter("field", field_code="COMP", level=9)
+	comp_elec = h.combine_course_filters("or", [comp3, comp4, comp6, comp9])
+
+	# gen ed filters, 12 UOC
+	gen_filter = h.add_course_filter("gen")
+
+	# free elective filters, 36 UOC
+	free_filter = h.add_course_filter("free")
+
+	# ====== insert degree requirements =====
+	print("===> Inserting Degree Requirements for COMPA1 Degree")
+	COURSE_UOC = 6
+	COMPSCI = 3778
+
+	# core stuff
+	h.add_degree_reqs(COMPSCI, 2019, core_combo, len(core_courses) * COURSE_UOC)
+	h.add_degree_reqs(COMPSCI, 2019, math1_or, COURSE_UOC)
+	h.add_degree_reqs(COMPSCI, 2019, math2_or, COURSE_UOC)
+	h.add_degree_reqs(COMPSCI, 2019, algos_or, COURSE_UOC)
+
+	# 30 UOC comp electives
+	h.add_degree_reqs(COMPSCI, 2019, comp_elec, 30)
+	
+	# 12 UOC gen eds
+	h.add_degree_reqs(COMPSCI, 2019, gen_filter, 12)
+
+	# 36 UOC free electives
+	h.add_degree_reqs(COMPSCI, 2019, free_filter, 36)
+
+	h.close()
+
+
+
 
 if __name__ == "__main__":
 	
 	# Computer Science (3778) (COMPA1) courses
 	# compsci_course_reqs()
 	# insert_sessions()
-	insert_course_offerings()
+	# insert_course_offerings()
+	# insert_compsci_degree_requirements()
 
 	pass

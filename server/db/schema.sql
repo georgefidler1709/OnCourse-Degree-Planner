@@ -45,8 +45,9 @@ create table CourseFilters (
 
 	-- Gen Ed filter has no attributes
 
-	-- Field filter
+	-- Field filter, level can be NULL
 	field_code char(4),
+	level integer,
 
 	-- Free Elective Filter has no attributes
 

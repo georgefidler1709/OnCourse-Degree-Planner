@@ -65,6 +65,9 @@ def init_db() -> None:
     # input CourseOfferings for 3778 COMPA1 courses
     input_data.insert_course_offerings(start=2019, end=2025, db=db_path)
 
+    # input CourseFilters and DegreeOfferingRequirements for 3778 COMPA1
+    input_data.insert_compsci_degree_requirements(db=db_path)
+
 
 
 

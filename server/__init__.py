@@ -11,6 +11,6 @@ def create_app() -> Flask:
 
     	db.init_app(app)
 
-    	app.register_blueprint(hello_bp)
+    	app.register_blueprint(hello.hello_bp)
 
     return app

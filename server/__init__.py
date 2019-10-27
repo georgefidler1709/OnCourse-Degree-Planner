@@ -1,7 +1,7 @@
-from flask import Flask;
+from flask import Flask
 
-from . import hello;
-from . import db;
+from . import hello
+from . import db
 
 def create_app() -> Flask:
     app = Flask(__name__, instance_relative_config=False)
@@ -11,6 +11,6 @@ def create_app() -> Flask:
 
     	db.init_app(app)
 
-    	app.register_blueprint(hello.hello_bp)
+    	app.register_blueprint(hello_bp)
 
     return app

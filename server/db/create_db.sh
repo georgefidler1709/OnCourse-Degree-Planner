@@ -1,5 +1,9 @@
 #!/bin/sh
-db='university.db'
+if [ "$#" -eq 1 ]; then
+	db="$1"
+else
+	db='university.db'
+fi
 
 sqlite3 $db < schema.sql
 sqlite3 $db < setup_enums.sql
@@ -18,4 +22,4 @@ update Courses set equivalent = NULL where equivalent = "";
 EOF
 
 # fill in requirements for Courses
-# python input_data.py
+python input_data.py

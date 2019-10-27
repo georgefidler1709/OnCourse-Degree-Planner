@@ -62,6 +62,9 @@ def init_db() -> None:
     # input Sessions for arbitrary range of years
     input_data.insert_sessions(start=2019, end=2025, db=db_path)
 
+    # input CourseOfferings for 3778 COMPA1 courses
+    input_data.insert_course_offerings(start=2019, end=2025, db=db_path)
+
 
 
 

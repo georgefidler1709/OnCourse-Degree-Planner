@@ -262,6 +262,34 @@ class Helper:
 
 		return last
 
+	def add_sessions(self, start, end):
+		'''
+		Adds sessions for the uni from start year to end year
+		for all terms 0-3 (summer to T3)
+		'''
+		for year in range(start, end + 1):
+			for term in range(3 + 1):
+				msg = "INSERT INTO Sessions(year, term) VALUES (?, ?)"
+				vals = (year, term)
+				self.safe_insert(msg, vals, vals)
+
+	def add_course_offerings(self, course, years, terms):
+		'''
+		Adds to CourseOfferings for the given <course> in "COMP1511" format.
+		<years> is a list of years the offerings should be added for, i.e. [2019, 2020, 2021]
+		<terms> is a list of terms the course is offered per year, i.e. [0, 1] for summer and T1
+		- assuming that terms are the same every year. If different make 2 calls to function
+		'''
+		course_id = self.get_course_id(course)
+
+		for y in years:
+			for t in terms:
+				msg = '''INSERT INTO CourseOfferings(course_id, session_year, session_term)
+					VALUES (?, ?, ?)'''
+				vals = (course_id, y, t)
+				self.safe_insert(msg, vals, vals)
+
+
 	def close(self):
 		self.db.close()
 
@@ -446,18 +474,65 @@ def insert_sessions(start=2019, end=2025, db='university.db'):
 	print(f"==> Inserting Sessions from {start} to {end}")
 	h = Helper(dbaddr=db)
 
-	for year in range(start, end + 1):
-		for term in range(3 + 1):
-			msg = "INSERT INTO Sessions(year, term) VALUES (?, ?)"
-			vals = (year, term)
-			h.safe_insert(msg, vals, vals)
+	h.add_sessions(start, end)
 
 	h.close()
 
+def insert_course_offerings(start=2019, end=2025, db='university.db'):
+	'''
+	inserts course offerings for computer science 3778 COMPA1 related courses
+	<start> <end> specify range of years to insert course offerings for
+	if term offerings are assumed to be the same for those years
+	'''
+	print(f"==> Inserting Course Offerings for COMPA1 Degree")
+
+	years = list(range(start, end + 1))
+
+	h = Helper(dbaddr=db)
+
+	all_terms_courses = ["DPST1091", "COMP1511", "DPST1092", "COMP3900", 
+		"COMP9900", "MATH1081", "MATH1131", "DPST1013", "MATH1231",
+		"DPST1014"]
+
+	t1_courses = ["COMP1531", "COMP2521", "MATH1141", "MATH1241", "MATH1031",
+		"MATH1011", "ECON1202", "COMP3821", "COMP9801"]
+
+	t2_courses = ["COMP1521", "COMP1911", "COMP2511", "MATH1241", "COMP3121",
+		"COMP9101", "MATH1251"]
+
+	t3_courses = ["COMP1521", "COMP1531", "COMP2511", "COMP2521", "COMP4920",
+		"SENG4920", "MATH1141", "MATH1031", "MATH1011", "ECON1202"]
+
+	summer_courses = ["ECON1202"]
+
+	print("... courses in t1, t2, t3")
+	for course in all_terms_courses:
+		h.add_course_offerings(course, years, [1, 2, 3])
+
+	print("... courses in t1")
+	for course in t1_courses:
+		h.add_course_offerings(course, years, [1])
+
+	print("... courses in t2")
+	for course in t2_courses:
+		h.add_course_offerings(course, years, [2])
+
+	print("... courses in t3")
+	for course in t3_courses:
+		h.add_course_offerings(course, years, [3])
+
+	print("... summer courses")
+	for course in summer_courses:
+		h.add_course_offerings(course, years, [0])
+
+	h.close()
 
 
 if __name__ == "__main__":
 	
 	# Computer Science (3778) (COMPA1) courses
 	# compsci_course_reqs()
-	insert_sessions()
+	# insert_sessions()
+	insert_course_offerings()
+
+	pass

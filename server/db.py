@@ -7,6 +7,7 @@ import sqlite3
 import click
 from flask import current_app, g, Flask
 from flask.cli import with_appcontext
+import pandas
 
 def get_db() -> sqlite3.Connection:
     if 'db' not in g:
@@ -45,6 +46,14 @@ def init_db() -> None:
 
     with current_app.open_resource('db/data.sql') as f:
         db.executescript(f.read().decode('utf8'))
+
+    # read courses from courses.csv
+    courses = pandas.read_csv("server/db/courses.csv")
+    courses.to_sql("Courses", db, if_exists="append", index=False)
+
+    # TODO input course requirements...
+
+
 
 
 def init_app(app : Flask) -> None:

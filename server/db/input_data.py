@@ -266,12 +266,12 @@ class Helper:
 		self.db.close()
 
 
-def compsci_course_reqs():
+def compsci_course_reqs(db="university.db"):
 	'''
 	Statements to insert CourseRequirements for Computer Science (3778) (COMPA1) courses
 	i.e. MVP
 	'''
-	h = Helper()
+	h = Helper(dbaddr=db)
 
 	print("Making completed course requirements...")
 	# completed course reqs you can reuse

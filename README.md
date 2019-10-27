@@ -15,8 +15,10 @@ run `mypy .` for type checking
 
 # Run Flask Server
 
+Make sure `./server/db/university.db` exists. Otherwise first run `./start.sh init-db`.
+
 From root folder, run `./start.sh run`. 
 
 # Regenerate Database
 
-From root folder, run `./start.sh db-init`. 
+From root folder, run `./start.sh init-db`. 

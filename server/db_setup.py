@@ -7,8 +7,8 @@ import sqlite3
 import click
 from flask import current_app, g, Flask
 from flask.cli import with_appcontext
-import pandas
 
+# from db import input_data
 # from server.db import input_data
 
 def get_db() -> sqlite3.Connection:
@@ -33,6 +33,9 @@ def init_db() -> None:
     '''
     Initialize db and populate it with information
     '''
+    from server.db import input_data
+    import pandas
+
     db_path = current_app.config['DATABASE']
 
     if os.path.exists(db_path):
@@ -54,6 +57,7 @@ def init_db() -> None:
     courses.to_sql("Courses", db, if_exists="append", index=False)
 
     # TODO input course requirements...
+    input_data.compsci_course_reqs(db_path)
 
 
 

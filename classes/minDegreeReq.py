@@ -20,9 +20,9 @@ class MinDegreeReq(DegreeReq):
 
     # Input: a program of study
     # Return: whether this prorgram would fulfil this degree requirement
-    def fulfilled(self, program: 'program.Program') -> bool:
+    def fulfilled(self, courses: 'course.Course') -> bool:
         units = 0
-        for course in program.courses:
+        for course in courses:
             if self.filter.accepts_course(course, program):
                 units += course.units
         return units >= self.uoc

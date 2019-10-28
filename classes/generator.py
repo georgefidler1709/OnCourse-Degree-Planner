@@ -13,7 +13,6 @@ A generator which creates a degree plan for a given degree
 import program
 import degree
 import term
-import university
 
 class Generator(object):
 
@@ -31,8 +30,7 @@ class Generator(object):
         # TODO term specific unit cap
 
     # Generate a program of study that fulfils the core units of the degree
-    def generate(self, university: 'university.University') -> 'program.Program':
-        
+    def generate(self) -> 'program.Program':
         # create program
         self.program = program.Program(self.degree, [])
 
@@ -40,12 +38,10 @@ class Generator(object):
         # handle only core requirements
         for req in degree.requirements:
             if req.core_requirement:
-                # loop until requirement fulfilled
-                while not req.fulfilled():
-                    courses = fulfill_core_requirement(req)
-                    for course in courses:
-                        term = find_term(course)
-                        self.program.add_course(course, term)
+                courses = fulfill_core_requirement(req)
+                for course in courses:
+                    term = find_term(course)
+                    self.program.add_course(course, term)
 
         # now assume all core requirements fulfilled
         return program
@@ -53,7 +49,9 @@ class Generator(object):
     # given a core degree requirement, return a list of courses that would
     # fulfill that requirement
     def fulfill_core_requirement(self, req: 'degreeReq.DegreeReq') -> List['course.Course']:
-        pass
+        courses = handle_filter(req.filter, [])
+        # assert req.fulfilled(courses)
+        return courses
 
     # find an appropriate term in which to take a given course
     def find_term(self, course: 'course.Course') -> 'term.Term':
@@ -61,24 +59,25 @@ class Generator(object):
             # if we can take the course in this term
             if program.unit_count(term) <= self.unit_cap_term + course.units:
                 if course.has_offering(term) and course.prereqs_fulfilled(program, term):
+                    # what about coreqs? exclusions?
                 return term
         return None
     
-    # #
-    # def handle_filter(self, filter: 'courseFilter.CourseFilter'):
+    # Produce a list of courses that fulfill a core filter
+    def handle_filter(self, filter: 'courseFilter.CourseFilter',
+                courses: List['course.Course']) -> List['course.Course']:
 
-    #     if isinstance(req.filter, SpecificCourseFilter):
-    #         term = find_term(req.course)
-    #         program.add_course(req.course, term)                    
+        if isinstance(filter, SpecificCourseFilter):
+            courses.append(filter.course)
 
-    #     else if isinstance(req, OrFilter):
-    #         for filter in req.filters:
-    #             handle_filter(filter)
+        else if isinstance(filter, OrFilter):
+            handle_filter(filter.filters[0], courses)
 
-    #     else if isinstance(req, AndFilter):
-    #         for filter in req.filters:
-    #             handle_filter(filter)
+        else if isinstance(filter, AndFilter):
+            for f in filter.filters:
+                handle_filter(f, courses)
 
+        return courses
 
 
 

@@ -17,7 +17,7 @@ import courseFilter
 import program
 
 
-class FieldFilter(courseFilter.CourseFilter):
+class AndFilter(courseFilter.CourseFilter):
 
     def __init__(self, filters: List[courseFilter.CourseFilter]):
         super().__init__()
@@ -28,9 +28,9 @@ class FieldFilter(courseFilter.CourseFilter):
     @abstractmethod
     def core(self) -> bool:
         for filter in self.filters:
-            if filter.core:
-                return True
-        return False
+            if not filter.core:
+                return False
+        return True
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter

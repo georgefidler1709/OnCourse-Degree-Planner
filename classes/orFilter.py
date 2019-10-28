@@ -28,9 +28,9 @@ class OrFilter(courseFilter.CourseFilter):
     @abstractmethod
     def core(self) -> bool:
         for filter in self.filters:
-            if filter.core:
-                return True
-        return False
+            if not filter.core:
+                return False
+        return True
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter

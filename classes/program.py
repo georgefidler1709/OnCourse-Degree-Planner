@@ -26,6 +26,9 @@ class Program(object):
         self.degree = degree # degree.Degree
         self.courses = coursesTaken # <List>CourseEnrollments
 
+    def __repr__(self) -> str:
+        return f"<Program degree={self.degree!r}, courses={self.courses!r}>"
+
     def add_course(self, course: 'course.Course', term: term.Term) -> None:
         enrollment = courseEnrollment.CourseEnrollment(course, term)
         self.courses.append(enrollment)

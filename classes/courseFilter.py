@@ -24,6 +24,10 @@ class CourseFilter(ABC):
     def __init__(self):
         pass
 
+    @abstractmethod
+    def __repr__(self) -> str:
+        return f"<CourseFilter>"
+
     # The name of the requirement for the database
     @property
     @abstractmethod

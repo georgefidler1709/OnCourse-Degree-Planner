@@ -21,6 +21,9 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
         super().__init__()
         self.course = course
 
+    def __repr__(self) -> str:
+        return f"<SpecificCourseFilter course={self.course!r}>"
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:

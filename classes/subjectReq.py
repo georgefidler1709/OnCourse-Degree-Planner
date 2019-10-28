@@ -29,6 +29,9 @@ class SubjectReq(singleReq.SingleReq):
         else:
             self.min_mark = min_mark
 
+    def __repr__(self) -> str:
+        return f"<SubjectReq course={self.course!r} min_mark={self.min_mark!r}>"
+
      # The name of the requirement for the database
     @property
     def requirement_name(self) -> str:

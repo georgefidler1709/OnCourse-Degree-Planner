@@ -20,6 +20,9 @@ class Term(object):
         self.year = year
         self.term = term
 
+    def __repr__(self) -> str:
+        return f"<Term year={self.year!r} term={self.term!r}>"
+
     # Override comparison functions
     def __lt__(self, other) -> bool: # x < y
         if self.year < other.year: return True

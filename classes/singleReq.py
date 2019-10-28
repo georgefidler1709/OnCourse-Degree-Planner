@@ -25,6 +25,10 @@ class SingleReq(courseReq.CourseReq, ABC):
     def __init__(self):
         super().__init__()
 
+    @abstractmethod
+    def __repr__(self) -> str:
+        return f"<SingleReq>"
+
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     @abstractmethod

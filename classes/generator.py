@@ -22,6 +22,7 @@ class Generator(object):
         program = program.Program(self.degree, [])
         for req in degree.requirements:
             while not req.fulfilled(program):
+                pass
                 # add a new subject
 
 

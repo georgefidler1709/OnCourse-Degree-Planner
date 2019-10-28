@@ -21,6 +21,9 @@ class CourseEnrollment(object):
         self.course = course
         self.term = term
 
+    def __repr__(self) -> str:
+        return f"<CourseEnrollment course={self.course!r}, term={self.term!r}>"
+
     def course_code(self) -> str:
         return self.course.course_code
 

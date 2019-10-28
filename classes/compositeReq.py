@@ -26,6 +26,10 @@ class CompositeReq(courseReq.CourseReq, ABC):
         super().__init__()
         self.reqs = reqs # <List>courseReq.CourseReq
 
+    @abstractmethod
+    def __repr__(self) -> str:
+        return f"<CompositeReq reqs={self.reqs!r}>"
+
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     @abstractmethod

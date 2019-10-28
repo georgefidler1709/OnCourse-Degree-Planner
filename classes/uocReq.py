@@ -27,6 +27,9 @@ class UOCReq(singleReq.SingleReq):
         self.uoc = uoc
         self.filter = filter
 
+    def __repr__(self) -> str:
+        return f"<UOCReq uoc={self.uoc!r}, filter={self.filter!r}>"
+
     @property
     def requirement_name(self) -> str:
         return "UocRequirement"

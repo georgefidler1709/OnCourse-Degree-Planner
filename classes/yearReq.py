@@ -24,6 +24,9 @@ class YearReq(singleReq.SingleReq):
         super().__init__()
         self.year = year
 
+    def __repr__(self) -> str:
+        return "<YearReq year={year!r}>"
+
     @property
     def requirement_name(self) -> str:
         return "YearRequirement"

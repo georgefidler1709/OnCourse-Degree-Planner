@@ -24,6 +24,9 @@ class AndReq(compositeReq.CompositeReq):
     def __init__(self, reqs: List[courseReq.CourseReq]):
         super().__init__(reqs)
 
+    def __repr__(self) -> str:
+        return f"<AndReq reqs={self.reqs!r}>"
+
     # The name of the requirement for the database
     @property
     def requirement_name(self) -> str:

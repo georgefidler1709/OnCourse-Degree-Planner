@@ -26,6 +26,9 @@ class DegreeReq(object):
         self.filter = filter
         super().__init__()
 
+    def __repr__(self) -> str:
+        return f"<DegreeReq uoc={self.uoc!r}, filter={self.filter!r}>"
+
     # Input: a program of study
     # Return: whether this prorgram would fulfil this degree requirement
     def fulfilled(self, program: Optional['program.Program']) -> bool:

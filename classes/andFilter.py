@@ -23,6 +23,9 @@ class AndFilter(courseFilter.CourseFilter):
         super().__init__()
         self.filters = filters
 
+    def __repr__(self) -> str:
+        return f"<AndFilter filters={self.filters!r}>"
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:

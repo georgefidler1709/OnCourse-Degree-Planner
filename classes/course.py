@@ -35,6 +35,10 @@ class Course(object):
         self.coreqs = coreqs
         self.exclusions = exclusions
 
+    def __repr__(self) -> str:
+        return f"<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>"
+
+
     # returns the SUBJxxxx course code
     @property
     def course_code(self) -> str:

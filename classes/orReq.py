@@ -24,9 +24,12 @@ class OrReq(compositeReq.CompositeReq):
     def __init__(self, reqs: List[courseReq.CourseReq]):
         super().__init__(reqs)
 
+    def __repr__(self) -> str:
+        return f"<OrReq reqs={self.reqs!r}>"
+
     @property
     def requirement_name(self) -> str:
-        return "AndRequirement"
+        return "OrRequirement"
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled

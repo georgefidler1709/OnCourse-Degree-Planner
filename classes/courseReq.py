@@ -25,6 +25,10 @@ class CourseReq(ABC):
     def __init__(self):
         super().__init__()
 
+    @abstractmethod
+    def __repr__(self) -> str:
+        return f"<CourseReq>"
+
     # The name of the requirement for the database
     @property
     @abstractmethod

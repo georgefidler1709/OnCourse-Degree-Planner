@@ -24,6 +24,9 @@ class EnrollmentReq(singleReq.SingleReq):
         super().__init__()
         self.degree = degree
 
+    def __repr__(self) -> str:
+        return f"<EnrollmentReq degree={self.degree!r}>"
+
 
     @property
     def requirement_name(self) -> str:

@@ -20,6 +20,9 @@ class FreeElectiveFilter(courseFilter.CourseFilter):
     def __init__(self):
         super().__init__()
 
+    def __repr__(self) -> str:
+        return f"<FreeElectiveFilter>"
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:

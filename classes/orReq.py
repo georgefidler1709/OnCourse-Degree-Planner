@@ -12,11 +12,11 @@ A course requirement that requires at least one of multiple requirements to be m
 
 from typing import List
 
-import compositeReq
-import course
-import courseReq
-import term
-import program
+from . import compositeReq
+from . import course
+from . import courseReq
+from . import term
+from . import program
 
 
 class OrReq(compositeReq.CompositeReq):

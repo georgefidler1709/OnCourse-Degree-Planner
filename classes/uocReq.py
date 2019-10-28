@@ -13,11 +13,11 @@ to enrolling, sometimes from a specific list of subjects
 
 from typing import List
 
-import course
-import courseFilter
-import term
-import program
-import singleReq
+from . import course
+from . import courseFilter
+from . import term
+from . import program
+from . import singleReq
 
 
 class UOCReq(singleReq.SingleReq):

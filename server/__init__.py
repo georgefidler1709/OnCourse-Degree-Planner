@@ -1,15 +1,14 @@
-from flask import Flask;
+from flask import Flask
 
-from . import degrees;
-from . import db;
+from . import hello
+from . import db_setup
 
 def create_app() -> Flask:
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object('config.Config')
 
     with app.app_context():
-    	db.init_app(app)
-    	app.register_blueprint(degrees.degrees_bp)
+    	db_setup.init_app(app)
 
     # Populate CORS header (necessary if we are using two webservers)
     def add_cors_headers(response):

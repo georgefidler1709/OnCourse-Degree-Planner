@@ -15,9 +15,9 @@ concerning requirements.
 from flask import g
 from typing import List, Optional
 
-import courseReq
-import program
-import term
+from . import courseReq
+from . import program
+from . import term
 
 class Course(object):
 

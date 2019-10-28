@@ -13,11 +13,11 @@ study.
 
 from typing import List, Dict
 
-import course
-import courseEnrollment
-import degree
-import degreeReq
-import term
+from . import course
+from . import courseEnrollment
+from . import degree
+from . import degreeReq
+from . import term
 
 
 class Program(object):

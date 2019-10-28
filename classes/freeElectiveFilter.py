@@ -10,9 +10,9 @@ A filter that matches free electives (should be anything)
 [MORE INFO ABOUT CLASS]
 """
 
-import course
-import courseFilter
-import program
+from . import course
+from . import courseFilter
+from . import program
 
 
 class FreeElectiveFilter(courseFilter.CourseFilter):

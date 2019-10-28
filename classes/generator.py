@@ -10,7 +10,7 @@ A generator which creates a degree plan for a given degree
 [MORE INFO ABOUT CLASS]
 """
 
-import program
+from . import program
 
 class Generator(object):
 

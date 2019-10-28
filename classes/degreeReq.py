@@ -14,8 +14,8 @@ filter of courses.
 
 from typing import Optional
 
-import courseFilter
-import program
+from . import courseFilter
+from . import program
 
 
 class DegreeReq(object):

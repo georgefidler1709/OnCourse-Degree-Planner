@@ -25,7 +25,6 @@ class OrFilter(courseFilter.CourseFilter):
 
     # Returns whether this filters specific courses
     @property
-    @abstractmethod
     def core(self) -> bool:
         for filter in self.filters:
             if not filter.core:

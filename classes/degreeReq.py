@@ -27,7 +27,6 @@ class DegreeReq(ABC):
 
     # Input: a program of study
     # Return: whether this prorgram would fulfil this degree requirement
-    @abstractmethod
     def fulfilled(self, program: 'program.Program') -> bool:
         pass
 

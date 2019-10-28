@@ -26,7 +26,7 @@ class CourseFilter(ABC):
 
     # The name of the requirement for the database
     @property
-    @abstractmethod
+    #@abstractmethod
     def filter_name(self) -> str:
         return "GenericRequirement"
 
@@ -49,7 +49,7 @@ class CourseFilter(ABC):
 
     # Saves the filter in the database
     # Return: the id of the filter in the database
-    @abstractmethod
+    #@abstractmethod
     def save(self) -> int:
         g.db.execute('''insert into CourseFilters(type_id) values(?)''',
                 self.filter_id)

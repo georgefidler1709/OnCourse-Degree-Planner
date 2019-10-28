@@ -36,3 +36,11 @@ class Program(object):
     def get_outstanding_reqs(self) -> List['degreeReq.DegreeReq']:
         return self.degree.getRequirements(self.courses)
 
+    def unit_count(self, term: 'term.Term') -> int:
+        units = 0
+        for enrollment in self.courses:
+            if enrollment.term == term:
+                units += enrollment.course.units
+        return units
+
+

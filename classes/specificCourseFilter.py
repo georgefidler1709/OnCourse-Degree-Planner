@@ -23,7 +23,6 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
 
     # Returns whether this filters specific courses
     @property
-    @abstractmethod
     def core(self) -> bool:
         return True
 

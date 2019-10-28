@@ -22,8 +22,8 @@ import term
 class Course(object):
 
     def __init__(self, subject: str, code: int, name: str, units: int, terms: List[term.Term],
-            prereqs: 'courseReq.CourseReq', coreqs: 'courseReq.CourseReq', exclusions:
-            'courseReq.CourseReq'):
+            prereqs: 'courseReq.CourseReq'=None, coreqs: 'courseReq.CourseReq'=None, exclusions:
+            'courseReq.CourseReq'=None):
         # figure out inputs - database or variables?
         # to be assigned:
         self.subject = subject
@@ -45,7 +45,6 @@ class Course(object):
         return self.code//1000
 
     # Returns whether this course has an offering in the given term
-    @property
     def has_offering(self, term: term.Term) -> None:
         for t in self.terms:
             if t == term:
@@ -62,12 +61,16 @@ class Course(object):
     # Input: The program of the student trying to take the course, and the term they're taking it in
     # Return: whether the prerequisites have been fulfilled
     def prereqs_fulfilled(self, program: 'program.Program', term: term.Term) -> bool:
+        if self.prereqs is None:
+            return True
         return self.prereqs.fulfilled(program, term, coreq=False)
 
     # Input: The program of the student trying to take the course, the term they're taking it in,
     # and any additional courses they are taking that term
     # Return: whether the corequisites have been fulfilled
     def coreqs_fulfilled(self, program: 'program.Program', term: term.Term) -> bool:
+        if self.coreqs is None:
+            return True
         return self.coreqs.fulfilled(program, term, coreq=True)
 
     # THINK about corequisites - what if prerequisite OR corequisite?
@@ -75,6 +78,8 @@ class Course(object):
     # Input: The program of the student trying to take the course, the term they are taking it in
     # Return: whether any exclusion courses have been taken
     def excluded(self, program: 'program.Program', term: term.Term) -> bool:
+        if self.exclusions is None:
+            return False
         return self.exclusions.fulfilled(program, term, coreq=True)
 
     # Saves the course in the database

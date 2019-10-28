@@ -11,18 +11,21 @@ list of courses.
 [MORE INFO ABOUT CLASS]
 """
 
+import degreeReq
+import courseFilter
+import program
 
-class MaxDegreeReq(DegreeReq):
+class MaxDegreeReq(degreeReq.DegreeReq):
 
     def __init__(self, filter: 'courseFilter.CourseFilter', uoc: int):
-        super().__init__()
+        super().__init__(filter, uoc)
 
     # Input: a program of study
     # Return: whether this prorgram would fulfil this degree requirement
-    def fulfilled(self, courses: List['course.Course']) -> bool:
+    def fulfilled(self, prog: 'program.Program') -> bool:
         units = 0
         for course in courses:
-            if self.filter.accepts_course(course, program):
+            if self.filter.accepts_course(course, prog):
                 units += course.units
         return units < self.uoc
 

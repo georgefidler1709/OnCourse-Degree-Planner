@@ -17,7 +17,7 @@ import course
 import specificCourseFilter
 import andFilter
 import andReq
-import degreeReq
+import minDegreeReq
 import degree
 import program
 import term
@@ -49,7 +49,7 @@ degree_req1001 = specificCourseFilter.SpecificCourseFilter(subj1001)
 degree_req1002 = specificCourseFilter.SpecificCourseFilter(subj1002)
 degree_req1003 = specificCourseFilter.SpecificCourseFilter(subj1003)
 and_req = andFilter.AndFilter([degree_req1001, degree_req1002, degree_req1003])
-degree_req = degreeReq.DegreeReq(and_req, 18)
+degree_req = minDegreeReq.MinDegreeReq(and_req, 18)
 
 degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, [degree_req])
 

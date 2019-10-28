@@ -13,6 +13,8 @@ from flask.cli import with_appcontext
 # from db import input_data
 # from server.db import input_data
 
+import classes.university
+
 def query_db(query : str, args: Tuple = (), one = False) -> Tuple:
     # query function from flask documentation
     # https://flask.palletsprojects.com/en/1.1.x/patterns/sqlite3/#easy-querying
@@ -80,6 +82,18 @@ def init_db() -> None:
 
     # input CourseFilters and DegreeOfferingRequirements for 3778 COMPA1
     input_data.insert_compsci_degree_requirements(db=db_path)
+
+    uni = classes.university.University([], [])
+
+    degree = uni.find_degree_number_code(3778)
+    print(repr(degree))
+
+    course = uni.find_course("COMP1511")
+
+    print(repr(course))
+
+    course = uni.find_course("COMP2511")
+    print(repr(course))
 
 
 

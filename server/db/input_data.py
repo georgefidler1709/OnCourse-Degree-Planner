@@ -138,7 +138,7 @@ class Helper:
 		elif table == "CourseRequirementHierarchies":
 			check = "SELECT parent_id, child_id FROM CourseRequirementHierarchies where parent_id = ? and child_id = ?"
 		elif table == "DegreeOfferingRequirements":
-			check = "SELECT offering_id, requirement_id, uoc_needed, id FROM DegreeOfferingRequirements WHERE offering_id = ? and requirement_id = ? and uoc_needed = ?"
+			check = "SELECT offering_degree_id, offering_year_id, requirement_id, uoc_needed, id FROM DegreeOfferingRequirements WHERE offering_degree_id = ? and offering_year_id = ? and requirement_id = ? and uoc_needed = ?"
 		elif table == "CourseOfferings":
 			check = "SELECT course_id, session_year, session_term FROM CourseOfferings WHERE course_id = ? and session_year = ? and session_term = ?"
 		elif table == "CourseRequirementTypes":
@@ -381,9 +381,9 @@ class Helper:
 		if not exists:
 			raise Exception(f"DegreeOffering for year = {year} and degree_id = {degree_code} DNE")
 
-		msg = '''INSERT INTO DegreeOfferingRequirements(offering_id, requirement_id, uoc_needed)
-			VALUES (?, ?, ?)'''
-		vals = (offer_id, filter_id, uoc_needed)
+		msg = '''INSERT INTO DegreeOfferingRequirements(offering_degree_id, offering_year_id, requirement_id, uoc_needed)
+			VALUES (?, ?, ?, ?)'''
+		vals = (degree_code, year, filter_id, uoc_needed)
 		inserted_id = self.safe_insert(msg, vals, vals)
 
 		return inserted_id

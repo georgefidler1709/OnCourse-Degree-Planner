@@ -84,10 +84,14 @@ class University(object):
         # Get all of the requirements for the degree
         response = g.query_db('''select uoc_needed, requirement_id
                                  from DegreeOfferingRequirements
-                                 where offering_id = ?
+                                 where offering_degree_id = ?
                                  and offering_year_id = ?''', (numeric_code, year))
 
         requirements = []
+
+        print("Response is")
+        print(response)
+        print("\n\n\n")
 
         if need_requirements:
             for offering_requirement in response:

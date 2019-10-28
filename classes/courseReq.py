@@ -23,11 +23,11 @@ import program
 class CourseReq(ABC):
 
     def __init__(self):
-        super().__init__()
+        pass
 
     # The name of the requirement for the database
     @property
-    @abstractmethod
+    # @abstractmethod
     def requirement_name(self) -> str:
         return "GenericRequirement"
 
@@ -47,7 +47,7 @@ class CourseReq(ABC):
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database
-    @abstractmethod
+    # @abstractmethod
     def save(self) -> int:
         g.db.execute('''insert into CourseRequirements(type_id) values(?)''',
                 self.requirement_id)

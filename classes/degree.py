@@ -31,12 +31,13 @@ class Degree(object):
 
     # Input: either nothing or a list of completed courses (<List>CourseEnrollment)
     # Return: list of requirements remaining for completion
-    def get_requirements(self, program: 'program.Program'=None) -> Dictionary{('degreeReq.DegreeReq', int)}:
-        remaining = {}
-        for req in self.requirements:
-            if not req.fulfilled(program):
-                remaining[req] = req.remaining(program)
-        return remaining
+    def get_requirements(self, program: 'program.Program'=None):
+        # remaining = {}
+        # for req in self.requirements:
+        #     if not req.fulfilled(program):
+        #         remaining[req] = req.remaining(program)
+        # return remaining
+        pass
 
     # Input: list of courses completed
     # Return: boolean indicating whether degree completed

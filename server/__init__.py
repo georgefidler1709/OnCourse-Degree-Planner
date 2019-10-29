@@ -8,7 +8,6 @@ def create_app() -> Flask:
     app.config.from_object('config.Config')
 
     with app.app_context():
-
     	db_setup.init_app(app)
     	app.register_blueprint(degrees.degrees_bp)
 

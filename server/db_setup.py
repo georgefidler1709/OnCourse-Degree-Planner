@@ -2,14 +2,27 @@
 Set up Flask connection to database
 https://flask.palletsprojects.com/en/1.1.x/tutorial/database/
 '''
+
+from typing import Tuple
+
 import os
 import sqlite3
 import click
 from flask import current_app, g, Flask
 from flask.cli import with_appcontext
-
 # from db import input_data
 # from server.db import input_data
+
+import classes.university
+
+def query_db(query : str, args: Tuple = (), one = False) -> Tuple:
+    # query function from flask documentation
+    # https://flask.palletsprojects.com/en/1.1.x/patterns/sqlite3/#easy-querying
+
+    cur = get_db().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
 
 def get_db() -> sqlite3.Connection:
     if 'db' not in g:
@@ -18,6 +31,8 @@ def get_db() -> sqlite3.Connection:
             detect_types=sqlite3.PARSE_DECLTYPES
         )
         g.db.row_factory = sqlite3.Row
+        # Add an easier way to query the database
+        g.query_db = query_db
 
     return g.db
 
@@ -69,11 +84,30 @@ def init_db() -> None:
     input_data.insert_compsci_degree_requirements(db=db_path)
 
 
+    # Temporary pseudo-testing just to make sure loading from db works
+    '''
+    uni = classes.university.University([], [])
+
+    degree = uni.find_degree_number_code(3778)
+    print(repr(degree))
+
+    course = uni.find_course("COMP1511")
+
+    print(repr(course))
+
+    course = uni.find_course("COMP2511")
+    print(repr(course))
+    '''
+
+
+
+
 
 
 def init_app(app : Flask) -> None:
     '''
     Init database for given flask app
     '''
+
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db)

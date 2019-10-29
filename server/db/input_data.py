@@ -130,7 +130,7 @@ class Helper:
 				check = "SELECT type_id, year, id from CourseRequirements WHERE type_id = ? and year = ?"
 			elif type_id == 4:
 				# UOC requirement
-				check = "SELECT type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_requirements, id FROM CourseRequirements WHERE type_id = ? and uoc_amount_required = ? and uoc_min_level = ? and uoc_subject = ? and uoc_course_requirements = ?"
+				check = "SELECT type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_filter, id FROM CourseRequirements WHERE type_id = ? and uoc_amount_required = ? and uoc_min_level = ? and uoc_subject = ? and uoc_course_filter = ?"
 			# elif type_id == 5:
 			# 	# and
 			# 	# TODO hard! have to go look for hierarchy tables
@@ -244,7 +244,7 @@ class Helper:
 
 	def make_course_req(self, ty, min_mark=None, course=None, degree_id=None,
 		year=None, uoc_amount_required=None, uoc_min_level=None, uoc_subject=None, 
-		uoc_course_requirements=None):
+		uoc_course_filter=None):
 		'''
 		Add an entry to CourseRequirements. Base types only.
 		<ty> in ["completed", "current", "year", "uoc", parsed into type_id
@@ -279,8 +279,8 @@ class Helper:
 			last = self.safe_insert(msg, val_tuple, val_tuple, type_id)
 		elif ty == "uoc":
 			msg = '''INSERT INTO CourseRequirements(type_id, uoc_amount_required, uoc_min_level, 
-				uoc_subject, uoc_course_requirements) VALUES (?, ?, ?, ?, ?)'''
-			val_tuple = (type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_requirements)
+				uoc_subject, uoc_course_filter) VALUES (?, ?, ?, ?, ?)'''
+			val_tuple = (type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_filter)
 			last = self.safe_insert(msg, val_tuple, val_tuple, type_id)
 
 		return last
@@ -385,9 +385,9 @@ class Helper:
 		if not exists:
 			raise Exception(f"DegreeOffering for year = {year} and degree_id = {degree_code} DNE")
 
-		msg = '''INSERT INTO DegreeOfferingRequirements(offering_degree_id, offering_year_id, 
-			requirement_id, uoc_needed) VALUES (?, ?, ?, ?)'''
-		vals = (offer_id, year, filter_id, uoc_needed)
+		msg = '''INSERT INTO DegreeOfferingRequirements(offering_degree_id, offering_year_id, requirement_id, uoc_needed)
+			VALUES (?, ?, ?, ?)'''
+		vals = (degree_code, year, filter_id, uoc_needed)
 		inserted_id = self.safe_insert(msg, vals, vals)
 
 		return inserted_id

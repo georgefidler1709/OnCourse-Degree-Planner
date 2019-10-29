@@ -13,11 +13,11 @@ to enrolling, sometimes from a specific list of subjects
 
 from typing import List
 
-import course
-import courseFilter
-import term
-import program
-import singleReq
+from . import course
+from . import courseFilter
+from . import term
+from . import program
+from . import singleReq
 
 
 class UOCReq(singleReq.SingleReq):
@@ -27,9 +27,21 @@ class UOCReq(singleReq.SingleReq):
         self.uoc = uoc
         self.filter = filter
 
+    def __repr__(self) -> str:
+        return f"<UOCReq uoc={self.uoc!r}, filter={self.filter!r}>"
+
+    @property
+    def requirement_name(self) -> str:
+        return "UocRequirement"
+
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: program.Program, term: term.Term,
-            additional_courses: List[course.Course]=[], coreq: bool=False) -> bool:
+            coreq: bool=False) -> bool:
+        pass
+
+    # Saves the requirement in the database
+    # Return: the id of the requirement in the database
+    def save(self) -> int:
         # TODO
         pass

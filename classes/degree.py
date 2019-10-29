@@ -15,39 +15,48 @@ requirements.
 """
 
 from flask import g
-from typing import List
-import courseEnrollment
-import degreeReq
+from typing import List, Dict, Optional
+from . import courseEnrollment
+from . import degreeReq
+from . import program
 
 class Degree(object):
 
-    def __init__(self, alpha_code: str, num_code: int, name: str, year: int, requirements:
+    def __init__(self, num_code: int, name: str, year: int, duration: int, requirements:
             List['degreeReq.DegreeReq']):
-        self.alpha_code = alpha_code
         self.num_code = num_code
         self.name = name
         self.year = year
+        self.duration = duration
         self.requirements = requirements
+
+    def __repr__(self) -> str:
+        return f"<Degree num_code={self.num_code!r}, name={self.name!r}, year={self.year!r}, duration={self.duration!r}, requirements={self.requirements!r}>"
 
     # Input: either nothing or a list of completed courses (<List>CourseEnrollment)
     # Return: list of requirements remaining for completion
-    def getRequirements(self, courses: List['courseEnrollment.CourseEnrollment']=None) -> List['degreeReq.DegreeReq']:
-        # TODO
-        pass
+    def get_requirements(self, program: Optional['program.Program']=None) -> Dict[('degreeReq.DegreeReq', int)]:
+        remaining = {}
+        for req in self.requirements:
+            if not req.fulfilled(program):
+                remaining[req] = req.remaining(program)
+        return remaining
 
     # Input: list of courses completed
     # Return: boolean indicating whether degree completed
-    def complete(self, courses: List['courseEnrollment.CourseEnrollment']) -> bool:
-        # TODO
-        # NOTE we might have to consider how to handle one course
-        # fulfilling multiple requirements
-        pass
+    # NOTE we might have to consider how to handle one course
+    # fulfilling multiple requirements
+    def complete(self, program: 'program.Program') -> bool:
+        remaining = self.get_requirements()
+        if len(remaining) == 0:
+            return True
+        return False
 
     # Saves degree into the database
     # Return: the id of the degree
     def save(self) -> int:
         g.db.execute('insert or ignore into Degrees(name, code, id) values(?, ?, ?)', self.name,
-                self.alpha_code,
+                self.name,
                 self.num_code)
 
         g.db.execute('insert into DegreeOfferings(year, degree_id) values (?, ?)', self.year,

@@ -12,10 +12,10 @@ The course requirement to be in a specific year of a degree before enrolling
 
 from typing import List
 
-import course
-import term
-import program
-import singleReq
+from . import course
+from . import term
+from . import program
+from . import singleReq
 
 
 class YearReq(singleReq.SingleReq):
@@ -24,8 +24,22 @@ class YearReq(singleReq.SingleReq):
         super().__init__()
         self.year = year
 
+    def __repr__(self) -> str:
+        return "<YearReq year={year!r}>"
+
+    @property
+    def requirement_name(self) -> str:
+        return "YearRequirement"
+
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: program.Program, term: term.Term,
-            additional_courses: List[course.Course]=[], coreq: bool=False) -> bool:
+            coreq: bool=False) -> bool:
+        pass
+
+
+    # Saves the requirement in the database
+    # Return: the id of the requirement in the database
+    def save(self) -> int:
+        # TODO
         pass

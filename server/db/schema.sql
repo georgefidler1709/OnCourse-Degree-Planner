@@ -83,14 +83,14 @@ create table CourseRequirements (
 	uoc_amount_required integer,
 	uoc_min_level integer,
 	uoc_subject char(4),
-	uoc_course_requirements integer references CourseRequirements,
+	uoc_course_filter integer references CourseFilters,
 
 	id integer primary key,
 	-- And and Or requirements have relationships in CourseRequirementHierarchies
 	unique(type_id, min_mark, course_id),
 	unique(type_id, degree_id),
 	unique(type_id, year),
-	unique(type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_requirements)
+	unique(type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_filter)
 );
 
 -- For And and Or requirements, the parent is the And/Or and the child is another requirement

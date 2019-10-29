@@ -12,8 +12,8 @@ will be taken.
 [MORE INFO ABOUT CLASS]
 """
 
-import course
-import term
+from . import course
+from . import term
 
 class CourseEnrollment(object):
 
@@ -21,10 +21,13 @@ class CourseEnrollment(object):
         self.course = course
         self.term = term
 
-    def courseCode(self) -> str:
-        return self.course.courseCode
+    def __repr__(self) -> str:
+        return f"<CourseEnrollment course={self.course!r}, term={self.term!r}>"
 
-    def courseName(self) -> str:
+    def course_code(self) -> str:
+        return self.course.course_code
+
+    def course_name(self) -> str:
         return self.course.name
 
     def units(self) -> int:

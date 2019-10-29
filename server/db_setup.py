@@ -21,7 +21,6 @@ def query_db(query : str, args: Tuple = (), one = False) -> Tuple:
 
     cur = get_db().execute(query, args)
     rv = cur.fetchall()
-    cur.close()
     return (rv[0] if rv else None) if one else rv
 
 def get_db() -> sqlite3.Connection:

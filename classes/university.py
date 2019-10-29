@@ -10,9 +10,8 @@ Implementation of the University class which is a database of courses and progra
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import Dict, List, Optional
-from flask import g
-from sqlite3 import Row
+from typing import Dict, List, Optional, Callable, Tuple
+from sqlite3 import Row, Connection
 
 from . import andFilter
 from . import andReq
@@ -32,25 +31,24 @@ from . import subjectReq
 from . import term
 from . import uocReq
 from . import yearReq
+from . import apiTypes
 
 # Temporary: only allow 2019 results
 YEAR = 2019
 
-
 class University(object):
 
-    def __init__(self, degrees: List['degree.Degree'], courses: List['course.Course']):
+    def __init__(self, query_db: Callable[[str, Tuple, bool], Tuple]):
         # need to decide how degree/course details passed in
         # unpack and create degree.Degree and course.Course objects
-        self.degrees = degrees
-        self.courses = courses
+        self.query_db = query_db
         self.course_requirement_types = self.load_course_requirement_types()
         self.course_filter_types = self.load_course_filter_types()
 
     # Input: degree letter code (eg. COMPA1)
     # Return: corresponding degree.Degree object
     def find_degree_alpha_code(self, letter_code: str) -> Optional['degree.Degree']:
-        response = g.query_db('''select id
+        response = self.query_db('''select id
                                  from Degrees
                                  where code = ?''', (letter_code,), one=True)
         if response is None:
@@ -71,7 +69,7 @@ class University(object):
     # Return: corresponding Degree object
     def load_degree(self, numeric_code: int, need_requirements: bool=True) -> Optional['degree.Degree']:
         year = YEAR
-        response = g.query_db('''select name, code
+        response = self.query_db('''select name, code
                                  from Degrees
                                  where id = ?''', (numeric_code,), one=True)
 
@@ -82,7 +80,7 @@ class University(object):
         name, alpha_code = response
 
         # Get all of the requirements for the degree
-        response = g.query_db('''select uoc_needed, requirement_id
+        response = self.query_db('''select uoc_needed, requirement_id
                                  from DegreeOfferingRequirements
                                  where offering_degree_id = ?
                                  and offering_year_id = ?''', (numeric_code, year))
@@ -115,7 +113,7 @@ class University(object):
         subject = code[:4]
         numeric_code = code[4:]
 
-        response = g.query_db('''select id
+        response = self.query_db('''select id
                                  from Courses
                                  where letter_code = ?
                                  and number_code = ?''', (subject, numeric_code), one=True)
@@ -129,7 +127,7 @@ class University(object):
     # (same as for load_degree)
     # Return: corresponding Course object
     def load_course(self, course_id: int, need_requirements: bool=True) -> Optional['course.Course']:
-        response = g.query_db('''select letter_code, number_code, name, units, prereq, coreq, exclusion
+        response = self.query_db('''select letter_code, number_code, name, units, prereq, coreq, exclusion
                                  from Courses
                                  where id = ?''', (course_id, ), one=True)
 
@@ -140,7 +138,7 @@ class University(object):
         subject, numeric_code, name, units, prereq_id, coreq_id, exclusion_id = response
 
         # Get the terms that the course runs in
-        response = g.query_db('''select session_year, session_term
+        response = self.query_db('''select session_year, session_term
                                  from CourseOfferings
                                  where course_id = ?''', (course_id, ))
         terms = []
@@ -167,7 +165,7 @@ class University(object):
     # Return: A dictionary containing the ids of each course requirement type along with their names
     def load_course_requirement_types(self) -> Dict[int, str]:
         requirement_types: Dict[int, str] = {}
-        response = g.query_db('''select id, name
+        response = self.query_db('''select id, name
                                  from CourseRequirementTypes''')
 
         for requirement_type in response:
@@ -179,7 +177,7 @@ class University(object):
     # Return: A dictionary containing the ids of each course filter type along with their names
     def load_course_filter_types(self) -> Dict[int, str]:
         filter_types: Dict[int, str] = {}
-        response = g.query_db('''select id, name
+        response = self.query_db('''select id, name
                                  from CourseFilterTypes''')
 
         for filter_type in response:
@@ -195,7 +193,7 @@ class University(object):
             # Courses might not have prereqs/coreqs/exclusions
             return None
 
-        response = g.query_db('''select *
+        response = self.query_db('''select *
                                  from CourseRequirements
                                  where id = ?''', (requirement_id, ), one=True)
 
@@ -281,7 +279,7 @@ class University(object):
     # Return: The relevant requirement
     def load_and_requirement(self, requirement_data: Row) -> 'andReq.AndReq':
         requirement_id = requirement_data['id']
-        results = g.query_db('''select child_id
+        results = self.query_db('''select child_id
                                 from CourseRequirementHierarchies
                                 where parent_id = ?''', (requirement_id, ))
         children = []
@@ -299,7 +297,7 @@ class University(object):
     # Return: The relevant requirement
     def load_or_requirement(self, requirement_data: Row) -> 'orReq.OrReq':
         requirement_id = requirement_data['id']
-        results = g.query_db('''select child_id
+        results = self.query_db('''select child_id
                                 from CourseRequirementHierarchies
                                 where parent_id = ?''', (requirement_id, ))
         children = []
@@ -316,7 +314,7 @@ class University(object):
     # Input: the id of the course filter
     # Return: The course filter in question
     def load_course_filter(self, filter_id: int) -> Optional['courseFilter.CourseFilter']:
-        response = g.query_db('''select *
+        response = self.query_db('''select *
                                  from CourseFilters
                                  where id = ?''', (filter_id, ), one=True)
 
@@ -385,7 +383,7 @@ class University(object):
     # Return: The relevant filter
     def load_and_filter(self, filter_data: Row) -> 'andFilter.AndFilter':
         filter_id = filter_data['id']
-        results = g.query_db('''select child_id
+        results = self.query_db('''select child_id
                                 from CourseFilterHierarchies
                                 where parent_id = ?''', (filter_id, ))
         children = []
@@ -404,7 +402,7 @@ class University(object):
     # Return: The relevant filter
     def load_or_filter(self, filter_data: Row) -> 'orFilter.OrFilter':
         filter_id = filter_data['id']
-        results = g.query_db('''select child_id
+        results = self.query_db('''select child_id
                                 from CourseFilterHierarchies
                                 where parent_id = ?''', (filter_id, ))
         children = []
@@ -418,5 +416,8 @@ class University(object):
 
         return orFilter.OrFilter(children)
 
-
-
+    # Return: Jsonifiable dict that contains minimal data to display to the user in a menu
+    def get_simple_degrees(self) -> apiTypes.SimpleDegrees:
+        response = self.query_db('''select name, code
+                                 from Degrees''')
+        return [apiTypes.SimpleDegree(id=i['code'], name=i['name']) for i in response];

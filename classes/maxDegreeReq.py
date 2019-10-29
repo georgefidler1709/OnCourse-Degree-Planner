@@ -15,6 +15,8 @@ from typing import List
 import degreeReq
 import courseFilter
 import program
+import course
+import degree
 
 class MaxDegreeReq(degreeReq.DegreeReq):
 

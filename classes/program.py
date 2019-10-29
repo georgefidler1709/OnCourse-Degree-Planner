@@ -11,7 +11,7 @@ study.
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List
+from typing import List, Optional
 
 import course
 import courseEnrollment
@@ -36,7 +36,7 @@ class Program(object):
 
     # Input: a course
     # Return: term in which that course is taken
-    def term_taken(self, course: 'course.Course') -> 'term.Term':
+    def term_taken(self, course: 'course.Course') -> Optional['term.Term']:
         for enrollment in self.courses:
             if enrollment.course == course:
                 return enrollment.term

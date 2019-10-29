@@ -17,6 +17,8 @@ from typing import List
 
 import courseReq
 import term
+import course
+import program
 
 class Course(object):
 

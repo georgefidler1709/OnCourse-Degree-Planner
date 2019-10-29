@@ -16,6 +16,8 @@ from abc import ABC, abstractmethod
 from typing import List
 import courseFilter
 import program
+import course
+import degree
 
 
 class DegreeReq(ABC):

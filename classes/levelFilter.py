@@ -12,7 +12,7 @@ based on course level.
 """
 
 import course
-import program
+import degree
 
 
 class LevelFilter(CourseFilter):
@@ -23,5 +23,5 @@ class LevelFilter(CourseFilter):
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     @abstractmethod
-    def accepts_course(self, course: 'course.Course', program: 'program.Program') -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
         return course.level() == self.level

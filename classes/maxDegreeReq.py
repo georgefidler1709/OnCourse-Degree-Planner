@@ -11,6 +11,7 @@ list of courses.
 [MORE INFO ABOUT CLASS]
 """
 
+from typing import List
 import degreeReq
 import courseFilter
 import program
@@ -20,13 +21,13 @@ class MaxDegreeReq(degreeReq.DegreeReq):
     def __init__(self, filter: 'courseFilter.CourseFilter', uoc: int):
         super().__init__(filter, uoc)
 
-    # Input: a program of study
-    # Return: whether this prorgram would fulfil this degree requirement
-    def fulfilled(self, prog: 'program.Program') -> bool:
+    # Input: a degree and a list of courses
+    # Return: whether this course list would fulfil this degree requirement
+    def fulfilled(self, courses: List['course.Course'], deg: 'degree.Degree') -> bool:
         units = 0
-        for course in courses:
-            if self.filter.accepts_course(course, prog):
-                units += course.units
+        for c in courses:
+            if self.filter.accepts_course(c, deg):
+                units += c.units
         return units < self.uoc
 
 

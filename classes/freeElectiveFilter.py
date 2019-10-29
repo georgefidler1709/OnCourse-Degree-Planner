@@ -12,7 +12,7 @@ A filter that matches free electives (should be anything)
 
 import course
 import courseFilter
-import program
+import degree
 
 
 class FieldFilter(courseFilter.CourseFilter):
@@ -22,5 +22,5 @@ class FieldFilter(courseFilter.CourseFilter):
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: course.Course, program: program.Program) -> bool:
+    def accepts_course(self, course: course.Course, degree: degree.Degree) -> bool:
         return True

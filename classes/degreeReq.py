@@ -13,6 +13,7 @@ filter of courses.
 """
 
 from abc import ABC, abstractmethod
+from typing import List
 import courseFilter
 import program
 
@@ -25,10 +26,10 @@ class DegreeReq(ABC):
         self.filter = filter
         super().__init__()
 
-    # Input: a program of study
-    # Return: whether this prorgram would fulfil this degree requirement
+    # Input: a degree and a list of courses
+    # Return: whether this course list would fulfil this degree requirement
     @abstractmethod
-    def fulfilled(self, prog: 'program.Program') -> bool:
+    def fulfilled(self, courses: List['course.Course'], deg: 'degree.Degree') -> bool:
         pass
 
     # Return whether this is a core requirement

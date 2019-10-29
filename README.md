@@ -19,6 +19,10 @@ Make sure `./server/db/university.db` exists. Otherwise first run `./start.sh in
 
 From root folder, run `./start.sh run`. 
 
+# Run Static Server (development mode)
+
+From frontend folder run `npm start`. this only needs to be done once. see `/frontend/README.md` for details
+
 # Regenerate Database
 
 From root folder, run `./start.sh init-db`. 

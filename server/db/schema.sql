@@ -1,5 +1,6 @@
 create table Degrees (
-	name varchar(100),
+    name varchar(100),
+    code varchar(100) unique,
 	id integer primary key
 );
 
@@ -16,6 +17,7 @@ create table Courses (
 	level integer required check (level > 0),
 
 	name varchar(100),
+    units integer required check(units > 0),
 
 	prereq integer references CourseRequirements(id),
 	coreq integer references CourseRequirements(id),
@@ -100,7 +102,9 @@ create table CourseRequirementHierarchies (
 );
 
 create table DegreeOfferingRequirements (
-	offering_id integer required references DegreeOfferings(degree_id),
+
+	offering_degree_id integer required references DegreeOfferings(degree_id),
+    offering_year_id integer required references DegreeOfferings(year),
 	requirement_id integer required references CourseFilters(id),
 	uoc_needed integer required check(uoc_needed > 0),
 	id integer primary key

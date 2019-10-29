@@ -26,7 +26,25 @@ class Program(object):
         self.degree = degree # degree.Degree
         self.courses = coursesTaken # <List>CourseEnrollments
 
+    # Input: a course
+    # Return: Whether there is already an enrollment for this course in this term
+    def enrolled(self, course: 'course.Course') -> bool:
+        for enrollment in self.courses:
+            if enrollment.course == course:
+                return True
+        return False
+
+    # Input: a course
+    # Return: term in which that course is taken
+    def term_taken(self, course: 'course.Course') -> 'term.Term':
+        for enrollment in self.courses:
+            if enrollment.course == course:
+                return enrollment.term
+        return None
+
     def add_course(self, course: 'course.Course', term: term.Term) -> None:
+        if self.enrolled(course):
+            return
         enrollment = courseEnrollment.CourseEnrollment(course, term)
         self.courses.append(enrollment)
 

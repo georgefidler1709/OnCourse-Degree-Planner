@@ -16,14 +16,13 @@ from flask import g
 from typing import List
 
 import courseReq
-import program
 import term
 
 class Course(object):
 
     def __init__(self, subject: str, code: int, name: str, units: int, terms: List[term.Term],
             prereqs: 'courseReq.CourseReq'=None, coreqs: 'courseReq.CourseReq'=None, exclusions:
-            'courseReq.CourseReq'=None):
+            List['course.Course']=None, equivalents: List['course.Course']=None):
         # figure out inputs - database or variables?
         # to be assigned:
         self.subject = subject
@@ -34,6 +33,7 @@ class Course(object):
         self.prereqs = prereqs
         self.coreqs = coreqs
         self.exclusions = exclusions
+        self.equivalents = equivalents
 
     # returns the SUBJxxxx course code
     @property
@@ -55,6 +55,12 @@ class Course(object):
     def add_offering(self, term: term.Term) -> None:
         self.terms.append(term)
 
+    # Add an equivalent to this course
+    def add_equivalent(self, c):
+        if self.equivalents is None:
+            self.equivalents = []
+        self.equivalents.append(c)
+
     # Possibly need to be able to modify prereqs/coreqs?
     # Later release
 
@@ -63,7 +69,7 @@ class Course(object):
     def prereqs_fulfilled(self, program: 'program.Program', term: term.Term) -> bool:
         if self.prereqs is None:
             return True
-        return self.prereqs.fulfilled(program, term, coreq=False)
+        return self.prereqs.fulfilled(program, term)
 
     # Input: The program of the student trying to take the course, the term they're taking it in,
     # and any additional courses they are taking that term
@@ -73,14 +79,25 @@ class Course(object):
             return True
         return self.coreqs.fulfilled(program, term, coreq=True)
 
-    # THINK about corequisites - what if prerequisite OR corequisite?
-
     # Input: The program of the student trying to take the course, the term they are taking it in
     # Return: whether any exclusion courses have been taken
-    def excluded(self, program: 'program.Program', term: term.Term) -> bool:
+    def excluded(self, prog: 'program.Program', term: term.Term) -> bool:
         if self.exclusions is None:
             return False
-        return self.exclusions.fulfilled(program, term, coreq=True)
+        for course in self.exclusions:
+            if prog.enrolled(course) and prog.term_taken(course) <= term:
+                 return True
+        return False
+
+    # Input: a course
+    # Return: whether it is an equivalent course
+    def equivalent(self, other: 'course. Course') -> bool:
+        if self.equivalents is None:
+            return False
+        for c in self.equivalents:
+            if c == other:
+                return True
+        return False
 
     # Saves the course in the database
     # Return: the id of the course

@@ -34,7 +34,7 @@ class SubjectReq(singleReq.SingleReq):
     def fulfilled(self, prog: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
         for enrollment in prog.courses:
-            if enrollment.course == self.course:
+            if enrollment.course == self.course or enrollment.course.equivalent(self.course):
                 if (coreq and enrollment.term <= term) or (enrollment.term < term):
                     return True
         return False

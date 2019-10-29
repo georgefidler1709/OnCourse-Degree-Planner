@@ -12,7 +12,7 @@ A filter that matches only one course
 
 import course
 import courseFilter
-import program
+import degree
 
 
 class SpecificCourseFilter(courseFilter.CourseFilter):
@@ -28,5 +28,5 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: course.Course, program: program.Program) -> bool:
+    def accepts_course(self, course: course.Course, degree: degree.Degree) -> bool:
         return course == self.course

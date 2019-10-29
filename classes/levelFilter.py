@@ -25,4 +25,4 @@ class LevelFilter(CourseFilter):
     # Return: Whether this course matches the filter
     @abstractmethod
     def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
-        return course.level() == self.level
+        return course.level == self.level

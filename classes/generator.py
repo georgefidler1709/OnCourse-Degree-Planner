@@ -67,7 +67,7 @@ class Generator(object):
     def generate(self) -> 'program.Program':
         # create program
         prog = program.Program(self.degree, [])
-        courses = []
+        courses: List['course.Course'] = []
 
         # for each degree requirement, add courses to course list
         for req in self.degree.requirements:

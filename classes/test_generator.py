@@ -23,6 +23,28 @@ import program
 import term
 import generator
 
+t1 = term.Term(2019, 1)
+t2 = term.Term(2019, 2)
+t3 = term.Term(2019, 3)
+t4 = term.Term(2020, 1)
+t5 = term.Term(2020, 2)
+t6 = term.Term(2020, 3)
+
+# Make some courses
+# subj1001
+subj1001 = course.Course("SUBJ", 1001, "Subject1", 6, [t1, t2, t3, t4, t5, t6])
+
+# subj1002, prereq subj1001
+prereq1001 = subjectReq.SubjectReq(subj1001)
+subj1002 = course.Course("SUBJ", 1002, "Subject2", 6, [t1, t3, t4, t6], prereq1001)
+
+# subj1003, prereq subj1001 and 1002
+prereq1002 = subjectReq.SubjectReq(subj1002)
+req1001_and_1002 = andReq.AndReq([prereq1001, prereq1002])
+subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t4], req1001_and_1002)
+
+# TODO subj1004?
+
 # test with simple chain of subjects with prerequisites
 def test_single_course_requirements():
     # Make some degree requirements
@@ -34,7 +56,7 @@ def test_single_course_requirements():
     req1002 = minDegreeReq.MinDegreeReq(filter1002, 6)
     req1003 = minDegreeReq.MinDegreeReq(filter1003, 6)
 
-    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, [req1001, req1002, req1003])
+    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, [req1001, req1002, req1003], 'BAT1')
 
     gen = generator.Generator(degree1)
     prog = gen.generate()
@@ -213,25 +235,6 @@ def test_requirement_ordering():
     assert prog.term_taken(subj1003) == t4
 
 
-t1 = term.Term(2019, 1)
-t2 = term.Term(2019, 2)
-t3 = term.Term(2019, 3)
-t4 = term.Term(2020, 1)
-t5 = term.Term(2020, 2)
-t6 = term.Term(2020, 3)
-
-# Make some courses
-# subj1001
-subj1001 = course.Course("SUBJ", 1001, "Subject1", 6, [t1, t2, t3, t4, t5, t6])
-
-# subj1002, prereq subj1001
-prereq1001 = subjectReq.SubjectReq(subj1001)
-subj1002 = course.Course("SUBJ", 1002, "Subject2", 6, [t1, t3, t4, t6], prereq1001)
-
-# subj1003, prereq subj1001 and 1002
-prereq1002 = subjectReq.SubjectReq(subj1002)
-req1001_and_1002 = andReq.AndReq([prereq1001, prereq1002])
-subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t4], req1001_and_1002)
 
 test_single_course_requirements()
 test_simple_or_requirement()

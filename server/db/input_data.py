@@ -9,6 +9,7 @@ class Helper:
 	def __init__(self, dbaddr='university.db'):
 		self.db = sqlite3.connect(dbaddr)
 		self.cursor = self.db.cursor()
+		self.cursor.row_factory = sqlite3.Row
 
 	def get_course_id(self, course):
 		'''
@@ -37,8 +38,11 @@ class Helper:
 		if len(results) == 0:
 			return False, None
 		else:
-			if 'id' in results[0]:
+			if 'id' in results[0].keys():
 				item_id = results[0]['id']
+			elif 'degree_id' in results[0].keys():
+				# DegreeOfferings table only has 'degree_id' not 'id'
+				item_id = results[0]['degree_id']
 			else:
 				# some tables don't have a separate id
 				item_id = None
@@ -96,16 +100,16 @@ class Helper:
 
 			if type_id == 1:
 				# specific course filter
-				check = "SELECT type_id, min_mark, course_id FROM CourseFilters where type_id = ? and min_mark = ? and course_id = ?"
+				check = "SELECT type_id, min_mark, course_id, id FROM CourseFilters where type_id = ? and min_mark = ? and course_id = ?"
 			elif type_id == 2:
 				# gened filter
-				check = "SELECT type_id FROM CourseFilters where type_id = ?"
+				check = "SELECT type_id, id FROM CourseFilters where type_id = ?"
 			elif type_id == 3:
 				# field filter
-				check = "SELECT type_id, field_code, level FROM CourseFilters where type_id = ? and field_code = ? and level = ?"
+				check = "SELECT type_id, field_code, level, id FROM CourseFilters where type_id = ? and field_code = ? and level = ?"
 			elif type_id == 4:
 				# free elective filter
-				check = "SELECT type_id FROM CourseFilters where type_id = ?"
+				check = "SELECT type_id, id FROM CourseFilters where type_id = ?"
 			# TODO not checking AND or OR requirements yet cuz complicated
 
 		elif table == "CourseFilterHierarchies":
@@ -709,6 +713,6 @@ if __name__ == "__main__":
 	# compsci_course_reqs()
 	# insert_sessions()
 	# insert_course_offerings()
-	# insert_compsci_degree_requirements()
+	insert_compsci_degree_requirements()
 
 	pass

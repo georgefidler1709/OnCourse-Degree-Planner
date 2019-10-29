@@ -1,7 +1,7 @@
 from flask import Flask
 
-from . import hello
 from . import db_setup
+from . import degrees
 
 def create_app() -> Flask:
     app = Flask(__name__, instance_relative_config=False)
@@ -9,6 +9,7 @@ def create_app() -> Flask:
 
     with app.app_context():
     	db_setup.init_app(app)
+    	app.register_blueprint(degrees.degrees_bp)
 
     # Populate CORS header (necessary if we are using two webservers)
     def add_cors_headers(response):

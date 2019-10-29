@@ -102,6 +102,7 @@ create table CourseRequirementHierarchies (
 );
 
 create table DegreeOfferingRequirements (
+
 	offering_degree_id integer required references DegreeOfferings(degree_id),
     offering_year_id integer required references DegreeOfferings(year),
 	requirement_id integer required references CourseFilters(id),

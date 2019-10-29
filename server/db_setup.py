@@ -83,6 +83,9 @@ def init_db() -> None:
     # input CourseFilters and DegreeOfferingRequirements for 3778 COMPA1
     input_data.insert_compsci_degree_requirements(db=db_path)
 
+
+    # Temporary pseudo-testing just to make sure loading from db works
+    '''
     uni = classes.university.University([], [])
 
     degree = uni.find_degree_number_code(3778)
@@ -94,6 +97,7 @@ def init_db() -> None:
 
     course = uni.find_course("COMP2511")
     print(repr(course))
+    '''
 
 
 

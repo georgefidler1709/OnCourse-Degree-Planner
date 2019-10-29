@@ -22,12 +22,12 @@ class MinDegreeReq(degreeReq.DegreeReq):
         super().__init__(filter, uoc)
 
     # Input: a program of study
-    # Return: whether this prorgram would fulfil this degree requirement
+    # Return: whether this program would fulfil this degree requirement
     def fulfilled(self, prog: 'program.Program') -> bool:
         units = 0
-        for course in courses:
-            if self.filter.accepts_course(course, prog):
-                units += course.units
+        for course_enrol in prog.courses:
+            if self.filter.accepts_course(course_enrol.course, prog):
+                units += course_enrol.course.units
         return units >= self.uoc
     
     # Input: a program of study
@@ -36,7 +36,7 @@ class MinDegreeReq(degreeReq.DegreeReq):
     # Return: number of units remaining to complete this requirement
     def remaining(self, program: 'program.Program'):
         units = 0
-        for course in program.courses:
-            if self.filter.accepts_course(course, program):
-                units += course.units
+        for course_enrol in program.courses:
+            if self.filter.accepts_course(course_enrol.course, program):
+                units += course_enrol.course.units
         return self.uoc - units

@@ -51,7 +51,7 @@ degree_req1003 = specificCourseFilter.SpecificCourseFilter(subj1003)
 and_req = andFilter.AndFilter([degree_req1001, degree_req1002, degree_req1003])
 degree_req = minDegreeReq.MinDegreeReq(and_req, 18)
 
-degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, [degree_req])
+degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, [degree_req], 'BATE1')
 
 gen = generator.Generator(degree1)
 prog = gen.generate()

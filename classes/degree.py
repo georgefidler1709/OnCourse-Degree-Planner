@@ -22,8 +22,9 @@ import program
 class Degree(object):
 
     def __init__(self, num_code: int, name: str, year: int, duration: int, requirements:
-            List['degreeReq.DegreeReq']):
+            List['degreeReq.DegreeReq'], alpha_code: str):
         self.num_code = num_code
+        self.alpha_code = alpha_code
         self.name = name
         self.year = year
         self.duration = duration

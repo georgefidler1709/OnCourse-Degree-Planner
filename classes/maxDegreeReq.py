@@ -24,9 +24,9 @@ class MaxDegreeReq(degreeReq.DegreeReq):
     # Return: whether this prorgram would fulfil this degree requirement
     def fulfilled(self, prog: 'program.Program') -> bool:
         units = 0
-        for course in courses:
-            if self.filter.accepts_course(course, prog):
-                units += course.units
+        for course_enrol in prog.courses:
+            if self.filter.accepts_course(course_enrol.course, prog):
+                units += course_enrol.course.units
         return units < self.uoc
 
 

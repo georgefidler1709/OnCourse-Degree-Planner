@@ -9,13 +9,16 @@ A generator which creates a degree plan for a given degree
 
 [MORE INFO ABOUT CLASS]
 """
-from typing import List
+from typing import List, Optional
 import program
 import degree
 import term
 import specificCourseFilter
 import orFilter
 import andFilter
+import courseFilter
+import course
+import degreeReq
 
 class Generator(object):
 
@@ -23,7 +26,7 @@ class Generator(object):
         self.degree = degree
         self.term_unit_cap = 18 # default for first release
         self.n_terms = 3 # 3 terms for first release
-        self.terms = []
+        self.terms: List[term.Term] = []
         # fill terms
         for year in range(degree.year, (degree.year + degree.duration)):
             for t in range(1, self.n_terms + 1):
@@ -49,13 +52,13 @@ class Generator(object):
     # given a core degree requirement, return a list of courses that would
     # fulfill that requirement
     def fulfill_core_requirement(self, req: 'degreeReq.DegreeReq') -> List['course.Course']:
-        courses = []
+        courses: List['course.Course'] = []
         self.handle_filter(req.filter, courses)
         # assert req.fulfilled(courses)
         return courses
 
     # find an appropriate term in which to take a given course
-    def find_term(self, prog: 'program.Program', course: 'course.Course') -> 'term.Term':
+    def find_term(self, prog: 'program.Program', course: 'course.Course') -> Optional['term.Term']:
         for term in self.terms:
             # if we can take the course in this term
             if prog.unit_count(term) <= self.term_unit_cap + course.units:
@@ -76,7 +79,8 @@ class Generator(object):
                 courses = self.fulfill_core_requirement(req)
                 for course in courses:
                     term = self.find_term(prog, course)
-                    prog.add_course(course, term)
+                    if term is not None:
+                        prog.add_course(course, term)
 
         # now assume all core requirements fulfilled
         return prog

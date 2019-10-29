@@ -10,10 +10,11 @@ based on course level.
 
 [MORE INFO ABOUT CLASS]
 """
+from abc import abstractmethod
 
 import course
 import program
-
+from courseFilter import CourseFilter
 
 class LevelFilter(CourseFilter):
 
@@ -24,4 +25,4 @@ class LevelFilter(CourseFilter):
     # Return: Whether this course matches the filter
     @abstractmethod
     def accepts_course(self, course: 'course.Course', program: 'program.Program') -> bool:
-        return course.level() == self.level
+        return course.level == self.level

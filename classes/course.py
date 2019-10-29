@@ -108,10 +108,14 @@ class Course(object):
             prereq_id = self.prereqs.save()
         if self.coreqs is not None:
             coreq_id = self.coreqs.save()
-        if self.exclusions is not None:
-            exclusions_id = self.exclusions.save()
+        if self.exclusions:
+            # ERROR this is probably not what you want since exclusions_id only holds the last value
+            # but is used in the db save in next line
+            for excl in self.exclusions:
+                exclusions_id = excl.save()
 
         # save the course itself
+
         g.db.execute('''insert into Courses(letter_code, number_code, level, name, units, prereq,
         coreq, exclusion) values (?, ?, ?, ?, ?, ?, ?)''',
         self.subject, self.code, self.level, self.name, self.units, prereq_id, coreq_id,

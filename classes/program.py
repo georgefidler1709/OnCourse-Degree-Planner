@@ -52,7 +52,7 @@ class Program(object):
         self.courses.remove(course)
 
     def get_outstanding_reqs(self) -> List['degreeReq.DegreeReq']:
-        return self.degree.getRequirements(self.courses)
+        return self.degree.get_requirements(self)
 
     def unit_count(self, term: 'term.Term') -> int:
         units = 0

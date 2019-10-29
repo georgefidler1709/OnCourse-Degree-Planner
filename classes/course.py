@@ -45,7 +45,7 @@ class Course(object):
         return self.code//1000
 
     # Returns whether this course has an offering in the given term
-    def has_offering(self, term: term.Term) -> None:
+    def has_offering(self, term: term.Term) -> bool:
         for t in self.terms:
             if t == term:
                 return True
@@ -102,9 +102,12 @@ class Course(object):
     # Saves the course in the database
     # Return: the id of the course
     def save(self) -> int:
-        prereq_id = self.prereqs.save()
-        coreq_id = self.coreqs.save()
-        exclusions_id = self.exclusions.save()
+        if self.prereqs is not None:
+            prereq_id = self.prereqs.save()
+        if self.coreqs is not None:
+            coreq_id = self.coreqs.save()
+        if self.exclusions is not None:
+            exclusions_id = self.exclusions.save()
 
         # save the course itself
         g.db.execute('''insert into Courses(letter_code, number_code, level, name, units, prereq,

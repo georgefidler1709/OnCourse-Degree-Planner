@@ -9,13 +9,16 @@ A generator which creates a degree plan for a given degree
 
 [MORE INFO ABOUT CLASS]
 """
-from typing import List
+from typing import List, Optional
 import program
 import degree
 import term
 import specificCourseFilter
 import orFilter
 import andFilter
+import courseFilter
+import course
+import degreeReq
 
 class Generator(object):
 
@@ -23,7 +26,7 @@ class Generator(object):
         self.degree = degree
         self.term_unit_cap = 18 # default for first release
         self.n_terms = 3 # 3 terms for first release
-        self.terms = []
+        self.terms: List[term.Term] = []
         # fill terms
         for year in range(degree.year, (degree.year + degree.duration)):
             for t in range(1, self.n_terms + 1):
@@ -49,7 +52,7 @@ class Generator(object):
 
     # Input: a program of study and a course
     # Return: an appropriate term in which to take given course
-    def find_term(self, prog: 'program.Program', course: 'course.Course') -> 'term.Term':
+    def find_term(self, prog: 'program.Program', course: 'course.Course') -> Optional['term.Term']:
         for term in self.terms:
             # if we can take the course in this term
             if not course.has_offering(term):

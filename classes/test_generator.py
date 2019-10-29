@@ -233,9 +233,6 @@ prereq1002 = subjectReq.SubjectReq(subj1002)
 req1001_and_1002 = andReq.AndReq([prereq1001, prereq1002])
 subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t4], req1001_and_1002)
 
-# subj1004, prereq subj1001
-subj1004 = course.Course("SUBJ", 1004, "Subject4", 6, [t2, t5], prereq1001)
-
 test_single_course_requirements()
 test_simple_or_requirement()
 test_coreq()

@@ -10,9 +10,9 @@ A filter that matches only one course
 [MORE INFO ABOUT CLASS]
 """
 
-import course
-import courseFilter
-import program
+from . import course
+from . import courseFilter
+from . import program
 
 
 class SpecificCourseFilter(courseFilter.CourseFilter):
@@ -21,12 +21,21 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
         super().__init__()
         self.course = course
 
-    # Returns whether this filters specific courses
+    def __repr__(self) -> str:
+        return f"<SpecificCourseFilter course={self.course!r}>"
+
+    # The name of the requirement for the database
     @property
-    def core(self) -> bool:
-        return True
+    def filter_name(self) -> str:
+        return "SpecificCourseFilter"
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     def accepts_course(self, course: course.Course, program: program.Program) -> bool:
         return course == self.course
+
+    # Saves the filter in the database
+    # Return: the id of the filter in the database
+    def save(self) -> int:
+        # TODO
+        pass

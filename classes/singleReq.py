@@ -14,16 +14,20 @@ Abstract class which collects the different types of single course requirement
 from abc import ABC, abstractmethod
 from typing import List
 
-import course
-import courseReq
-import term
-import program
+from . import course
+from . import courseReq
+from . import term
+from . import program
 
 
 class SingleReq(courseReq.CourseReq, ABC):
 
     def __init__(self):
         super().__init__()
+
+    @abstractmethod
+    def __repr__(self) -> str:
+        return f"<SingleReq>"
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled

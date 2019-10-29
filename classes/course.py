@@ -13,17 +13,17 @@ concerning requirements.
 """
 
 from flask import g
-from typing import List
+from typing import List, Optional
 
-import courseReq
-import program
-import term
+from . import courseReq
+from . import program
+from . import term
 
 class Course(object):
 
     def __init__(self, subject: str, code: int, name: str, units: int, terms: List[term.Term],
-            prereqs: 'courseReq.CourseReq'=None, coreqs: 'courseReq.CourseReq'=None, exclusions:
-            'courseReq.CourseReq'=None):
+            prereqs: Optional['courseReq.CourseReq'], coreqs: Optional['courseReq.CourseReq'],
+            exclusions: Optional['courseReq.CourseReq']):
         # figure out inputs - database or variables?
         # to be assigned:
         self.subject = subject
@@ -35,6 +35,10 @@ class Course(object):
         self.coreqs = coreqs
         self.exclusions = exclusions
 
+    def __repr__(self) -> str:
+        return f"<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>"
+
+
     # returns the SUBJxxxx course code
     @property
     def course_code(self) -> str:
@@ -43,13 +47,6 @@ class Course(object):
     @property
     def level(self) -> int:
         return self.code//1000
-
-    # Returns whether this course has an offering in the given term
-    def has_offering(self, term: term.Term) -> None:
-        for t in self.terms:
-            if t == term:
-                return True
-        return False
 
     # Add an offering of this course in a given term
     def add_offering(self, term: term.Term) -> None:
@@ -63,7 +60,8 @@ class Course(object):
     def prereqs_fulfilled(self, program: 'program.Program', term: term.Term) -> bool:
         if self.prereqs is None:
             return True
-        return self.prereqs.fulfilled(program, term, coreq=False)
+        else:
+            return self.prereqs.fulfilled(program, term, coreq=False)
 
     # Input: The program of the student trying to take the course, the term they're taking it in,
     # and any additional courses they are taking that term
@@ -71,7 +69,8 @@ class Course(object):
     def coreqs_fulfilled(self, program: 'program.Program', term: term.Term) -> bool:
         if self.coreqs is None:
             return True
-        return self.coreqs.fulfilled(program, term, coreq=True)
+        else:
+            return self.coreqs.fulfilled(program, term, coreq=True)
 
     # THINK about corequisites - what if prerequisite OR corequisite?
 
@@ -80,14 +79,26 @@ class Course(object):
     def excluded(self, program: 'program.Program', term: term.Term) -> bool:
         if self.exclusions is None:
             return False
-        return self.exclusions.fulfilled(program, term, coreq=True)
+        else:
+            return self.exclusions.fulfilled(program, term, coreq=True)
 
     # Saves the course in the database
     # Return: the id of the course
     def save(self) -> int:
-        prereq_id = self.prereqs.save()
-        coreq_id = self.coreqs.save()
-        exclusions_id = self.exclusions.save()
+        if self.prereqs is None:
+            prereq_id = None
+        else:
+            prereq_id = self.prereqs.save()
+
+        if self.coreqs is None:
+            coreq_id = None
+        else:
+            coreq_id = self.coreqs.save()
+
+        if self.exclusions is None:
+            exclusions_id = None
+        else:
+            exclusions_id = self.exclusions.save()
 
         # save the course itself
         g.db.execute('''insert into Courses(letter_code, number_code, level, name, units, prereq,

@@ -10,17 +10,31 @@ A filter that matches free electives (should be anything)
 [MORE INFO ABOUT CLASS]
 """
 
-import course
-import courseFilter
-import program
+from . import course
+from . import courseFilter
+from . import program
 
 
-class FieldFilter(courseFilter.CourseFilter):
+class FreeElectiveFilter(courseFilter.CourseFilter):
 
     def __init__(self):
         super().__init__()
+
+    def __repr__(self) -> str:
+        return f"<FreeElectiveFilter>"
+
+    # The name of the requirement for the database
+    @property
+    def filter_name(self) -> str:
+        return "FreeElectiveFilter"
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     def accepts_course(self, course: course.Course, program: program.Program) -> bool:
         return True
+
+    # Saves the filter in the database
+    # Return: the id of the filter in the database
+    def save(self) -> int:
+        # TODO
+        pass

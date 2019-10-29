@@ -12,12 +12,13 @@ filter of courses.
 [MORE INFO ABOUT CLASS]
 """
 
-from abc import ABC, abstractmethod
-import courseFilter
-import program
+from typing import Optional
+
+from . import courseFilter
+from . import program
 
 
-class DegreeReq(ABC):
+class DegreeReq(object):
 
     def __init__(self, filter: 'courseFilter.CourseFilter', uoc: int):
         # input as separate variables? or some other format
@@ -25,15 +26,36 @@ class DegreeReq(ABC):
         self.filter = filter
         super().__init__()
 
+    def __repr__(self) -> str:
+        return f"<DegreeReq uoc={self.uoc!r}, filter={self.filter!r}>"
+
     # Input: a program of study
     # Return: whether this prorgram would fulfil this degree requirement
-    @abstractmethod
-    def fulfilled(self, prog: 'program.Program') -> bool:
-        pass
+    def fulfilled(self, program: Optional['program.Program']) -> bool:
+        if program is None:
+            # No degree requirement should be fulfilled by default
+            return False
 
-    # Return whether this is a core requirement
-    def core_requirement(self) -> bool:
-        return self.filter.core
+        units = 0
+
+        for enrollment in program.courses:
+            course = enrollment.course
+            if self.filter.accepts_course(course, program):
+                units += course.units
+        return units >= self.uoc
+
+    # Input: a program of study
+    # Return: number of units remaining to complete this requirement
+    def remaining(self, program: Optional['program.Program']):
+        if program is None:
+            return self.uoc
+
+        units = 0
+        for enrollment in program.courses:
+            course = enrollment.course
+            if self.filter.accepts_course(course, program):
+                units += course.units
+        return self.uoc - units
 
     # Saves the requirement in the database
     # Return: the id of the filter in the database

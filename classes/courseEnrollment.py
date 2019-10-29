@@ -12,14 +12,17 @@ will be taken.
 [MORE INFO ABOUT CLASS]
 """
 
-import course
-import term
+from . import course
+from . import term
 
 class CourseEnrollment(object):
 
     def __init__(self, course: 'course.Course', term: term.Term):
         self.course = course
         self.term = term
+
+    def __repr__(self) -> str:
+        return f"<CourseEnrollment course={self.course!r}, term={self.term!r}>"
 
     def course_code(self) -> str:
         return self.course.course_code

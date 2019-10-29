@@ -9,3 +9,4 @@ __pycache__/
 ## Frontend
 **/node_modules
 frontend/build
+*.log

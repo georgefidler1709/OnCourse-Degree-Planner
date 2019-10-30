@@ -1,3 +1,4 @@
+# IF YOU EDIT THIS FILE MAKE SURE YOU UPDATE frontend/src/Api.tsx TO MATCH 
 import json;
 
 """

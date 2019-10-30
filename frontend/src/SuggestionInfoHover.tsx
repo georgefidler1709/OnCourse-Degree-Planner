@@ -6,22 +6,35 @@
 * <SuggestionInfoHover
 *    content={<div>Holy guacamole! I'm Sticky.</div>}
 *    placement="top"
-*    onMouseEnter={() => { }}
 *    delay={200}
 * >
 *   <div>Show the sticky tooltip</div>
 * </SuggestionInfoHover>
 */
 
-import React, {Component} from 'react'
+import React, {Component, RefObject} from 'react'
 import { Overlay, Popover } from 'react-bootstrap'
+import { Position } from './Types'
 
-class SuggestionInfoHover extends Component {
-  constructor(props) {
+
+interface SuggestionInfoHoverProps { 
+  content: JSX.Element
+  placement?: Position
+  delay: number
+  children: JSX.Element
+  key: number
+}
+
+class SuggestionInfoHover extends Component<SuggestionInfoHoverProps, {showPopover: boolean}> {
+  private setTimeoutConst?: ReturnType<typeof setTimeout>
+  private targetRef: RefObject<Component>
+
+  constructor(props: SuggestionInfoHoverProps) {
     super(props)
 
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
+    this.targetRef = React.createRef()
 
     this.state = {
       showPopover: false,
@@ -38,7 +51,9 @@ class SuggestionInfoHover extends Component {
   }
 
   handleMouseLeave() {
-    clearTimeout(this.setTimeoutConst)
+    if(this.setTimeoutConst) {
+      clearTimeout(this.setTimeoutConst)
+    }
     this.setState({ showPopover: false })
   }
 
@@ -51,28 +66,17 @@ class SuggestionInfoHover extends Component {
   render() {
     let { content, children, placement } = this.props
 
-    const child = React.Children.map(children, (child) => (
-      React.cloneElement(child, {
-        onMouseEnter: this.handleMouseEnter,
-        onMouseLeave: this.handleMouseLeave,
-        ref: (node) => {
-          this._child = node
-          const { ref } = child
-          if (typeof ref === 'function') {
-            ref(node);
-          }
-        }
-      })
-    ))[0]
-
     return(
       <React.Fragment>
-        {child}
+        {React.cloneElement(children, {
+          onMouseEnter: this.handleMouseEnter,
+          onMouseLeave: this.handleMouseLeave,
+          ref: this.targetRef
+        })}
         <Overlay
           show={this.state.showPopover}
           placement={placement}
-          target={this._child}
-          shouldUpdatePosition={true}
+          target={this.targetRef.current!}
         >
           <Popover
             onMouseEnter={() => {

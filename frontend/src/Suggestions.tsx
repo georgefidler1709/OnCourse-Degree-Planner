@@ -2,11 +2,11 @@ import React, {MouseEvent} from "react";
 import Button from "react-bootstrap/Button";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 
-import {Degree} from './Types'
+import {Degree, Position} from './Types'
 
 const year : string = "2020"
 const handbook : string = `https://www.handbook.unsw.edu.au/undergraduate/specialisations/${year}/`
-const placement : string = "right"
+const placement : Position = "right"
 
 function Suggestions(props: {degrees: Array<Degree>}) {
   const options = props.degrees.map((r,i) => (
@@ -16,6 +16,7 @@ function Suggestions(props: {degrees: Array<Degree>}) {
       }
       placement={placement}
       delay={200}
+      key={r.id}
     >
       <Button
         variant="light"
@@ -27,7 +28,6 @@ function Suggestions(props: {degrees: Array<Degree>}) {
         <h1 className="suggestion-code">{r.code}</h1>
         <p className="suggestion-name">{r.name}</p>
       </Button>
-      <br />
     </SuggestionInfoHover>
   ));
 

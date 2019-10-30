@@ -13,7 +13,7 @@ function Suggestions(props: {degrees: SimpleDegrees}) {
   const options = props.degrees.map((r,i) => (
     <SuggestionInfoHover
       content={
-        <a href={handbook + r.id.toString()}>More Info</a>
+        <a href={handbook + r.id}>More Info</a>
       }
       placement={placement}
       delay={200}

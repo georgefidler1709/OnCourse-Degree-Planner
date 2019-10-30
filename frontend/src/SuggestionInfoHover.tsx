@@ -22,7 +22,7 @@ interface SuggestionInfoHoverProps {
   placement?: Position
   delay: number
   children: JSX.Element
-  key: number
+  key: string
 }
 
 class SuggestionInfoHover extends Component<SuggestionInfoHoverProps, {showPopover: boolean}> {

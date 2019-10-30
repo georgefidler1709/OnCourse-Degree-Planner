@@ -12,7 +12,7 @@ function Suggestions(props: {degrees: Array<Degree>}) {
   const options = props.degrees.map((r,i) => (
     <SuggestionInfoHover
       content={
-        <a href={handbook + r.code}>More Info</a>
+        <a href={handbook + r.id}>More Info</a>
       }
       placement={placement}
       delay={200}
@@ -25,7 +25,7 @@ function Suggestions(props: {degrees: Array<Degree>}) {
         value={r.name}
         onClick={(event: MouseEvent<HTMLButtonElement>) => console.log(event.currentTarget.value)}
       >
-        <h1 className="suggestion-code">{r.code}</h1>
+        <h1 className="suggestion-code">{r.id}</h1>
         <p className="suggestion-name">{r.name}</p>
       </Button>
     </SuggestionInfoHover>

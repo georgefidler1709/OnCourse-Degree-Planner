@@ -31,7 +31,7 @@ from . import subjectReq
 from . import term
 from . import uocReq
 from . import yearReq
-from . import apiTypes
+from . import api
 
 # Temporary: only allow 2019 results
 YEAR = 2019
@@ -417,7 +417,7 @@ class University(object):
         return orFilter.OrFilter(children)
 
     # Return: Jsonifiable dict that contains minimal data to display to the user in a menu
-    def get_simple_degrees(self) -> apiTypes.SimpleDegrees:
+    def get_simple_degrees(self) -> api.SimpleDegrees:
         response = self.query_db('''select name, code
                                  from Degrees''')
         return [apiTypes.SimpleDegree(id=i['code'], name=i['name']) for i in response];

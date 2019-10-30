@@ -30,8 +30,6 @@ def get_db() -> sqlite3.Connection:
             detect_types=sqlite3.PARSE_DECLTYPES
         )
         g.db.row_factory = sqlite3.Row
-        # Add an easier way to query the database
-        g.query_db = query_db
 
     return g.db
 
@@ -97,11 +95,6 @@ def init_db() -> None:
     course = uni.find_course("COMP2511")
     print(repr(course))
     '''
-
-
-
-
-
 
 def init_app(app : Flask) -> None:
     '''

@@ -1,35 +1,20 @@
 from flask import Blueprint, render_template, g, current_app, request, redirect, url_for, flash, jsonify
 from typing import List, Set, Dict, Tuple, Optional
+from classes.university import University
 
-from .db_setup import get_db
+from .db_setup import query_db
 
 degrees_bp = Blueprint("degrees_bp", __name__,
     template_folder='templates', static_folder='static');
-
-def query_db(query : str, args: Tuple = (), one = False) -> Tuple:
-    # query function from flask documentation
-    # https://flask.palletsprojects.com/en/1.1.x/patterns/sqlite3/#easy-querying
-
-    cur = get_db().execute(query, args)
-    rv = cur.fetchall()
-    cur.close()
-    return (rv[0] if rv else None) if one else rv
 
 @degrees_bp.route('/degrees.json')
 def load_degrees() -> str:
     '''
     Loads a dict of degree choices
     '''
-    res = []
-    for degree in query_db('SELECT id, code, name FROM Degrees ORDER BY id'):
-        # TODO (kevin): we should load these into their respective objects first and serialise those
-        res.append({
-            'id' : degree['id'], 
-            'code': degree['code'], 
-            'name': degree['name'],
-        })
+    uni = University(query_db)
 
-    return jsonify(res)
+    return jsonify(uni.get_simple_degrees())
 
 #@hello_bp.route('/', methods=['GET', 'POST'])
 #def hello() -> str:

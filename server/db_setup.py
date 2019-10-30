@@ -21,7 +21,6 @@ def query_db(query : str, args: Tuple = (), one = False) -> Tuple:
 
     cur = get_db().execute(query, args)
     rv = cur.fetchall()
-    cur.close()
     return (rv[0] if rv else None) if one else rv
 
 def get_db() -> sqlite3.Connection:
@@ -31,8 +30,6 @@ def get_db() -> sqlite3.Connection:
             detect_types=sqlite3.PARSE_DECLTYPES
         )
         g.db.row_factory = sqlite3.Row
-        # Add an easier way to query the database
-        g.query_db = query_db
 
     return g.db
 
@@ -98,11 +95,6 @@ def init_db() -> None:
     course = uni.find_course("COMP2511")
     print(repr(course))
     '''
-
-
-
-
-
 
 def init_app(app : Flask) -> None:
     '''

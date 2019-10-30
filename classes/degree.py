@@ -70,5 +70,3 @@ class Degree(object):
            self.num_code, filter_id, requirement.uoc)
 
         return self.num_code
-
-

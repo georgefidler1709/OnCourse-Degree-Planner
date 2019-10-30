@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme';
-import Suggestions from './Suggestions';
+import Suggestions from '../Suggestions';
 
 const mockDegrees = [{id: 1, code:"COMP3778", name: "Bachelor of Computer Science (2019)"}, {id: 2, code:"COMP3978", name: "Bachelor of Computer Science (2016)"}]
 

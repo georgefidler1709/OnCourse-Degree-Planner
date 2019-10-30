@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme';
-import Search from './Search';
+import Search from '../Search';
 
 describe('Rendering the degree search page', () => {
     it('renders without crashing', () => {

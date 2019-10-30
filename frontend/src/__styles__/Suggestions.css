@@ -14,3 +14,8 @@
 .suggestion-name {
   pointer-events: none;
 }
+
+.suggestion-info {
+  transition: all 2s ease-in;
+}
+

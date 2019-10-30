@@ -12,11 +12,11 @@ The course requirement to have taken a specific course prior to completing this 
 
 from typing import List
 
-import course
-import degree
-import term
-import program
-import singleReq
+from . import course
+from . import degree
+from . import term
+from . import program
+from . import singleReq
 
 
 class SubjectReq(singleReq.SingleReq):
@@ -29,12 +29,27 @@ class SubjectReq(singleReq.SingleReq):
         else:
             self.min_mark = min_mark
 
+    def __repr__(self) -> str:
+        return f"<SubjectReq course={self.course!r} min_mark={self.min_mark!r}>"
+
+     # The name of the requirement for the database
+    @property
+    def requirement_name(self) -> str:
+        return "CompletedCourseRequirement"
+
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
-    def fulfilled(self, prog: 'program.Program', term: 'term.Term',
+    def fulfilled(self, program: program.Program, term: term.Term,
             coreq: bool=False) -> bool:
-        for enrollment in prog.courses:
+        for enrollment in program.courses:
             if enrollment.course == self.course:
                 if (coreq and enrollment.term <= term) or (enrollment.term < term):
                     return True
         return False
+    
+    # Saves the requirement in the database
+    # Return: the id of the requirement in the database
+    def save(self) -> int:
+        # TODO
+        pass
+

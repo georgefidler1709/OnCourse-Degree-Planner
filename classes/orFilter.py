@@ -12,9 +12,9 @@ A filter that allows courses that match any of the provided filters
 
 from typing import List
 
-import course
-import courseFilter
-import program
+from . import course
+from . import courseFilter
+from . import program
 
 
 class OrFilter(courseFilter.CourseFilter):
@@ -23,13 +23,13 @@ class OrFilter(courseFilter.CourseFilter):
         super().__init__()
         self.filters = filters
 
-    # Returns whether this filters specific courses
+    def __repr__(self) -> str:
+        return f"<OrFilter filters={self.filters!r}>"
+
+    # The name of the requirement for the database
     @property
-    def core(self) -> bool:
-        for filter in self.filters:
-            if not filter.core:
-                return False
-        return True
+    def filter_name(self) -> str:
+        return "OrFilter"
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
@@ -39,3 +39,9 @@ class OrFilter(courseFilter.CourseFilter):
 
         # accept if any of the filters accepts
         return any(individual_acceptance)
+
+    # Saves the filter in the database
+    # Return: the id of the filter in the database
+    def save(self) -> int:
+        # TODO
+        pass

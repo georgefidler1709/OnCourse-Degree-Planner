@@ -15,10 +15,10 @@ requirements.
 """
 
 from flask import g
-from typing import List
-import courseEnrollment
-import degreeReq
-import program
+from typing import List, Dict, Optional
+from . import courseEnrollment
+from . import degreeReq
+from . import program
 
 class Degree(object):
 
@@ -30,15 +30,17 @@ class Degree(object):
         self.duration = duration
         self.requirements = requirements
 
+    def __repr__(self) -> str:
+        return f"<Degree num_code={self.num_code!r}, name={self.name!r}, year={self.year!r}, duration={self.duration!r}, requirements={self.requirements!r}>"
+
     # Input: either nothing or a list of completed courses (<List>CourseEnrollment)
     # Return: list of requirements remaining for completion
-    def get_requirements(self, program: 'program.Program'=None):
-        # remaining = {}
-        # for req in self.requirements:
-        #     if not req.fulfilled(program):
-        #         remaining[req] = req.remaining(program)
-        # return remaining
-        pass
+    def get_requirements(self, program: Optional['program.Program']=None) -> Dict[('degreeReq.DegreeReq', int)]:
+        remaining = {}
+        for req in self.requirements:
+            if not req.fulfilled(program):
+                remaining[req] = req.remaining(program)
+        return remaining
 
     # Input: list of courses completed
     # Return: boolean indicating whether degree completed
@@ -54,7 +56,7 @@ class Degree(object):
     # Return: the id of the degree
     def save(self) -> int:
         g.db.execute('insert or ignore into Degrees(name, code, id) values(?, ?, ?)', self.name,
-                self.alpha_code,
+                self.name,
                 self.num_code)
 
         g.db.execute('insert into DegreeOfferings(year, degree_id) values (?, ?)', self.year,
@@ -68,5 +70,3 @@ class Degree(object):
            self.num_code, filter_id, requirement.uoc)
 
         return self.num_code
-
-

@@ -1,10 +1,11 @@
 import React from "react";
-import Search from "./Search";
+//import Search from "./Search";
+import Timeline from "./Timeline";
 
 function App() {
   return (
     <div>
-      <Search />
+      <Timeline />
     </div>
   );
 }

@@ -18,6 +18,7 @@ from . import courseEnrollment
 from . import degree
 from . import degreeReq
 from . import term
+from . import api
 
 
 class Program(object):
@@ -39,3 +40,9 @@ class Program(object):
     def get_outstanding_reqs(self) -> Dict[('degreeReq.DegreeReq', int)]:
         return self.degree.get_requirements(self)
 
+    def to_api(self) -> api.Program:
+        return {'id': self.degree.num_code, 
+                'name': self.degree.name,
+                'year': self.degree.year,
+                'duration': self.degree.duration,
+                'enrollments': [course.to_api() for course in self.courses]};

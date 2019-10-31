@@ -37,7 +37,7 @@ def generate_program(code: int) -> str:
     # TODO uncomment this when you make this function
     # need to add an API type and return that in gen.generate_api()
     
-    # return jsonify(gen.generate_api())
+    return jsonify(gen.generate().to_api())
 
 #@hello_bp.route('/', methods=['GET', 'POST'])
 #def hello() -> str:

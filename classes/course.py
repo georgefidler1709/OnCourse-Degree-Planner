@@ -18,6 +18,7 @@ from typing import List, Optional
 from . import courseReq
 from . import program
 from . import term
+from . import api
 
 class Course(object):
 
@@ -38,6 +39,13 @@ class Course(object):
     def __repr__(self) -> str:
         return f"<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>"
 
+    def to_api(self) -> api.Course:
+        return {"subject": self.subject,
+                "code": self.code,
+                "name": self.name,
+                "units": self.units,
+                "terms": [term.to_api() for term in self.terms],
+                }
 
     # returns the SUBJxxxx course code
     @property

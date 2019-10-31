@@ -20,19 +20,27 @@ class SimpleDegree(TypedDict):
 
 SimpleDegrees = List[SimpleDegree]
 
-# TODO API for Program, which is what Generator.generate() returns
-# in progress, and need to add to frontend/src/Api.tsx
-class Program(TypedDict):
-    # metadata
-    handbook_link: str;
+class Term(TypedDict):
+    year: int
+    term: int
 
+class Course(TypedDict):
+    subject: str;
+    code: int;
+    name: str;
+    units: int;
+    terms: List[Term];
+
+class CourseEnrollment(TypedDict):
+    course: Course;
+    term: Term;
+
+class Program(TypedDict):
     # Degree object
-    num_code: int;
-    alpha_code: str;
+    id: int;
     name: str;
     year: int;
     duration: int; # in years
 
     # List of CourseEnrollments
-    # TODO figure out how to get a generic list
-    # in this type
+    enrollments: List[CourseEnrollment];

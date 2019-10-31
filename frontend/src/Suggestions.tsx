@@ -22,7 +22,7 @@ function Suggestions(props: {degrees: SimpleDegrees}) {
       <Button
         variant="light"
         className="suggestion"
-        id={r.id.toString()}
+        id={r.id}
         value={r.name}
         onClick={(event: MouseEvent<HTMLButtonElement>) => console.log(event.currentTarget.value)}
       >

@@ -420,4 +420,4 @@ class University(object):
     def get_simple_degrees(self) -> api.SimpleDegrees:
         response = self.query_db('''select name, code
                                  from Degrees''')
-        return [apiTypes.SimpleDegree(id=i['code'], name=i['name']) for i in response];
+        return [api.SimpleDegree(id=i['code'], name=i['name']) for i in response];

@@ -11,34 +11,37 @@ Implementation of the University class which is a database of courses and progra
 """
 
 from typing import Dict, List, Optional, Callable, Tuple
+from mypy_extensions import DefaultArg
 from sqlite3 import Row, Connection
+from .api import SimpleDegree, SimpleDegrees
 
-from . import andFilter
-from . import andReq
-from . import course
-from . import courseReq
-from . import courseFilter
-from . import degree
-from . import degreeReq
-from . import enrollmentReq
-from . import fieldFilter
-from . import freeElectiveFilter
-from . import genEdFilter
-from . import orFilter
-from . import orReq
-from . import specificCourseFilter
-from . import subjectReq
-from . import term
-from . import uocReq
-from . import yearReq
-from . import api
+from . import  (
+    andFilter,
+    andReq, 
+    course, 
+    courseReq, 
+    courseFilter, 
+    degree, 
+    degreeReq, 
+    enrollmentReq, 
+    fieldFilter, 
+    freeElectiveFilter, 
+    genEdFilter, 
+    orFilter, 
+    orReq, 
+    specificCourseFilter, 
+    subjectReq, 
+    term, 
+    uocReq, 
+    yearReq, 
+)
 
 # Temporary: only allow 2019 results
 YEAR = 2019
 
 class University(object):
 
-    def __init__(self, query_db: Callable[[str, Tuple, bool], Tuple]):
+    def __init__(self, query_db: Callable[[str, DefaultArg(Tuple), DefaultArg(bool, 'one')], Row]):
         # need to decide how degree/course details passed in
         # unpack and create degree.Degree and course.Course objects
         self.query_db = query_db
@@ -417,7 +420,7 @@ class University(object):
         return orFilter.OrFilter(children)
 
     # Return: Jsonifiable dict that contains minimal data to display to the user in a menu
-    def get_simple_degrees(self) -> api.SimpleDegrees:
+    def get_simple_degrees(self) -> SimpleDegrees:
         response = self.query_db('''select name, code
                                  from Degrees''')
-        return [api.SimpleDegree(id=i['code'], name=i['name']) for i in response];
+        return [SimpleDegree(id=i['code'], name=i['name']) for i in response];

@@ -421,3 +421,8 @@ class University(object):
         response = self.query_db('''select name, code
                                  from Degrees''')
         return [api.SimpleDegree(id=i['code'], name=i['name']) for i in response];
+
+    def get_simple_courses(self) -> api.SimpleCourses:
+        response = self.query_db('''select letter_code, number_code, name
+                                 from Courses''')
+        return [api.SimpleDegree(id=i['letter_code'] + i['number_code'], name=i['name']) for i in response];

@@ -105,7 +105,7 @@ class University(object):
         
         # TODO: put duration in database
         duration = 3
-        return degree.Degree(numeric_code, name, duration, year, requirements)
+        return degree.Degree(numeric_code, name, year, duration, requirements)
 
     # Input: course code (eg. COMP1511)
     # Return: corresponding Course object from courses

@@ -12,7 +12,7 @@ Contains the json layout of the types to be sent over to the front end
 """
 
 from typing import List
-from typing_extensions import TypedDict
+from mypy_extensions import TypedDict
 
 class SimpleDegree(TypedDict):
     id: int;

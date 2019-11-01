@@ -11,34 +11,37 @@ Implementation of the University class which is a database of courses and progra
 """
 
 from typing import Dict, List, Optional, Callable, Tuple
+from mypy_extensions import DefaultArg
 from sqlite3 import Row, Connection
+from .api import SimpleDegree, SimpleDegrees
 
-from . import andFilter
-from . import andReq
-from . import course
-from . import courseReq
-from . import courseFilter
-from . import degree
-from . import degreeReq
-from . import enrollmentReq
-from . import fieldFilter
-from . import freeElectiveFilter
-from . import genEdFilter
-from . import orFilter
-from . import orReq
-from . import specificCourseFilter
-from . import subjectReq
-from . import term
-from . import uocReq
-from . import yearReq
-from . import api
+from . import  (
+    andFilter,
+    andReq, 
+    course, 
+    courseReq, 
+    courseFilter, 
+    degree, 
+    minDegreeReq, 
+    enrollmentReq, 
+    fieldFilter, 
+    freeElectiveFilter, 
+    genEdFilter, 
+    orFilter, 
+    orReq, 
+    specificCourseFilter, 
+    subjectReq, 
+    term, 
+    uocReq, 
+    yearReq, 
+)
 
 # Temporary: only allow 2019 results
 YEAR = 2019
 
 class University(object):
 
-    def __init__(self, query_db: Callable[[str, Tuple, bool], Tuple]):
+    def __init__(self, query_db: Callable[[str, DefaultArg(Tuple), DefaultArg(bool, 'one')], Row]):
         # need to decide how degree/course details passed in
         # unpack and create degree.Degree and course.Course objects
         self.query_db = query_db
@@ -97,15 +100,17 @@ class University(object):
                 filter = self.load_course_filter(filter_id)
 
                 if filter is not None:
-                    requirement = degreeReq.DegreeReq(filter, uoc)
+                    requirement = minDegreeReq.MinDegreeReq(filter, uoc)
                     requirements.append(requirement)
                 else:
                     # Filter should not be None
                     print("ERROR: filter {} for degree requirement should not be null".format(filter_id))
-        
+
         # TODO: put duration in database
         duration = 3
-        return degree.Degree(numeric_code, name, year, duration, requirements)
+        # TODO: alpha code in db (although we prob want to split into major)
+        alpha_code = "AlphaCode"
+        return degree.Degree(numeric_code, name, year, duration, requirements, alpha_code)
 
     # Input: course code (eg. COMP1511)
     # Return: corresponding Course object from courses
@@ -253,7 +258,7 @@ class University(object):
             return None
 
         return enrollmentReq.EnrollmentReq(required_degree)
-    
+
     # Input: row from the CourseRequirements table in the db for a year requirement
     # Return: The relevant requirement
     def load_year_requirement(self, requirement_data: Row) -> 'yearReq.YearReq':
@@ -417,7 +422,7 @@ class University(object):
         return orFilter.OrFilter(children)
 
     # Return: Jsonifiable dict that contains minimal data to display to the user in a menu
-    def get_simple_degrees(self) -> api.SimpleDegrees:
+    def get_simple_degrees(self) -> SimpleDegrees:
         response = self.query_db('''select name, code
                                  from Degrees''')
-        return [apiTypes.SimpleDegree(id=i['code'], name=i['name']) for i in response];
+        return [SimpleDegree(id=i['code'], name=i['name']) for i in response];

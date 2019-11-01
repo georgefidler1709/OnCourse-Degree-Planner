@@ -22,6 +22,10 @@ class GenEdFilter(courseFilter.CourseFilter):
     def __repr__(self):
         return f"<GenEdFilter>"
 
+    @property
+    def core(self) -> bool:
+        return False
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:

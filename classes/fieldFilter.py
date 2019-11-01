@@ -24,6 +24,10 @@ class FieldFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<FieldFilter field={self.field!r}>"
 
+    @property
+    def core(self) -> bool:
+        return False
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:

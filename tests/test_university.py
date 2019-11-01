@@ -161,9 +161,185 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         requirement = degree.requirements[0]
         assert requirement.uoc == uoc_needed
         filter = requirement.filter
+        assert filter.filter_name == "SpecificCourseFilter"
         course = filter.course
         assert course.subject == course_letter_code
         assert course.code == course_number_code
+
+    def test_degree_with_gen_ed_filter(self):
+        name = "TestDegree"
+        code = "TestCode"
+        id = 42
+        year = 2019
+
+        self.h.insert_degree(name, code, id)
+
+        filter_type_id = self.h.get_filter_type_id("GenEdFilter")
+        print(filter_type_id)
+
+        mark_needed = 90
+
+        self.cursor.execute('''insert into CourseFilters(type_id) values(?)''', (filter_type_id,))
+
+        filter_id = self.cursor.lastrowid
+
+        uoc_needed = 51
+
+        self.h.insert_degree_requirement(id, year, filter_id, uoc_needed)
+
+        degree = self.university.find_degree_number_code(id)
+
+        assert degree is not None
+        assert len(degree.requirements) == 1
+        requirement = degree.requirements[0]
+        assert requirement.uoc == uoc_needed
+        filter = requirement.filter
+        assert filter.filter_name == "GenEdFilter"
+
+    def test_degree_with_field_filter(self):
+        name = "TestDegree"
+        code = "TestCode"
+        id = 42
+        year = 2019
+
+        self.h.insert_degree(name, code, id)
+
+        filter_type_id = self.h.get_filter_type_id("FieldFilter")
+        field = "COMP"
+        level = 2
+
+        mark_needed = 90
+
+        self.cursor.execute('''insert into CourseFilters(type_id, field_code, level) values(?, ?,
+                ?)''', (filter_type_id, field, level))
+
+        filter_id = self.cursor.lastrowid
+
+        uoc_needed = 51
+
+        self.h.insert_degree_requirement(id, year, filter_id, uoc_needed)
+
+        degree = self.university.find_degree_number_code(id)
+
+        assert degree is not None
+        assert len(degree.requirements) == 1
+        requirement = degree.requirements[0]
+        assert requirement.uoc == uoc_needed
+        filter = requirement.filter
+        assert filter.filter_name == "FieldFilter"
+        assert filter.field == field
+
+    def test_degree_with_free_elective_filter(self):
+        name = "TestDegree"
+        code = "TestCode"
+        id = 42
+        year = 2019
+
+        self.h.insert_degree(name, code, id)
+
+        filter_type_id = self.h.get_filter_type_id("FreeElectiveFilter")
+
+        mark_needed = 90
+
+        self.cursor.execute('''insert into CourseFilters(type_id) values(?)''', (filter_type_id,))
+
+        filter_id = self.cursor.lastrowid
+
+        uoc_needed = 51
+
+        self.h.insert_degree_requirement(id, year, filter_id, uoc_needed)
+
+        degree = self.university.find_degree_number_code(id)
+
+        assert degree is not None
+        assert len(degree.requirements) == 1
+        requirement = degree.requirements[0]
+        assert requirement.uoc == uoc_needed
+        filter = requirement.filter
+        assert filter.filter_name == "FreeElectiveFilter"
+
+
+    def test_degree_with_and_filter(self):
+        name = "TestDegree"
+        code = "TestCode"
+        id = 42
+        year = 2019
+
+        self.h.insert_degree(name, code, id)
+
+        filter_type_id = self.h.get_filter_type_id("AndFilter")
+
+        self.cursor.execute('''insert into CourseFilters(type_id) values(?)''', (filter_type_id,))
+
+        filter_id = self.cursor.lastrowid
+
+        sub_filter_type_id = self.h.get_filter_type_id("FreeElectiveFilter")
+
+        self.cursor.execute('''insert into CourseFilters(type_id) values(?)''', (sub_filter_type_id, ))
+
+        sub_filter_id = self.cursor.lastrowid
+
+        self.cursor.execute('''insert into CourseFilterHierarchies(parent_id, child_id) values(?,
+        ?)''', (filter_id, sub_filter_id))
+
+
+        uoc_needed = 51
+
+        self.h.insert_degree_requirement(id, year, filter_id, uoc_needed)
+
+        degree = self.university.find_degree_number_code(id)
+
+        assert degree is not None
+        assert len(degree.requirements) == 1
+        requirement = degree.requirements[0]
+        assert requirement.uoc == uoc_needed
+        filter = requirement.filter
+        assert filter.filter_name == "AndFilter"
+        sub_filters = filter.filters
+        assert len(sub_filters) == 1
+        sub_filter = sub_filters[0]
+        assert sub_filter.filter_name == "FreeElectiveFilter"
+
+    def test_degree_with_or_filter(self):
+        name = "TestDegree"
+        code = "TestCode"
+        id = 42
+        year = 2019
+
+        self.h.insert_degree(name, code, id)
+
+        filter_type_id = self.h.get_filter_type_id("OrFilter")
+
+        self.cursor.execute('''insert into CourseFilters(type_id) values(?)''', (filter_type_id,))
+
+        filter_id = self.cursor.lastrowid
+
+        sub_filter_type_id = self.h.get_filter_type_id("FreeElectiveFilter")
+
+        self.cursor.execute('''insert into CourseFilters(type_id) values(?)''', (sub_filter_type_id, ))
+
+        sub_filter_id = self.cursor.lastrowid
+
+        self.cursor.execute('''insert into CourseFilterHierarchies(parent_id, child_id) values(?,
+        ?)''', (filter_id, sub_filter_id))
+
+
+        uoc_needed = 51
+
+        self.h.insert_degree_requirement(id, year, filter_id, uoc_needed)
+
+        degree = self.university.find_degree_number_code(id)
+
+        assert degree is not None
+        assert len(degree.requirements) == 1
+        requirement = degree.requirements[0]
+        assert requirement.uoc == uoc_needed
+        filter = requirement.filter
+        assert filter.filter_name == "OrFilter"
+        sub_filters = filter.filters
+        assert len(sub_filters) == 1
+        sub_filter = sub_filters[0]
+        assert sub_filter.filter_name == "FreeElectiveFilter"
 
 
 

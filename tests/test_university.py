@@ -341,9 +341,52 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         sub_filter = sub_filters[0]
         assert sub_filter.filter_name == "FreeElectiveFilter"
 
+class TestUniversity_FindCourse(TestUniversityWithDb):
+    def test_no_course(self):
+        course = self.university.find_course("COMP1511")
+
+        assert course is None
+
+    def test_single_course(self):
+        course_letter_code = "TEST"
+        course_number_code = "4999"
+        course_level = 3
+        course_name = "Test course"
+        units = 12
+
+        self.h.insert_course(course_letter_code, course_number_code, course_level, course_name, units)
+
+        course = self.university.find_course(course_letter_code + course_number_code)
+
+        assert course is not None
+        assert course.subject == course_letter_code
+        assert course.code == course_number_code
+        assert course.name == course_name
+        assert course.units == units
+
+    def test_multiple_courses(self):
+        course_letter_code = "TEST"
+        course_number_code = "4999"
+        course_level = 3
+        course_name = "Test course"
+        units = 50
+
+        self.h.insert_course(course_letter_code, course_number_code, course_level, course_name, units)
+
+        other_course_letter_code = "FAKE"
+        other_course_number_code = "3235"
+        other_course_level = 2
+        other_course_name = "Other Test course"
+        other_units = 3
+
+        self.h.insert_course(other_course_letter_code, other_course_number_code, other_course_level, other_course_name, other_units)
 
 
+        course = self.university.find_course(course_letter_code + course_number_code)
 
-
-
+        assert course is not None
+        assert course.subject == course_letter_code
+        assert course.code == course_number_code
+        assert course.name == course_name
+        assert course.units == units
 

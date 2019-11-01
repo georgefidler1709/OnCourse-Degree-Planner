@@ -12,11 +12,7 @@ list of courses.
 """
 
 from typing import List
-import degreeReq
-import courseFilter
-import program
-import course
-import degree
+from . import degreeReq, courseFilter, program, course, degree
 
 class MaxDegreeReq(degreeReq.DegreeReq):
 

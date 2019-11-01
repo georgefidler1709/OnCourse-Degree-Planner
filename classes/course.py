@@ -22,9 +22,16 @@ from . import program
 
 class Course(object):
 
-    def __init__(self, subject: str, code: int, name: str, units: int, terms: List[term.Term],
-            prereqs: Optional['courseReq.CourseReq']=None, coreqs: Optional['courseReq.CourseReq']=None, exclusions:
-            Optional[List['course.Course']]=None, equivalents: Optional[List['course.Course']]=None):
+    def __init__(self, 
+            subject: str,
+            code: int,
+            name: str,
+            units: int,
+            terms: List[term.Term],
+            prereqs: Optional['courseReq.CourseReq']=None, 
+            coreqs: Optional['courseReq.CourseReq']=None,
+            exclusions: Optional[List['course.Course']]=None, 
+            equivalents: Optional[List['course.Course']]=None):
         # figure out inputs - database or variables?
         # to be assigned:
         self.subject = subject

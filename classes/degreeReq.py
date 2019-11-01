@@ -31,7 +31,7 @@ class DegreeReq(ABC):
     # Input: a degree and a list of courses
     # Return: whether this course list would fulfil this degree requirement
     @abstractmethod
-    def fulfilled(self, courses: List['course.Course'], deg: 'degree.Degree') -> bool:
+    def fulfilled(self, program:'program.Program') -> bool:
         pass
 
     # Return whether this is a core requirement

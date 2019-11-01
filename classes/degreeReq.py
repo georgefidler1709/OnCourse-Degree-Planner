@@ -12,13 +12,15 @@ filter of courses.
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import Optional
-
+from abc import ABC, abstractmethod
+from typing import List, Optional
 from . import courseFilter
 from . import program
+from . import course
+from . import degree
 
 
-class DegreeReq(object):
+class DegreeReq(ABC):
 
     def __init__(self, filter: 'courseFilter.CourseFilter', uoc: int):
         # input as separate variables? or some other format
@@ -26,36 +28,15 @@ class DegreeReq(object):
         self.filter = filter
         super().__init__()
 
-    def __repr__(self) -> str:
-        return f"<DegreeReq uoc={self.uoc!r}, filter={self.filter!r}>"
+    # Input: a degree and a list of courses
+    # Return: whether this course list would fulfil this degree requirement
+    @abstractmethod
+    def fulfilled(self, courses: List['course.Course'], deg: 'degree.Degree') -> bool:
+        pass
 
-    # Input: a program of study
-    # Return: whether this prorgram would fulfil this degree requirement
-    def fulfilled(self, program: Optional['program.Program']) -> bool:
-        if program is None:
-            # No degree requirement should be fulfilled by default
-            return False
-
-        units = 0
-
-        for enrollment in program.courses:
-            course = enrollment.course
-            if self.filter.accepts_course(course, program):
-                units += course.units
-        return units >= self.uoc
-
-    # Input: a program of study
-    # Return: number of units remaining to complete this requirement
-    def remaining(self, program: Optional['program.Program']):
-        if program is None:
-            return self.uoc
-
-        units = 0
-        for enrollment in program.courses:
-            course = enrollment.course
-            if self.filter.accepts_course(course, program):
-                units += course.units
-        return self.uoc - units
+    # Return whether this is a core requirement
+    def core_requirement(self) -> bool:
+        return self.filter.core
 
     # Saves the requirement in the database
     # Return: the id of the filter in the database

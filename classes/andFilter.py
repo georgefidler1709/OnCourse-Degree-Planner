@@ -14,7 +14,7 @@ from typing import List
 
 from . import course
 from . import courseFilter
-from . import program
+from . import degree
 
 
 class AndFilter(courseFilter.CourseFilter):
@@ -26,16 +26,20 @@ class AndFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<AndFilter filters={self.filters!r}>"
 
+    @property
+    def core(self) -> bool:
+        return all(map(lambda x: x.core, self.filters))
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
         return "AndFilter"
 
-    # Input: course.Course, program the student is enrolled in
+    # Input: course.Course, degree the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: course.Course, program: program.Program) -> bool:
+    def accepts_course(self, course: course.Course, degree: degree.Degree) -> bool:
         # make an iterable where element at a position is True if the filter at that position accepts
-        individual_acceptance = map(lambda x: x.accepts_course(course, program), self.filters)
+        individual_acceptance = map(lambda x: x.accepts_course(course, degree), self.filters)
 
         # Only accept if all of the filters accepted
         return all(individual_acceptance)

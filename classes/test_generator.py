@@ -11,17 +11,17 @@ Test the functions defined in generator.py
 """
 
 import pytest
-import courseReq
-import subjectReq
-import course
-import specificCourseFilter
-import andFilter
-import andReq
-import minDegreeReq
-import degree
-import program
-import term
-import generator
+from . import courseReq
+from . import subjectReq
+from . import course
+from . import specificCourseFilter
+from . import andFilter
+from . import andReq
+from . import minDegreeReq
+from . import degree
+from . import program
+from . import term
+from . import generator
 
 t1 = term.Term(2019, 1)
 t2 = term.Term(2019, 2)

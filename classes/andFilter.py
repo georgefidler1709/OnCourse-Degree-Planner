@@ -26,6 +26,10 @@ class AndFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<AndFilter filters={self.filters!r}>"
 
+    @property
+    def core(self) -> bool:
+        return all(map(lambda x: x.core, self.filters))
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:

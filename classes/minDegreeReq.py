@@ -11,10 +11,10 @@ list of courses.
 [MORE INFO ABOUT CLASS]
 """
 
-import degreeReq
-import program
-import courseFilter
-import course
+from . import degreeReq
+from . import program
+from . import courseFilter
+from . import course
 
 class MinDegreeReq(degreeReq.DegreeReq):
 

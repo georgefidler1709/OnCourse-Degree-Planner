@@ -11,8 +11,8 @@ describe('Rendering a degree suggestion', () => {
 
 	it('puts the code of provided degrees as titles', () => {
 		const wrapper = shallow(<Suggestions degrees={mockDegrees}/>);
-		const code = wrapper.find('.suggestion-code').first().text();
-		expect(code).toBe(mockDegrees[0].code);
+		const id = wrapper.find('.suggestion-code').first().text();
+		expect(id).toBe(mockDegrees[0].id.toString());
 	})
 
 	it('puts the course name of provided degrees underneath title', () => {
@@ -24,9 +24,9 @@ describe('Rendering a degree suggestion', () => {
 	it('renders degree suggestions in the order they are provided', () => {
 		const wrapper = shallow(<Suggestions degrees={mockDegrees}/>);
 		const code1 = wrapper.find('.suggestion-code').first().text();
-		expect(code1).toBe(mockDegrees[0].code);
+		expect(code1).toBe(mockDegrees[0].id.toString());
 		const code2 = wrapper.find('.suggestion-code').at(1).text();
-		expect(code2).toBe(mockDegrees[1].code);
+		expect(code2).toBe(mockDegrees[1].id.toString());
 	})
 
 	//Implement this test once this feature is up and running

@@ -12,9 +12,9 @@ A filter that only allows courses that match all of the provided filters
 
 from typing import List
 
-import course
-import courseFilter
-import degree
+from . import course
+from . import courseFilter
+from . import degree
 
 
 class AndFilter(courseFilter.CourseFilter):
@@ -25,6 +25,10 @@ class AndFilter(courseFilter.CourseFilter):
 
     def __repr__(self) -> str:
         return f"<AndFilter filters={self.filters!r}>"
+
+    @property
+    def core(self) -> bool:
+        return all(map(lambda x: x.core, self.filters))
 
     # The name of the requirement for the database
     @property

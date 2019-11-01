@@ -12,11 +12,11 @@ list of courses.
 """
 
 from typing import List
-import degreeReq
-import degree
-import program
-import courseFilter
-import course
+from . import degreeReq
+from . import degree
+from . import program
+from . import courseFilter
+from . import course
 
 class MinDegreeReq(degreeReq.DegreeReq):
 

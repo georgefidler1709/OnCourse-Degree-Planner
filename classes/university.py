@@ -22,7 +22,7 @@ from . import  (
     courseReq, 
     courseFilter, 
     degree, 
-    degreeReq, 
+    minDegreeReq, 
     enrollmentReq, 
     fieldFilter, 
     freeElectiveFilter, 
@@ -100,15 +100,17 @@ class University(object):
                 filter = self.load_course_filter(filter_id)
 
                 if filter is not None:
-                    requirement = degreeReq.DegreeReq(filter, uoc)
+                    requirement = minDegreeReq.MinDegreeReq(filter, uoc)
                     requirements.append(requirement)
                 else:
                     # Filter should not be None
                     print("ERROR: filter {} for degree requirement should not be null".format(filter_id))
-        
+
         # TODO: put duration in database
         duration = 3
-        return degree.Degree(numeric_code, name, duration, year, requirements)
+        # TODO: alpha code in db (although we prob want to split into major)
+        alpha_code = "AlphaCode"
+        return degree.Degree(numeric_code, name, year, duration, requirements, alpha_code)
 
     # Input: course code (eg. COMP1511)
     # Return: corresponding Course object from courses
@@ -256,7 +258,7 @@ class University(object):
             return None
 
         return enrollmentReq.EnrollmentReq(required_degree)
-    
+
     # Input: row from the CourseRequirements table in the db for a year requirement
     # Return: The relevant requirement
     def load_year_requirement(self, requirement_data: Row) -> 'yearReq.YearReq':

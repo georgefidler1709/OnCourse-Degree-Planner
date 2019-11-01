@@ -10,9 +10,9 @@ A filter that matches only one course
 [MORE INFO ABOUT CLASS]
 """
 
-import course
-import courseFilter
-import degree
+from . import course
+from . import courseFilter
+from . import degree
 
 class SpecificCourseFilter(courseFilter.CourseFilter):
 
@@ -27,6 +27,10 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
 
     def __repr__(self) -> str:
         return f"<SpecificCourseFilter course={self.course!r}>"
+
+    @property
+    def core(self) -> bool:
+        return True
 
     # The name of the requirement for the database
     @property

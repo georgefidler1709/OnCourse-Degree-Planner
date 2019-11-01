@@ -9,6 +9,7 @@ A generator which creates a degree plan for a given degree
 
 [MORE INFO ABOUT CLASS]
 """
+
 from typing import List, Optional
 import program
 import degree

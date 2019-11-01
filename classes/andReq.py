@@ -12,11 +12,11 @@ A course requirement that requires multiple requirements to be matched
 
 from typing import List
 
-import compositeReq
-import course
-import courseReq
-import term
-import program
+from . import compositeReq
+from . import course
+from . import courseReq
+from . import term
+from . import program
 
 
 class AndReq(compositeReq.CompositeReq):
@@ -24,7 +24,15 @@ class AndReq(compositeReq.CompositeReq):
     def __init__(self, reqs: List[courseReq.CourseReq]):
         super().__init__(reqs)
 
-    # Input: program.Program of study, term this course is to be taken
+    def __repr__(self) -> str:
+        return f"<AndReq reqs={self.reqs!r}>"
+
+    # The name of the requirement for the database
+    @property
+    def requirement_name(self) -> str:
+        return "AndRequirement"
+
+   # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: program.Program, term: term.Term,
             coreq: bool=False) -> bool:
@@ -32,3 +40,10 @@ class AndReq(compositeReq.CompositeReq):
 
         # Only accept if all of the requirements accepted
         return all(individual_fulfills)
+
+    # Saves the requirement in the database
+    # Return: the id of the requirement in the database
+    def save(self) -> int:
+        # TODO
+        pass
+

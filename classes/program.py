@@ -11,13 +11,13 @@ study.
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List, Optional
+from typing import List, Optional, Dict
 
-import course
-import courseEnrollment
-import degree
-import degreeReq
-import term
+from . import course
+from . import courseEnrollment
+from . import degree
+from . import degreeReq
+from . import term
 
 
 class Program(object):
@@ -42,6 +42,9 @@ class Program(object):
                 return enrollment.term
         return None
 
+    def __repr__(self) -> str:
+        return f"<Program degree={self.degree!r}, courses={self.courses!r}>"
+
     def add_course(self, course: 'course.Course', term: term.Term) -> None:
         if self.enrolled(course):
             return
@@ -51,9 +54,6 @@ class Program(object):
     def remove_course(self, course: 'courseEnrollment.CourseEnrollment') -> None:
         self.courses.remove(course)
 
-    def get_outstanding_reqs(self) -> List['degreeReq.DegreeReq']:
-        return self.degree.get_requirements(self)
-
     def unit_count(self, term: 'term.Term') -> int:
         units = 0
         for enrollment in self.courses:
@@ -61,4 +61,6 @@ class Program(object):
                 units += enrollment.course.units
         return units
 
+    def get_outstanding_reqs(self) -> Dict[('degreeReq.DegreeReq', int)]:
+        return self.degree.get_requirements(self)
 

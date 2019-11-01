@@ -10,11 +10,13 @@ based on course level.
 
 [MORE INFO ABOUT CLASS]
 """
+
 from abc import abstractmethod
 
 import course
 import degree
 from courseFilter import CourseFilter
+
 
 class LevelFilter(CourseFilter):
 

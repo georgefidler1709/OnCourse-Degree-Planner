@@ -8,8 +8,6 @@
 
 If you add packages make sure you add it to requirements.txt by doing `pip3 freeze > requirements.txt`. 
 
-`pip install -U flask mypy`
-
 
 # Mypy
 
@@ -17,9 +15,15 @@ run `mypy .` for type checking
 
 # Run Flask Server
 
-From root folder, run `./start.sh`. 
+Make sure `./server/db/university.db` exists. Otherwise first run `./start.sh init-db`.
 
-* if you want to re-generate the database, go to `./server/db.py` and set `init_db()`'s argument `remake=True`
+From root folder, run `./start.sh run`. 
+
+# Run Static Server (development mode)
+
+From frontend folder run `npm start`. this only needs to be done once. see `/frontend/README.md` for details
+
+# Regenerate Database
 
 # Pytest
 

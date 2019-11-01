@@ -1,0 +1,43 @@
+from flask import Blueprint, render_template, g, current_app, request, redirect, url_for, flash, jsonify
+from typing import List, Set, Dict, Tuple, Optional
+from classes.university import University
+
+from .db_setup import query_db
+
+degrees_bp = Blueprint("degrees_bp", __name__,
+    template_folder='templates', static_folder='static');
+
+@degrees_bp.route('/degrees.json')
+def load_degrees() -> str:
+    '''
+    Loads a dict of degree choices
+    '''
+    uni = University(query_db)
+
+    return jsonify(uni.get_simple_degrees())
+
+#@hello_bp.route('/', methods=['GET', 'POST'])
+#def hello() -> str:
+#    # need to have a list of degrees
+#    # query db for possible degrees
+#    degrees = load_degrees()
+#
+#    if request.method == "POST":
+#        # TODO validate the degree chosen is in our db
+#        
+#        code = request.form.get('degree', None)
+#        
+#        if code is None:
+#            flash("You need to enter a degree code")
+#            return render_template('hello.html', degrees=degrees)
+#
+#        return redirect(url_for('hello_bp.plan', code=code))
+#
+#
+#    # TODO render autocomplete in js like: https://dev.to/sage911/how-to-write-a-search-component-with-suggestions-in-react-d20
+#    return render_template('hello.html', text='hello world', degrees=degrees);
+
+#@degrees_bp.route('/plan/<code>', methods=['GET'])
+#def plan(code : int) -> str:
+#
+#    return f"You selected degree {code}"

@@ -43,7 +43,6 @@ prereq1002 = subjectReq.SubjectReq(subj1002)
 req1001_and_1002 = andReq.AndReq([prereq1001, prereq1002])
 subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t4], req1001_and_1002)
 
-# TODO subj1004?
 
 # test with simple chain of subjects with prerequisites
 def test_single_course_requirements():

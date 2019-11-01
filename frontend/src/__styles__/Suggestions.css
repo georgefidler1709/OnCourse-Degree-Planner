@@ -1,0 +1,21 @@
+/* Style the degree suggestion units */
+.suggestion {
+  border: 1px solid #575756;
+  border-radius: 10px;
+  background-color: #c2eced;
+  padding: 10px;
+  align-self: center;
+}
+
+.suggestion-code {
+  pointer-events: none;
+}
+
+.suggestion-name {
+  pointer-events: none;
+}
+
+.suggestion-info {
+  transition: all 2s ease-in;
+}
+

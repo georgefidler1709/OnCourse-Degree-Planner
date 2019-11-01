@@ -18,17 +18,20 @@ from typing import List
 import course
 import degree
 
-
 class CourseFilter(ABC):
 
     def __init__(self):
         pass
 
+    @abstractmethod
+    def __repr__(self) -> str:
+        return f"<CourseFilter>"
+
     # The name of the requirement for the database
     @property
     #@abstractmethod
     def filter_name(self) -> str:
-        return "GenericRequirement"
+        return "GenericFilter"
 
     # The id of the requirement for the database
     @property

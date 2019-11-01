@@ -21,7 +21,21 @@ class FieldFilter(courseFilter.CourseFilter):
         super().__init__()
         self.field = field
 
+    def __repr__(self) -> str:
+        return f"<FieldFilter field={self.field!r}>"
+
+    # The name of the requirement for the database
+    @property
+    def filter_name(self) -> str:
+        return "FieldFilter"
+
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     def accepts_course(self, course: course.Course, degree: degree.Degree) -> bool:
         return course.subject == self.field
+
+    # Saves the filter in the database
+    # Return: the id of the filter in the database
+    def save(self) -> int:
+        # TODO
+        pass

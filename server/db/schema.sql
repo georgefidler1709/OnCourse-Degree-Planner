@@ -22,6 +22,7 @@ create table Courses (
 	prereq integer references CourseRequirements(id),
 	coreq integer references CourseRequirements(id),
 	exclusion integer references CourseRequirements(id),
+	equivalent integer references CourseRequirements(id),
 
 	id integer primary key,
 
@@ -46,14 +47,15 @@ create table CourseFilters (
 
 	-- Gen Ed filter has no attributes
 
-	-- Field filter
+	-- Field filter, level can be NULL
 	field_code char(4),
+	level integer,
 
 	-- Free Elective Filter has no attributes
 
+	id integer primary key,
 	-- And and Or filters have relationships in CourseFilterHierarchies
-
-	id integer primary key
+	unique(min_mark, course_id)
 );
 
 -- For And and Or filters, the parent is the And/Or and the child is another filter
@@ -81,11 +83,14 @@ create table CourseRequirements (
 	uoc_amount_required integer,
 	uoc_min_level integer,
 	uoc_subject char(4),
-	uoc_course_requirements integer references CourseRequirements,
+	uoc_course_filter integer references CourseFilters,
 
+	id integer primary key,
 	-- And and Or requirements have relationships in CourseRequirementHierarchies
-
-	id integer primary key
+	unique(type_id, min_mark, course_id),
+	unique(type_id, degree_id),
+	unique(type_id, year),
+	unique(type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_filter)
 );
 
 -- For And and Or requirements, the parent is the And/Or and the child is another requirement
@@ -97,6 +102,7 @@ create table CourseRequirementHierarchies (
 );
 
 create table DegreeOfferingRequirements (
+
 	offering_degree_id integer required references DegreeOfferings(degree_id),
     offering_year_id integer required references DegreeOfferings(year),
 	requirement_id integer required references CourseFilters(id),

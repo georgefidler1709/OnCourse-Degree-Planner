@@ -13,7 +13,7 @@ filter of courses.
 """
 
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Optional
 import courseFilter
 import program
 import course

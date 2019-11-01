@@ -18,7 +18,7 @@ def load_degrees() -> str:
 
     return jsonify(uni.get_simple_degrees())
 
-@degrees_bp.rotue('/<code>/gen_program.json')
+@degrees_bp.route('/<code>/gen_program.json')
 def generate_program(code: int) -> str:
     '''
     Generates a program plan for the given degree code, 
@@ -34,9 +34,6 @@ def generate_program(code: int) -> str:
 
     gen = Generator(deg)  
 
-    # TODO uncomment this when you make this function
-    # need to add an API type and return that in gen.generate_api()
-    
     return jsonify(gen.generate().to_api())
 
 #@hello_bp.route('/', methods=['GET', 'POST'])

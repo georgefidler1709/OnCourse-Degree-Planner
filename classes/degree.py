@@ -16,6 +16,7 @@ requirements.
 
 from flask import g
 from typing import List, Dict, Optional
+
 from . import courseEnrollment
 from . import degreeReq
 from . import program
@@ -23,8 +24,9 @@ from . import program
 class Degree(object):
 
     def __init__(self, num_code: int, name: str, year: int, duration: int, requirements:
-            List['degreeReq.DegreeReq']):
+            List['degreeReq.DegreeReq'], alpha_code: str):
         self.num_code = num_code
+        self.alpha_code = alpha_code
         self.name = name
         self.year = year
         self.duration = duration
@@ -35,6 +37,7 @@ class Degree(object):
 
     # Input: either nothing or a list of completed courses (<List>CourseEnrollment)
     # Return: list of requirements remaining for completion
+
     def get_requirements(self, program: Optional['program.Program']=None) -> Dict[('degreeReq.DegreeReq', int)]:
         remaining = {}
         for req in self.requirements:

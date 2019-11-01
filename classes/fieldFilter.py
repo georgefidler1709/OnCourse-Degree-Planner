@@ -10,9 +10,9 @@ A filter that matches only courses in a specific field
 [MORE INFO ABOUT CLASS]
 """
 
-from . import course
-from . import courseFilter
-from . import program
+import course
+import courseFilter
+import degree
 
 
 class FieldFilter(courseFilter.CourseFilter):
@@ -31,7 +31,7 @@ class FieldFilter(courseFilter.CourseFilter):
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: course.Course, program: program.Program) -> bool:
+    def accepts_course(self, course: course.Course, degree: degree.Degree) -> bool:
         return course.subject == self.field
 
     # Saves the filter in the database

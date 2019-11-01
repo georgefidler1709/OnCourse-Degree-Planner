@@ -10,16 +10,20 @@ A filter that matches only one course
 [MORE INFO ABOUT CLASS]
 """
 
-from . import course
-from . import courseFilter
-from . import program
-
+import course
+import courseFilter
+import degree
 
 class SpecificCourseFilter(courseFilter.CourseFilter):
 
     def __init__(self, course: course.Course):
         super().__init__()
         self.course = course
+
+    # Returns whether this filters specific courses
+    @property
+    def core(self) -> bool:
+        return True
 
     def __repr__(self) -> str:
         return f"<SpecificCourseFilter course={self.course!r}>"
@@ -31,7 +35,7 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: course.Course, program: program.Program) -> bool:
+    def accepts_course(self, course: course.Course, degree: degree.Degree) -> bool:
         return course == self.course
 
     # Saves the filter in the database

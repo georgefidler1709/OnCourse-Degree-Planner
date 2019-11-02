@@ -12,8 +12,8 @@ will be taken.
 [MORE INFO ABOUT CLASS]
 """
 
-from . import course
-from . import term
+import course
+import term
 
 class CourseEnrollment(object):
 

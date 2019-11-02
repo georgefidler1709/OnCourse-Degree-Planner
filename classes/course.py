@@ -15,10 +15,10 @@ concerning requirements.
 from flask import g
 from typing import List, Optional
 
-from . import courseReq
-from . import term
-from . import course
-from . import program
+import courseReq
+import term
+import course
+import program
 
 class Course(object):
 

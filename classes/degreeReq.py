@@ -14,10 +14,10 @@ filter of courses.
 
 from abc import ABC, abstractmethod
 from typing import List, Optional
-from . import courseFilter
-from . import program
-from . import course
-from . import degree
+import courseFilter
+import program
+import course
+import degree
 
 
 class DegreeReq(ABC):

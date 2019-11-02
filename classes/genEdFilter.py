@@ -10,9 +10,9 @@ A filter that matches only general education courses
 [MORE INFO ABOUT CLASS]
 """
 
-from . import course
-from . import courseFilter
-from . import degree
+import course
+import courseFilter
+import degree
 
 class GenEdFilter(courseFilter.CourseFilter):
 

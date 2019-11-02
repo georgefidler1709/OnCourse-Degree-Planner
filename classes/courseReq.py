@@ -15,10 +15,9 @@ from abc import ABC, abstractmethod
 from flask import g
 from typing import List
 
-from . import course
-from . import term
-from . import program
-
+import course
+import term
+import program
 
 class CourseReq(ABC):
 

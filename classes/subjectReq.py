@@ -12,11 +12,11 @@ The course requirement to have taken a specific course prior to completing this 
 
 from typing import List
 
-from . import course
-from . import degree
-from . import term
-from . import program
-from . import singleReq
+import course
+import degree
+import term
+import program
+import singleReq
 
 
 class SubjectReq(singleReq.SingleReq):

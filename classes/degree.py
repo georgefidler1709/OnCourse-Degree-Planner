@@ -17,9 +17,9 @@ requirements.
 from flask import g
 from typing import Dict, Optional, Sequence
 
-from . import courseEnrollment
-from . import degreeReq
-from . import program
+import courseEnrollment
+import degreeReq
+import program
 
 class Degree(object):
 

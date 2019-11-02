@@ -14,10 +14,10 @@ Abstract class which collects the two kinds of composite requirement (AND/OR)
 from abc import ABC, abstractmethod
 from typing import List
 
-from . import course
-from . import courseReq
-from . import term
-from . import program
+import course
+import courseReq
+import term
+import program
 
 
 class CompositeReq(courseReq.CourseReq, ABC):

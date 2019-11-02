@@ -12,11 +12,11 @@ A course requirement that requires multiple requirements to be matched
 
 from typing import List
 
-from . import compositeReq
-from . import course
-from . import courseReq
-from . import term
-from . import program
+import compositeReq
+import course
+import courseReq
+import term
+import program
 
 
 class AndReq(compositeReq.CompositeReq):

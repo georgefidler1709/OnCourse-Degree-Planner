@@ -12,9 +12,9 @@ A filter that only allows courses that match all of the provided filters
 
 from typing import List
 
-from . import course
-from . import courseFilter
-from . import degree
+import course
+import courseFilter
+import degree
 
 
 class AndFilter(courseFilter.CourseFilter):

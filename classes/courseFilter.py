@@ -16,8 +16,7 @@ from flask import g
 from typing import List
 
 from . import course
-from . import program
-
+from . import degree
 
 class CourseFilter(ABC):
 
@@ -48,7 +47,7 @@ class CourseFilter(ABC):
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     @abstractmethod
-    def accepts_course(self, course: 'course.Course', program: 'program.Program') -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
         pass
 
     # Saves the filter in the database

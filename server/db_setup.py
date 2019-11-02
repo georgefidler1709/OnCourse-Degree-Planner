@@ -15,7 +15,7 @@ from flask.cli import with_appcontext
 
 import classes.university
 
-def query_db(query : str, args: Tuple = (), one = False) -> Tuple:
+def query_db(query : str, args: Tuple = (), one = False) -> sqlite3.Row:
     # query function from flask documentation
     # https://flask.palletsprojects.com/en/1.1.x/patterns/sqlite3/#easy-querying
 
@@ -30,12 +30,10 @@ def get_db() -> sqlite3.Connection:
             detect_types=sqlite3.PARSE_DECLTYPES
         )
         g.db.row_factory = sqlite3.Row
-        # Add an easier way to query the database
-        g.query_db = query_db
 
     return g.db
 
-def close_db(err : str = None) -> None:
+def close_db(err : Exception = None) -> None:
     db = g.pop('db', None)
 
     if db is not None:
@@ -97,11 +95,6 @@ def init_db() -> None:
     course = uni.find_course("COMP2511")
     print(repr(course))
     '''
-
-
-
-
-
 
 def init_app(app : Flask) -> None:
     '''

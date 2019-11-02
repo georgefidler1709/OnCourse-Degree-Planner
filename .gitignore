@@ -5,6 +5,7 @@ server/__pycache__/
 *.sublime-project
 venv/
 __pycache__/
+.cache
 
 ## Frontend
 **/node_modules

@@ -236,7 +236,7 @@ class Helper:
 		last_id = self.insert(msg, (combo_id,))
 
 		# for each requirement id, add it to CourseFilterHierarchies table
-		msg = "INSERT INTO CourseFilterHierarchies(parent_id, child_id) VALUES (?, ?)"
+		msg = "INSERT INTO CourseRequirementHierarchies(parent_id, child_id) VALUES (?, ?)"
 		for r in reqs:
 			self.safe_insert(msg, (last_id, r), (last_id, r))
 

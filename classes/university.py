@@ -15,24 +15,26 @@ from mypy_extensions import DefaultArg
 from sqlite3 import Row, Connection
 from .api import SimpleDegree, SimpleDegrees
 
-import andFilter
-import andReq 
-import course 
-import courseReq 
-import courseFilter 
-import degree 
-import minDegreeReq 
-import enrollmentReq 
-import fieldFilter 
-import freeElectiveFilter 
-import genEdFilter 
-import orFilter 
-import orReq 
-import specificCourseFilter 
-import subjectReq 
-import term 
-import uocReq 
-import yearReq 
+from . import  (
+    andFilter,
+    andReq, 
+    course, 
+    courseReq, 
+    courseFilter, 
+    degree, 
+    minDegreeReq, 
+    enrollmentReq, 
+    fieldFilter, 
+    freeElectiveFilter, 
+    genEdFilter, 
+    orFilter, 
+    orReq, 
+    specificCourseFilter, 
+    subjectReq, 
+    term, 
+    uocReq, 
+    yearReq, 
+)
 
 # Temporary: only allow 2019 results
 YEAR = 2019

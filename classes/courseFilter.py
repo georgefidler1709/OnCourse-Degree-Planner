@@ -15,8 +15,8 @@ from abc import ABC, abstractmethod
 from flask import g
 from typing import List
 
-import course
-import degree
+from . import course
+from . import degree
 
 class CourseFilter(ABC):
 

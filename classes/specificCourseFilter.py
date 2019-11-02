@@ -10,9 +10,9 @@ A filter that matches only one course
 [MORE INFO ABOUT CLASS]
 """
 
-import course
-import courseFilter
-import degree
+from . import course
+from . import courseFilter
+from . import degree
 
 class SpecificCourseFilter(courseFilter.CourseFilter):
 

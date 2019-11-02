@@ -11,15 +11,15 @@ A generator which creates a degree plan for a given degree
 """
 
 from typing import List, Optional
-import program
-import degree
-import term
-import specificCourseFilter
-import orFilter
-import andFilter
-import courseFilter
-import course
-import degreeReq
+from . import program
+from . import degree
+from . import term
+from . import specificCourseFilter
+from . import orFilter
+from . import andFilter
+from . import courseFilter
+from . import course
+from . import degreeReq
 
 class Generator(object):
 

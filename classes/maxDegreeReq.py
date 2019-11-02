@@ -16,6 +16,9 @@ from . import degreeReq, courseFilter, program, course, degree
 
 class MaxDegreeReq(degreeReq.DegreeReq):
 
+    def __init__(self, filter: 'courseFilter.CourseFilter', uoc: int):
+        super().__init__(filter, uoc)
+
     # Input: a degree and a list of courses
     # Return: whether this course list would fulfil this degree requirement
     def fulfilled(self, courses: List['course.Course'], deg: 'degree.Degree') -> bool:

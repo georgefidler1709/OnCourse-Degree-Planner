@@ -11,6 +11,7 @@ A term study period consisting of a year and a term 1-3 or summer term.
 """
 
 from flask import g
+from . import api
 
 class Term(object):
 
@@ -22,6 +23,11 @@ class Term(object):
 
     def __repr__(self) -> str:
         return f"<Term year={self.year!r} term={self.term!r}>"
+
+    def to_api(self) -> api.Term:
+        return {"year": self.year,
+                "term": self.term,
+                }
 
     # Override comparison functions
     def __lt__(self, other) -> bool: # x < y

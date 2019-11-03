@@ -19,3 +19,28 @@ class SimpleDegree(TypedDict):
     name: str;
 
 SimpleDegrees = List[SimpleDegree]
+
+class Term(TypedDict):
+    year: int
+    term: int
+
+class Course(TypedDict):
+    subject: str;
+    code: int;
+    name: str;
+    units: int;
+    terms: List[Term];
+
+class CourseEnrollment(TypedDict):
+    course: Course;
+    term: Term;
+
+class Program(TypedDict):
+    # Degree object
+    id: int;
+    name: str;
+    year: int;
+    duration: int; # in years
+
+    # List of CourseEnrollments
+    enrollments: List[CourseEnrollment];

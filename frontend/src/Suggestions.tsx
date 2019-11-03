@@ -2,7 +2,6 @@ import React, {MouseEvent} from "react";
 import Button from "react-bootstrap/Button";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
-
 import {Position} from './Types'
 import {SimpleDegrees} from './Api'
 
@@ -41,7 +40,7 @@ function Suggestions(props: {degrees: SimpleDegrees}) {
     
   ));
 
-  return <div>{options}</div>;
+  return <div className="suggestion-container">{options}</div>;
 }
 
 export default Suggestions;

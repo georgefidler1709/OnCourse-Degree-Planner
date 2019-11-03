@@ -1,6 +1,5 @@
 import React, { Component, ChangeEvent } from 'react'
 import Suggestions from './Suggestions'
-
 import {API_ADDRESS} from './Constants'
 import {SimpleDegrees} from './Api'
 
@@ -18,6 +17,7 @@ class Search extends Component<{}, {query: string; degrees: SimpleDegrees}> {
     fetch(API_ADDRESS + '/degrees.json')
     .then(response => response.json())
     .then(degrees => {
+      console.log(degrees)
       this.setState({ degrees })
     })
   }

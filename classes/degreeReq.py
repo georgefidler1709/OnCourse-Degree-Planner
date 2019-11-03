@@ -18,15 +18,18 @@ from . import courseFilter
 from . import program
 from . import course
 from . import degree
-
+from . import api
 
 class DegreeReq(ABC):
 
-    def __init__(self, filter: 'courseFilter.CourseFilter', uoc: int):
+    def __init__(self, inFilter: 'courseFilter.CourseFilter', uoc: int):
         # input as separate variables? or some other format
         self.uoc = uoc
-        self.filter = filter
+        self.filter = inFilter
         super().__init__()
+
+    def __repr__(self) -> str:
+        return f"<DegreeReq uoc={self.uoc}, filter={self.filter}>"
 
     # Input: a degree and a list of courses
     # Return: whether this course list would fulfil this degree requirement

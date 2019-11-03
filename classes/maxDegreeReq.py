@@ -12,6 +12,7 @@ list of courses.
 """
 
 from typing import List
+
 from . import degreeReq, courseFilter, program, course, degree
 
 class MaxDegreeReq(degreeReq.DegreeReq):
@@ -24,5 +25,4 @@ class MaxDegreeReq(degreeReq.DegreeReq):
             if self.filter.accepts_course(c.course, program.degree):
                 units += c.units()
         return units < self.uoc
-
 

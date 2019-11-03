@@ -5,4 +5,31 @@ export interface SimpleDegree {
     name: string;
 }
 
-export type SimpleDegrees = Array<SimpleDegree>
+export type SimpleDegrees = Array<SimpleDegree>;
+
+export interface Term {
+    year: number;
+    term: number;
+}
+
+export interface Course {
+    subject: string;
+    code: number;
+    name: string;
+    units: number;
+    terms: Array<Term>;
+}
+
+export interface CourseEnrollment {
+    course: Course;
+    term: Term;
+}
+
+export interface Program {
+    // Degree object
+    id: number;
+    name: string;
+    year: number;
+    duration: number; // in years
+    enrollments: Array<CourseEnrollment>;
+}

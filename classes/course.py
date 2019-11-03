@@ -45,13 +45,6 @@ class Course(object):
         self.exclusions = exclusions
         self.equivalents = equivalents
 
-    def __eq__(self, other):
-        if type(other) != Course:
-            return False
-        else:
-            return (self.subject == other.subject and self.code == other.code
-                    and self.name == other.name and self.units == other.units)
-
     def __repr__(self) -> str:
         return f"<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>"
 

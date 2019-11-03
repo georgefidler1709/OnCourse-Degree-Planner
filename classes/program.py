@@ -78,18 +78,29 @@ class Program(object):
         sorted_courses = sorted(self.courses, key=lambda x: (x.term, x.course))
         sorted_api_courses =[course.to_api() for course in sorted_courses]
 
-        # get the degree requirements that aren't a specific course
-        # as those should be in enrollments
-        # i.e. not and, or, or specific course
-        # output_req_types = (fieldFilter.FieldFilter, 
-        #     freeElectiveFilter.FreeElectiveFilter,
-        #     genEdFilter.GenEdFilter)
+        # TODO hardcode which reqs to output for now
+        # until you fix the bug, then switch for commented out section below
+        output_req_types = (fieldFilter.FieldFilter, 
+            freeElectiveFilter.FreeElectiveFilter,
+            levelFilter.LevelFilter,
+            genEdFilter.GenEdFilter)
+        outstanding_reqs = self.degree.requirements
+        reqs: List['api.RemainReq'] = []
+        for r in outstanding_reqs:
+            if isinstance(r.filter, output_req_types):
+                new: api.RemainReq = {'units': r.uoc, 'filter_type': r.filter.simple_name}
+                reqs.append(new)
+
+        # TODO this is the correct version, uncomment when
+        # self.get_outstanding_reqs() is accurate
+        '''
         outstanding_reqs = self.get_outstanding_reqs()
 
         reqs: List['api.RemainReq'] = []
         for key, val in outstanding_reqs.items():
-            new: api.RemainReq = {'units': val, 'filter_type': key.type_to_str()}
+            new: api.RemainReq = {'units': val, 'filter_type': key.filter.simple_name}
             reqs.append(new)                
+        '''
 
         return {'id': self.degree.num_code, 
                 'name': self.degree.name,

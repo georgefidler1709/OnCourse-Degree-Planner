@@ -20,16 +20,6 @@ from . import course
 from . import degree
 from . import api
 
-from . import andFilter
-from . import orFilter
-from . import fieldFilter 
-from . import freeElectiveFilter
-from . import genEdFilter
-from . import levelFilter
-from . import specificCourseFilter
-
-
-
 class DegreeReq(ABC):
 
     def __init__(self, inFilter: 'courseFilter.CourseFilter', uoc: int):
@@ -67,52 +57,3 @@ class DegreeReq(ABC):
     # Return: the id of the filter in the database
     def save(self):
         return self.filter.save()
-
-    # returns a string representing the type of DegreeReq
-    def type_to_str(self) -> str:
-        if isinstance(self, andFilter.AndFilter):
-            filter_type = "and"
-        elif isinstance(self, orFilter.OrFilter):
-            filter_type = "or"
-        elif isinstance(self, fieldFilter.FieldFilter):
-            filter_type = "field"
-        elif isinstance(self, freeElectiveFilter.FreeElectiveFilter):
-            filter_type = "free elective"
-        elif isinstance(self, genEdFilter.GenEdFilter):
-            filter_type = "general education"
-        elif isinstance(self, levelFilter.LevelFilter):
-            filter_type = "level"
-        elif isinstance(self, specificCourseFilter.SpecificCourseFilter):
-            filter_type = "specific course"
-        else:
-            filter_type = "mystery"
-
-        return filter_type
-
-
-    # TODO want to make a to_api() function to have UOC counts for type of filter
-    # but will have to make those changes for self.filter as well
-    # outputs counts 
-    # def to_api(self) -> api.DegreeReq:
-    #     # convert the filter type to a string
-    #     # doesn't work nicely for AND and OR requirements,
-    #     # but the API doesn't want specific course ones so should be ok
-
-    #     if isinstance(self, andFilter.AndFilter):
-    #         filter_type = "and"
-    #     elif isinstance(self, orFilter.OrFilter):
-    #         filter_type = "or"
-    #     elif isinstance(self, fieldFilter.FieldFilter):
-    #         filter_type = "field"
-    #     elif isinstance(self, freeElectiveFilter.FreeElectiveFilter):
-    #         filter_type = "free elective"
-    #     elif isinstance(self, genEdFilter.GenEdFilter):
-    #         filter_type = "general education"
-    #     elif isinstance(self, specificCourseFilter.SpecificCourseFilter):
-    #         filter_type = "specific course"
-    #     else:
-    #         filter_type = "mystery"
-
-    #     return {'units': units,
-    #             'filter_type': filter_type}
-

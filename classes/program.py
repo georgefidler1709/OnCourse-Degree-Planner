@@ -80,7 +80,7 @@ class Program(object):
             enrollments_map.setdefault(x.term, []).append(x.course.to_api());
 
         enrollments: List["api.CourseEnrollment"] = [
-                { "term": term.to_api(), "course": courses }
+                { "term": term.to_api(), "courses": courses }
             for (term, courses) in enrollments_map.items()];
             
         # TODO hardcode which reqs to output for now

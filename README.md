@@ -34,3 +34,6 @@ Run pytest from the root folder with
 ```
 pytest --pyargs classes
 ```
+
+Extra options
+* `-s` to capture stdout even if test passes (anything you `print()`)

@@ -32,7 +32,7 @@ class SingleReq(courseReq.CourseReq, ABC):
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     @abstractmethod
-    def fulfilled(self, program: program.Program, term: term.Term,
+    def fulfilled(self, program: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
         pass
 

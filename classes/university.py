@@ -90,9 +90,9 @@ class University(object):
 
         requirements = []
 
-        print("Response is")
-        print(response)
-        print("\n\n\n")
+        # print("Response is")
+        # print(response)
+        # print("\n\n\n")
 
         if need_requirements:
             for offering_requirement in response:

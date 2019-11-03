@@ -21,7 +21,7 @@ from . import singleReq
 
 class SubjectReq(singleReq.SingleReq):
 
-    def __init__(self, course: course.Course, min_mark: int=None):
+    def __init__(self, course: 'course.Course', min_mark: int=None):
         super().__init__()
         self.course = course
         if min_mark is None:

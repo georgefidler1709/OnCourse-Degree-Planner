@@ -25,6 +25,11 @@ export interface CourseEnrollment {
     term: Term;
 }
 
+export interface RemainReq {
+    units: number;
+    filter_type: string;
+}
+
 export interface Program {
     // Degree object
     id: number;
@@ -32,5 +37,6 @@ export interface Program {
     year: number;
     duration: number; // in years
     url: string; // handbook entry for degree
+    reqs: Array<RemainReq>
     enrollments: Array<CourseEnrollment>;
 }

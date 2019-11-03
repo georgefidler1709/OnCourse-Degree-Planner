@@ -34,7 +34,7 @@ class MinDegreeReq(degreeReq.DegreeReq):
     
     # Input: a degree and a list of courses
     # Return: number of units remaining to complete this requirement
-    def remaining(self, program: 'program.Program'):
+    def remaining(self, program: 'program.Program') -> int:
         units = 0
         for course_enrol in program.courses:
             if self.filter.accepts_course(course_enrol.course, program.degree):

@@ -13,9 +13,9 @@ based on course level.
 
 from abc import abstractmethod
 
-import course
-import degree
-from courseFilter import CourseFilter
+from . import course
+from . import degree
+from .courseFilter import CourseFilter
 
 
 class LevelFilter(CourseFilter):

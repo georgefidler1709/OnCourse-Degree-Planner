@@ -41,7 +41,7 @@ class Degree(object):
     def get_requirements(self, program: Optional['program.Program']=None) -> Dict[('degreeReq.DegreeReq', int)]:
         remaining = {}
         for req in self.requirements:
-            if not req.fulfilled(program):
+            if not req.fulfilled(program, self):
                 remaining[req] = req.remaining(program)
         return remaining
 

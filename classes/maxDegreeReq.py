@@ -12,11 +12,11 @@ list of courses.
 """
 
 from typing import List
-import degreeReq
-import courseFilter
-import program
-import course
-import degree
+from . import degreeReq
+from . import courseFilter
+from . import program
+from . import course
+from . import degree
 
 class MaxDegreeReq(degreeReq.DegreeReq):
 
@@ -32,4 +32,6 @@ class MaxDegreeReq(degreeReq.DegreeReq):
                 units += c.units
         return units < self.uoc
 
-
+    # ERROR doesn't have a remaining function but used in Degree.get_requirements()
+    def remaining(self, program: 'program.Program') -> int:
+        pass

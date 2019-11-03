@@ -42,7 +42,7 @@ class CourseFilter(ABC):
     @property
     @abstractmethod
     def core(self) -> bool:
-        return False
+        pass
 
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter

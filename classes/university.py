@@ -153,11 +153,12 @@ class University(object):
         if need_requirements:
             prereq = self.load_course_requirement(prereq_id)
             coreq = self.load_course_requirement(coreq_id)
-            exclusion = self.load_course_requirement(exclusion_id)
+            # TODO: Commented out as exclusions are to be represented by a list of courses
+            #exclusion = self.load_course_requirement(exclusion_id)
         else:
             prereq = None
             coreq = None
-            exclusion = None
+        exclusion = None
 
         units = 6 # TODO: delete this when units have been properly populated
 

@@ -28,10 +28,6 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<SpecificCourseFilter course={self.course!r}>"
 
-    @property
-    def core(self) -> bool:
-        return True
-
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:

@@ -47,10 +47,12 @@ class DbHelper:
 
         self.cursor.execute("insert into DegreeOfferings(year, degree_id) values(?, ?)", (year, id))
 
-    def insert_course(self, letter_code="COMP", number_code="1511", level=1, name="Intro to computing", units=6):
-        self.cursor.execute('''insert into Courses(letter_code, number_code, level, name, units) values
-        (?, ?, ?, ?, ?)''', (letter_code, number_code, level, name,
-        units))
+    def insert_course(self, letter_code="COMP", number_code="1511", level=1,
+            name="Intro to computing", units=6, prereq=None, coreq=None, exclusion=None,
+            equivalent=None):
+        self.cursor.execute('''insert into Courses(letter_code, number_code, level, name, units,
+        prereq, coreq, exclusion, equivalent) values (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+        (letter_code, number_code, level, name, units, prereq, coreq, exclusion, equivalent))
 
         id = self.cursor.lastrowid
         return id
@@ -390,3 +392,298 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         assert course.name == course_name
         assert course.units == units
 
+    def test_course_with_completed_course_prereq(self):
+        course_letter_code = "TEST"
+        course_number_code = "4999"
+        course_level = 3
+        course_name = "Test course"
+        units = 50
+
+        other_course_letter_code = "COMP"
+        other_course_number_code = "1511"
+        other_course_level = 2
+        other_course_name = "Other course"
+        other_course_units = 3
+
+        other_course_id = self.h.insert_course(other_course_letter_code, other_course_number_code,
+                other_course_level, other_course_name, other_course_units)
+
+
+        type_id = self.h.get_requirement_type_id("CompletedCourseRequirement")
+        min_mark = 75
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, min_mark, course_id)
+        values(?, ?, ?)''', (type_id, min_mark, other_course_id))
+
+        requirement_id = self.cursor.lastrowid
+
+        self.h.insert_course(course_letter_code, course_number_code, course_level, course_name,
+                units, prereq=requirement_id)
+
+        course = self.university.find_course(course_letter_code + course_number_code)
+
+        assert course is not None
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == "CompletedCourseRequirement"
+        required_course = prereq.course
+        assert required_course.subject == other_course_letter_code
+        assert required_course.code == other_course_number_code
+
+    def test_course_with_degree_prereq(self):
+        course_letter_code = "TEST"
+        course_number_code = "4999"
+        course_level = 3
+        course_name = "Test course"
+        units = 50
+
+        degree_name = "TestDegree"
+        degree_code = "TestCode"
+        degree_id = 42
+        degree_year = 2019
+
+        self.h.insert_degree(degree_name, degree_code, degree_id, degree_year)
+
+        type_id = self.h.get_requirement_type_id("CurrentDegreeRequirement")
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, degree_id) values(?, ?)''',
+                (type_id, degree_id))
+
+        requirement_id = self.cursor.lastrowid
+
+        self.h.insert_course(course_letter_code, course_number_code, course_level, course_name,
+                units, prereq=requirement_id)
+
+        course = self.university.find_course(course_letter_code + course_number_code)
+
+        assert course is not None
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == "CurrentDegreeRequirement"
+        required_degree = prereq.degree
+        assert required_degree is not None
+        assert required_degree.num_code == degree_id
+        assert required_degree.name == degree_name
+
+    def test_course_with_year_prereq(self):
+        course_letter_code = "TEST"
+        course_number_code = "4999"
+        course_level = 3
+        course_name = "Test course"
+        units = 50
+
+        year = 2
+
+        type_id = self.h.get_requirement_type_id("YearRequirement")
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, year) values(?, ?)''',
+                (type_id, year))
+
+        requirement_id = self.cursor.lastrowid
+
+        self.h.insert_course(course_letter_code, course_number_code, course_level, course_name,
+                units, prereq=requirement_id)
+
+        course = self.university.find_course(course_letter_code + course_number_code)
+
+        assert course is not None
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == "YearRequirement"
+        assert prereq.year == year
+
+    def test_course_with_uoc_prereq(self):
+        course_letter_code = "TEST"
+        course_number_code = "4999"
+        course_level = 3
+        course_name = "Test course"
+        units = 50
+
+        #Insert filter for the uoc requirement
+        filter_type_id = self.h.get_filter_type_id("FieldFilter")
+        filter_field = "COMP"
+        filter_level = 2
+
+        self.cursor.execute('''insert into CourseFilters(type_id, field_code, level) values(?, ?,
+                ?)''', (filter_type_id, filter_field, filter_level))
+
+        filter_id = self.cursor.lastrowid
+
+        # Insert requirement
+        requirement_uoc_required = 12
+        requirement_min_level = 3
+        requirement_subject = "COMP"
+
+        requirement_type_id = self.h.get_requirement_type_id("UocRequirement")
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, uoc_amount_required,
+                uoc_min_level, uoc_subject, uoc_course_filter) values(?, ?, ?, ?, ?)''',
+                (requirement_type_id, requirement_uoc_required, requirement_min_level,
+                    requirement_subject, filter_id))
+
+        requirement_id = self.cursor.lastrowid
+
+        self.h.insert_course(course_letter_code, course_number_code, course_level, course_name,
+                units, prereq=requirement_id)
+
+        course = self.university.find_course(course_letter_code + course_number_code)
+
+        assert course is not None
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == "UocRequirement"
+        assert prereq.uoc == requirement_uoc_required
+        filter = prereq.filter
+        assert filter.filter_name == "FieldFilter"
+
+    def test_course_with_and_prereq(self):
+        course_letter_code = "TEST"
+        course_number_code = "4999"
+        course_level = 3
+        course_name = "Test course"
+        units = 50
+
+        year = 2
+
+        sub_requirement_type_id = self.h.get_requirement_type_id("YearRequirement")
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, year) values(?, ?)''',
+                (sub_requirement_type_id, year))
+
+        sub_requirement_id = self.cursor.lastrowid
+
+        requirement_type_id =  self.h.get_requirement_type_id("AndRequirement")
+
+        self.cursor.execute('''insert into CourseRequirements(type_id) values(?)''',
+                (requirement_type_id,))
+
+        requirement_id = self.cursor.lastrowid
+
+        self.cursor.execute('''insert into CourseRequirementHierarchies(parent_id, child_id)
+        values(?, ?)''', (requirement_id, sub_requirement_id))
+
+        self.h.insert_course(course_letter_code, course_number_code, course_level, course_name,
+                units, prereq=requirement_id)
+
+        course = self.university.find_course(course_letter_code + course_number_code)
+
+        assert course is not None
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == "AndRequirement"
+        sub_requirements = prereq.reqs
+        assert len(sub_requirements) == 1
+        sub_requirement = sub_requirements[0]
+        assert sub_requirement.requirement_name == "YearRequirement"
+
+    def test_course_with_or_prereq(self):
+        course_letter_code = "TEST"
+        course_number_code = "4999"
+        course_level = 3
+        course_name = "Test course"
+        units = 50
+
+        year = 2
+
+        sub_requirement_type_id = self.h.get_requirement_type_id("YearRequirement")
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, year) values(?, ?)''',
+                (sub_requirement_type_id, year))
+
+        sub_requirement_id = self.cursor.lastrowid
+
+        requirement_type_id =  self.h.get_requirement_type_id("OrRequirement")
+
+        self.cursor.execute('''insert into CourseRequirements(type_id) values(?)''',
+                (requirement_type_id,))
+
+        requirement_id = self.cursor.lastrowid
+
+        self.cursor.execute('''insert into CourseRequirementHierarchies(parent_id, child_id)
+        values(?, ?)''', (requirement_id, sub_requirement_id))
+
+        self.h.insert_course(course_letter_code, course_number_code, course_level, course_name,
+                units, prereq=requirement_id)
+
+        course = self.university.find_course(course_letter_code + course_number_code)
+
+        assert course is not None
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == "OrRequirement"
+        sub_requirements = prereq.reqs
+        assert len(sub_requirements) == 1
+        sub_requirement = sub_requirements[0]
+        assert sub_requirement.requirement_name == "YearRequirement"
+
+    def test_course_with_coreq(self):
+        course_letter_code = "TEST"
+        course_number_code = "4999"
+        course_level = 3
+        course_name = "Test course"
+        units = 50
+
+        year = 2
+
+        type_id = self.h.get_requirement_type_id("YearRequirement")
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, year) values(?, ?)''',
+                (type_id, year))
+
+        requirement_id = self.cursor.lastrowid
+
+        self.h.insert_course(course_letter_code, course_number_code, course_level, course_name,
+                units, coreq=requirement_id)
+
+        course = self.university.find_course(course_letter_code + course_number_code)
+
+        assert course is not None
+        assert course.prereqs is None
+        coreq = course.coreqs
+        assert coreq is not None
+        assert coreq.requirement_name == "YearRequirement"
+        assert coreq.year == year
+
+    def test_course_with_prereq_and_coreq(self):
+        course_letter_code = "TEST"
+        course_number_code = "4999"
+        course_level = 3
+        course_name = "Test course"
+        units = 50
+
+        prereq_year = 2
+        coreq_year = 4
+
+        type_id = self.h.get_requirement_type_id("YearRequirement")
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, year) values(?, ?)''',
+                (type_id, prereq_year))
+
+        prereq_id = self.cursor.lastrowid
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, year) values(?, ?)''',
+                (type_id, coreq_year))
+
+        coreq_id = self.cursor.lastrowid
+
+
+
+        self.h.insert_course(course_letter_code, course_number_code, course_level, course_name,
+                units, prereq=prereq_id, coreq=coreq_id)
+
+        course = self.university.find_course(course_letter_code + course_number_code)
+
+        assert course is not None
+
+        coreq = course.coreqs
+        assert coreq is not None
+        assert coreq.requirement_name == "YearRequirement"
+        assert coreq.year == coreq_year
+
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == "YearRequirement"
+        assert prereq.year == prereq_year
+
+# Not including exclusion or equivalent because that might be changed to individual courses rather
+# than course requirements

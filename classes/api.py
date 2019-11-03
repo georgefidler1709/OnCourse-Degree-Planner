@@ -20,6 +20,12 @@ class SimpleDegree(TypedDict):
 
 SimpleDegrees = List[SimpleDegree]
 
+class SimpleCourse(TypedDict):
+    id: str;
+    name: str;
+
+SimpleCourses = List[SimpleCourse]
+
 class Term(TypedDict):
     year: int
     term: int
@@ -32,7 +38,7 @@ class Course(TypedDict):
     terms: List[Term];
 
 class CourseEnrollment(TypedDict):
-    course: Course;
+    courses: List[Course];
     term: Term;
 
 class RemainReq(TypedDict):

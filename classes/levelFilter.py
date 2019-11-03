@@ -22,8 +22,14 @@ class LevelFilter(CourseFilter):
     def __init__(self, level: int):
         self.level = level
 
+    def __repr__(self) -> str:
+        return f"<LevelFilter level={self.level!r}>"
+
+    @property
+    def core(self) -> bool:
+        return False
+
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    @abstractmethod
     def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
         return course.level == self.level

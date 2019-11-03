@@ -33,7 +33,3 @@ class CourseEnrollment(object):
 
     def units(self) -> int:
         return self.course.units
-    
-    def to_api(self) -> api.CourseEnrollment:
-        return {"course": self.course.to_api(),
-                "term": self.term.to_api()}

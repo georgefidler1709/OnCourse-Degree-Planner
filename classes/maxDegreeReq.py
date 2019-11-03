@@ -12,26 +12,17 @@ list of courses.
 """
 
 from typing import List
-from . import degreeReq
-from . import courseFilter
-from . import program
-from . import course
-from . import degree
+
+from . import degreeReq, courseFilter, program, course, degree
 
 class MaxDegreeReq(degreeReq.DegreeReq):
 
-    def __init__(self, filter: 'courseFilter.CourseFilter', uoc: int):
-        super().__init__(filter, uoc)
-
     # Input: a degree and a list of courses
     # Return: whether this course list would fulfil this degree requirement
-    def fulfilled(self, courses: List['course.Course'], deg: 'degree.Degree') -> bool:
+    def fulfilled(self, program:'program.Program') -> bool:
         units = 0
-        for c in courses:
-            if self.filter.accepts_course(c, deg):
-                units += c.units
+        for c in program.courses:
+            if self.filter.accepts_course(c.course, program.degree):
+                units += c.units()
         return units < self.uoc
 
-    # ERROR doesn't have a remaining function but used in Degree.get_requirements()
-    def remaining(self, program: 'program.Program') -> int:
-        pass

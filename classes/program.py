@@ -75,9 +75,14 @@ class Program(object):
 
     def to_api(self) -> api.Program:
         # sort the enrolled courses by term then name
-        sorted_courses = sorted(self.courses, key=lambda x: (x.term, x.course))
-        sorted_api_courses =[course.to_api() for course in sorted_courses]
+        enrollments_map: Dict["term.Term", List["api.Course"]] = {}
+        for x in self.courses:
+            enrollments_map.setdefault(x.term, []).append(x.course.to_api());
 
+        enrollments: List["api.CourseEnrollment"] = [
+                { "term": term.to_api(), "course": courses }
+            for (term, courses) in enrollments_map.items()];
+            
         # TODO hardcode which reqs to output for now
         # until you fix the bug, then switch for commented out section below
         output_req_types = (fieldFilter.FieldFilter, 
@@ -108,4 +113,4 @@ class Program(object):
                 'duration': self.degree.duration,
                 'url': self.degree.get_url(),
                 'reqs': reqs,
-                'enrollments': sorted_api_courses};
+                'enrollments': enrollments};

@@ -21,7 +21,7 @@ export interface Course {
 }
 
 export interface CourseEnrollment {
-    course: Course;
+    courses: Array<Course>;
     term: Term;
 }
 

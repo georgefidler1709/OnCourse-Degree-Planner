@@ -32,7 +32,7 @@ class Course(TypedDict):
     terms: List[Term];
 
 class CourseEnrollment(TypedDict):
-    course: Course;
+    courses: List[Course];
     term: Term;
 
 class RemainReq(TypedDict):

@@ -30,6 +30,9 @@ class Term(object):
                 }
 
     # Override comparison functions
+    def __hash__(self) -> int:
+        return hash((self.year, self.term))
+
     def __lt__(self, other) -> bool: # x < y
         if self.year < other.year: return True
         if self.year > other.year: return False

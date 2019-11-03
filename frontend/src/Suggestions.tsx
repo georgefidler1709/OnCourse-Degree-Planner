@@ -4,6 +4,7 @@ import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
 import {Position} from './Types'
 import {SimpleDegrees} from './Api'
+import {API_ADDRESS} from './Constants'
 
 
 function Suggestions(props: {degrees: SimpleDegrees}) {
@@ -14,6 +15,8 @@ function Suggestions(props: {degrees: SimpleDegrees}) {
   let history = useHistory();
 
   function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    console.log(event.currentTarget.value); //give degree id to backend
+    //fetch(API_ADDRESS + '/' + event.currentTarget.value)
     history.push("/timeline")
   }
 

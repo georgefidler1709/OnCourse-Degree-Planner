@@ -160,8 +160,6 @@ class University(object):
             coreq = None
         exclusion = None
 
-        units = 6 # TODO: delete this when units have been properly populated
-
         return course.Course(subject, int(numeric_code), name, units, terms, prereq, coreq, exclusion)
 
     # Input: A filter string [ITEMISE THESE HERE]

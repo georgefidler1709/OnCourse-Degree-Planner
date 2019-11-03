@@ -98,7 +98,7 @@ class TestUniversityWithDb():
 
         # TODO: Check different amounts of units
         self.first_course = course.Course("TEST", 1000, "Test course 1", 6, [])
-        self.second_course = course.Course("COMP", 2521, "Test course 2", 6, [])
+        self.second_course = course.Course("COMP", 2521, "Test course 2", 3, [])
 
         # TODO: check different years
         self.first_degree = degree.Degree(3333, "Test degree", 2019, 3, [], "ABCDE")

@@ -66,9 +66,11 @@ class Program(object):
         return self.degree.get_requirements(self)
 
     def to_api(self) -> api.Program:
+        sorted_courses = sorted(self.courses, key=lambda x: (x.term, x.course))
+        sorted_api_courses =[course.to_api() for course in sorted_courses]
         return {'id': self.degree.num_code, 
                 'name': self.degree.name,
                 'year': self.degree.year,
                 'duration': self.degree.duration,
                 'url': self.degree.get_url(),
-                'enrollments': [course.to_api() for course in self.courses]};
+                'enrollments': sorted_api_courses};

@@ -2,7 +2,6 @@ import pytest
 
 from classes.degree import Degree
 
-
 @pytest.fixture
 def compa1_shallow():
 	deg = Degree(num_code=3778, name='Computer Science', year=2019,

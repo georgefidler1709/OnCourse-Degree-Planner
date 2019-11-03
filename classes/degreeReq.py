@@ -22,10 +22,10 @@ from . import degree
 
 class DegreeReq(ABC):
 
-    def __init__(self, filter: 'courseFilter.CourseFilter', uoc: int):
+    def __init__(self, inFilter: 'courseFilter.CourseFilter', uoc: int):
         # input as separate variables? or some other format
         self.uoc = uoc
-        self.filter = filter
+        self.filter = inFilter
         super().__init__()
 
     # Input: a degree and a list of courses
@@ -42,3 +42,6 @@ class DegreeReq(ABC):
     # Return: the id of the filter in the database
     def save(self):
         return self.filter.save()
+
+    # TODO want to make a to_api() function to have UOC counts for type of filter
+    # but will have to make those changes for self.filter as well

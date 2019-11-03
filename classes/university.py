@@ -162,13 +162,13 @@ class University(object):
 
         units = 6 # TODO: delete this when units have been properly populated
 
-        return course.Course(subject, numeric_code, name, units, terms, prereq, coreq, exclusion)
+        return course.Course(subject, int(numeric_code), name, units, terms, prereq, coreq, exclusion)
 
     # Input: A filter string [ITEMISE THESE HERE]
     # Return: List of courses that match the requested filter
     def filter_courses(self, filter: 'courseFilter.CourseFilter') -> List['course.Course']:
         # TODO
-        pass
+        return []
 
     # Return: A dictionary containing the ids of each course requirement type along with their names
     def load_course_requirement_types(self) -> Dict[int, str]:

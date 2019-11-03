@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
+import CourseInfoModal from "./CourseInfoModal"
 
 const Container = styled.div`
   border: 1px solid lightgrey;
@@ -10,22 +11,30 @@ const Container = styled.div`
   background-color: white;
 `;
 
-class Course extends Component {
-  render() {
+function Course(props) {
+    const [modalShow, setModalShow] = React.useState(false);
     return (
-      <Draggable draggableId={this.props.course.id} index={this.props.index}>
+      <div>
+      <Draggable draggableId={props.course.id} index={props.index}>
         {provided => (
           <Container
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             innerRef={provided.innerRef}
+            onClick={() => setModalShow(true)}
           >
-            {this.props.course.content}
+            {props.course.content}
           </Container>
         )}
       </Draggable>
+        <CourseInfoModal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+          course={props.course}
+        />
+      </div>
     );
-  }
 }
+
 
 export default Course

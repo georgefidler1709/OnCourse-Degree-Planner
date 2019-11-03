@@ -10,7 +10,11 @@ const Container = styled.div`
 `;
 
 class Timeline extends Component {
-  state = mockDegree;
+  constructor(props) {
+    //console.log(props.location.state.plan)
+    super(props)
+    this.state = mockDegree //props.location.state.plan
+  }
 
   onDragEnd = result => {
     // TODO: preserve reorder of terms

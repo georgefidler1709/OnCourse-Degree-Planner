@@ -12,7 +12,7 @@ A filter that matches only courses in a specific field
 
 from . import course
 from . import courseFilter
-from . import program
+from . import degree
 
 
 class FieldFilter(courseFilter.CourseFilter):
@@ -24,6 +24,10 @@ class FieldFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<FieldFilter field={self.field!r}>"
 
+    @property
+    def core(self) -> bool:
+        return False
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
@@ -31,7 +35,7 @@ class FieldFilter(courseFilter.CourseFilter):
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: course.Course, program: program.Program) -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
         return course.subject == self.field
 
     # Saves the filter in the database

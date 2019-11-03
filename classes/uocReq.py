@@ -22,7 +22,7 @@ from . import singleReq
 
 class UOCReq(singleReq.SingleReq):
 
-    def __init__(self, uoc: int, filter: courseFilter.CourseFilter=None):
+    def __init__(self, uoc: int, filter: 'courseFilter.CourseFilter'=None):
         super().__init__()
         self.uoc = uoc
         self.filter = filter
@@ -36,7 +36,7 @@ class UOCReq(singleReq.SingleReq):
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
-    def fulfilled(self, program: program.Program, term: term.Term,
+    def fulfilled(self, program: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
         pass
 

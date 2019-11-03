@@ -15,7 +15,7 @@ from flask.cli import with_appcontext
 
 import classes.university
 
-def query_db(query : str, args: Tuple = (), one = False) -> Tuple:
+def query_db(query : str, args: Tuple = (), one = False) -> sqlite3.Row:
     # query function from flask documentation
     # https://flask.palletsprojects.com/en/1.1.x/patterns/sqlite3/#easy-querying
 
@@ -33,7 +33,7 @@ def get_db() -> sqlite3.Connection:
 
     return g.db
 
-def close_db(err : str = None) -> None:
+def close_db(err : Exception = None) -> None:
     db = g.pop('db', None)
 
     if db is not None:

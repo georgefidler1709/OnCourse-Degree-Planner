@@ -15,16 +15,18 @@ requirements.
 """
 
 from flask import g
-from typing import List, Dict, Optional
+from typing import Dict, Optional, Sequence
+
 from . import courseEnrollment
 from . import degreeReq
 from . import program
 
 class Degree(object):
 
-    def __init__(self, num_code: int, name: str, year: int, duration: int, requirements:
-            List['degreeReq.DegreeReq']):
+    def __init__(self, num_code: int, name: str, year: int, duration: int, 
+            requirements: Sequence['degreeReq.DegreeReq'], alpha_code: str):
         self.num_code = num_code
+        self.alpha_code = alpha_code
         self.name = name
         self.year = year
         self.duration = duration
@@ -35,10 +37,12 @@ class Degree(object):
 
     # Input: either nothing or a list of completed courses (<List>CourseEnrollment)
     # Return: list of requirements remaining for completion
+
     def get_requirements(self, program: Optional['program.Program']=None) -> Dict[('degreeReq.DegreeReq', int)]:
         remaining = {}
         for req in self.requirements:
-            if not req.fulfilled(program):
+
+            if not program or not req.fulfilled(program):
                 remaining[req] = req.remaining(program)
         return remaining
 
@@ -51,6 +55,14 @@ class Degree(object):
         if len(remaining) == 0:
             return True
         return False
+
+    # Returns the handbook URL for this degree
+    # depend on `self.num_code` and `self.year`
+    def get_url(self) -> str:
+        # for extensibility to postgraduate
+        study_level = "undergraduate"
+        url = f"https://www.handbook.unsw.edu.au/{study_level}/programs/{self.year}/{self.num_code}"
+        return url
 
     # Saves degree into the database
     # Return: the id of the degree

@@ -16,8 +16,7 @@ from flask import g
 from typing import List
 
 from . import course
-from . import program
-
+from . import degree
 
 class CourseFilter(ABC):
 
@@ -30,9 +29,16 @@ class CourseFilter(ABC):
 
     # The name of the requirement for the database
     @property
-    #@abstractmethod
     def filter_name(self) -> str:
         return "GenericFilter"
+
+    # gets rid of "Filter" in self.filter_name
+    @property
+    def simple_name(self) -> str:
+        name = self.filter_name
+        if "Filter" in name:
+            name = name.split("Filter")[0]
+        return name
 
     # The id of the requirement for the database
     @property
@@ -43,12 +49,12 @@ class CourseFilter(ABC):
     @property
     @abstractmethod
     def core(self) -> bool:
-        return False
+        pass
 
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     @abstractmethod
-    def accepts_course(self, course: 'course.Course', program: 'program.Program') -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
         pass
 
     # Saves the filter in the database

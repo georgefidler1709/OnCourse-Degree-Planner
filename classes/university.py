@@ -11,34 +11,37 @@ Implementation of the University class which is a database of courses and progra
 """
 
 from typing import Dict, List, Optional, Callable, Tuple
+from mypy_extensions import DefaultArg
 from sqlite3 import Row, Connection
 
-from . import andFilter
-from . import andReq
-from . import course
-from . import courseReq
-from . import courseFilter
-from . import degree
-from . import degreeReq
-from . import enrollmentReq
-from . import fieldFilter
-from . import freeElectiveFilter
-from . import genEdFilter
-from . import orFilter
-from . import orReq
-from . import specificCourseFilter
-from . import subjectReq
-from . import term
-from . import uocReq
-from . import yearReq
-from . import api
+from . import  (
+    andFilter,
+    andReq, 
+    api,
+    course, 
+    courseReq, 
+    courseFilter, 
+    degree, 
+    minDegreeReq, 
+    enrollmentReq, 
+    fieldFilter, 
+    freeElectiveFilter, 
+    genEdFilter, 
+    orFilter, 
+    orReq, 
+    specificCourseFilter, 
+    subjectReq, 
+    term, 
+    uocReq, 
+    yearReq, 
+)
 
 # Temporary: only allow 2019 results
 YEAR = 2019
 
 class University(object):
 
-    def __init__(self, query_db: Callable[[str, Tuple, bool], Tuple]):
+    def __init__(self, query_db: Callable[[str, DefaultArg(Tuple), DefaultArg(bool, 'one')], Row]):
         # need to decide how degree/course details passed in
         # unpack and create degree.Degree and course.Course objects
         self.query_db = query_db
@@ -87,9 +90,9 @@ class University(object):
 
         requirements = []
 
-        print("Response is")
-        print(response)
-        print("\n\n\n")
+        # print("Response is")
+        # print(response)
+        # print("\n\n\n")
 
         if need_requirements:
             for offering_requirement in response:
@@ -97,15 +100,17 @@ class University(object):
                 filter = self.load_course_filter(filter_id)
 
                 if filter is not None:
-                    requirement = degreeReq.DegreeReq(filter, uoc)
+                    requirement = minDegreeReq.MinDegreeReq(filter, uoc)
                     requirements.append(requirement)
                 else:
                     # Filter should not be None
                     print("ERROR: filter {} for degree requirement should not be null".format(filter_id))
-        
+
         # TODO: put duration in database
         duration = 3
-        return degree.Degree(numeric_code, name, duration, year, requirements)
+        # TODO: alpha code in db (although we prob want to split into major)
+        alpha_code = "AlphaCode"
+        return degree.Degree(numeric_code, name, year, duration, requirements, alpha_code)
 
     # Input: course code (eg. COMP1511)
     # Return: corresponding Course object from courses
@@ -148,19 +153,20 @@ class University(object):
         if need_requirements:
             prereq = self.load_course_requirement(prereq_id)
             coreq = self.load_course_requirement(coreq_id)
-            exclusion = self.load_course_requirement(exclusion_id)
+            # TODO: Commented out as exclusions are to be represented by a list of courses
+            #exclusion = self.load_course_requirement(exclusion_id)
         else:
             prereq = None
             coreq = None
-            exclusion = None
+        exclusion = None
 
-        return course.Course(subject, numeric_code, name, units, terms, prereq, coreq, exclusion)
+        return course.Course(subject, int(numeric_code), name, units, terms, prereq, coreq, exclusion)
 
     # Input: A filter string [ITEMISE THESE HERE]
     # Return: List of courses that match the requested filter
     def filter_courses(self, filter: 'courseFilter.CourseFilter') -> List['course.Course']:
         # TODO
-        pass
+        return []
 
     # Return: A dictionary containing the ids of each course requirement type along with their names
     def load_course_requirement_types(self) -> Dict[int, str]:
@@ -253,7 +259,7 @@ class University(object):
             return None
 
         return enrollmentReq.EnrollmentReq(required_degree)
-    
+
     # Input: row from the CourseRequirements table in the db for a year requirement
     # Return: The relevant requirement
     def load_year_requirement(self, requirement_data: Row) -> 'yearReq.YearReq':
@@ -420,9 +426,9 @@ class University(object):
     def get_simple_degrees(self) -> api.SimpleDegrees:
         response = self.query_db('''select name, code
                                  from Degrees''')
-        return [api.SimpleDegree(id=i['code'], name=i['name']) for i in response];
+        return [{'id': i['code'], 'name': i['name']} for i in response];
 
     def get_simple_courses(self) -> api.SimpleCourses:
         response = self.query_db('''select letter_code, number_code, name
                                  from Courses''')
-        return [api.SimpleDegree(id=i['letter_code'] + i['number_code'], name=i['name']) for i in response];
+        return [{'id': i['letter_code'] + i['number_code'], 'name': i['name']} for i in response];

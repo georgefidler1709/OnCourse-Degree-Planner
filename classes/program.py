@@ -11,13 +11,22 @@ study.
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List, Dict
+from typing import List, Optional, Dict
 
 from . import course
 from . import courseEnrollment
 from . import degree
 from . import degreeReq
 from . import term
+from . import api
+
+from . import andFilter
+from . import orFilter
+from . import fieldFilter 
+from . import freeElectiveFilter
+from . import genEdFilter
+from . import levelFilter
+from . import specificCourseFilter
 
 
 class Program(object):
@@ -26,16 +35,77 @@ class Program(object):
         self.degree = degree # degree.Degree
         self.courses = coursesTaken # <List>CourseEnrollments
 
+    # Input: a course
+    # Return: Whether there is already an enrollment for this course in this term
+    def enrolled(self, course: 'course.Course') -> bool:
+        for enrollment in self.courses:
+            if enrollment.course == course:
+                return True
+        return False
+
+    # Input: a course
+    # Return: term in which that course is taken
+    def term_taken(self, course: 'course.Course') -> Optional['term.Term']:
+        for enrollment in self.courses:
+            if enrollment.course == course:
+                return enrollment.term
+        return None
+
     def __repr__(self) -> str:
         return f"<Program degree={self.degree!r}, courses={self.courses!r}>"
 
     def add_course(self, course: 'course.Course', term: term.Term) -> None:
+        if self.enrolled(course):
+            return
         enrollment = courseEnrollment.CourseEnrollment(course, term)
         self.courses.append(enrollment)
 
     def remove_course(self, course: 'courseEnrollment.CourseEnrollment') -> None:
         self.courses.remove(course)
 
+    def unit_count(self, term: 'term.Term') -> int:
+        units = 0
+        for enrollment in self.courses:
+            if enrollment.term == term:
+                units += enrollment.course.units
+        return units
+
     def get_outstanding_reqs(self) -> Dict[('degreeReq.DegreeReq', int)]:
         return self.degree.get_requirements(self)
 
+    def to_api(self) -> api.Program:
+        # sort the enrolled courses by term then name
+        sorted_courses = sorted(self.courses, key=lambda x: (x.term, x.course))
+        sorted_api_courses =[course.to_api() for course in sorted_courses]
+
+        # TODO hardcode which reqs to output for now
+        # until you fix the bug, then switch for commented out section below
+        output_req_types = (fieldFilter.FieldFilter, 
+            freeElectiveFilter.FreeElectiveFilter,
+            levelFilter.LevelFilter,
+            genEdFilter.GenEdFilter)
+        outstanding_reqs = self.degree.requirements
+        reqs: List['api.RemainReq'] = []
+        for r in outstanding_reqs:
+            if isinstance(r.filter, output_req_types):
+                new: api.RemainReq = {'units': r.uoc, 'filter_type': r.filter.simple_name}
+                reqs.append(new)
+
+        # TODO this is the correct version, uncomment when
+        # self.get_outstanding_reqs() is accurate
+        '''
+        outstanding_reqs = self.get_outstanding_reqs()
+
+        reqs: List['api.RemainReq'] = []
+        for key, val in outstanding_reqs.items():
+            new: api.RemainReq = {'units': val, 'filter_type': key.filter.simple_name}
+            reqs.append(new)                
+        '''
+
+        return {'id': self.degree.num_code, 
+                'name': self.degree.name,
+                'year': self.degree.year,
+                'duration': self.degree.duration,
+                'url': self.degree.get_url(),
+                'reqs': reqs,
+                'enrollments': sorted_api_courses};

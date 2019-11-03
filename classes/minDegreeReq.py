@@ -11,32 +11,16 @@ list of courses.
 [MORE INFO ABOUT CLASS]
 """
 
-import degreeReq
-import program
-import courseFilter
-import course
+from typing import List
+from . import degreeReq, courseFilter, program, course, degree
 
 class MinDegreeReq(degreeReq.DegreeReq):
 
-    def __init__(self, filter: 'courseFilter.CourseFilter', uoc: int):
-        super().__init__(filter, uoc)
-
-    # Input: a program of study
-    # Return: whether this prorgram would fulfil this degree requirement
-    def fulfilled(self, prog: 'program.Program') -> bool:
+    # Input: a degree and a list of courses
+    # Return: whether this course list would fulfil this degree requirement
+    def fulfilled(self, program:'program.Program') -> bool:
         units = 0
-        for course in courses:
-            if self.filter.accepts_course(course, prog):
-                units += course.units
+        for c in program.courses:
+            if self.filter.accepts_course(c.course, program.degree):
+                units += c.units()
         return units >= self.uoc
-    
-    # Input: a program of study
-    # Return: whether this prorgram would fulfil this degree requirement
-    # Input: a program of study
-    # Return: number of units remaining to complete this requirement
-    def remaining(self, program: 'program.Program'):
-        units = 0
-        for course in program.courses:
-            if self.filter.accepts_course(course, program):
-                units += course.units
-        return self.uoc - units

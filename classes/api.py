@@ -12,7 +12,7 @@ Contains the json layout of the types to be sent over to the front end
 """
 
 from typing import List
-from typing_extensions import TypedDict
+from mypy_extensions import TypedDict
 
 class SimpleDegree(TypedDict):
     id: str;
@@ -25,3 +25,34 @@ class SimpleCourse(TypedDict):
     name: str;
 
 SimpleCourses = List[SimpleCourse]
+
+class Term(TypedDict):
+    year: int
+    term: int
+
+class Course(TypedDict):
+    subject: str;
+    code: int;
+    name: str;
+    units: int;
+    terms: List[Term];
+
+class CourseEnrollment(TypedDict):
+    course: Course;
+    term: Term;
+
+class RemainReq(TypedDict):
+    units: int;
+    filter_type: str;
+
+class Program(TypedDict):
+    # Degree object
+    id: int;
+    name: str;
+    year: int;
+    duration: int; # in years
+    url: str; # degree handbook url
+    reqs: List[RemainReq]; # list of requirements for nonspecific courses (gen eds, free elecs)
+
+    # List of CourseEnrollments
+    enrollments: List[CourseEnrollment];

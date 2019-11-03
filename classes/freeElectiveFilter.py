@@ -12,7 +12,7 @@ A filter that matches free electives (should be anything)
 
 from . import course
 from . import courseFilter
-from . import program
+from . import degree
 
 
 class FreeElectiveFilter(courseFilter.CourseFilter):
@@ -23,6 +23,10 @@ class FreeElectiveFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<FreeElectiveFilter>"
 
+    @property
+    def core(self) -> bool:
+        return False
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
@@ -30,7 +34,7 @@ class FreeElectiveFilter(courseFilter.CourseFilter):
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: course.Course, program: program.Program) -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
         return True
 
     # Saves the filter in the database

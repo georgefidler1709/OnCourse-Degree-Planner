@@ -16,14 +16,23 @@ from flask import g
 from typing import List, Optional
 
 from . import courseReq
-from . import program
 from . import term
+from . import api
+from . import course
+from . import program
 
 class Course(object):
 
-    def __init__(self, subject: str, code: int, name: str, units: int, terms: List[term.Term],
-            prereqs: Optional['courseReq.CourseReq'], coreqs: Optional['courseReq.CourseReq'],
-            exclusions: Optional['courseReq.CourseReq']):
+    def __init__(self, 
+            subject: str,
+            code: int,
+            name: str,
+            units: int,
+            terms: List[term.Term],
+            prereqs: Optional['courseReq.CourseReq']=None, 
+            coreqs: Optional['courseReq.CourseReq']=None,
+            exclusions: Optional[List['course.Course']]=None, 
+            equivalents: Optional[List['course.Course']]=None):
         # figure out inputs - database or variables?
         # to be assigned:
         self.subject = subject
@@ -34,10 +43,18 @@ class Course(object):
         self.prereqs = prereqs
         self.coreqs = coreqs
         self.exclusions = exclusions
+        self.equivalents = equivalents
 
     def __repr__(self) -> str:
         return f"<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>"
 
+    def to_api(self) -> api.Course:
+        return {"subject": self.subject,
+                "code": self.code,
+                "name": self.name,
+                "units": self.units,
+                "terms": [term.to_api() for term in self.terms],
+                }
 
     # returns the SUBJxxxx course code
     @property
@@ -48,9 +65,22 @@ class Course(object):
     def level(self) -> int:
         return self.code//1000
 
+    # Returns whether this course has an offering in the given term
+    def has_offering(self, term: term.Term) -> bool:
+        for t in self.terms:
+            if t == term:
+                return True
+        return False
+
     # Add an offering of this course in a given term
     def add_offering(self, term: term.Term) -> None:
         self.terms.append(term)
+
+    # Add an equivalent to this course
+    def add_equivalent(self, c):
+        if self.equivalents is None:
+            self.equivalents = []
+        self.equivalents.append(c)
 
     # Possibly need to be able to modify prereqs/coreqs?
     # Later release
@@ -61,7 +91,7 @@ class Course(object):
         if self.prereqs is None:
             return True
         else:
-            return self.prereqs.fulfilled(program, term, coreq=False)
+            return self.prereqs.fulfilled(program, term)
 
     # Input: The program of the student trying to take the course, the term they're taking it in,
     # and any additional courses they are taking that term
@@ -72,15 +102,25 @@ class Course(object):
         else:
             return self.coreqs.fulfilled(program, term, coreq=True)
 
-    # THINK about corequisites - what if prerequisite OR corequisite?
-
     # Input: The program of the student trying to take the course, the term they are taking it in
     # Return: whether any exclusion courses have been taken
-    def excluded(self, program: 'program.Program', term: term.Term) -> bool:
+    def excluded(self, prog: 'program.Program', term: term.Term) -> bool:
         if self.exclusions is None:
             return False
-        else:
-            return self.exclusions.fulfilled(program, term, coreq=True)
+        for course in self.exclusions:
+            if prog.enrolled(course) and prog.term_taken(course) <= term:
+                 return True
+        return False
+
+    # Input: a course
+    # Return: whether it is an equivalent course
+    def equivalent(self, other: 'course. Course') -> bool:
+        if self.equivalents is None:
+            return False
+        for c in self.equivalents:
+            if c == other:
+                return True
+        return False
 
     # Saves the course in the database
     # Return: the id of the course
@@ -95,12 +135,15 @@ class Course(object):
         else:
             coreq_id = self.coreqs.save()
 
-        if self.exclusions is None:
-            exclusions_id = None
-        else:
-            exclusions_id = self.exclusions.save()
+        # TODO: commented out as it is definitely buggy and causing mypy failures
+        exclusions_id = None
+        #if self.exclusions is None:
+        #    exclusions_id = None
+        #else:
+        #    exclusions_id = self.exclusions.save()
 
         # save the course itself
+
         g.db.execute('''insert into Courses(letter_code, number_code, level, name, units, prereq,
         coreq, exclusion) values (?, ?, ?, ?, ?, ?, ?)''',
         self.subject, self.code, self.level, self.name, self.units, prereq_id, coreq_id,
@@ -117,4 +160,40 @@ class Course(object):
 
         return course_id
 
+    # Override comparison fucntions
+    def __lt__(self, other) -> bool: # x < y
+        self_str = self.subject + str(self.code)
+        other_str = other.subject + str(other.code)
+
+        return self_str < other_str
+
+    def __le__(self, other) -> bool: # For x <= y
+        self_str = self.subject + str(self.code)
+        other_str = other.subject + str(other.code)
+
+        return self_str <= other_str
+
+    def __eq__(self, other) -> bool: # For x == y
+        self_str = self.subject + str(self.code)
+        other_str = other.subject + str(other.code)
+
+        return self_str == other_str
+
+    def __ne__(self, other) -> bool: # For x != y OR x <> y
+        self_str = self.subject + str(self.code)
+        other_str = other.subject + str(other.code)
+
+        return self_str != other_str
+
+    def __gt__(self, other) -> bool: # For x > y
+        self_str = self.subject + str(self.code)
+        other_str = other.subject + str(other.code)
+
+        return self_str > other_str
+
+    def __ge__(self, other) -> bool: # For x >= y
+        self_str = self.subject + str(self.code)
+        other_str = other.subject + str(other.code)
+
+        return self_str >= other_str
 

@@ -21,7 +21,7 @@ from . import program
 
 class OrReq(compositeReq.CompositeReq):
 
-    def __init__(self, reqs: List[courseReq.CourseReq]):
+    def __init__(self, reqs: List['courseReq.CourseReq']):
         super().__init__(reqs)
 
     def __repr__(self) -> str:
@@ -33,7 +33,7 @@ class OrReq(compositeReq.CompositeReq):
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
-    def fulfilled(self, program: program.Program, term: term.Term,
+    def fulfilled(self, program: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
         individual_fulfills = map(lambda x: x.fulfilled(program, term, coreq),
                 self.reqs)

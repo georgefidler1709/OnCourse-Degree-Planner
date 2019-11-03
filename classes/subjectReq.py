@@ -21,7 +21,7 @@ from . import singleReq
 
 class SubjectReq(singleReq.SingleReq):
 
-    def __init__(self, course: course.Course, min_mark: int=None):
+    def __init__(self, course: 'course.Course', min_mark: int=None):
         super().__init__()
         self.course = course
         if min_mark is None:
@@ -39,10 +39,10 @@ class SubjectReq(singleReq.SingleReq):
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
-    def fulfilled(self, program: program.Program, term: term.Term,
+    def fulfilled(self, prog: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
-        for enrollment in program.courses:
-            if enrollment.course == self.course:
+        for enrollment in prog.courses:
+            if enrollment.course == self.course or enrollment.course.equivalent(self.course):
                 if (coreq and enrollment.term <= term) or (enrollment.term < term):
                     return True
         return False

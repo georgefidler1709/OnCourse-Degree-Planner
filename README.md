@@ -25,4 +25,15 @@ From frontend folder run `npm start`. this only needs to be done once. see `/fro
 
 # Regenerate Database
 
-From root folder, run `./start.sh init-db`. 
+# Pytest
+
+Test are located in `./classes/tests` folder. Add the line `export PYTHONPATH=./classes:$PYTHONPATH` to the last line of your `venv/bin/activate` file. This way you can just `import degree` from anywhere (including in the test files).
+
+Run pytest from the root folder with
+
+```
+pytest --pyargs classes
+```
+
+Extra options
+* `-s` to capture stdout even if test passes (anything you `print()`)

@@ -41,6 +41,7 @@ class Program(TypedDict):
     name: str;
     year: int;
     duration: int; # in years
+    url: str; # degree handbook url
 
     # List of CourseEnrollments
     enrollments: List[CourseEnrollment];

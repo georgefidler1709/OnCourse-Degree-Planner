@@ -45,6 +45,7 @@ class CourseReqLoader(object):
         # create requirement standard format
         # self.helper.make_course_req()
         # return requirement id
+        pass
 
     def corequisite(self, req: str) -> bool:
         # if str contains? begins with?

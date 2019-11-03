@@ -31,5 +31,6 @@ export interface Program {
     name: string;
     year: number;
     duration: number; // in years
+    url: string; // handbook entry for degree
     enrollments: Array<CourseEnrollment>;
 }

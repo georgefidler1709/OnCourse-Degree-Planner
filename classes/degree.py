@@ -55,6 +55,14 @@ class Degree(object):
             return True
         return False
 
+    # Returns the handbook URL for this degree
+    # depend on `self.num_code` and `self.year`
+    def get_url(self) -> str:
+        # for extensibility to postgraduate
+        study_level = "undergraduate"
+        url = f"https://www.handbook.unsw.edu.au/{study_level}/programs/{self.year}/{self.num_code}"
+        return url
+
     # Saves degree into the database
     # Return: the id of the degree
     def save(self) -> int:

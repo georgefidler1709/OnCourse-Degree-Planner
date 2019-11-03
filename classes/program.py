@@ -70,4 +70,5 @@ class Program(object):
                 'name': self.degree.name,
                 'year': self.degree.year,
                 'duration': self.degree.duration,
+                'url': self.degree.get_url(),
                 'enrollments': [course.to_api() for course in self.courses]};

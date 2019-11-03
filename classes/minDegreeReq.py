@@ -12,31 +12,15 @@ list of courses.
 """
 
 from typing import List
-from . import degreeReq
-from . import degree
-from . import program
-from . import courseFilter
-from . import course
+from . import degreeReq, courseFilter, program, course, degree
 
 class MinDegreeReq(degreeReq.DegreeReq):
 
-    def __init__(self, filter: 'courseFilter.CourseFilter', uoc: int):
-        super().__init__(filter, uoc)
-
     # Input: a degree and a list of courses
     # Return: whether this course list would fulfil this degree requirement
-    def fulfilled(self, courses: List['course.Course'], deg: 'degree.Degree') -> bool:
+    def fulfilled(self, program:'program.Program') -> bool:
         units = 0
-        for c in courses:
-            if self.filter.accepts_course(c, deg):
-                units += c.units
+        for c in program.courses:
+            if self.filter.accepts_course(c.course, program.degree):
+                units += c.units()
         return units >= self.uoc
-    
-    # Input: a degree and a list of courses
-    # Return: number of units remaining to complete this requirement
-    def remaining(self, program: 'program.Program'):
-        units = 0
-        for course_enrol in program.courses:
-            if self.filter.accepts_course(course_enrol.course, program.degree):
-                units += course_enrol.course.units
-        return self.uoc - units

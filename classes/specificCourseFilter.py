@@ -16,7 +16,7 @@ from . import degree
 
 class SpecificCourseFilter(courseFilter.CourseFilter):
 
-    def __init__(self, course: course.Course):
+    def __init__(self, course: 'course.Course'):
         super().__init__()
         self.course = course
 
@@ -28,10 +28,6 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<SpecificCourseFilter course={self.course!r}>"
 
-    @property
-    def core(self) -> bool:
-        return True
-
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
@@ -39,7 +35,7 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: course.Course, degree: degree.Degree) -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
         return course == self.course
 
     # Saves the filter in the database

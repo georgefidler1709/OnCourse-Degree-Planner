@@ -25,11 +25,18 @@ export interface CourseEnrollment {
     term: Term;
 }
 
+export interface RemainReq {
+    units: number;
+    filter_type: string;
+}
+
 export interface Program {
     // Degree object
     id: number;
     name: string;
     year: number;
     duration: number; // in years
+    url: string; // handbook entry for degree
+    reqs: Array<RemainReq>
     enrollments: Array<CourseEnrollment>;
 }

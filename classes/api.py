@@ -35,12 +35,18 @@ class CourseEnrollment(TypedDict):
     course: Course;
     term: Term;
 
+class RemainReq(TypedDict):
+    units: int;
+    filter_type: str;
+
 class Program(TypedDict):
     # Degree object
     id: int;
     name: str;
     year: int;
     duration: int; # in years
+    url: str; # degree handbook url
+    reqs: List[RemainReq]; # list of requirements for nonspecific courses (gen eds, free elecs)
 
     # List of CourseEnrollments
     enrollments: List[CourseEnrollment];

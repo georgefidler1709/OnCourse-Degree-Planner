@@ -90,9 +90,9 @@ class University(object):
 
         requirements = []
 
-        print("Response is")
-        print(response)
-        print("\n\n\n")
+        # print("Response is")
+        # print(response)
+        # print("\n\n\n")
 
         if need_requirements:
             for offering_requirement in response:
@@ -153,13 +153,12 @@ class University(object):
         if need_requirements:
             prereq = self.load_course_requirement(prereq_id)
             coreq = self.load_course_requirement(coreq_id)
-            exclusion = self.load_course_requirement(exclusion_id)
+            # TODO: Commented out as exclusions are to be represented by a list of courses
+            #exclusion = self.load_course_requirement(exclusion_id)
         else:
             prereq = None
             coreq = None
-            exclusion = None
-
-        units = 6 # TODO: delete this when units have been properly populated
+        exclusion = None
 
         return course.Course(subject, numeric_code, name, units, terms, prereq, coreq, exclusion)
 

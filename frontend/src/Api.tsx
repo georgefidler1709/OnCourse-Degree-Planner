@@ -7,6 +7,13 @@ export interface SimpleDegree {
 
 export type SimpleDegrees = Array<SimpleDegree>;
 
+export interface SimpleCourse{
+    id: string; 
+    name: string;
+}
+
+export type SimpleCourses = Array<SimpleCourse>;
+
 export interface Term {
     year: number;
     term: number;

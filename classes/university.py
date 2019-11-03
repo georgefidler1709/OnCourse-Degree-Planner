@@ -13,11 +13,11 @@ Implementation of the University class which is a database of courses and progra
 from typing import Dict, List, Optional, Callable, Tuple
 from mypy_extensions import DefaultArg
 from sqlite3 import Row, Connection
-from .api import SimpleDegree, SimpleDegrees
 
 from . import  (
     andFilter,
     andReq, 
+    api,
     course, 
     courseReq, 
     courseFilter, 
@@ -423,7 +423,12 @@ class University(object):
         return orFilter.OrFilter(children)
 
     # Return: Jsonifiable dict that contains minimal data to display to the user in a menu
-    def get_simple_degrees(self) -> SimpleDegrees:
-        response = self.query_db('''select name, code
+    def get_simple_degrees(self) -> api.SimpleDegrees:
+        response = self.query_db('''select id, name
                                  from Degrees''')
-        return [SimpleDegree(id=i['code'], name=i['name']) for i in response];
+        return [{'id': str(i['id']), 'name': i['name']} for i in response];
+
+    def get_simple_courses(self) -> api.SimpleCourses:
+        response = self.query_db('''select letter_code, number_code, name
+                                 from Courses''')
+        return [{'id': i['letter_code'] + i['number_code'], 'name': i['name']} for i in response];

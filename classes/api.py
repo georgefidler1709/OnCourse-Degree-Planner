@@ -15,10 +15,16 @@ from typing import List
 from mypy_extensions import TypedDict
 
 class SimpleDegree(TypedDict):
-    id: int;
+    id: str;
     name: str;
 
 SimpleDegrees = List[SimpleDegree]
+
+class SimpleCourse(TypedDict):
+    id: str;
+    name: str;
+
+SimpleCourses = List[SimpleCourse]
 
 class Term(TypedDict):
     year: int

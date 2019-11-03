@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import '@atlaskit/css-reset';
 import styled from 'styled-components';
 import { DragDropContext } from 'react-beautiful-dnd';
-import mockDegree from './mockDegree';
 import Term from './Term';
 
 const Container = styled.div`
@@ -10,10 +9,25 @@ const Container = styled.div`
 `;
 
 class Timeline extends Component {
+
   constructor(props) {
-    //console.log(props.location.state.plan)
     super(props)
-    this.state = mockDegree //props.location.state.plan
+    this.state = this.preparePlan(props.location.state.plan)
+  }
+
+  preparePlan(plan) {
+    let years = {}
+    plan.enrollments.forEach((term) => {
+      let curYear =  term.term.year
+      let curTerm = term.term.term
+      if(!(curYear in years)) {
+        years[curYear] = {}
+      }
+
+      years[curYear][curTerm] = term.courses 
+    })
+
+    return years
   }
 
   onDragEnd = result => {
@@ -23,16 +37,14 @@ class Timeline extends Component {
   render() {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
-        {this.state.yearOrder.map(yearId => {
-          const year = this.state.years[yearId];
-
+        {Object.keys(this.state).map(yearId => {
+          const year = this.state[yearId];
           return (
             <Container>
-              {year.termOrder.map(termId => {
-                const term = this.state.terms[termId];
-                const courses = term.courseIds.map(courseId => this.state.courses[courseId]);
-      
-                return <Term key={term.id} term={term} courses={courses} />;
+              {Object.keys(year).map(termId => {
+                const courses = year[termId];
+                const termTag = "T" + termId.toString() + " " + yearId.toString()
+                return <Term key={termTag} termId={termTag} courses={courses} />;
               })}
             </Container>
           )

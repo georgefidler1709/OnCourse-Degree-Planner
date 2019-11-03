@@ -25,13 +25,16 @@ class Term extends Component {
   render() {
     return (
       <Container>
-        <Title>{this.props.term.title}</Title>
-        <Droppable droppableId={this.props.term.id}>
+        <Title>{this.props.termId}</Title>
+        <Droppable droppableId={this.props.termId}>
           {provided => (
             <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
-              {this.props.courses.map((course, index) => (
-                <Course key={course.id} course={course} index={index} />
-              ))}
+              {this.props.courses.map((course, index) => {
+                const courseTag = `${course.subject.toString()}${course.code.toString()}`
+                return <Course key={courseTag} courseId={courseTag} course={course} index={index} />
+              }
+                
+              )}
               {provided.placeholder}
             </CourseList>
           )}

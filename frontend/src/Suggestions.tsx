@@ -20,7 +20,6 @@ function Suggestions(props: {degrees: SimpleDegrees}) {
     fetch(API_ADDRESS + "/3778/gen_program.json")
     .then(response => response.json())
     .then(plan => {
-      console.log(plan)
       history.push({
       pathname: "/timeline",
       state: { plan }})

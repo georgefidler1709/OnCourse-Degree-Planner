@@ -20,7 +20,6 @@ class SimpleDegree(TypedDict):
 
 SimpleDegrees = List[SimpleDegree]
 
-<<<<<<< HEAD
 class Term(TypedDict):
     year: int
     term: int
@@ -45,10 +44,3 @@ class Program(TypedDict):
 
     # List of CourseEnrollments
     enrollments: List[CourseEnrollment];
-=======
-class SimpleCourse(TypedDict):
-    id: str;
-    name: str;
-
-SimpleCourses = List[SimpleCourse]
->>>>>>> frontend

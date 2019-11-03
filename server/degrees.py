@@ -17,7 +17,6 @@ def load_degrees() -> str:
 
     return jsonify(uni.get_simple_degrees())
 
-<<<<<<< HEAD
 @degrees_bp.route('/<code>/gen_program.json')
 def generate_program(code: int) -> str:
     '''
@@ -56,13 +55,5 @@ def generate_program(code: int) -> str:
 #
 #    # TODO render autocomplete in js like: https://dev.to/sage911/how-to-write-a-search-component-with-suggestions-in-react-d20
 #    return render_template('hello.html', text='hello world', degrees=degrees);
-=======
-@degrees_bp.route('/courses.json')
-def load_courses() -> str:
-    '''
-    Loads a dict of degree choices
-    '''
-    uni = University(query_db)
->>>>>>> frontend
 
     return jsonify(uni.get_simple_courses())

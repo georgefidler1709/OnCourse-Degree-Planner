@@ -160,4 +160,40 @@ class Course(object):
 
         return course_id
 
+    # Override comparison fucntions
+    def __lt__(self, other) -> bool: # x < y
+        self_str = self.subject + str(self.code)
+        other_str = other.subject + str(other.code)
+
+        return self_str < other_str
+
+    def __le__(self, other) -> bool: # For x <= y
+        self_str = self.subject + str(self.code)
+        other_str = other.subject + str(other.code)
+
+        return self_str <= other_str
+
+    def __eq__(self, other) -> bool: # For x == y
+        self_str = self.subject + str(self.code)
+        other_str = other.subject + str(other.code)
+
+        return self_str == other_str
+
+    def __ne__(self, other) -> bool: # For x != y OR x <> y
+        self_str = self.subject + str(self.code)
+        other_str = other.subject + str(other.code)
+
+        return self_str != other_str
+
+    def __gt__(self, other) -> bool: # For x > y
+        self_str = self.subject + str(self.code)
+        other_str = other.subject + str(other.code)
+
+        return self_str > other_str
+
+    def __ge__(self, other) -> bool: # For x >= y
+        self_str = self.subject + str(self.code)
+        other_str = other.subject + str(other.code)
+
+        return self_str >= other_str
 

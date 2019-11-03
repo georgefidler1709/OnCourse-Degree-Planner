@@ -19,7 +19,7 @@ from . import degree
 
 class AndFilter(courseFilter.CourseFilter):
 
-    def __init__(self, filters: List[courseFilter.CourseFilter]):
+    def __init__(self, filters: List['courseFilter.CourseFilter']):
         super().__init__()
         self.filters = filters
 
@@ -35,9 +35,19 @@ class AndFilter(courseFilter.CourseFilter):
     def filter_name(self) -> str:
         return "AndFilter"
 
+    # simple name for an And is for front-end purposes
+    # so get the name of one of its components
+    @property
+    def simple_name(self) -> str:
+        if len(self.filters) != 0:
+            return self.filters[0].simple_name
+        else:
+            return "And"
+    
+
     # Input: course.Course, degree the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: course.Course, degree: degree.Degree) -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
         # make an iterable where element at a position is True if the filter at that position accepts
         individual_acceptance = map(lambda x: x.accepts_course(course, degree), self.filters)
 

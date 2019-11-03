@@ -20,6 +20,14 @@ from . import degreeReq
 from . import term
 from . import api
 
+from . import andFilter
+from . import orFilter
+from . import fieldFilter 
+from . import freeElectiveFilter
+from . import genEdFilter
+from . import levelFilter
+from . import specificCourseFilter
+
 
 class Program(object):
 
@@ -66,8 +74,38 @@ class Program(object):
         return self.degree.get_requirements(self)
 
     def to_api(self) -> api.Program:
+        # sort the enrolled courses by term then name
+        sorted_courses = sorted(self.courses, key=lambda x: (x.term, x.course))
+        sorted_api_courses =[course.to_api() for course in sorted_courses]
+
+        # TODO hardcode which reqs to output for now
+        # until you fix the bug, then switch for commented out section below
+        output_req_types = (fieldFilter.FieldFilter, 
+            freeElectiveFilter.FreeElectiveFilter,
+            levelFilter.LevelFilter,
+            genEdFilter.GenEdFilter)
+        outstanding_reqs = self.degree.requirements
+        reqs: List['api.RemainReq'] = []
+        for r in outstanding_reqs:
+            if isinstance(r.filter, output_req_types):
+                new: api.RemainReq = {'units': r.uoc, 'filter_type': r.filter.simple_name}
+                reqs.append(new)
+
+        # TODO this is the correct version, uncomment when
+        # self.get_outstanding_reqs() is accurate
+        '''
+        outstanding_reqs = self.get_outstanding_reqs()
+
+        reqs: List['api.RemainReq'] = []
+        for key, val in outstanding_reqs.items():
+            new: api.RemainReq = {'units': val, 'filter_type': key.filter.simple_name}
+            reqs.append(new)                
+        '''
+
         return {'id': self.degree.num_code, 
                 'name': self.degree.name,
                 'year': self.degree.year,
                 'duration': self.degree.duration,
-                'enrollments': [course.to_api() for course in self.courses]};
+                'url': self.degree.get_url(),
+                'reqs': reqs,
+                'enrollments': sorted_api_courses};

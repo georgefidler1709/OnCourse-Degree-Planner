@@ -19,7 +19,7 @@ from . import degree
 
 class OrFilter(courseFilter.CourseFilter):
 
-    def __init__(self, filters: List[courseFilter.CourseFilter]):
+    def __init__(self, filters: List['courseFilter.CourseFilter']):
         super().__init__()
         self.filters = filters
 
@@ -39,9 +39,18 @@ class OrFilter(courseFilter.CourseFilter):
     def filter_name(self) -> str:
         return "OrFilter"
 
+    # simple name for an Or is for front-end purposes
+    # so get the name of one of its components
+    @property
+    def simple_name(self) -> str:
+        if len(self.filters) != 0:
+            return self.filters[0].simple_name
+        else:
+            return "Or"
+
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: course.Course, degree: degree.Degree) -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
         # make an iterable where element at a position is True if the filter at that position accepts
         individual_acceptance = map(lambda x: x.accepts_course(course, degree), self.filters)
 

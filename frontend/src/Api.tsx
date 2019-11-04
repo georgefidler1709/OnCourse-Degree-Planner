@@ -14,22 +14,14 @@ export interface SimpleCourse{
 
 export type SimpleCourses = Array<SimpleCourse>;
 
-export interface Term {
-    year: number;
+export interface TermPlan {
+    course_ids: Array<string>;
     term: number;
 }
 
-export interface Course {
-    subject: string;
-    code: number;
-    name: string;
-    units: number;
-    terms: Array<Term>;
-}
-
-export interface CourseEnrollment {
-    courses: Array<Course>;
-    term: Term;
+export interface YearPlan {
+    term_plans: Array<TermPlan>;
+    year: number;
 }
 
 export interface RemainReq {
@@ -45,5 +37,24 @@ export interface Program {
     duration: number; // in years
     url: string; // handbook entry for degree
     reqs: Array<RemainReq>
-    enrollments: Array<CourseEnrollment>;
+    enrollments: Array<YearPlan>;
 }
+
+export interface Term {
+    year: number;
+    term: number;
+}
+
+export interface Course {
+    subject: string;
+    code: number;
+    name: string;
+    units: number;
+    terms: Array<Term>;
+}
+
+export interface GeneratorResponse {
+    program: Program;
+    courses: Array<Course>;
+}
+

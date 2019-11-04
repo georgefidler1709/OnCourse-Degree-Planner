@@ -100,9 +100,9 @@ class TestUniversityWithDb():
         self.second_course = course.Course("COMP", 2521, "Test course 2", 3, [])
 
         # TODO: check different years
-        self.first_degree = degree.Degree(3333, "Test degree", 2019, 3, [], "ABCDE")
+        self.first_degree = degree.Degree(1111, "Test degree", 2019, 3, [], "ABCDE")
 
-        self.second_degree = degree.Degree(1223, "Test degree 2", 2019, 5, [], "FGHIJ")
+        self.second_degree = degree.Degree(3223, "Test degree 2", 2019, 5, [], "FGHIJ")
 
     def teardown_method(self, function):
         self.db.close()
@@ -178,6 +178,51 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         filter = requirement.filter
         assert filter.filter_name == 'SpecificCourseFilter'
         assert filter.course == input_course
+
+    def test_degree_with_specific_course_filter_with_prereq(self):
+        input_degree = self.first_degree
+        self.h.insert_degree(input_degree)
+
+        input_course = self.first_course
+
+        prereq_year = 1
+        prereq_type_id = self.h.get_requirement_type_id('YearRequirement')
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, year) values(?, ?)''',
+                (prereq_type_id, prereq_year))
+
+        prereq_id = self.cursor.lastrowid
+
+
+        course_id = self.h.insert_course(input_course, prereq=prereq_id)
+
+        filter_type_id = self.h.get_filter_type_id('SpecificCourseFilter')
+        print(filter_type_id)
+
+        mark_needed = 90
+
+        self.cursor.execute('''insert into CourseFilters(type_id, min_mark, course_id) values(?, ?,
+        ?)''', (filter_type_id, mark_needed, course_id))
+
+        filter_id = self.cursor.lastrowid
+
+        uoc_needed = 51
+
+        self.h.insert_degree_requirement(input_degree, filter_id, uoc_needed)
+
+        degree = self.university.find_degree_number_code(input_degree.num_code)
+
+        assert degree is not None
+        assert len(degree.requirements) == 1
+        requirement = degree.requirements[0]
+        assert requirement.uoc == uoc_needed
+        filter = requirement.filter
+        assert filter.filter_name == 'SpecificCourseFilter'
+        assert filter.course == input_course
+        prereq = filter.course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'YearRequirement'
+        assert prereq.year == prereq_year
 
     def test_degree_with_gen_ed_filter(self):
         input_degree = self.first_degree
@@ -338,6 +383,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         sub_filter = sub_filters[0]
         assert sub_filter.filter_name == 'FreeElectiveFilter'
 
+
 class TestUniversity_FindCourse(TestUniversityWithDb):
     def test_no_course(self):
         course = self.university.find_course('COMP1511')
@@ -390,6 +436,69 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         assert prereq.requirement_name == 'CompletedCourseRequirement'
         inner_course = prereq.course
         assert inner_course == required_course
+
+    def test_course_with_completed_course_prereq_with_inner_prereq(self):
+        input_course = self.first_course
+
+        required_course = self.second_course
+
+        required_prereq_type_id = self.h.get_requirement_type_id('YearRequirement')
+        required_prereq_year = 2
+        self.cursor.execute('''insert into CourseRequirements(type_id, year) values(?, ?)''',
+                (required_prereq_type_id, required_prereq_year))
+        required_prereq_id = self.cursor.lastrowid
+
+        required_course_id = self.h.insert_course(required_course, prereq=required_prereq_id)
+
+
+        type_id = self.h.get_requirement_type_id('CompletedCourseRequirement')
+        min_mark = 75
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, min_mark, course_id)
+        values(?, ?, ?)''', (type_id, min_mark, required_course_id))
+
+        requirement_id = self.cursor.lastrowid
+
+        self.h.insert_course(input_course, prereq=requirement_id)
+
+        course = self.university.find_course(input_course.course_code)
+
+        assert course is not None
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'CompletedCourseRequirement'
+        inner_course = prereq.course
+        assert inner_course == required_course
+        inner_prereq = inner_course.prereqs
+        assert inner_prereq is not None
+        assert inner_prereq.requirement_name == 'YearRequirement'
+        assert inner_prereq.year == required_prereq_year
+
+    def test_course_with_circular_completed_course_prereq(self):
+        input_course = self.first_course
+
+        input_course_id = self.h.insert_course(input_course)
+
+
+        type_id = self.h.get_requirement_type_id('CompletedCourseRequirement')
+        min_mark = 75
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, min_mark, course_id)
+        values(?, ?, ?)''', (type_id, min_mark, input_course_id))
+
+        requirement_id = self.cursor.lastrowid
+
+        self.cursor.execute('''update Courses set prereq = ?''', (requirement_id,))
+
+        course = self.university.find_course(input_course.course_code)
+
+        assert course is not None
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'CompletedCourseRequirement'
+        inner_course = prereq.course
+        assert inner_course == course
+
 
     def test_course_with_degree_prereq(self):
         input_course = self.first_course
@@ -737,8 +846,7 @@ class TestUniversity_GetSimpleDegrees(TestUniversityWithDb):
         degrees = self.university.get_simple_degrees()
         assert len(degrees) == 1
         degree = degrees[0]
-        assert degree['id'] == input_degree.alpha_code # TODO: I think this should use id instead,
-        # as code is just for majors
+        assert degree['id'] == str(input_degree.num_code)
         assert degree['name'] == input_degree.name
 
     def test_multiple_degrees(self):
@@ -753,10 +861,10 @@ class TestUniversity_GetSimpleDegrees(TestUniversityWithDb):
         assert len(degrees) == 2
         degrees.sort(key=lambda x: x['id'])
         first_result_degree, second_result_degree = degrees
-        assert first_result_degree['id'] == first_degree.alpha_code # TODO: As above with code<->id
+        assert first_result_degree['id'] == str(first_degree.num_code)
         assert first_result_degree['name'] == first_degree.name
 
-        assert second_result_degree['id'] == second_degree.alpha_code # TODO: As above
+        assert second_result_degree['id'] == str(second_degree.num_code)
         assert second_result_degree['name'] == second_degree.name
 
 

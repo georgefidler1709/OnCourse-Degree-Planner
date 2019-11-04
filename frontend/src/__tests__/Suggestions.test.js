@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme';
-import Suggestions from '../Suggestions';
+import Suggestions from '../__components__/degree_search/Suggestions';
 import {API_ADDRESS} from '../Constants'
 
 const mockDegrees = [{id: 1, code:"COMP3778", name: "Bachelor of Computer Science (2019)"}, {id: 2, code:"COMP3978", name: "Bachelor of Computer Science (2016)"}]
@@ -14,8 +14,9 @@ jest.mock("react-router-dom", () => ({
   }))
 
 describe('Rendering a degree suggestion', () => {
-    it('renders without crashing', () => {
-      const wrapper = shallow(<Suggestions degrees={mockDegrees}/>);
+    it('renders correctly', () => {
+	  const wrapper = shallow(<Suggestions degrees={mockDegrees}/>);
+	  expect(wrapper).toMatchSnapshot();
 	});
 
 	it('puts the code of provided degrees as titles', () => {

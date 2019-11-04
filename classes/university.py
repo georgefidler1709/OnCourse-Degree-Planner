@@ -48,6 +48,12 @@ class University(object):
         self.course_requirement_types = self.load_course_requirement_types()
         self.course_filter_types = self.load_course_filter_types()
 
+        # cache of courses loaded from the db for this session, indexed by database id
+        self.courses: Dict[int, 'course.Course'] = {}
+        # cache of degrees loaded from the db for this session, indexed by numeric code (which is
+        # also db id)
+        self.degrees: Dict[int, 'degree.Degree'] = {}
+
     # Input: degree letter code (eg. COMPA1)
     # Return: corresponding degree.Degree object
     def find_degree_alpha_code(self, letter_code: str) -> Optional['degree.Degree']:
@@ -71,6 +77,11 @@ class University(object):
     # requirements)
     # Return: corresponding Degree object
     def load_degree(self, numeric_code: int, need_requirements: bool=True) -> Optional['degree.Degree']:
+        if numeric_code in self.degrees:
+            # TODO: Might not work if we first load without requirements then call this with
+            # requirements, decide whether we even want the need_requirements option anymore
+            return self.degrees[numeric_code]
+
         year = YEAR
         response = self.query_db('''select name, code
                                  from Degrees
@@ -88,11 +99,24 @@ class University(object):
                                  where offering_degree_id = ?
                                  and offering_year_id = ?''', (numeric_code, year))
 
-        requirements = []
 
         # print("Response is")
         # print(response)
         # print("\n\n\n")
+
+        # TODO: put duration in database
+        duration = 3
+        # TODO: alpha code in db (although we prob want to split into major)
+        alpha_code = "AlphaCode"
+
+        # create a degree without requirements, then add requirements later
+        # This is done so that we can cache the degree, to avoid circular loading
+        result_degree = degree.Degree(numeric_code, name, year, duration, [], alpha_code)
+
+
+        self.degrees[numeric_code] = result_degree
+
+        requirements = []
 
         if need_requirements:
             for offering_requirement in response:
@@ -106,11 +130,9 @@ class University(object):
                     # Filter should not be None
                     print("ERROR: filter {} for degree requirement should not be null".format(filter_id))
 
-        # TODO: put duration in database
-        duration = 3
-        # TODO: alpha code in db (although we prob want to split into major)
-        alpha_code = "AlphaCode"
-        return degree.Degree(numeric_code, name, year, duration, requirements, alpha_code)
+        result_degree.requirements = requirements
+
+        return result_degree
 
     # Input: course code (eg. COMP1511)
     # Return: corresponding Course object from courses
@@ -126,12 +148,16 @@ class University(object):
             return None
         else:
             (course_id, ) = response
-            return self.load_course(course_id, need_requirements=True)
+            return self.load_course(course_id)
 
     # Input: course subject (eg. COMP), numeric code (eg. 1511) and whether we need the requirements
     # (same as for load_degree)
     # Return: corresponding Course object
     def load_course(self, course_id: int, need_requirements: bool=True) -> Optional['course.Course']:
+        if course_id in self.courses:
+            # TODO: as with degrees, determine if need_requirements is even a useful argument
+            return self.courses[course_id]
+
         response = self.query_db('''select letter_code, number_code, name, units, prereq, coreq, exclusion
                                  from Courses
                                  where id = ?''', (course_id, ), one=True)
@@ -150,17 +176,17 @@ class University(object):
         for year, term_num in response:
             terms.append(term.Term(year, term_num))
 
+        result_course = course.Course(subject, int(numeric_code), name, units, terms) 
+        self.courses[course_id] = result_course
+
         if need_requirements:
-            prereq = self.load_course_requirement(prereq_id)
-            coreq = self.load_course_requirement(coreq_id)
+            result_course.prereqs = self.load_course_requirement(prereq_id)
+            result_course.coreqs = self.load_course_requirement(coreq_id)
             # TODO: Commented out as exclusions are to be represented by a list of courses
             #exclusion = self.load_course_requirement(exclusion_id)
-        else:
-            prereq = None
-            coreq = None
-        exclusion = None
 
-        return course.Course(subject, int(numeric_code), name, units, terms, prereq, coreq, exclusion)
+        return result_course
+
 
     # Input: A filter string [ITEMISE THESE HERE]
     # Return: List of courses that match the requested filter
@@ -239,7 +265,7 @@ class University(object):
         min_mark = requirement_data['min_mark']
         course_id = requirement_data['course_id']
 
-        required_course = self.load_course(course_id, need_requirements=False)
+        required_course = self.load_course(course_id)
 
         if required_course is None:
             print('ERROR: failed to get course with id {}'.format(course_id))
@@ -252,7 +278,7 @@ class University(object):
     def load_current_degree_requirement(self, requirement_data: Row) -> Optional['courseReq.CourseReq']:
         degree_id = requirement_data['degree_id']
 
-        required_degree = self.load_degree(degree_id, need_requirements=False)
+        required_degree = self.load_degree(degree_id)
 
         if required_degree is None:
             print('ERROR: No degree with id {}', degree_id)
@@ -360,7 +386,7 @@ class University(object):
         min_mark = filter_data['min_mark']
         course_id = filter_data['course_id']
 
-        allowed_course = self.load_course(course_id, need_requirements=False)
+        allowed_course = self.load_course(course_id)
 
         if allowed_course is None:
             print('ERROR: failed to get course with id {}'.format(course_id))

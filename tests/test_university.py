@@ -474,6 +474,31 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         assert inner_prereq.requirement_name == 'YearRequirement'
         assert inner_prereq.year == required_prereq_year
 
+    def test_course_with_circular_completed_course_prereq(self):
+        input_course = self.first_course
+
+        input_course_id = self.h.insert_course(input_course)
+
+
+        type_id = self.h.get_requirement_type_id('CompletedCourseRequirement')
+        min_mark = 75
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, min_mark, course_id)
+        values(?, ?, ?)''', (type_id, min_mark, input_course_id))
+
+        requirement_id = self.cursor.lastrowid
+
+        self.cursor.execute('''update Courses set prereq = ?''', (requirement_id,))
+
+        course = self.university.find_course(input_course.course_code)
+
+        assert course is not None
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'CompletedCourseRequirement'
+        inner_course = prereq.course
+        assert inner_course == course
+
 
     def test_course_with_degree_prereq(self):
         input_course = self.first_course

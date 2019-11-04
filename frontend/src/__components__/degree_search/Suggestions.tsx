@@ -10,7 +10,7 @@ import {API_ADDRESS} from '../../Constants'
 function Suggestions(props: {degrees: SimpleDegrees}) {
 
   const year : string = "2020"
-  const handbook : string = `https://www.handbook.unsw.edu.au/undergraduate/specialisations/${year}/`
+  const handbook : string = `https://www.handbook.unsw.edu.au/undergraduate/programs/${year}/`
   const placement : Position = "right"
   let history = useHistory();
 
@@ -25,7 +25,7 @@ function Suggestions(props: {degrees: SimpleDegrees}) {
       state: { plan }})
     })
   }
-
+  
   const options = props.degrees.map((r,i) => (
     <SuggestionInfoHover
       content={

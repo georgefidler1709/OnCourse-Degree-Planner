@@ -1,29 +1,31 @@
 import React, {Component} from 'react';
 import '@atlaskit/css-reset';
 import styled from 'styled-components';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Term from './Term';
+import { RouteComponentProps } from 'react-router-dom';
+import { GeneratorResponse, YearPlan } from '../../Api';
 
 const Container = styled.div`
   display: flex;
 `;
 
-class Timeline extends Component {
+interface TimelineState extends GeneratorResponse { }
 
-  constructor(props) {
+class Timeline extends Component<RouteComponentProps, TimelineState> {
+
+  constructor(props: RouteComponentProps) {
     super(props)
     this.state = props.location.state.plan
   }
 
-  onDragEnd = result => {
+  onDragEnd = (result: DropResult) => {
     // TODO: preserve reorder of terms
   };
 
-  getCourseInfo(course_id) {
-    const matching_course = 
-      this.state.courses.find((course) => course.subject + course.code.toString() === course_id)
+  getCourseInfo(course_id: string) {
+    return this.state.courses.find((course) => course.subject + course.code.toString() === course_id)!
     
-    return {course_id: course_id, course_info: matching_course}
   }
 
   render() {
@@ -39,7 +41,7 @@ class Timeline extends Component {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         {timeline.map((year_num, year_index) => {
-          let year = {term_plans: [], year: year_num}
+          let year: YearPlan  = {term_plans: [], year: year_num}
           if(year_index < program.enrollments.length) {
             year = program.enrollments[year_index]
           } 
@@ -58,7 +60,7 @@ class Timeline extends Component {
               {terms.map(term => {
                 const courses = term.course_ids.map(course_id => this.getCourseInfo(course_id));
                 const term_tag = "T" + term.term.toString() + " " + year_num.toString()
-                return <Term key={term_tag} term_id={term_tag} courses={courses} />;
+                return <Term key={term_tag} courses={courses} />;
               })}
             </Container>
           )

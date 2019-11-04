@@ -2,7 +2,14 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-function CourseInfoModal(props) {
+interface CourseInfoModalProps {
+  index: number;
+  onHide: () => void;
+  show: boolean;
+  course_id: string;
+}
+
+function CourseInfoModal(props: CourseInfoModalProps) {
     const year = '2020'
     const handbook = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}`
     return (
@@ -14,11 +21,11 @@ function CourseInfoModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {props.courseId}
+            {props.course_id}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <a href={`${handbook}/${props.courseId}`}>HERE</a>
+          <a href={`${handbook}/${props.course_id}`}>HERE</a>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>

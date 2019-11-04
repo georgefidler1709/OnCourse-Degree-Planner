@@ -11,7 +11,13 @@ const Container = styled.div`
   background-color: white;
 `;
 
-function Course(props) {
+interface CourseProps {
+  key: string;
+  course_id: string;
+  index: number;
+}
+
+function Course(props: CourseProps) {
     const [modalShow, setModalShow] = React.useState(false);
     return (
       <div>
@@ -23,15 +29,14 @@ function Course(props) {
             innerRef={provided.innerRef}
             onClick={() => setModalShow(true)}
           >
-            {props.course_id}
+          {props.course_id}
           </Container>
         )}
       </Draggable>
         <CourseInfoModal
+          {...props}
           show={modalShow}
           onHide={() => setModalShow(false)}
-          courseId={props.course_id}
-          course={props.course_info}
         />
       </div>
     );

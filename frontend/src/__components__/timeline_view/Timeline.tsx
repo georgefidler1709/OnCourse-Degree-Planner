@@ -56,11 +56,11 @@ class Timeline extends Component<RouteComponentProps, TimelineState> {
           for( ; cur_term <= required_terms; ++cur_term) terms.push({course_ids: [], term: cur_term})
 
           return (
-            <Container>
+            <Container key={year_num}>
               {terms.map(term => {
                 const courses = term.course_ids.map(course_id => this.getCourseInfo(course_id));
                 const term_tag = "T" + term.term.toString() + " " + year_num.toString()
-                return <Term key={term_tag} courses={courses} />;
+                return <Term key={term_tag} termId={term_tag} courses={courses} />;
               })}
             </Container>
           )

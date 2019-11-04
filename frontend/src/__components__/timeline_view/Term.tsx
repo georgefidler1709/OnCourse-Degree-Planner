@@ -24,14 +24,15 @@ const CourseList = styled.div`
 
 interface TermProps {
   key: string;
+  termId: string;
   courses: Array<ApiCourse>;
 }
 
 function Term(props: TermProps) {
   return (
     <Container>
-      <Title>{props.key}</Title>
-      <Droppable droppableId={props.key}>
+      <Title>{props.termId}</Title>
+      <Droppable droppableId={props.termId}>
         {provided => (
           <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
             {props.courses.map((course, index) => {

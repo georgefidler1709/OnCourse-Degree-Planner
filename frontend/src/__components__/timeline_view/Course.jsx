@@ -15,7 +15,7 @@ function Course(props) {
     const [modalShow, setModalShow] = React.useState(false);
     return (
       <div>
-      <Draggable draggableId={props.courseId} index={props.index}>
+      <Draggable draggableId={props.course_id} index={props.index}>
         {provided => (
           <Container
             {...provided.draggableProps}
@@ -23,15 +23,15 @@ function Course(props) {
             innerRef={provided.innerRef}
             onClick={() => setModalShow(true)}
           >
-            {props.courseId}
+            {props.course_id}
           </Container>
         )}
       </Draggable>
         <CourseInfoModal
           show={modalShow}
           onHide={() => setModalShow(false)}
-          courseId={props.courseId}
-          course={props.course}
+          courseId={props.course_id}
+          course={props.course_info}
         />
       </div>
     );

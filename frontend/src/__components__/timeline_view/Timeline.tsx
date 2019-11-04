@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
-import { GeneratorResponse, YearPlan } from '../../Api';
+import { GeneratorResponse, YearPlan, TermPlan } from '../../Api';
 
 const Container = styled.div`
   display: flex;
@@ -47,13 +47,23 @@ class Timeline extends Component<RouteComponentProps, TimelineState> {
           } 
 
           // fill in the minimum 3 terms per year
-          const required_terms = 3
-          let cur_term = 1
-          let terms = year.term_plans.map(term => {
-            if(term.term === cur_term) ++cur_term
-            return term
+          const required_terms = [1,2,3]
+          let cur_term = 0
+          let terms : Array<TermPlan> = []
+
+          // fills in terms such that 'required terms' are always present and always in order
+          // but other terms can be inserted in between
+          year.term_plans.forEach(term => {
+            let new_term = required_terms.findIndex(req => req === term.term)
+            if(new_term > cur_term) {
+              for( ; cur_term < new_term; ++cur_term) terms.push({course_ids: [], term: required_terms[cur_term]})
+            } 
+            if(new_term === cur_term) ++cur_term
+            terms.push(term)
           })
-          for( ; cur_term <= required_terms; ++cur_term) terms.push({course_ids: [], term: cur_term})
+
+          // if any 'required terms' were missing from the end, add them on here
+          for( ; cur_term < required_terms.length; ++cur_term) terms.push({course_ids: [], term: required_terms[cur_term]})
 
           return (
             <Container key={year_num}>

@@ -1,6 +1,6 @@
 
-import Search from "./Search"
-import Timeline from "./Timeline";
+import Search from "./__components__/degree_search/Search"
+import Timeline from "./__components__/timeline_view/Timeline";
 import React from "react";
 import {
   BrowserRouter as Router,

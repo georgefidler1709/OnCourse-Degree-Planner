@@ -2,9 +2,9 @@ import React, {MouseEvent} from "react";
 import Button from "react-bootstrap/Button";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
-import {Position} from './Types'
-import {SimpleDegrees} from './Api'
-import {API_ADDRESS} from './Constants'
+import {Position} from '../../Types'
+import {SimpleDegrees} from '../../Api'
+import {API_ADDRESS} from '../../Constants'
 
 
 function Suggestions(props: {degrees: SimpleDegrees}) {
@@ -20,6 +20,7 @@ function Suggestions(props: {degrees: SimpleDegrees}) {
     fetch(API_ADDRESS + "/3778/gen_program.json")
     .then(response => response.json())
     .then(plan => {
+      console.log(JSON.stringify(plan));
       history.push({
       pathname: "/timeline",
       state: { plan }})

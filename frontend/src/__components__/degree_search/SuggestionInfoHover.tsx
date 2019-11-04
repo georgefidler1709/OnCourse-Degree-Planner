@@ -14,7 +14,7 @@
 
 import React, {Component, RefObject} from 'react'
 import { Overlay, Popover } from 'react-bootstrap'
-import { Position } from './Types'
+import { Position } from '../../Types'
 
 
 interface SuggestionInfoHoverProps { 

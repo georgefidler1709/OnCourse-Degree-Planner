@@ -75,13 +75,17 @@ class Program(object):
 
     def to_api(self) -> api.Program:
         # sort the enrolled courses by term then name
-        enrollments_map: Dict["term.Term", List["api.Course"]] = {}
+        enrollments_map: Dict[int, Dict[int, List[str]]]= {}
         for x in self.courses:
-            enrollments_map.setdefault(x.term, []).append(x.course.to_api());
+            enrollments_map.setdefault(x.term.year, {}).setdefault(x.term.term, []).append(x.course.course_code);
 
-        enrollments: List["api.CourseEnrollment"] = [
-                { "term": term.to_api(), "courses": courses }
-            for (term, courses) in enrollments_map.items()];
+        enrollments: List["api.YearPlan"] = [ { 
+                    "year": year, 
+                    "term_plans": [ {
+                        "term": term, 
+                        "course_ids": courses,
+                    } for (term, courses) in term_plan.items() ]
+                } for (year, term_plan) in enrollments_map.items()];
             
         # TODO hardcode which reqs to output for now
         # until you fix the bug, then switch for commented out section below
@@ -114,3 +118,7 @@ class Program(object):
                 'url': self.degree.get_url(),
                 'reqs': reqs,
                 'enrollments': enrollments};
+
+    def get_generator_response_api(self) -> api.GeneratorResponse:
+        return {'program': self.to_api(),
+                'courses': [enrollment.course.to_api() for enrollment in self.courses]};

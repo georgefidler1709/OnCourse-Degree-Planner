@@ -41,5 +41,5 @@ def generate_program(code: int) -> str:
 
     gen = Generator(deg)  
 
-    return jsonify(gen.generate().to_api())
+    return jsonify(gen.generate().get_generator_response_api())
 

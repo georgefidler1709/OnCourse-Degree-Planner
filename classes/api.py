@@ -26,20 +26,13 @@ class SimpleCourse(TypedDict):
 
 SimpleCourses = List[SimpleCourse]
 
-class Term(TypedDict):
-    year: int
-    term: int
+class TermPlan(TypedDict):
+    course_ids: List[str];
+    term: int;
 
-class Course(TypedDict):
-    subject: str;
-    code: int;
-    name: str;
-    units: int;
-    terms: List[Term];
-
-class CourseEnrollment(TypedDict):
-    courses: List[Course];
-    term: Term;
+class YearPlan(TypedDict):
+    term_plans: List[TermPlan];
+    year: int;
 
 class RemainReq(TypedDict):
     units: int;
@@ -55,4 +48,19 @@ class Program(TypedDict):
     reqs: List[RemainReq]; # list of requirements for nonspecific courses (gen eds, free elecs)
 
     # List of CourseEnrollments
-    enrollments: List[CourseEnrollment];
+    enrollments: List[YearPlan];
+
+class Term(TypedDict):
+    year: int
+    term: int
+
+class Course(TypedDict):
+    subject: str;
+    code: int;
+    name: str;
+    units: int;
+    terms: List[Term];
+
+class GeneratorResponse(TypedDict):
+    program: Program;
+    courses: List[Course];

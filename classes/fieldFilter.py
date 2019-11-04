@@ -28,6 +28,10 @@ class FieldFilter(courseFilter.CourseFilter):
     def core(self) -> bool:
         return False
 
+    @property
+    def field_filter(self) -> bool:
+        return True
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:

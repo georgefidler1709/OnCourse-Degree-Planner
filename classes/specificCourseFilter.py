@@ -25,6 +25,10 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
     def core(self) -> bool:
         return True
 
+    @property
+    def field_filter(self) -> bool:
+        return False
+
     def __repr__(self) -> str:
         return f"<SpecificCourseFilter course={self.course!r}>"
 

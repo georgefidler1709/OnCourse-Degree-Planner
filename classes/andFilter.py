@@ -30,6 +30,10 @@ class AndFilter(courseFilter.CourseFilter):
     def core(self) -> bool:
         return all(map(lambda x: x.core, self.filters))
 
+    @property
+    def field_filter(self) -> bool:
+        return any(map(lambda x: x.field_filter, self.filters))
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:

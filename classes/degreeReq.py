@@ -33,21 +33,19 @@ class DegreeReq(ABC):
 
     # Input: a degree and a list of courses
     # Return: whether this course list would fulfil this degree requirement
+    # Note: Deletes matching courses from list!
     @abstractmethod
-    def fulfilled(self, program:'program.Program') -> bool:
+    def fulfilled(self, courses: List['course.Course'], degree: 'degree.Degree') -> bool:
         pass
 
     
     # Input: a degree and a list of courses
     # Return: number of units remaining to complete this requirement
-    def remaining(self, program: Optional['program.Program']) -> int:
-        if not program:
-            return self.uoc
-        units = 0
-        for course_enrol in program.courses:
-            if self.filter.accepts_course(course_enrol.course, program.degree):
-                units += course_enrol.course.units
-        return self.uoc - units
+    # Note: Deletes matching courses from list!
+    @abstractmethod
+    def remaining(self, courses: Optional[List['course.Course']],
+            degree: Optional['degree.Degree']) -> int:
+        pass
 
     # Return whether this is a core requirement
     def core_requirement(self) -> bool:

@@ -51,6 +51,12 @@ class CourseFilter(ABC):
     def core(self) -> bool:
         pass
 
+    # Returns whether this filters based on field
+    @property
+    @abstractmethod
+    def field_filter(self) -> bool:
+        pass
+
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     @abstractmethod

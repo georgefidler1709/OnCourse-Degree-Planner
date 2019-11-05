@@ -46,7 +46,6 @@ export interface Term {
 }
 
 export interface Course {
-    subject: string;
     code: string;
     name: string;
     units: number;

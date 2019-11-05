@@ -13,7 +13,7 @@ export default function App() {
     <Router>
       <div>
         <Switch>
-          <Route path="/timeline/:id" render={(props) => <Timeline {...props} />}/>
+          <Route path="/:degree" render={(props) => <Timeline {...props} />}/>
           <Route path="/" render={(props) => <Search {...props} />}/>>
         </Switch>
       </div>

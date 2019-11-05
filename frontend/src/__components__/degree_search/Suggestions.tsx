@@ -4,7 +4,6 @@ import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
 import {Position} from '../../Types'
 import {SimpleDegrees} from '../../Api'
-import {API_ADDRESS} from '../../Constants'
 
 
 function Suggestions(props: {degrees: SimpleDegrees}) {

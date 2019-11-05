@@ -17,8 +17,9 @@ class Timeline extends Component<RouteComponentProps, TimelineState> {
 
   constructor(props: RouteComponentProps) {
     super(props)
-    //fetch(API_ADDRESS + '/' + props.degree)
-    fetch(API_ADDRESS + "/3778/gen_program.json")
+    fetch(API_ADDRESS + `/3778/gen_program.json`)
+    //let code = props.match.params["degree"]
+    //fetch(API_ADDRESS + `/${code}/gen_program.json`)
     .then(response => response.json())
     .then(plan => {
       this.setState(plan)

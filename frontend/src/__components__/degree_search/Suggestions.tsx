@@ -15,15 +15,13 @@ function Suggestions(props: {degrees: SimpleDegrees}) {
   let history = useHistory();
 
   function handleClick(event: MouseEvent<HTMLButtonElement>) {
-    //console.log(event.currentTarget.value); //give degree id to backend
-    //fetch(API_ADDRESS + '/' + event.currentTarget.value)
-    fetch(API_ADDRESS + "/3778/gen_program.json")
-    .then(response => response.json())
-    .then(plan => {
-      history.push({
-      pathname: "/timeline",
-      state: { plan }})
+    history.push({
+      pathname: "/timeline/" + event.currentTarget.id.toString(),
+      state: { degree: event.currentTarget.id.toString() }
     })
+    console.log(event.currentTarget);
+    console.log(event.currentTarget.value);
+    console.log(event.currentTarget.id.toString());
   }
   
   const options = props.degrees.map((r,i) => (

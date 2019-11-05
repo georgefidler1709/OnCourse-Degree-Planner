@@ -5,6 +5,7 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
 import { GeneratorResponse, YearPlan, TermPlan } from '../../Api';
+import {API_ADDRESS} from '../../Constants'
 
 const Container = styled.div`
   display: flex;
@@ -16,11 +17,16 @@ class Timeline extends Component<RouteComponentProps, TimelineState> {
 
   constructor(props: RouteComponentProps) {
     super(props)
-    this.state = props.location.state.plan
+    //fetch(API_ADDRESS + '/' + props.degree)
+    fetch(API_ADDRESS + "/3778/gen_program.json")
+    .then(response => response.json())
+    .then(plan => {
+      this.setState(plan)
+    })
   }
 
   onDragEnd = (result: DropResult) => {
-    // TODO: preserve reorder of terms
+
   };
 
   getCourseInfo(course_id: string) {
@@ -29,8 +35,10 @@ class Timeline extends Component<RouteComponentProps, TimelineState> {
   }
 
   render() {
-    const program = this.state.program
 
+    if(!this.state) return <div></div>
+
+    const program = this.state.program
     // fill in required years for the program duration
     let timeline = []
     let year = program.enrollments[0].year

@@ -1,12 +1,22 @@
 import React from 'react'
-import { shallow } from 'enzyme';
-import Suggestions from '../Suggestions';
+import { shallow, mount } from 'enzyme';
+import Suggestions from '../__components__/degree_search/Suggestions';
+import {API_ADDRESS} from '../Constants'
 
 const mockDegrees = [{id: 1, code:"COMP3778", name: "Bachelor of Computer Science (2019)"}, {id: 2, code:"COMP3978", name: "Bachelor of Computer Science (2016)"}]
 
+jest.mock("react-router-dom", () => ({
+	useHistory: jest.fn(() => {
+		return {
+			push: jest.fn()
+		}
+	})
+  }))
+
 describe('Rendering a degree suggestion', () => {
-    it('renders without crashing', () => {
-      const wrapper = shallow(<Suggestions degrees={mockDegrees}/>);
+    it('renders correctly', () => {
+	  const wrapper = shallow(<Suggestions degrees={mockDegrees}/>);
+	  expect(wrapper).toMatchSnapshot();
 	});
 
 	it('puts the code of provided degrees as titles', () => {
@@ -30,16 +40,16 @@ describe('Rendering a degree suggestion', () => {
 	})
 
 	//Implement this test once this feature is up and running
-	//
-	//const mockAPICall = jest.fn();
+	
 	// it('tells the backend the course code of a degree when a user selects it', () => {
+	// 	const fetchSpy = jest.spyOn(window, 'fetch');
 	// 	const component = mount(
 	// 		<Suggestions degrees={mockDegrees}/>
 	// 	);
-	// 	component.find('button.suggestion').first().simulate('click');
-	// 	expect(mockAPICall).toHaveBeenCalledWith(mockDegrees[0].code);
 		
+	// 	component.find('button.suggestion').first().simulate('click');
+	// 	expect(fetchSpy).toHaveBeenCalledWith(API_ADDRESS + "/" + mockDegrees[0].name);
 	// 	component.unmount();
-	// })
-	
+		
+	// })	
 });

@@ -4,7 +4,16 @@
   border-radius: 10px;
   background-color: #c2eced;
   padding: 10px;
-  align-self: center;
+  margin-bottom: 8px;
+  width: 220px;
+  
+}
+
+.suggestion-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .suggestion-code {

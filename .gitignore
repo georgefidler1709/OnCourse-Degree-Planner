@@ -6,6 +6,7 @@ server/__pycache__/
 venv/
 __pycache__/
 .cache
+*.vscode
 
 ## Frontend
 **/node_modules

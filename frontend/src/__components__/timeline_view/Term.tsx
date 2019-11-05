@@ -31,7 +31,7 @@ interface TermProps {
 function Term(props: TermProps) {
   return (
     <Container>
-      <Title>{props.termId}</Title>
+      <Title>{"T" + props.termId}</Title>
       <Droppable droppableId={props.termId}>
         {provided => (
           <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>

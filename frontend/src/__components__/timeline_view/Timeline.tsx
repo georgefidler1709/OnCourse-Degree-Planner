@@ -25,8 +25,161 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     })
   }
 
-  onDragEnd = (result: DropResult) => {
+  addTerm(newTermId: number, year: YearPlan, yearIdx: number) {
+    let idx = year.term_plans.findIndex(term => term.term > newTermId)
+    if(idx === -1) {
+      year.term_plans.push({course_ids: [], term: newTermId})
+      idx = year.term_plans.length - 1
+    }
+    else year.term_plans.splice(idx, 0, {course_ids: [], term: newTermId})
 
+    let newState = {
+      ...this.state,
+    }
+    newState.program.enrollments[yearIdx] = year
+    this.setState(newState)
+    return idx
+  }
+
+  addYear(newYearId: number) {
+    let newState = {
+      ...this.state,
+    }
+
+    let idx = newState.program.enrollments.findIndex(year => year.year > newYearId)
+    if(idx === -1) {
+      newState.program.enrollments.push({term_plans: [], year: newYearId})
+      idx = newState.program.enrollments.length - 1
+    }
+    else newState.program.enrollments.splice(idx, 0, {term_plans: [], year: newYearId})
+
+    this.setState(newState)
+
+    return idx
+  }
+
+  onDragEnd = (result: DropResult) => {
+    const { destination, source, draggableId } = result
+
+    // if not dragged into a term, don't change state
+    if(!destination) {
+      return;
+    }
+    // if location not changed, don't change state
+    if(destination.droppableId === source.droppableId &&
+      destination.index === source.index) {
+      return;
+    }
+
+    // get year and term for the start and dest of a drag
+    let [destTermId, destYearId] = destination.droppableId.split(" ").map(s => parseInt(s))
+    let [startTermId, startYearId] = source.droppableId.split(" ").map(s => parseInt(s))
+
+    let destYearIdx = this.state.program.enrollments.findIndex(year => year.year === destYearId)
+    // if destination year does not exist in state (i.e. it's empty), add it
+    if(destYearIdx === -1) destYearIdx = this.addYear(destYearId)
+    let destYear = this.state.program.enrollments[destYearIdx]
+
+    let startYearIdx = destYearIdx
+    let startYear = destYear
+    if(startYearId !== destYearId) {
+      startYearIdx = this.state.program.enrollments.findIndex(year => year.year === startYearId)
+      startYear = this.state.program.enrollments[startYearIdx]
+    }
+
+    let destTermIdx = destYear.term_plans.findIndex(term => term.term === destTermId)
+    // if destination term does not exist in state (i.e. it's empty), add it
+    if(destTermIdx === -1) destTermIdx = this.addTerm(destTermId, destYear, destYearIdx)
+    let destTerm = destYear.term_plans[destTermIdx]
+
+    let startTermIdx = destTermIdx
+    let startTerm = destTerm
+    if(startYearId !== destYearId || startTermId !== destTermId) {
+      startTermIdx = startYear.term_plans.findIndex(term => term.term === startTermId)
+      startTerm = startYear.term_plans[startTermIdx]
+    }
+
+    let newState = {
+      ...this.state,
+    }
+
+    // inter-year drag
+    if(startYearId !== destYearId) {
+      const startCourseIds = Array.from(startTerm.course_ids)
+      startCourseIds.splice(source.index, 1)
+  
+      const newStartTerm = {
+        ...startTerm,
+        course_ids: startCourseIds
+      }
+  
+      let newStartYear = {
+        ...startYear
+      }
+      newStartYear.term_plans[startTermIdx] = newStartTerm
+  
+      const destCourseIds = Array.from(destTerm.course_ids)
+      destCourseIds.splice(destination.index, 0, draggableId)
+  
+      const newDestTerm = {
+        ...destTerm,
+        course_ids: destCourseIds
+      }
+  
+      let newDestYear = {
+        ...destYear
+      }
+      newDestYear.term_plans[destTermIdx] = newDestTerm
+  
+      newState.program.enrollments[startYearIdx] = newStartYear;
+      newState.program.enrollments[destYearIdx] = newDestYear;
+    }
+    // inter-term drag
+    else if(startTermId !== destTermId) {
+      const startCourseIds = Array.from(startTerm.course_ids)
+      startCourseIds.splice(source.index, 1)
+  
+      const newStartTerm = {
+        ...startTerm,
+        course_ids: startCourseIds
+      }
+
+      const destCourseIds = Array.from(destTerm.course_ids)
+      destCourseIds.splice(destination.index, 0, draggableId)
+
+      const newDestTerm = {
+        ...destTerm,
+        course_ids: destCourseIds
+      }
+  
+      let newYear = {
+        ...startYear
+      }
+
+      newYear.term_plans[startTermIdx] = newStartTerm
+      newYear.term_plans[destTermIdx] = newDestTerm
+
+      newState.program.enrollments[startYearIdx] = newYear
+    } 
+    // drag within a single term
+    else {
+      const newCourseIds = Array.from(startTerm.course_ids)
+      newCourseIds.splice(source.index, 1)
+      newCourseIds.splice(destination.index, 0, draggableId)
+
+      const newTerm = {
+        ...startTerm,
+        course_ids: newCourseIds
+      }
+
+      let newYear = {
+        ...startYear,
+      }
+      newYear.term_plans[startTermIdx] = newTerm
+      newState.program.enrollments[startYearIdx] = newYear;
+    }
+
+    this.setState(newState)
   };
 
   getCourseInfo(course_id: string) {
@@ -37,7 +190,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   render() {
 
     if(!this.state) return <div></div>
-
+    console.log(this.state)
     const program = this.state.program
     // fill in required years for the program duration
     let timeline = []
@@ -77,7 +230,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
             <Container key={year_num}>
               {terms.map(term => {
                 const courses = term.course_ids.map(course_id => this.getCourseInfo(course_id));
-                const term_tag = "T" + term.term.toString() + " " + year_num.toString()
+                const term_tag = term.term.toString() + " " + year_num.toString()
                 return <Term key={term_tag} termId={term_tag} courses={courses} />;
               })}
             </Container>

@@ -30,7 +30,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   };
 
   getCourseInfo(course_id: string) {
-    return this.state.courses.find((course) => course.subject + course.code.toString() === course_id)!
+    return this.state.courses[course_id]!
     
   }
 

@@ -11,7 +11,7 @@ apiTypes.py
 Contains the json layout of the types to be sent over to the front end
 """
 
-from typing import List
+from typing import List, Dict
 from mypy_extensions import TypedDict
 
 class SimpleDegree(TypedDict):
@@ -55,12 +55,11 @@ class Term(TypedDict):
     term: int
 
 class Course(TypedDict):
-    subject: str;
-    code: int;
+    code: str;
     name: str;
     units: int;
     terms: List[Term];
 
 class GeneratorResponse(TypedDict):
     program: Program;
-    courses: List[Course];
+    courses: Dict[str, Course];

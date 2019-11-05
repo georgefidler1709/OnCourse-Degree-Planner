@@ -36,7 +36,7 @@ function Term(props: TermProps) {
         {provided => (
           <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
             {props.courses.map((course, index) => {
-              let course_id = course.subject + course.code.toString()
+              let course_id = course.code.toString()
               return <Course 
                 {...course}
                 course_id={course_id}

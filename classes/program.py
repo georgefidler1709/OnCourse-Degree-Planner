@@ -121,4 +121,4 @@ class Program(object):
 
     def get_generator_response_api(self) -> api.GeneratorResponse:
         return {'program': self.to_api(),
-                'courses': [enrollment.course.to_api() for enrollment in self.courses]};
+                'courses': {enrollment.course_code() : enrollment.course.to_api() for enrollment in self.courses}};

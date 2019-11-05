@@ -13,13 +13,12 @@ const Container = styled.div`
 
 interface TimelineState extends GeneratorResponse { }
 
-class Timeline extends Component<RouteComponentProps, TimelineState> {
+class Timeline extends Component<RouteComponentProps<{degree: string}>, TimelineState> {
 
-  constructor(props: RouteComponentProps) {
+  constructor(props: RouteComponentProps<{degree: string}>) {
     super(props)
-    fetch(API_ADDRESS + `/3778/gen_program.json`)
-    //let code = props.match.params["degree"]
-    //fetch(API_ADDRESS + `/${code}/gen_program.json`)
+    let code = props.match.params["degree"]
+    fetch(API_ADDRESS + `/${code}/gen_program.json`)
     .then(response => response.json())
     .then(plan => {
       this.setState(plan)

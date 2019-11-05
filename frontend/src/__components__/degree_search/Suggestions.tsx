@@ -14,10 +14,7 @@ function Suggestions(props: {degrees: SimpleDegrees}) {
   let history = useHistory();
 
   function handleClick(event: MouseEvent<HTMLButtonElement>) {
-    history.push({
-      pathname: "/timeline/" + event.currentTarget.id.toString(),
-      state: { degree: event.currentTarget.id.toString() }
-    })
+    history.push( "/" + event.currentTarget.id.toString())
     console.log(event.currentTarget);
     console.log(event.currentTarget.value);
     console.log(event.currentTarget.id.toString());

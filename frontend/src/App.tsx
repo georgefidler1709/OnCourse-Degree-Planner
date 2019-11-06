@@ -10,13 +10,16 @@ import {
 
 export default function App() {
   return (
-    <Router>
-      <div>
-        <Switch>
-          <Route path="/:degree" render={(props) => <Timeline {...props} />}/>
-          <Route path="/" render={(props) => <Search {...props} />}/>>
-        </Switch>
-      </div>
-    </Router>
+    <div>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+      <Router>
+        <div>
+          <Switch>
+            <Route path="/:degree" render={(props) => <Timeline {...props} />}/>
+            <Route path="/" render={(props) => <Search {...props} />}/>>
+          </Switch>
+        </div>
+      </Router>
+    </div>
   );
 }

@@ -7,11 +7,13 @@ interface CourseInfoModalProps {
   onHide: () => void;
   show: boolean;
   course_id: string;
+  course_name: String;
 }
 
 function CourseInfoModal(props: CourseInfoModalProps) {
     const year = '2020'
     const handbook = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}`
+
     return (
       <Modal
         {...props}
@@ -21,11 +23,12 @@ function CourseInfoModal(props: CourseInfoModalProps) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {props.course_id}
+            {props.course_id + " - "}
+            {props.course_name}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <a href={`${handbook}/${props.course_id}`}>HERE</a>
+          <a href={`${handbook}/${props.course_id}`}>More Info</a>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>

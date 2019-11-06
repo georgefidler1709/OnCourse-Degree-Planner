@@ -174,6 +174,21 @@ class Helper:
 
 		return self.cursor.lastrowid
 
+	def courses_equivalent_add(self, first_course, second_course):
+		'''
+		Adds an EquivalentCourses relation between the two courses
+		'''
+		first_course_id = self.get_course_id(first_course)
+		second_course_id = self.get_course_id(second_course)
+
+		if second_course_id < first_course_id:
+		    # ids must be in ascending order
+		    first_course_id, second_course_id = second_course_id, first_course_id
+
+		self.cursor.execute('''insert or ignore into EquivalentCourses(first_course, second_course)
+		    values(?, ?)''', (first_course_id, second_course_id))
+		self.db.commit()
+
 	def courses_req_add(self, course, field, course_req_id):
 		'''
 		Adds the CourseRequirements id <course_req_id> as a foreign key
@@ -187,7 +202,7 @@ class Helper:
 		course_id = self.get_course_id(course)
 
 		# validate field
-		field_options = ["pre", "co", "ex", "eq"]
+		field_options = ["pre", "co", "ex"]
 		if field not in field_options:
 			raise Exception(f"field {field} must be in {field_options}")
 
@@ -200,12 +215,9 @@ class Helper:
 		elif field == field_options[1]:
 			# corequisite
 			msg += "coreq"
-		elif field == field_options[2]:
+		else:
 			# exclusion
 			msg += "exclusion"
-		else:
-			# equivalent
-			msg += "equivalent"
 
 		msg += " = ? WHERE id = ?"
 
@@ -522,7 +534,7 @@ def compsci_course_reqs(db="university.db"):
 
 	# MATH1131
 	# no prereqs
-	h.courses_req_add("MATH1131", "eq", dpst1013)
+	h.courses_equivalent_add("MATH1131", "DPST1013")
 	math1131_ex = h.combine_course_req("and", [dpst1013, math1151, math1031, math1141, econ2291, math1011, econ1202])
 	h.courses_req_add("MATH1131", "ex", math1131_ex)
 	print("... MATH1131")
@@ -536,7 +548,7 @@ def compsci_course_reqs(db="university.db"):
 	# Prerequisite: MATH1131 or DPST1013 or MATH1141
 	math1231_or = h.combine_course_req("or", [math1131, dpst1013, math1141])
 	h.courses_req_add("MATH1231", "pre", math1231_or)
-	h.courses_req_add("MATH1231", "eq", dpst1014)
+	h.courses_equivalent_add("MATH1231", "DPST1014")
 	math1231_ex = h.combine_course_req("and", [dpst1014, math1251, math1021, math1241])
 	h.courses_req_add("MATH1231", "ex", math1231_ex)
 	print("... MATH1231")
@@ -554,7 +566,11 @@ def compsci_course_reqs(db="university.db"):
 	comp3121_or = h.combine_course_req("or", [comp1927, comp2521])
 	h.courses_req_add("COMP3121", "pre", comp3121_or)
 	comp3121_eq = h.combine_course_req("and", [comp3821, comp9801, comp3120, comp9101])
-	h.courses_req_add("COMP3121", "eq", comp3121_eq)
+	equivalent_courses = ["COMP3121", "COMP3821", "COMP9801", "COMP3120", "COMP9101"]
+	for course_1 in equivalent_courses:
+		for course_2 in equivalent_courses:
+			if course_1 != course_2:
+				h.courses_equivalent_add(course_1, course_2)
 	print("... COMP3121")
 
 	# COMP3821
@@ -562,9 +578,8 @@ def compsci_course_reqs(db="university.db"):
 	comp3821_or = h.combine_course_req("or", [comp1927_cr, comp2521_cr])
 	h.courses_req_add("COMP3821", "pre", comp3821_or)
 	comp3821_eq = h.combine_course_req("and", [comp3121, comp9801])
-	h.courses_req_add("COMP3821", "eq", comp3821_eq)
 	print("... COMP3821")
-	
+
 
 
 	h.close()

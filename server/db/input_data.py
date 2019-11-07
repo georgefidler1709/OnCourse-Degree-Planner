@@ -229,7 +229,7 @@ class Helper:
 
 		combo_id = COMBO_ID_START + valid_combos.index(combo_type)
 
-		# make a CourseREquirement for this combo type
+		# make a CourseRequirement for this combo type
 		msg = "INSERT INTO CourseRequirements(type_id) VALUES (?)"
 
 		# TODO not safe inserting this yet because logic is complicated
@@ -469,15 +469,15 @@ def compsci_course_reqs(db="university.db"):
 	# COMP1531
 	comp1531_or = h.combine_course_req("or", [comp1511, dpst1091, comp1917, comp1921])
 	h.courses_req_add("COMP1531", "pre", comp1531_or)
-	comp1531_ex = h.combine_course_req("and", [seng1020, seng1031, seng1010])
+	comp1531_ex = h.combine_course_req("or", [seng1020, seng1031, seng1010])
 	h.courses_req_add("COMP1531", "ex", comp1531_ex)
 	print("... COMP1531")
 
 	# COMP2511
 	comp2511_small_or = h.combine_course_req("or", [comp2521, comp1927])
-	comp2511_and = h.combine_course_req("and", [comp1531, comp2511_small_or])
+	comp2511_and = h.combine_course_req("or", [comp1531, comp2511_small_or])
 	h.courses_req_add("COMP2511", "pre", comp2511_and)
-	comp2511_ex = h.combine_course_req("and", [comp2911, comp2011])
+	comp2511_ex = h.combine_course_req("or", [comp2911, comp2011])
 	h.courses_req_add("COMP2511", "ex", comp2511_ex)
 	print("... COMP2511")
 
@@ -650,7 +650,7 @@ def insert_compsci_degree_requirements(db='university.db'):
 	for course in core_courses:
 		core_filters.append(h.add_course_filter("spec", min_mark=50, course=course))
 
-	core_combo = h.combine_course_filters("and", core_filters)
+	core_combo = h.combine_course_filters("or", core_filters)
 
 	math1_filters = []
 	for course in math1_opts:

@@ -5,11 +5,12 @@ import Course from './Course';
 import { Course as ApiCourse } from '../../Api';
 
 const Container = styled.div`
-  margin: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
   width: 220px;
-
+  text-align: center;
   display: flex;
   flex-direction: column;
 `;

@@ -23,15 +23,15 @@ from . import program
 
 class Course(object):
 
-    def __init__(self, 
+    def __init__(self,
             subject: str,
             code: int,
             name: str,
             units: int,
             terms: List[term.Term],
-            prereqs: Optional['courseReq.CourseReq']=None, 
+            prereqs: Optional['courseReq.CourseReq']=None,
             coreqs: Optional['courseReq.CourseReq']=None,
-            exclusions: Optional[List['course.Course']]=None, 
+            exclusions: Optional['courseReq.CourseReq']=None,
             equivalents: Optional[List['course.Course']]=None):
         # figure out inputs - database or variables?
         # to be assigned:
@@ -103,13 +103,12 @@ class Course(object):
 
     # Input: The program of the student trying to take the course, the term they are taking it in
     # Return: whether any exclusion courses have been taken
-    def excluded(self, prog: 'program.Program', term: term.Term) -> bool:
+    def excluded(self, program: 'program.Program', term: term.Term) -> bool:
         if self.exclusions is None:
             return False
-        for course in self.exclusions:
-            if prog.enrolled(course) and prog.term_taken(course) <= term:
-                 return True
-        return False
+        else:
+            # Check with coreq=True as we don't want to take excluded courses in the same term
+            return self.exclusions.fulfilled(program, term, coreq=True)
 
     # Input: a course
     # Return: whether it is an equivalent course

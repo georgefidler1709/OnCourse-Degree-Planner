@@ -1,3 +1,4 @@
+import fetch from 'node-fetch';
 import React, { Component, ChangeEvent } from 'react'
 import Suggestions from './Suggestions'
 import {API_ADDRESS} from '../../Constants'
@@ -18,20 +19,20 @@ class Search extends Component<{}, SearchState> {
       degrees: [],
       oldQuery: '',
     }
+
     fetch(API_ADDRESS + '/degrees.json')
-    .then(response => response.json())
-    .then(degrees => {
-      this.setState({ degrees })
-    })
+      .then(response => response.json())
+      .then(degrees => {
+        this.setState({ degrees })
+      })
+      .catch((error) => console.error(error));
 
-    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
-
 
   handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
     let query = event.target.value.toLowerCase();
     let searchResults: Array<SearchResult> = [];
-    console.log(event);
 
     function processDegree(degree: SimpleDegree) {
       let index = degree.name.toLowerCase().indexOf(query);

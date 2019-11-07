@@ -130,7 +130,7 @@ def test_coreq():
 
 def test_exclusion():
     # make an exclusion subject
-    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t1, t3, t4, t6], prereqs=prereq1001, exclusions=[subj1002])
+    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t1, t3, t4, t6], prereqs=prereq1001, exclusions=prereq1002)
 
     # Make some degree requirements
     # 1001 and 1002 and 1003

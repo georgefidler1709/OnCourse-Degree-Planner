@@ -43,6 +43,7 @@ class Course(object):
         self.prereqs = prereqs
         self.coreqs = coreqs
         self.exclusions = exclusions
+        self.equivalents: List['course.Course']
         if equivalents is None:
             self.equivalents = []
         else:

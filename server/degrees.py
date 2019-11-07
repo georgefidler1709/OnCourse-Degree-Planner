@@ -3,6 +3,7 @@ from typing import List, Set, Dict, Tuple, Optional
 from classes.university import University
 from classes.degree import Degree
 from classes.generator import Generator
+from classes.program import Program
 
 from .db_setup import query_db
 
@@ -42,4 +43,16 @@ def generate_program(code: int) -> str:
     gen = Generator(deg)  
 
     return jsonify(gen.generate().get_generator_response_api())
+
+@degrees_bp.route('/<prog>/check_program.json')
+def check_program(prog: Program):
+    '''
+    Accepts a program from the front-end. This program has courses
+    in a new position.
+
+    Return a jsonified program that has an annotation for each course
+    about whether or not it's valid.
+    '''
+    # TODO
+    return '...todo'
 

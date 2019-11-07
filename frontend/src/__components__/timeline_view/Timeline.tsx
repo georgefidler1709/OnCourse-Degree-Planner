@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
-import { GeneratorResponse, YearPlan, TermPlan } from '../../Api';
+import { GeneratorResponse, YearPlan, TermPlan} from '../../Api';
 import {API_ADDRESS} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
@@ -96,7 +96,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
       newYear.term_plans[startTermIdx] = newTerm
 
-      let newCourses = this.state.courses.filter(course => course.subject + course.code.toString() !== draggableId)
+      let newCourses = this.state.courses
+      delete newCourses['draggableId']
 
       let newState = {
         ...this.state,
@@ -242,7 +243,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   };
 
   getCourseInfo(course_id: string) {
-    return this.state.courses.find((course) => course.subject + course.code.toString() === course_id)!
+    return this.state.courses[course_id]!
   }
 
   render() {

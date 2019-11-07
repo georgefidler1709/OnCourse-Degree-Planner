@@ -24,6 +24,9 @@ class FieldFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<FieldFilter field={self.field!r}>"
 
+    def info(self) -> str:
+        return f"Field {self.field}"
+
     @property
     def core(self) -> bool:
         return False

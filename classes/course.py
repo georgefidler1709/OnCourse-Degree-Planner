@@ -53,6 +53,10 @@ class Course(object):
                 "name": self.name,
                 "units": self.units,
                 "terms": [term.to_api() for term in self.terms],
+                "prereqs": self.prereqs.info(top_level=True) if self.prereqs else "",
+                "coreqs": self.coreqs.info(top_level=True) if self.coreqs else "",
+                "exclusions": self.exclusions.info(top_level=True, exclusion=True) if self.exclusions else "",
+                "equivalents": ", ".join(map(lambda x: x.course_code, self.equivalents))
                 }
 
     # returns the SUBJxxxx course code

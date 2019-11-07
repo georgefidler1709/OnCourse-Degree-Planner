@@ -26,6 +26,9 @@ class AndFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<AndFilter filters={self.filters!r}>"
 
+    def info(self) -> str:
+        return "(" + " AND ".join(map(lambda x: x.info(), self.filters)) + ")"
+
     @property
     def core(self) -> bool:
         return all(map(lambda x: x.core, self.filters))
@@ -43,7 +46,7 @@ class AndFilter(courseFilter.CourseFilter):
             return self.filters[0].simple_name
         else:
             return "And"
-    
+
 
     # Input: course.Course, degree the student is enrolled in
     # Return: Whether this course matches the filter

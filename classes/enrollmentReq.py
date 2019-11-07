@@ -27,6 +27,8 @@ class EnrollmentReq(singleReq.SingleReq):
     def __repr__(self) -> str:
         return f"<EnrollmentReq degree={self.degree!r}>"
 
+    def info(self, top_leve: bool=False, exclusion: bool=False) -> str:
+        return f"Enrollment in {self.degree.name} ({self.degree.num_code})"
 
     @property
     def requirement_name(self) -> str:

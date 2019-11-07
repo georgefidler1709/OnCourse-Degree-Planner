@@ -481,15 +481,15 @@ def compsci_course_reqs(db="university.db"):
 	# COMP1531
 	comp1531_or = h.combine_course_req("or", [comp1511, dpst1091, comp1917, comp1921])
 	h.courses_req_add("COMP1531", "pre", comp1531_or)
-	comp1531_ex = h.combine_course_req("or", [seng1020, seng1031, seng1010])
+	comp1531_ex = h.combine_course_req("and", [seng1020, seng1031, seng1010])
 	h.courses_req_add("COMP1531", "ex", comp1531_ex)
 	print("... COMP1531")
 
 	# COMP2511
 	comp2511_small_or = h.combine_course_req("or", [comp2521, comp1927])
-	comp2511_and = h.combine_course_req("or", [comp1531, comp2511_small_or])
+	comp2511_and = h.combine_course_req("and", [comp1531, comp2511_small_or])
 	h.courses_req_add("COMP2511", "pre", comp2511_and)
-	comp2511_ex = h.combine_course_req("or", [comp2911, comp2011])
+	comp2511_ex = h.combine_course_req("and", [comp2911, comp2011])
 	h.courses_req_add("COMP2511", "ex", comp2511_ex)
 	print("... COMP2511")
 

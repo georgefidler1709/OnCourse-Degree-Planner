@@ -190,7 +190,6 @@ class University(object):
                                             or second_course = ?''', (course_id, course_id))
 
             for first_course_id, second_course_id in equivalent_ids:
-                print(first_course_id, second_course_id)
                 if first_course_id != course_id:
                     equivalent_id = first_course_id
                 else:

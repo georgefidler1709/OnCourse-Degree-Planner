@@ -19,13 +19,13 @@ const Container = styled.div`
 
 const LColumn = styled.div`
   float: left;
-  width: 50%;
+  width: 60%;
   padding: 10px;
 `;
 
 const RColumn = styled.div`
   float: left;
-  width: 50%;
+  width: 40%;
   padding: 10px;
 `;
 

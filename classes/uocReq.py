@@ -11,7 +11,7 @@ to enrolling, sometimes from a specific list of subjects
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List
+from typing import List, Optional
 
 from . import course
 from . import courseFilter
@@ -22,7 +22,7 @@ from . import singleReq
 
 class UOCReq(singleReq.SingleReq):
 
-    def __init__(self, uoc: int, filter: 'courseFilter.CourseFilter'=None):
+    def __init__(self, uoc: int, filter: Optional['courseFilter.CourseFilter']):
         super().__init__()
         self.uoc = uoc
         self.filter = filter
@@ -31,7 +31,10 @@ class UOCReq(singleReq.SingleReq):
         return f"<UOCReq uoc={self.uoc!r}, filter={self.filter!r}>"
 
     def info(self, top_level: bool=False, exclusion: bool=False) -> str:
-        return f"{self.uoc} UoC fulfilling [{self.filter.info()}]"
+        if self.filter is None:
+            return f"{self.uoc} UoC"
+        else:
+            return f"{self.uoc} UoC fulfilling [{self.filter.info()}]"
 
     @property
     def requirement_name(self) -> str:

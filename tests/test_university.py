@@ -409,6 +409,7 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         course = self.university.find_course(input_course.course_code)
 
         assert course == input_course
+        assert len(course.equivalents) == 0
 
     def test_multiple_courses(self):
         first_course = self.first_course

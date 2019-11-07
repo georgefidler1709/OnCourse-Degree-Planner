@@ -43,7 +43,10 @@ class Course(object):
         self.prereqs = prereqs
         self.coreqs = coreqs
         self.exclusions = exclusions
-        self.equivalents = equivalents
+        if equivalents is None:
+            self.equivalents = []
+        else:
+            self.equivalents = equivalents
 
     def __repr__(self) -> str:
         return f"<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>"

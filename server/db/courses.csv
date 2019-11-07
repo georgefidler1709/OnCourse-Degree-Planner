@@ -1,46 +1,46 @@
-letter_code,number_code,level,name,units,prereq,coreq,exclusion,equivalent,id
-DPST,1091,1,Introduction to Programming,6,,,,,1
-COMP,1511,1,Programming Fundamentals,6,,,,,2
-DPST,1092,1,Computer Systems Fundamentals,6,,,,,3
-COMP,1521,1,Computer Systems Fundamentals,6,,,,,4
-COMP,1911,1,Computing 1A,6,,,,,5
-COMP,1917,1,,6,,,,,6
-COMP,1531,1,Software Engineering Fundamentals,6,,,,,7
-COMP,1921,1,,6,,,,,8
-COMP,2511,2,Object-Oriented Design & Programming,6,,,,,9
-COMP,2521,2,Data Structures and Algorithms,6,,,,,10
-COMP,1927,1,Computing 2,6,,,,,11
-COMP,2911,2,Engineering Design in Computing,6,,,,,12
-COMP,2011,2,Data Organisation,6,,,,,13
-SENG,1020,1,Software Engineering Workshop 1B,6,,,,,14
-SENG,1031,1,Software Engineering Workshop 1,6,,,,,15
-SENG,1010,1,Software Engineering Workshop 1A,6,,,,,16
-COMP,3900,3,Computer Science Project,6,,,,,17
-COMP,9945,9,Research Project,6,,,,,18
-COMP,9900,9,Information Technology Project,6,,,,,19
-COMP,9596,9,Research Project,6,,,,,20
-COMP,4920,4,Management and Ethics,6,,,,,21
-SENG,4920,4,Ethics and Managements,6,,,,,22
-BINF,4920,4,Professional Issues and Ethics for Bioinformatics,6,,,,,23
-COMP,2920,2,Professional Issues and Ethics for Computer Science,6,,,,,24
-SENG,4921,4,Professional Issues and Ethics,6,,,,,25
-MATH,1081,1,Discrete Mathematics,6,,,,,26
-MATH,1090,1,Discrete Mathematics for Electrical Engineers,6,,,,,27
-MATH,1131,1,Mathematics 1A,6,,,,,28
-DPST,1013,1,Mathematics 1A,6,,,,,29
-MATH,1141,1,Higher Mathematics 1A,6,,,,,30
-MATH,1151,1,Mathematics for Actuarial Studies and Finance 1A,6,,,,,31
-MATH,1231,1,Mathematics 1B,6,,,,,32
-MATH,1241,1,Higher Mathematics 1B,6,,,,,33
-MATH,1031,1,Mathematics for Life Sciences,6,,,,,34
-MATH,1011,1,Fundamentals of Mathematics B,6,,,,,35
-ECON,1202,1,Quantiative Analysis for Business and Economics,6,,,,,36
-ECON,2291,2,Quantiative Analysis for Business and Economics (Arts),6,,,,,37
-DPST,1014,1,Mathematics 1B,6,,,,,38
-MATH,1021,1,General Mathematics 1C,6,,,,,39
-COMP,3121,3,Algorithms and Programming Techniques,6,,,,,40
-COMP,3120,3,Introduction to Algorithms,6,,,,,41
-COMP,9101,9,Design and Analysis of Algorithms,6,,,,,42
-COMP,3821,3,Extended Algorithms and Programming Techniques,6,,,,,43
-COMP,9801,9,Extended Design & Analysis of Algorithms,6,,,,,44
-MATH,1251,1,Mathematics for Actuarial Studies and Finance 1B,6,,,,,45
+letter_code,number_code,level,name,units,prereq,coreq,exclusion,id
+DPST,1091,1,Introduction to Programming,6,,,,1
+COMP,1511,1,Programming Fundamentals,6,,,,2
+DPST,1092,1,Computer Systems Fundamentals,6,,,,3
+COMP,1521,1,Computer Systems Fundamentals,6,,,,4
+COMP,1911,1,Computing 1A,6,,,,5
+COMP,1917,1,,6,,,,6
+COMP,1531,1,Software Engineering Fundamentals,6,,,,7
+COMP,1921,1,,6,,,,8
+COMP,2511,2,Object-Oriented Design & Programming,6,,,,9
+COMP,2521,2,Data Structures and Algorithms,6,,,,10
+COMP,1927,1,Computing 2,6,,,,11
+COMP,2911,2,Engineering Design in Computing,6,,,,12
+COMP,2011,2,Data Organisation,6,,,,13
+SENG,1020,1,Software Engineering Workshop 1B,6,,,,14
+SENG,1031,1,Software Engineering Workshop 1,6,,,,15
+SENG,1010,1,Software Engineering Workshop 1A,6,,,,16
+COMP,3900,3,Computer Science Project,6,,,,17
+COMP,9945,9,Research Project,6,,,,18
+COMP,9900,9,Information Technology Project,6,,,,19
+COMP,9596,9,Research Project,6,,,,20
+COMP,4920,4,Management and Ethics,6,,,,21
+SENG,4920,4,Ethics and Managements,6,,,,22
+BINF,4920,4,Professional Issues and Ethics for Bioinformatics,6,,,,23
+COMP,2920,2,Professional Issues and Ethics for Computer Science,6,,,,24
+SENG,4921,4,Professional Issues and Ethics,6,,,,25
+MATH,1081,1,Discrete Mathematics,6,,,,26
+MATH,1090,1,Discrete Mathematics for Electrical Engineers,6,,,,27
+MATH,1131,1,Mathematics 1A,6,,,,28
+DPST,1013,1,Mathematics 1A,6,,,,29
+MATH,1141,1,Higher Mathematics 1A,6,,,,30
+MATH,1151,1,Mathematics for Actuarial Studies and Finance 1A,6,,,,31
+MATH,1231,1,Mathematics 1B,6,,,,32
+MATH,1241,1,Higher Mathematics 1B,6,,,,33
+MATH,1031,1,Mathematics for Life Sciences,6,,,,34
+MATH,1011,1,Fundamentals of Mathematics B,6,,,,35
+ECON,1202,1,Quantiative Analysis for Business and Economics,6,,,,36
+ECON,2291,2,Quantiative Analysis for Business and Economics (Arts),6,,,,37
+DPST,1014,1,Mathematics 1B,6,,,,38
+MATH,1021,1,General Mathematics 1C,6,,,,39
+COMP,3121,3,Algorithms and Programming Techniques,6,,,,40
+COMP,3120,3,Introduction to Algorithms,6,,,,41
+COMP,9101,9,Design and Analysis of Algorithms,6,,,,42
+COMP,3821,3,Extended Algorithms and Programming Techniques,6,,,,43
+COMP,9801,9,Extended Design & Analysis of Algorithms,6,,,,44
+MATH,1251,1,Mathematics for Actuarial Studies and Finance 1B,6,,,,45

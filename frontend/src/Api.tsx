@@ -46,8 +46,7 @@ export interface Term {
 }
 
 export interface Course {
-    subject: string;
-    code: number;
+    code: string;
     name: string;
     units: number;
     terms: Array<Term>;
@@ -55,6 +54,6 @@ export interface Course {
 
 export interface GeneratorResponse {
     program: Program;
-    courses: Array<Course>;
+    courses: {[index: string]: Course};
 }
 

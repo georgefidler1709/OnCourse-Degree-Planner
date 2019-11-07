@@ -22,7 +22,6 @@ create table Courses (
     prereq integer references CourseRequirements(id),
     coreq integer references CourseRequirements(id),
     exclusion integer references CourseRequirements(id),
-    equivalent integer references CourseRequirements(id),
 
     id integer primary key,
 
@@ -115,6 +114,15 @@ create table CourseOfferings (
     session_year integer references Sessions(year),
     session_term integer references Sessions(term),
     primary key (course_id, session_year, session_term)
+);
+
+create table EquivalentCourses (
+    first_course integer references Courses(id),
+    second_course integer references Courses(id),
+
+    check (first_course < second_course),
+
+    primary key (first_course, second_course)
 );
 
 create table CourseRequirementTypes (

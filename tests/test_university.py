@@ -59,19 +59,30 @@ class DbHelper:
 
     # Inserts a course into the database
     # Ignores the terms it runs in or any prereqs/coreqs/exclusions/equivalents
-    def insert_course(self, course, prereq=None, coreq=None, exclusion=None, equivalent=None):
+    def insert_course(self, course, prereq=None, coreq=None, exclusion=None, equivalents=[]):
         return self.insert_course_from_fields(course.subject, course.code, course.level, course.name, course.units,
-                prereq, coreq, exclusion, equivalent)
+                prereq, coreq, exclusion, equivalents)
 
     # Inserts a course from just the fields that make up the course
     def insert_course_from_fields(self, letter_code='COMP', number_code='1511', level=1,
             name='Intro to computing', units=6, prereq=None, coreq=None, exclusion=None,
-            equivalent=None):
+            equivalents=[]):
         self.cursor.execute('''insert into Courses(letter_code, number_code, level, name, units,
-        prereq, coreq, exclusion, equivalent) values (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-        (letter_code, number_code, level, name, units, prereq, coreq, exclusion, equivalent))
+        prereq, coreq, exclusion) values (?, ?, ?, ?, ?, ?, ?, ?)''',
+        (letter_code, number_code, level, name, units, prereq, coreq, exclusion))
 
         id = self.cursor.lastrowid
+
+        for equivalent_id in equivalents:
+            if id < equivalent_id:
+                first_course = id
+                second_course = equivalent_id
+            else:
+                first_course = equivalent_id
+                second_course = id
+            self.cursor.execute('''insert or ignore into EquivalentCourses(first_course, second_course)
+            values(?, ?)''', (first_course, second_course))
+
         return id
 
     def insert_degree_requirement(self, degree, filter_id, uoc_needed):
@@ -680,6 +691,49 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         assert coreq is not None
         assert coreq.requirement_name == 'YearRequirement'
         assert coreq.year == year
+
+    def test_course_with_exclusion(self):
+        input_course = self.first_course
+
+        required_course = self.second_course
+
+        required_course_id = self.h.insert_course(required_course)
+
+
+        type_id = self.h.get_requirement_type_id('CompletedCourseRequirement')
+        min_mark = 50
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, min_mark, course_id)
+        values(?, ?, ?)''', (type_id, min_mark, required_course_id))
+
+        requirement_id = self.cursor.lastrowid
+
+        self.h.insert_course(input_course, exclusion=requirement_id)
+
+        course = self.university.find_course(input_course.course_code)
+
+        assert course is not None
+        exclusion = course.exclusions
+        assert exclusion is not None
+        assert exclusion.requirement_name == 'CompletedCourseRequirement'
+        inner_course = exclusion.course
+        assert inner_course == required_course
+
+    def test_course_with_equivalents(self):
+        input_course = self.first_course
+
+        equivalent_course = self.second_course
+
+        equivalent_id = self.h.insert_course(equivalent_course)
+
+        self.h.insert_course(input_course, equivalents=[equivalent_id])
+
+        course = self.university.find_course(input_course.course_code)
+
+        assert course is not None
+        assert len(course.equivalents) == 1
+        equivalent = course.equivalents[0]
+        assert equivalent == equivalent_course
 
     def test_course_with_prereq_and_coreq(self):
         input_course = self.first_course

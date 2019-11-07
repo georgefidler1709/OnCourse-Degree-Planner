@@ -400,7 +400,7 @@ class Helper:
 		msg = '''INSERT INTO DegreeOfferingRequirements(offering_degree_id, offering_year_id, requirement_id, uoc_needed)
 			VALUES (?, ?, ?, ?)'''
 		vals = (degree_code, year, filter_id, uoc_needed)
-		inserted_id = self.safe_insert(msg, vals, vals)
+		inserted_id = self.safe_insert(msg, vals, vals)		
 
 		return inserted_id
 
@@ -716,6 +716,9 @@ def insert_compsci_degree_requirements(db='university.db'):
 
 	# 36 UOC free electives
 	h.add_degree_reqs(COMPSCI, 2019, free_filter, 36)
+
+	# total UOC = 144
+	h.add_degree_reqs(COMPSCI, 2019, None, 144)
 
 	h.close()
 

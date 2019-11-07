@@ -27,12 +27,13 @@ from . import minDegreeReq
 class Degree(object):
 
     def __init__(self, num_code: int, name: str, year: int, duration: int, 
-            requirements: Sequence['degreeReq.DegreeReq'], alpha_code: str):
+            faculty: str, requirements: Sequence['degreeReq.DegreeReq'], alpha_code: str):
         self.num_code = num_code
         self.alpha_code = alpha_code
         self.name = name
         self.year = year
         self.duration = duration
+        self.faculty = faculty
         self.requirements = requirements
 
     def __repr__(self) -> str:

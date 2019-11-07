@@ -29,6 +29,7 @@ class Course(object):
             name: str,
             units: int,
             terms: List[term.Term],
+            faculty: str,
             prereqs: Optional['courseReq.CourseReq']=None, 
             coreqs: Optional['courseReq.CourseReq']=None,
             exclusions: Optional[List['course.Course']]=None, 
@@ -40,6 +41,7 @@ class Course(object):
         self.name = name
         self.units = units
         self.terms = terms
+        self.faculty = faculty
         self.prereqs = prereqs
         self.coreqs = coreqs
         self.exclusions = exclusions

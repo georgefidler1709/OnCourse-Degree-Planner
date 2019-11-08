@@ -182,8 +182,24 @@ class University(object):
         if need_requirements:
             result_course.prereqs = self.load_course_requirement(prereq_id)
             result_course.coreqs = self.load_course_requirement(coreq_id)
-            # TODO: Commented out as exclusions are to be represented by a list of courses
-            #exclusion = self.load_course_requirement(exclusion_id)
+            result_course.exclusions = self.load_course_requirement(exclusion_id)
+
+            equivalent_ids = self.query_db('''select first_course, second_course
+                                            from EquivalentCourses
+                                            where first_course = ?
+                                            or second_course = ?''', (course_id, course_id))
+
+            for first_course_id, second_course_id in equivalent_ids:
+                if first_course_id != course_id:
+                    equivalent_id = first_course_id
+                else:
+                    equivalent_id = second_course_id
+
+                equivalent_course = self.load_course(equivalent_id)
+                if equivalent_course is None:
+                    print(f"ERROR: Equivalent course for id {equivalent_id} should not be None")
+                    continue
+                result_course.add_equivalent(equivalent_course)
 
         return result_course
 

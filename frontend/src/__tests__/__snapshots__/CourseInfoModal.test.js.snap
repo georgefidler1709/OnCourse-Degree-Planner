@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rendering a course info popup renders correctly 1`] = `ReactWrapper {}`;

@@ -1,8 +1,7 @@
 import React, { Component, ChangeEvent } from 'react'
 import Suggestions from './Suggestions'
-
-import {API_ADDRESS} from './Constants'
-import {SimpleDegrees} from './Api'
+import {API_ADDRESS} from '../../Constants'
+import {SimpleDegrees} from '../../Api'
 
 class Search extends Component<{}, {query: string; degrees: SimpleDegrees}> {
   constructor(props: {}) {

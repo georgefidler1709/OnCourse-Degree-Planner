@@ -111,8 +111,8 @@ class University(object):
 
         # create a degree without requirements, then add requirements later
         # This is done so that we can cache the degree, to avoid circular loading
-        result_degree = degree.Degree(numeric_code, name, year, duration, faculty, [], alpha_code)
 
+        result_degree = degree.Degree(numeric_code, name, year, duration, faculty, [], alpha_code)
 
         self.degrees[numeric_code] = result_degree
 
@@ -206,9 +206,17 @@ class University(object):
 
     # Input: A filter string [ITEMISE THESE HERE]
     # Return: List of courses that match the requested filter
-    def filter_courses(self, filter: 'courseFilter.CourseFilter') -> List['course.Course']:
-        # TODO
-        return []
+    def filter_courses(self, filter: 'courseFilter.CourseFilter',
+                degree: 'degree.Degree') -> List['course.Course']:
+        matching: List['course.Course'] = []
+        if isinstance(filter, specificCourseFilter.SpecificCourseFilter):
+            matching.append(filter.course)
+            return matching
+
+        # TODO - other filter types
+
+
+        return matching
 
     # Return: A dictionary containing the ids of each course requirement type along with their names
     def load_course_requirement_types(self) -> Dict[int, str]:

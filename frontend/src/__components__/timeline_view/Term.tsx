@@ -5,11 +5,12 @@ import Course from './Course';
 import { Course as ApiCourse } from '../../Api';
 
 const Container = styled.div`
-  margin: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
   width: 220px;
-
+  text-align: center;
   display: flex;
   flex-direction: column;
 `;
@@ -31,7 +32,7 @@ interface TermProps {
 function Term(props: TermProps) {
   return (
     <Container>
-      <Title>{props.termId}</Title>
+      <Title>{"T" + props.termId}</Title>
       <Droppable droppableId={props.termId}>
         {provided => (
           <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
@@ -39,6 +40,7 @@ function Term(props: TermProps) {
               let course_id = course.code.toString()
               return <Course 
                 {...course}
+                course_name={course.name}
                 course_id={course_id}
                 key={course_id} 
                 index={index} />

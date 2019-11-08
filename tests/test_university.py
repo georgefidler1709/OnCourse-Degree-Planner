@@ -48,28 +48,30 @@ class DbHelper:
     # Ignores requirements
     def insert_degree(self, degree):
         self.insert_degree_from_fields(degree.name, degree.alpha_code, degree.num_code, degree.year,
-                degree.requirements)
+                degree.faculty, degree.requirements)
 
     # Inserts a degree into the database from the fields that make it up
     # Ignores requirements
-    def insert_degree_from_fields(self, name='TestDegree', code='TestCode', id=42, year=2019, requirements=[]):
-        self.cursor.execute('insert into Degrees(name, code, id) values(?, ?, ?)', (name, code, id))
+    def insert_degree_from_fields(self, name='TestDegree', code='TestCode', id=42, year=2019,
+            faculty="TestFaculty", requirements=[]):
+        self.cursor.execute('insert into Degrees(name, code, faculty, id) values(?, ?, ?, ?)', (name,
+            code, faculty, id))
 
         self.cursor.execute('insert into DegreeOfferings(year, degree_id) values(?, ?)', (year, id))
 
     # Inserts a course into the database
     # Ignores the terms it runs in or any prereqs/coreqs/exclusions/equivalents
     def insert_course(self, course, prereq=None, coreq=None, exclusion=None, equivalent=None):
-        return self.insert_course_from_fields(course.subject, course.code, course.level, course.name, course.units,
-                prereq, coreq, exclusion, equivalent)
+        return self.insert_course_from_fields(course.subject, course.code, course.level,
+                course.name, course.units, course.faculty, prereq, coreq, exclusion, equivalent)
 
     # Inserts a course from just the fields that make up the course
     def insert_course_from_fields(self, letter_code='COMP', number_code='1511', level=1,
-            name='Intro to computing', units=6, prereq=None, coreq=None, exclusion=None,
+            name='Intro to computing', units=6, faculty="Engineering", prereq=None, coreq=None, exclusion=None,
             equivalent=None):
         self.cursor.execute('''insert into Courses(letter_code, number_code, level, name, units,
-        prereq, coreq, exclusion, equivalent) values (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-        (letter_code, number_code, level, name, units, prereq, coreq, exclusion, equivalent))
+        faculty, prereq, coreq, exclusion, equivalent) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+        (letter_code, number_code, level, name, units, faculty, prereq, coreq, exclusion, equivalent))
 
         id = self.cursor.lastrowid
         return id
@@ -96,13 +98,13 @@ class TestUniversityWithDb():
 
         self.university = university.University(self.h.query_db)
 
-        self.first_course = course.Course("TEST", 1000, "Test course 1", 6, [])
-        self.second_course = course.Course("COMP", 2521, "Test course 2", 3, [])
+        self.first_course = course.Course("TEST", 1000, "Test course 1", 6, [], "TestFaculty")
+        self.second_course = course.Course("COMP", 2521, "Test course 2", 3, [], "Engineering")
 
         # TODO: check different years
-        self.first_degree = degree.Degree(1111, "Test degree", 2019, 3, [], "ABCDE")
+        self.first_degree = degree.Degree(1111, "Test degree", 2019, 3, "TestFaculty", [], "ABCDE")
 
-        self.second_degree = degree.Degree(3223, "Test degree 2", 2019, 5, [], "FGHIJ")
+        self.second_degree = degree.Degree(3223, "Test degree 2", 2019, 5, "Engineering", [], "FGHIJ")
 
     def teardown_method(self, function):
         self.db.close()
@@ -123,6 +125,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         assert len(degree.requirements) == 0
         assert degree.name == input_degree.name
         assert degree.year == input_degree.year
+        assert degree.faculty == input_degree.faculty
 
     def test_single_degree_no_match(self):
         input_degree = self.first_degree
@@ -146,6 +149,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
 
         assert degree is not None
         assert degree.name == first_degree.name
+        assert degree.faculty == first_degree.faculty
 
     def test_degree_with_specific_course_filter(self):
         input_degree = self.first_degree
@@ -398,6 +402,7 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         course = self.university.find_course(input_course.course_code)
 
         assert course == input_course
+        assert course.faculty == input_course.faculty
 
     def test_multiple_courses(self):
         first_course = self.first_course
@@ -409,6 +414,7 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         course = self.university.find_course(first_course.course_code)
 
         assert course == first_course
+        assert course.faculty == first_course.faculty
 
     def test_course_with_completed_course_prereq(self):
         input_course = self.first_course

@@ -83,7 +83,7 @@ class University(object):
             return self.degrees[numeric_code]
 
         year = YEAR
-        response = self.query_db('''select name, code
+        response = self.query_db('''select name, code, faculty
                                  from Degrees
                                  where id = ?''', (numeric_code,), one=True)
 
@@ -91,7 +91,7 @@ class University(object):
             # No degree with that code, so return nothing
             return None
 
-        name, alpha_code = response
+        name, alpha_code, faculty = response
 
         # Get all of the requirements for the degree
         response = self.query_db('''select uoc_needed, requirement_id
@@ -111,9 +111,8 @@ class University(object):
 
         # create a degree without requirements, then add requirements later
         # This is done so that we can cache the degree, to avoid circular loading
-        # TODO: add faculty to degree
-        result_degree = degree.Degree(numeric_code, name, year, duration, [], alpha_code)
 
+        result_degree = degree.Degree(numeric_code, name, year, duration, faculty, [], alpha_code)
 
         self.degrees[numeric_code] = result_degree
 
@@ -159,7 +158,7 @@ class University(object):
             # TODO: as with degrees, determine if need_requirements is even a useful argument
             return self.courses[course_id]
 
-        response = self.query_db('''select letter_code, number_code, name, units, prereq, coreq, exclusion
+        response = self.query_db('''select letter_code, number_code, name, faculty, units, prereq, coreq, exclusion
                                  from Courses
                                  where id = ?''', (course_id, ), one=True)
 
@@ -167,7 +166,7 @@ class University(object):
             # No matching course
             return None
 
-        subject, numeric_code, name, units, prereq_id, coreq_id, exclusion_id = response
+        subject, numeric_code, name, faculty, units, prereq_id, coreq_id, exclusion_id = response
 
         # Get the terms that the course runs in
         response = self.query_db('''select session_year, session_term
@@ -177,7 +176,7 @@ class University(object):
         for year, term_num in response:
             terms.append(term.Term(year, term_num))
 
-        result_course = course.Course(subject, int(numeric_code), name, units, terms) 
+        result_course = course.Course(subject, int(numeric_code), name, units, terms, faculty)
         self.courses[course_id] = result_course
 
         if need_requirements:
@@ -199,7 +198,7 @@ class University(object):
             return matching
 
         # TODO - other filter types
-        
+
 
         return matching
 

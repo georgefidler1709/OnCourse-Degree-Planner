@@ -40,8 +40,38 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     .then(response => response.json())
     .then(plan => {
       this.setState(plan) 
+      this.addMissingTerms()
     })
   }
+
+  addMissingTerms() {
+    const program = this.state.program
+    // fill in required years for the program duration
+    let timeline: Array<number> = []
+    let year_max: number = program.enrollments[0].year
+    for(let i = 0; i < program.duration; ++i) {
+      timeline.push(year_max++)
+    }
+
+    timeline.forEach((year_num, year_index) => {
+      if(year_index >= program.enrollments.length) this.addYear(year_num)
+      let year = program.enrollments[year_index]
+        // fill in the minimum 3 terms per year
+      const required_terms = [1,2,3]
+      let cur_term = 0
+      // fills in terms such that 'required terms' are always present and always in order
+      // but other terms can be inserted in between
+      year.term_plans.forEach(term => {
+        let new_term = required_terms.findIndex(req => req === term.term)
+        if(new_term > cur_term) {
+          for( ; cur_term < new_term; ++cur_term) this.addTerm(cur_term + 1, year, year_index);
+        } else cur_term++ 
+      })
+      // if any 'required terms' were missing from the end, add them on here
+      for( ; cur_term < required_terms.length; ++cur_term) this.addTerm(cur_term + 1, year, year_index);
+    })
+  }
+
 
   addTerm(newTermId: number, year: YearPlan, yearIdx: number) {
     let idx = year.term_plans.findIndex(term => term.term > newTermId)
@@ -113,9 +143,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result
-    // console.log(destination)
-    // console.log(source)
-    // console.log(draggableId)
 
     // if not dragged into a term, don't change state
     if(!destination) {
@@ -137,7 +164,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     let destYearIdx = this.state.program.enrollments.findIndex(year => year.year === destYearId)
     // if destination year does not exist in state (i.e. it's empty), add it
-    if(destYearIdx === -1) destYearIdx = this.addYear(destYearId)
     let destYear = this.state.program.enrollments[destYearIdx]
 
     let startYearIdx = destYearIdx
@@ -149,7 +175,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     let destTermIdx = destYear.term_plans.findIndex(term => term.term === destTermId)
     // if destination term does not exist in state (i.e. it's empty), add it
-    if(destTermIdx === -1) destTermIdx = this.addTerm(destTermId, destYear, destYearIdx)
     let destTerm = destYear.term_plans[destTermIdx]
 
     let startTermIdx = destTermIdx
@@ -282,7 +307,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   onDragStart = (start: DragStart) => {
     const { draggableId } = start
 
-
     let newEnrollments = this.state.program.enrollments.map(year => {
       let newYear = {
         ...year,
@@ -308,16 +332,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   }
 
   render() {
-
     if(!this.state) return <div></div>
+
     const program = this.state.program
-    console.log(this.state)
-    // fill in required years for the program duration
-    let timeline: Array<number> = []
-    let year: number = program.enrollments[0].year
-    for(let i = 0; i < program.duration; ++i) {
-      timeline.push(year++)
-    }
 
     return (
       <div>
@@ -336,37 +353,13 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
               { 
                 <div>
                   <LColumn> {
-                timeline.map((year_num, year_index) => {
-                  let year: YearPlan  = {term_plans: [], year: year_num}
-                  if(year_index < program.enrollments.length) {
-                    year = program.enrollments[year_index]
-                  } 
-    
-                  // fill in the minimum 3 terms per year
-                  const required_terms = [1,2,3]
-                  let cur_term = 0
-                  let terms : Array<TermPlan> = []
-    
-                  // fills in terms such that 'required terms' are always present and always in order
-                  // but other terms can be inserted in between
-                  year.term_plans.forEach(term => {
-                    let new_term = required_terms.findIndex(req => req === term.term)
-                    if(new_term > cur_term) {
-                      for( ; cur_term < new_term; ++cur_term) terms.push({course_ids: [], term: required_terms[cur_term], highlight: false})
-                    } 
-                    if(new_term === cur_term) ++cur_term
-                    terms.push(term)
-                  })
-    
-                  // if any 'required terms' were missing from the end, add them on here
-                  for( ; cur_term < required_terms.length; ++cur_term) terms.push({course_ids: [], term: required_terms[cur_term], highlight: false})
-    
+                program.enrollments.map(year => {
                   return (
                     <div>
-                        <Container key={year_num}>
-                          {terms.map(term => {
+                        <Container key={year.year}>
+                          {year.term_plans.map(term => {
                             const courses = term.course_ids.map(course_id => this.getCourseInfo(course_id));
-                            const term_tag = term.term.toString() + " " + year_num.toString()
+                            const term_tag = term.term.toString() + " " + year.year.toString()
                             return <Term key={term_tag} termId={term_tag} courses={courses} highlight={term.highlight}/>;
                           })}
                         </Container>

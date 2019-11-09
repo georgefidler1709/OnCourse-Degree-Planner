@@ -186,28 +186,33 @@ def test_exclusion():
 
 def test_equivalent():
     # make an equivalent subject
-    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t2, t3, t5, t6], faculty, equivalents=[subj1001])
+    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [], faculty, equivalents=[subj1001])
     subj1001.add_equivalent(subj1005)
 
+    subj1006 = course.Course("SUBJ", 1006, "Subject5", 6, [t2, t3, t5, t6], faculty)
+
+    uni.add_course(subj1005)
+    uni.add_course(subj1006)
+
     # Make some degree requirements
-    # 1002 requires 1001 but 1005 is an equivalent
-    filter1002 = specificCourseFilter.SpecificCourseFilter(subj1002)
+    # 1006 requires 1005 but 1001 is an equivalent
     filter1005 = specificCourseFilter.SpecificCourseFilter(subj1005)
+    filter1006 = specificCourseFilter.SpecificCourseFilter(subj1006)
 
-    req1002 = minDegreeReq.MinDegreeReq(filter1002, 6)
     req1005 = minDegreeReq.MinDegreeReq(filter1005, 6)
+    req1006 = minDegreeReq.MinDegreeReq(filter1006, 6)
 
-    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1005, req1002], 'TESTA1')
+    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1005, req1006], 'TESTA1')
 
     gen = generator.Generator(degree1, uni)
     prog = gen.generate()
 
-    assert prog.enrolled(subj1002)
-    assert prog.enrolled(subj1005)
-    assert not prog.enrolled(subj1001)
+    assert prog.enrolled(subj1001)
+    assert prog.enrolled(subj1006)
+    assert not prog.enrolled(subj1005)
 
-    assert prog.term_taken(subj1005) == t2
-    assert prog.term_taken(subj1002) == t3
+    assert prog.term_taken(subj1001) == t1
+    assert prog.term_taken(subj1006) == t2
 
 
 def test_term_cap_enrollment():

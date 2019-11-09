@@ -40,7 +40,13 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
-        return course == self.course
+        if course == self.course:
+            return True
+        elif self.course.equivalent(course):
+            # The entered course is equivalent to the one we want, so accept
+            return True
+        else:
+            return False
 
     # Saves the filter in the database
     # Return: the id of the filter in the database

@@ -47,7 +47,7 @@ class CourseReq(ABC):
     # ex set to False, if true then this is an exclusion requirement
     @abstractmethod
     def fulfilled(self, program: program.Program, term: term.Term,
-            coreq: bool=False, ex: bool=False) -> bool:
+            coreq: bool=False) -> bool:
         pass
 
     # Saves the requirement in the database

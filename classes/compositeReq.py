@@ -34,5 +34,5 @@ class CompositeReq(courseReq.CourseReq, ABC):
     # Return: Whether this requirement is fulfilled
     @abstractmethod
     def fulfilled(self, program: program.Program, term: term.Term,
-            coreq: bool=False, ex: bool=False) -> bool:
+            coreq: bool=False) -> bool:
         pass

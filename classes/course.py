@@ -110,7 +110,7 @@ class Course(object):
             return False
         else:
             # Check with coreq=True as we don't want to take excluded courses in the same term
-            return self.exclusions.fulfilled(program, term, coreq=True, ex=True)
+            return self.exclusions.fulfilled(program, term, coreq=True)
 
     # Input: a course
     # Return: whether it is an equivalent course

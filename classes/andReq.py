@@ -35,8 +35,8 @@ class AndReq(compositeReq.CompositeReq):
    # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: program.Program, term: term.Term,
-            coreq: bool=False) -> bool:
-        individual_fulfills = map(lambda x: x.fulfilled(program, term, coreq), self.reqs)
+            coreq: bool=False, ex: bool=False) -> bool:
+        individual_fulfills = map(lambda x: x.fulfilled(program, term, coreq, ex), self.reqs)
 
         # Only accept if all of the requirements accepted
         return all(individual_fulfills)

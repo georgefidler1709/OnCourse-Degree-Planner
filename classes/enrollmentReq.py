@@ -36,7 +36,7 @@ class EnrollmentReq(singleReq.SingleReq):
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: program.Program, term: term.Term,
-            coreq: bool=False) -> bool:
+            coreq: bool=False, ex: bool=False) -> bool:
         return program.degree == self.degree
 
     # Saves the requirement in the database

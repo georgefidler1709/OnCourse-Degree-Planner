@@ -17,6 +17,7 @@ export type SimpleCourses = Array<SimpleCourse>;
 export interface TermPlan {
     course_ids: Array<string>;
     term: number;
+    highlight: boolean;
 }
 
 export interface YearPlan {

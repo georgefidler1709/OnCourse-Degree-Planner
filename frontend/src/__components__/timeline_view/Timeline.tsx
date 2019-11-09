@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '@atlaskit/css-reset';
 import styled from 'styled-components';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
 import { GeneratorResponse, YearPlan, TermPlan} from '../../Api';
@@ -39,17 +39,17 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     fetch(API_ADDRESS + `/${code}/gen_program.json`)
     .then(response => response.json())
     .then(plan => {
-      this.setState(plan)
+      this.setState(plan) 
     })
   }
 
   addTerm(newTermId: number, year: YearPlan, yearIdx: number) {
     let idx = year.term_plans.findIndex(term => term.term > newTermId)
     if(idx === -1) {
-      year.term_plans.push({course_ids: [], term: newTermId})
+      year.term_plans.push({course_ids: [], term: newTermId, highlight: false})
       idx = year.term_plans.length - 1
     }
-    else year.term_plans.splice(idx, 0, {course_ids: [], term: newTermId})
+    else year.term_plans.splice(idx, 0, {course_ids: [], term: newTermId, highlight: false})
 
     let newState = {
       ...this.state,
@@ -113,9 +113,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result
-    console.log(destination)
-    console.log(source)
-    console.log(draggableId)
+    // console.log(destination)
+    // console.log(source)
+    // console.log(draggableId)
 
     // if not dragged into a term, don't change state
     if(!destination) {
@@ -240,14 +240,71 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }
 
     this.setState(newState)
+    this.resetTermHighlights()
   };
 
   getCourseInfo(course_id: string) {
     return this.state.courses[course_id]!
   }
 
-  onDragStart() {
+  resetTermHighlights() {
+    let newEnrollments = this.state.program.enrollments.map(year => {
+      let newYear = {
+        ...year,
+      }
+      newYear.term_plans = year.term_plans.map(term => {
+        let newTerm = {...term}
+        newTerm.highlight = false
+        return newTerm
+      })
 
+      return newYear
+    })
+
+    let newState = {
+      ...this.state,
+      program: {
+        ...this.state.program,
+        enrollments: newEnrollments
+      }
+    }
+    this.setState(newState)
+  }
+
+  isCourseOffered(courseId: string, term: TermPlan, year: YearPlan) {
+    const termsOffered = this.state.courses[courseId].terms
+    const isOffered = termsOffered.findIndex(offering => 
+      offering.term === term.term && offering.year === year.year
+    )
+    return isOffered !== -1
+  }
+
+  onDragStart = (start: DragStart) => {
+    const { draggableId } = start
+
+
+    let newEnrollments = this.state.program.enrollments.map(year => {
+      let newYear = {
+        ...year,
+      }
+      newYear.term_plans = year.term_plans.map(term => {
+        let newTerm = {...term}
+        newTerm.highlight = this.isCourseOffered(draggableId, term, year)
+        return newTerm
+      })
+
+      return newYear
+    })
+
+    let newState = {
+      ...this.state,
+      program: {
+        ...this.state.program,
+        enrollments: newEnrollments
+      }
+    }
+
+    this.setState(newState)
   }
 
   render() {
@@ -295,14 +352,14 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                   year.term_plans.forEach(term => {
                     let new_term = required_terms.findIndex(req => req === term.term)
                     if(new_term > cur_term) {
-                      for( ; cur_term < new_term; ++cur_term) terms.push({course_ids: [], term: required_terms[cur_term]})
+                      for( ; cur_term < new_term; ++cur_term) terms.push({course_ids: [], term: required_terms[cur_term], highlight: false})
                     } 
                     if(new_term === cur_term) ++cur_term
                     terms.push(term)
                   })
     
                   // if any 'required terms' were missing from the end, add them on here
-                  for( ; cur_term < required_terms.length; ++cur_term) terms.push({course_ids: [], term: required_terms[cur_term]})
+                  for( ; cur_term < required_terms.length; ++cur_term) terms.push({course_ids: [], term: required_terms[cur_term], highlight: false})
     
                   return (
                     <div>
@@ -310,7 +367,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                           {terms.map(term => {
                             const courses = term.course_ids.map(course_id => this.getCourseInfo(course_id));
                             const term_tag = term.term.toString() + " " + year_num.toString()
-                            return <Term key={term_tag} termId={term_tag} courses={courses} />;
+                            return <Term key={term_tag} termId={term_tag} courses={courses} highlight={term.highlight}/>;
                           })}
                         </Container>
                     </div>

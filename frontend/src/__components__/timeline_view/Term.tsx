@@ -4,6 +4,10 @@ import { Droppable } from 'react-beautiful-dnd';
 import Course from './Course';
 import { Course as ApiCourse } from '../../Api';
 
+interface DroppableProps {
+  highlight: boolean;
+}
+
 const Container = styled.div`
   margin-top: 8px;
   margin-bottom: 8px;
@@ -17,16 +21,19 @@ const Container = styled.div`
 const Title = styled.h3`
   padding: 8px;
 `;
-const CourseList = styled.div`
+const CourseList = styled.div<DroppableProps>`
   padding: 8px;
   flex-grow: 1;
   min-height: 100px;
+  background-color: ${props => props.highlight ? 'lightgreen' : 'white'};
+  transition: background-color 0.2 ease;
 `;
 
 interface TermProps {
   key: string;
   termId: string;
   courses: Array<ApiCourse>;
+  highlight: boolean;
 }
 
 function Term(props: TermProps) {
@@ -35,7 +42,11 @@ function Term(props: TermProps) {
       <Title>{"T" + props.termId}</Title>
       <Droppable droppableId={props.termId}>
         {provided => (
-          <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
+          <CourseList 
+            innerRef={provided.innerRef} 
+            {...provided.droppableProps}
+            highlight={props.highlight}
+          >
             {props.courses.map((course, index) => {
               let course_id = course.code.toString()
               return <Course 

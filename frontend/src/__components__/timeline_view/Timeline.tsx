@@ -339,7 +339,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     html2canvas(document.getElementById('timeline')!).then(function(canvas) {
       canvas.toBlob(function(blob) {
         // Generate file download
-        saveAs(blob!, "yourwebsite_screenshot.png");
+        saveAs(blob!, "plan.png");
     });
   });
   }

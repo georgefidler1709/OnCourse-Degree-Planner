@@ -12,6 +12,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
+  position: fixed;
 `;
 
 const Title = styled.h3`

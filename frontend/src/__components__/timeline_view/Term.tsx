@@ -13,7 +13,7 @@ const Container = styled.div`
   margin-bottom: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
-  width: 220px;
+  width: 400px;
   text-align: center;
   display: flex;
   flex-direction: column;

@@ -19,14 +19,16 @@ const Container = styled.div`
 
 const LColumn = styled.div`
   float: left;
-  width: 50%;
+  width: 70%;
   padding: 10px;
+  height: 2000px;
 `;
 
 const RColumn = styled.div`
   float: left;
-  width: 50%;
+  width: 30%;
   padding: 10px;
+  height: 2000px;
 `;
 
 interface TimelineState extends GeneratorResponse { }

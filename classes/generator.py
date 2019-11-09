@@ -42,6 +42,9 @@ class Generator(object):
     # Append to a list of courses that fulfill this core requirement
     def fulfill_core_requirement(self, prog: 'program.Program', req: 'degreeReq.DegreeReq',
                 courses: List['course.Course']) -> None:
+        assert req.core_requirement()
+        # mypy doesn't realise that core requires filter to not be None, so make an explicit check
+        assert req.filter is not None
         course_options: List['course.Course'] = self.university.filter_courses(req.filter,
                 prog.degree)
         units: int = 0
@@ -63,7 +66,7 @@ class Generator(object):
                     and not course.excluded(prog, term)):
                     return term
         return None
-    
+
     # Generate a program of study that fulfils the core units of the degree
     def generate(self) -> 'program.Program':
         # create program
@@ -72,9 +75,8 @@ class Generator(object):
 
         # for each degree requirement, add courses to course list
         for req in self.degree.requirements:
-            if not req.core_requirement:
-                continue
-            self.fulfill_core_requirement(prog, req, courses)
+            if req.core_requirement():
+                self.fulfill_core_requirement(prog, req, courses)
 
         # iterate for a max of n_courses times
         # to handle different orders of courses

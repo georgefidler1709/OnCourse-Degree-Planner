@@ -49,7 +49,7 @@ class Degree(object):
 
         # core requirement
         for req in self.requirements:
-            if req.filter.core:
+            if req.core_requirement():
                 if not program:
                     remaining[req] = req.remaining(None, None)
                 elif not req.fulfilled(courses, program.degree):
@@ -58,7 +58,7 @@ class Degree(object):
         
         # subject req
         for req in self.requirements:
-            if req.filter.field_filter and isinstance(req, minDegreeReq.MinDegreeReq):
+            if req.filter is not None and req.filter.field_filter and isinstance(req, minDegreeReq.MinDegreeReq):
                 if not program:
                     remaining[req] = req.remaining(None, None)
                 elif not req.fulfilled(courses, program.degree):

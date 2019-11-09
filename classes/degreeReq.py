@@ -22,7 +22,7 @@ from . import api
 
 class DegreeReq(ABC):
 
-    def __init__(self, inFilter: 'courseFilter.CourseFilter', uoc: int):
+    def __init__(self, inFilter: Optional['courseFilter.CourseFilter'], uoc: int):
         # input as separate variables? or some other format
         self.uoc = uoc
         self.filter = inFilter
@@ -47,8 +47,14 @@ class DegreeReq(ABC):
             degree: Optional['degree.Degree']) -> int:
         pass
 
+    # Return whether this filter is an overall requirement (e.g. must have completed 144 UoC total)
+    def overall_requirement(self) -> bool:
+        return self.filter is None
+
     # Return whether this is a core requirement
     def core_requirement(self) -> bool:
+        if self.filter is None:
+            return False
         return self.filter.core
 
     # Saves the requirement in the database

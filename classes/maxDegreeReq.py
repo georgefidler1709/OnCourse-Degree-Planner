@@ -29,6 +29,13 @@ class MaxDegreeReq(degreeReq.DegreeReq):
         if not courses or not degree:
             return self.uoc
 
+        if self.filter is None:
+            # Overall requirement, so accept all courses and don't do anything to matching courses
+            units = 0
+            for c in courses:
+                units += c.units
+            return self.uoc - units
+
         units = 0
         for c in courses:
             if self.filter.accepts_course(c, degree):

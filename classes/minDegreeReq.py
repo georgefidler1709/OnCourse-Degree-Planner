@@ -19,7 +19,7 @@ class MinDegreeReq(degreeReq.DegreeReq):
     # Input: a degree and a list of courses
     # Return: whether this course list would fulfil this degree requirement
     def fulfilled(self, courses: List['course.Course'], degree: 'degree.Degree') -> bool:
-        return self.remaining(courses, degree) == 0
+        return self.remaining(courses, degree) <= 0
 
     # Input: a degree and a list of courses
     # Return: number of units remaining to complete this requirement
@@ -28,6 +28,13 @@ class MinDegreeReq(degreeReq.DegreeReq):
             degree: Optional['degree.Degree']) -> int:
         if not courses or not degree:
             return self.uoc
+
+        if self.filter is None:
+            # Overall requirement, so accept all courses and don't do anything to matching courses
+            units = 0
+            for c in courses:
+                units += c.units
+            return self.uoc - units
 
         units = 0
         matching_courses = []

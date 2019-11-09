@@ -26,10 +26,11 @@ class OrFilter(courseFilter.CourseFilter):
     # Returns whether this filters specific courses
     @property
     def core(self) -> bool:
-        for filter in self.filters:
-            if not filter.core:
-                return False
-        return True
+        return any(map(lambda x: x.core, self.filters))
+
+    @property
+    def field_filter(self) -> bool:
+        return any(map(lambda x: x.field_filter, self.filters))
     
     def __repr__(self) -> str:
         return f"<OrFilter filters={self.filters!r}>"

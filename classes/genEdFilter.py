@@ -26,6 +26,10 @@ class GenEdFilter(courseFilter.CourseFilter):
     def core(self) -> bool:
         return False
 
+    @property
+    def field_filter(self) -> bool:
+        return False
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
@@ -34,7 +38,7 @@ class GenEdFilter(courseFilter.CourseFilter):
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
-        pass
+        return course.faculty != degree.faculty
 
     # Saves the filter in the database
     # Return: the id of the filter in the database

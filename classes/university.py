@@ -16,24 +16,24 @@ from sqlite3 import Row, Connection
 
 from . import  (
     andFilter,
-    andReq, 
+    andReq,
     api,
-    course, 
-    courseReq, 
-    courseFilter, 
-    degree, 
-    minDegreeReq, 
-    enrollmentReq, 
-    fieldFilter, 
-    freeElectiveFilter, 
-    genEdFilter, 
-    orFilter, 
-    orReq, 
-    specificCourseFilter, 
-    subjectReq, 
-    term, 
-    uocReq, 
-    yearReq, 
+    course,
+    courseReq,
+    courseFilter,
+    degree,
+    minDegreeReq,
+    enrollmentReq,
+    fieldFilter,
+    freeElectiveFilter,
+    genEdFilter,
+    orFilter,
+    orReq,
+    specificCourseFilter,
+    subjectReq,
+    term,
+    uocReq,
+    yearReq,
 )
 
 # Temporary: only allow 2019 results
@@ -65,6 +65,8 @@ class University(object):
             return None
         else:
             numeric_code = response[0]
+            self.assert_no_nulls(numeric_code)
+
             return self.find_degree_number_code(numeric_code)
 
     # Input: degree numerical code (eg. 3778)
@@ -83,7 +85,7 @@ class University(object):
             return self.degrees[numeric_code]
 
         year = YEAR
-        response = self.query_db('''select name, code
+        response = self.query_db('''select name, code, faculty
                                  from Degrees
                                  where id = ?''', (numeric_code,), one=True)
 
@@ -91,7 +93,9 @@ class University(object):
             # No degree with that code, so return nothing
             return None
 
-        name, alpha_code = response
+        name, alpha_code, faculty = response
+        # Alpha code might be null
+        self.assert_no_nulls(name, faculty)
 
         # Get all of the requirements for the degree
         response = self.query_db('''select uoc_needed, requirement_id
@@ -111,8 +115,8 @@ class University(object):
 
         # create a degree without requirements, then add requirements later
         # This is done so that we can cache the degree, to avoid circular loading
-        result_degree = degree.Degree(numeric_code, name, year, duration, [], alpha_code)
 
+        result_degree = degree.Degree(numeric_code, name, year, duration, faculty, [], alpha_code)
 
         self.degrees[numeric_code] = result_degree
 
@@ -121,14 +125,19 @@ class University(object):
         if need_requirements:
             for offering_requirement in response:
                 uoc, filter_id = offering_requirement
-                filter = self.load_course_filter(filter_id)
+                self.assert_no_nulls(uoc)
 
-                if filter is not None:
-                    requirement = minDegreeReq.MinDegreeReq(filter, uoc)
-                    requirements.append(requirement)
+                if filter_id is None:
+                    requirement = minDegreeReq.MinDegreeReq(None, uoc)
                 else:
-                    # Filter should not be None
-                    print("ERROR: filter {} for degree requirement should not be null".format(filter_id))
+                    filter = self.load_course_filter(filter_id)
+                    self.assert_no_nulls(filter)
+
+                    # mypy doesn't recognise that assert_no_nulls makes sure that filter is not none
+                    assert filter is not None
+
+                    requirement = minDegreeReq.MinDegreeReq(filter, uoc)
+                requirements.append(requirement)
 
         result_degree.requirements = requirements
 
@@ -147,6 +156,7 @@ class University(object):
         if response is None:
             return None
         else:
+            self.assert_no_nulls(*response)
             (course_id, ) = response
             return self.load_course(course_id)
 
@@ -158,7 +168,7 @@ class University(object):
             # TODO: as with degrees, determine if need_requirements is even a useful argument
             return self.courses[course_id]
 
-        response = self.query_db('''select letter_code, number_code, name, units, prereq, coreq, exclusion
+        response = self.query_db('''select letter_code, number_code, name, faculty, units, prereq, coreq, exclusion
                                  from Courses
                                  where id = ?''', (course_id, ), one=True)
 
@@ -166,7 +176,9 @@ class University(object):
             # No matching course
             return None
 
-        subject, numeric_code, name, units, prereq_id, coreq_id, exclusion_id = response
+        subject, numeric_code, name, faculty, units, prereq_id, coreq_id, exclusion_id = response
+        # prereq, coreq, exclusion can each be null so we don't want to assert it
+        self.assert_no_nulls(subject, numeric_code, name, faculty, units)
 
         # Get the terms that the course runs in
         response = self.query_db('''select session_year, session_term
@@ -174,9 +186,10 @@ class University(object):
                                  where course_id = ?''', (course_id, ))
         terms = []
         for year, term_num in response:
+            self.assert_no_nulls(year, term_num)
             terms.append(term.Term(year, term_num))
 
-        result_course = course.Course(subject, int(numeric_code), name, units, terms)
+        result_course = course.Course(subject, int(numeric_code), name, units, terms, faculty)
         self.courses[course_id] = result_course
 
         if need_requirements:
@@ -190,6 +203,7 @@ class University(object):
                                             or second_course = ?''', (course_id, course_id))
 
             for first_course_id, second_course_id in equivalent_ids:
+                self.assert_no_nulls(first_course_id, second_course_id)
                 if first_course_id != course_id:
                     equivalent_id = first_course_id
                 else:
@@ -199,6 +213,7 @@ class University(object):
                 if equivalent_course is None:
                     print(f"ERROR: Equivalent course for id {equivalent_id} should not be None")
                     continue
+
                 result_course.add_equivalent(equivalent_course)
 
         return result_course
@@ -206,9 +221,30 @@ class University(object):
 
     # Input: A filter string [ITEMISE THESE HERE]
     # Return: List of courses that match the requested filter
-    def filter_courses(self, filter: 'courseFilter.CourseFilter') -> List['course.Course']:
-        # TODO
-        return []
+    def filter_courses(self, course_filter: 'courseFilter.CourseFilter',
+                degree: 'degree.Degree') -> List['course.Course']:
+        # TODO: Smart loading that only loads relevant courses from the database
+        response = self.query_db('''select id from Courses''')
+        course_ids = list(map(lambda x: x[0], response))
+
+        self.assert_no_nulls(*course_ids)
+
+        courses = list(map(lambda x: self.load_course(x), course_ids))
+
+        self.assert_no_nulls(*courses)
+        matching = list(filter(lambda x: x is not None and course_filter.accepts_course(x, degree),
+            courses))
+
+        self.assert_no_nulls(*matching)
+
+        # mypy does not recognise that the filter only includes non-optional courses, so do another
+        # filter to explicitly only include non-Nones
+        to_return = []
+        for course in matching:
+            if course is not None:
+                to_return.append(course)
+
+        return to_return
 
     # Return: A dictionary containing the ids of each course requirement type along with their names
     def load_course_requirement_types(self) -> Dict[int, str]:
@@ -217,6 +253,7 @@ class University(object):
                                  from CourseRequirementTypes''')
 
         for requirement_type in response:
+            self.assert_no_nulls(*requirement_type)
             type_id, type_name = requirement_type
             requirement_types[type_id] = type_name
 
@@ -229,6 +266,7 @@ class University(object):
                                  from CourseFilterTypes''')
 
         for filter_type in response:
+            self.assert_no_nulls(*filter_type)
             type_id, type_name = filter_type
             filter_types[type_id] = type_name
 
@@ -253,10 +291,8 @@ class University(object):
         requirement_data = response
         type_id = requirement_data['type_id']
         type_name = self.course_requirement_types.get(type_id, None)
-        if type_name is None:
-            # Invalid course requirement type
-            print("ERROR: invalid course requirement type {}".format(type_id))
-            return None
+
+        self.assert_no_nulls(type_id, type_name)
 
         # Determine which requirement type it is from the name
         if type_name == 'CompletedCourseRequirement':
@@ -317,6 +353,10 @@ class University(object):
         subject = requirement_data['uoc_subject']
         course_filter_id = requirement_data['uoc_course_filter']
 
+        if course_filter_id is None:
+            # overall requirement, no filter
+            return uocReq.UOCReq(uoc, None)
+
         filter = self.load_course_filter(course_filter_id)
         if filter is None:
             print('ERROR: no course filter with id {}'.format(course_filter_id))
@@ -332,7 +372,9 @@ class University(object):
                                 where parent_id = ?''', (requirement_id, ))
         children = []
         for result in results:
+            self.assert_no_nulls(*result)
             (child_id, ) = result
+
             child = self.load_course_requirement(child_id)
             if child is None:
                 print('ERROR: no child with id {}'.format(child_id))
@@ -350,7 +392,9 @@ class University(object):
                                 where parent_id = ?''', (requirement_id, ))
         children = []
         for result in results:
+            self.assert_no_nulls(*result)
             (child_id, ) = result
+
             child = self.load_course_requirement(child_id)
             if child is None:
                 print('ERROR: no child with id {}'.format(child_id))
@@ -368,12 +412,14 @@ class University(object):
 
         if response is None:
             # Failed to load course filter
-            print("ERROR: No course filter {}".format(filter_id))
-            return None
+            raise ValueError(f"ERROR: No course filter {filter_id}")
 
         filter_data = response
         type_id = filter_data['type_id']
         type_name = self.course_filter_types.get(type_id, None)
+
+        self.assert_no_nulls(type_id, type_name)
+
         if type_name is None:
             # Invalid course filter type
             print("ERROR: invalid course filter type {}".format(type_id))
@@ -436,6 +482,7 @@ class University(object):
                                 where parent_id = ?''', (filter_id, ))
         children = []
         for result in results:
+            self.assert_no_nulls(*result)
             (child_id, ) = result
             child = self.load_course_filter(child_id)
             if child is None:
@@ -455,6 +502,7 @@ class University(object):
                                 where parent_id = ?''', (filter_id, ))
         children = []
         for result in results:
+            self.assert_no_nulls(*result)
             (child_id, ) = result
             child = self.load_course_filter(child_id)
             if child is None:
@@ -474,3 +522,9 @@ class University(object):
         response = self.query_db('''select letter_code, number_code, name
                                  from Courses''')
         return [{'id': i['letter_code'] + i['number_code'], 'name': i['name']} for i in response];
+
+    # Assert that a sequence of arguments contains no None values
+    def assert_no_nulls(self, *args):
+        for i, arg in enumerate(args):
+            if arg is None:
+                raise ValueError(f"ERROR: argument #{i} is None in arguments {args}")

@@ -11,9 +11,12 @@ Test the functions defined in generator.py
 """
 
 import pytest
+from typing import List
+
 from . import courseReq
 from . import subjectReq
 from . import course
+from . import courseFilter
 from . import specificCourseFilter
 from . import orFilter
 from . import andReq
@@ -22,6 +25,23 @@ from . import degree
 from . import program
 from . import term
 from . import generator
+
+# A simple mock university that just implements filter_courses, for the purpose of generator
+class MockUniversity():
+    def __init__(self):
+        self.courses = []
+
+    def add_course(self, course: 'course.Course') -> None:
+        self.courses.append(course)
+
+    def reset_courses(self, courses: List['course.Course']) -> None:
+        self.courses = courses
+
+    def filter_courses(self, desired_filter: 'courseFilter.CourseFilter', degree: 'degree.Degree') -> List['course.Course']:
+        return list(filter(lambda x: desired_filter.accepts_course(x, degree), self.courses))
+
+uni = MockUniversity()
+
 
 t1 = term.Term(2019, 1)
 t2 = term.Term(2019, 2)
@@ -48,6 +68,9 @@ subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t4], faculty, req1001
 # TODO subj1004 was not defined! making a dummy one
 subj1004 = course.Course("SUBJ", 1004, "Subject4", 6, [t1, t2], faculty, req1001_and_1002)
 
+def setup_function(function):
+    uni.reset_courses([subj1001, subj1002, subj1003, subj1004])
+
 
 # test with simple chain of subjects with prerequisites
 def test_single_course_requirements():
@@ -62,7 +85,7 @@ def test_single_course_requirements():
 
     degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1002, req1003], 'BAT1')
 
-    gen = generator.Generator(degree1)
+    gen = generator.Generator(degree1, uni)
     prog = gen.generate()
 
     assert prog.enrolled(subj1001)
@@ -89,7 +112,7 @@ def test_simple_or_requirement():
 
     degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1002, req1003], 'TESTA1')
 
-    gen = generator.Generator(degree1)
+    gen = generator.Generator(degree1, uni)
     prog = gen.generate()
 
     assert prog.enrolled(subj1001)
@@ -106,6 +129,8 @@ def test_coreq():
     # make a coreq subject
     subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t1, t3, t4, t6], faculty, prereq1001, prereq1002)
 
+    uni.add_course(subj1005)
+
     # Make some degree requirements
     # 1001 and 1002 and 1003
     filter1001 = specificCourseFilter.SpecificCourseFilter(subj1001)
@@ -118,7 +143,7 @@ def test_coreq():
 
     degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1002, req1005], 'TESTA1')
 
-    gen = generator.Generator(degree1)
+    gen = generator.Generator(degree1, uni)
     prog = gen.generate()
 
     assert prog.enrolled(subj1001)
@@ -134,6 +159,7 @@ def test_exclusion():
     # make an exclusion subject
     subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t1, t3, t4, t6], faculty,
             prereqs=prereq1001, exclusions=prereq1002)
+    uni.add_course(subj1005)
 
     # Make some degree requirements
     # 1001 and 1002 and 1003
@@ -147,7 +173,7 @@ def test_exclusion():
 
     degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1002, req1005], 'TESTA1')
 
-    gen = generator.Generator(degree1)
+    gen = generator.Generator(degree1, uni)
     prog = gen.generate()
 
     assert prog.enrolled(subj1001)
@@ -173,7 +199,7 @@ def test_equivalent():
 
     degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1005, req1002], 'TESTA1')
 
-    gen = generator.Generator(degree1)
+    gen = generator.Generator(degree1, uni)
     prog = gen.generate()
 
     assert prog.enrolled(subj1002)
@@ -190,6 +216,10 @@ def test_term_cap_enrollment():
     subj1006 = course.Course("SUBJ", 1006, "Subject6", 6, [t1, t2], faculty)
     subj1007 = course.Course("SUBJ", 1007, "Subject7", 6, [t1, t2], faculty)
 
+    uni.add_course(subj1005)
+    uni.add_course(subj1006)
+    uni.add_course(subj1007)
+
     # Make some degree requirements
     # 1001 and 1002 and 1003
     filter1001 = specificCourseFilter.SpecificCourseFilter(subj1001)
@@ -204,7 +234,7 @@ def test_term_cap_enrollment():
 
     degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1005, req1006, req1007], 'TESTA1')
 
-    gen = generator.Generator(degree1)
+    gen = generator.Generator(degree1, uni)
     prog = gen.generate()
 
     assert prog.enrolled(subj1001)
@@ -228,7 +258,7 @@ def test_requirement_ordering():
 
     degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1003, req1002, req1001], 'TESTA1')
 
-    gen = generator.Generator(degree1)
+    gen = generator.Generator(degree1, uni)
     prog = gen.generate()
 
     assert prog.enrolled(subj1001)
@@ -240,7 +270,7 @@ def test_requirement_ordering():
     assert prog.term_taken(subj1003) == t4
 
 
-
+'''
 test_single_course_requirements()
 test_simple_or_requirement()
 test_coreq()
@@ -248,3 +278,4 @@ test_exclusion()
 test_equivalent()
 test_term_cap_enrollment()
 test_requirement_ordering()
+'''

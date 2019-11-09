@@ -42,7 +42,8 @@ class Generator(object):
     # Append to a list of courses that fulfill this core requirement
     def fulfill_core_requirement(self, prog: 'program.Program', req: 'degreeReq.DegreeReq',
                 courses: List['course.Course']) -> None:
-        course_options: List['course.Course'] = self.university.filter_courses(req.filter)
+        course_options: List['course.Course'] = self.university.filter_courses(req.filter,
+                prog.degree)
         units: int = 0
         for c in course_options:
             if units >= req.uoc:

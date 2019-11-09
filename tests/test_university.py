@@ -782,9 +782,9 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
 
 class TestUniversity_FilterCourses(TestUniversityWithDb):
     def test_no_courses(self):
-        filter = freeElectiveFilter.FreeElectiveFilter() 
+        filter = freeElectiveFilter.FreeElectiveFilter()
 
-        courses = self.university.filter_courses(filter)
+        courses = self.university.filter_courses(filter, self.first_degree)
         assert len(courses) == 0
 
     def test_single_matching_course(self):
@@ -794,7 +794,7 @@ class TestUniversity_FilterCourses(TestUniversityWithDb):
 
         self.h.insert_course(input_course)
 
-        courses = self.university.filter_courses(filter)
+        courses = self.university.filter_courses(filter, self.first_degree)
 
         assert len(courses) == 1
         course = courses[0]
@@ -807,7 +807,7 @@ class TestUniversity_FilterCourses(TestUniversityWithDb):
 
         self.h.insert_course(input_course)
 
-        courses = self.university.filter_courses(filter)
+        courses = self.university.filter_courses(filter, self.first_degree)
 
         assert len(courses) == 0
 
@@ -818,19 +818,19 @@ class TestUniversity_FilterCourses(TestUniversityWithDb):
 
         self.h.insert_course(input_course)
 
-        courses = self.university.filter_courses(filter)
+        courses = self.university.filter_courses(filter, self.first_degree)
 
         assert len(courses) == 1
         course = courses[0]
         assert course == input_course
-    
+
     def test_specific_course_filter(self):
         self.h.insert_course(self.first_course)
         self.h.insert_course(self.second_course)
 
         filter = specificCourseFilter.SpecificCourseFilter(self.first_course)
 
-        courses = self.university.filter_courses(filter)
+        courses = self.university.filter_courses(filter, self.first_degree)
 
         assert len(courses) == 1
         course = courses[0]
@@ -842,7 +842,13 @@ class TestUniversity_FilterCourses(TestUniversityWithDb):
 
         filter = genEdFilter.GenEdFilter()
 
-        # TODO: Work out how we're determining gen ed filter
+        # Note first_degree has the same faculty as first_course, so first_course would not be
+        # counted as a gen ed
+        courses = self.university.filter_courses(filter, self.first_degree)
+
+        assert len(courses) == 1
+        course = courses[0]
+        assert course == self.second_course
 
     def test_field_filter(self):
         self.h.insert_course(self.first_course)
@@ -850,7 +856,7 @@ class TestUniversity_FilterCourses(TestUniversityWithDb):
 
         filter = fieldFilter.FieldFilter(self.first_course.subject)
 
-        courses = self.university.filter_courses(filter)
+        courses = self.university.filter_courses(filter, self.first_degree)
 
         assert len(courses) == 1
         course = courses[0]
@@ -862,7 +868,7 @@ class TestUniversity_FilterCourses(TestUniversityWithDb):
 
         filter = freeElectiveFilter.FreeElectiveFilter()
 
-        courses = self.university.filter_courses(filter)
+        courses = self.university.filter_courses(filter, self.first_degree)
 
         assert len(courses) == 2
 
@@ -875,7 +881,7 @@ class TestUniversity_FilterCourses(TestUniversityWithDb):
 
         filter = orFilter.OrFilter([sub_filter_1, sub_filter_2])
 
-        courses = self.university.filter_courses(filter)
+        courses = self.university.filter_courses(filter, self.first_degree)
 
         assert len(courses) == 2
 
@@ -888,7 +894,7 @@ class TestUniversity_FilterCourses(TestUniversityWithDb):
 
         filter = orFilter.OrFilter([sub_filter_1, sub_filter_2])
 
-        courses = self.university.filter_courses(filter)
+        courses = self.university.filter_courses(filter, self.first_degree)
 
         assert len(courses) == 2
 

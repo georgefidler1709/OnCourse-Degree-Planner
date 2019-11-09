@@ -206,15 +206,13 @@ class University(object):
 
     # Input: A filter string [ITEMISE THESE HERE]
     # Return: List of courses that match the requested filter
-    def filter_courses(self, filter: 'courseFilter.CourseFilter',
+    def filter_courses(self, course_filter: 'courseFilter.CourseFilter',
                 degree: 'degree.Degree') -> List['course.Course']:
-        matching: List['course.Course'] = []
-        if isinstance(filter, specificCourseFilter.SpecificCourseFilter):
-            matching.append(filter.course)
-            return matching
-
-        # TODO - other filter types
-
+        # TODO: Smart loading that only loads relevant courses from the database
+        course_ids = self.query_db('''select id from Courses''')
+        course_ids = map(lambda x: x[0], course_ids)
+        courses = map(lambda x: self.load_course(x), course_ids)
+        matching = list(filter(lambda x: course_filter.accepts_course(x, degree), courses))
 
         return matching
 

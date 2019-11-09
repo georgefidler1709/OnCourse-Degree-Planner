@@ -3,12 +3,17 @@ import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import CourseInfoModal from "./CourseInfoModal"
 
-const Container = styled.div`
+interface DraggableProps {
+  isDragging: any;
+}
+
+
+const Container = styled.div<DraggableProps>`
   border: 1px solid lightgrey;
   border-radius: 2px;
   padding: 8px;
   margin-bottom: 8px;
-  background-color: white;
+  background-color: ${props => props.isDragging ? 'lightblue' : 'white'};
 `;
 
 interface CourseProps {
@@ -23,11 +28,12 @@ function Course(props: CourseProps) {
     return (
       <div>
       <Draggable draggableId={props.course_id} index={props.index}>
-        {provided => (
+        {(provided, snapshot) => (
           <Container
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             innerRef={provided.innerRef}
+            isDragging={snapshot.isDragging}
             onClick={() => setModalShow(true)}
           >
           {props.course_id}

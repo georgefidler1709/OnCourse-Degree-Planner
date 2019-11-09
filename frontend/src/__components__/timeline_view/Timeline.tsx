@@ -246,6 +246,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     return this.state.courses[course_id]!
   }
 
+  onDragStart() {
+
+  }
+
   render() {
 
     if(!this.state) return <div></div>
@@ -268,7 +272,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
         </Navbar>
         <br />
           <TimeLineContext>
-            <DragDropContext onDragEnd={this.onDragEnd}>
+            <DragDropContext 
+              onDragEnd={this.onDragEnd}
+              onDragStart={this.onDragStart}
+            >
               { 
                 <div>
                   <LColumn> {

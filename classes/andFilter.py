@@ -53,8 +53,9 @@ class AndFilter(courseFilter.CourseFilter):
     def info(self) -> str:
         res = ''
         for f in self.filters:
-            res += f.info
-            res += '\n'
+            if res != '':
+                res += ' AND '
+            res += '(' + f.info + ')'
 
         return res
 

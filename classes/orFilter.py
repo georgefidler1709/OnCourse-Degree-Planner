@@ -54,8 +54,10 @@ class OrFilter(courseFilter.CourseFilter):
     def info(self) -> str:
         res = ''
         for f in self.filters:
-            res += f.info
-            res += '\n'
+            if res != '':
+                res += ' OR '
+            # res += f.info
+            res += '(' + f.info + ')'
 
         return res
 

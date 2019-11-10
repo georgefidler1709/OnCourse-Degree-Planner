@@ -45,8 +45,10 @@ function InfoBar(props: InfoBarProps) {
         <SubTitle>Requirements</SubTitle>
         {props.degree_reqs.map(req => { return (
           <div>
-            <p>{`${req.filter_type}: ${req.units}`}</p>
-            <p>{`${req.info}`}</p>
+            <p>{`${req.filter_type}: ${req.units} UOC of`}</p>
+            <ul>
+              <li>{`${req.info}`}</li>
+            </ul>
           </div>
         )
         })}

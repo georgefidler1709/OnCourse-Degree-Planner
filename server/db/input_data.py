@@ -258,7 +258,7 @@ class Helper:
 		return last_id
 
 	def make_course_req(self, ty, min_mark=None, course=None, degree_id=None,
-		year=None, uoc_amount_required=None, uoc_min_level=None, uoc_subject=None, 
+		year=None, uoc_amount_required=None, uoc_min_level=None, uoc_subject=None,
 		uoc_course_filter=None):
 		'''
 		Add an entry to CourseRequirements. Base types only.
@@ -334,7 +334,7 @@ class Helper:
 
 		Returns id of inserted CourseFilters entry
 		'''
-		COMBO_ID_START = 5
+		COMBO_ID_START = 6
 		valid_combos = ["and", "or"]
 		if combo_type not in valid_combos:
 			raise Exception(f"combo type {combo_type} must be a combo CourseFilterTypes: {valid_combos}")

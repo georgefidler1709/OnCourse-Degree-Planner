@@ -45,8 +45,8 @@ class Generator(object):
         assert req.core_requirement()
         # mypy doesn't realise that core requires filter to not be None, so make an explicit check
         assert req.filter is not None
-        course_options: List['course.Course'] = self.university.filter_courses(course_filter=req.filter,
-                degree=prog.degree, eq=False)
+        course_options: List['course.Course'] = self.university.filter_courses(req.filter,
+                prog.degree, eq=False)
         units: int = 0
         for c in course_options:
             if units >= req.uoc:

@@ -5,6 +5,10 @@ from classes.university import University
 from classes.query_db_offline import query_db
 from classes.generator import Generator
 from classes.term import Term
+from classes.specificCourseFilter import SpecificCourseFilter
+from classes.orFilter import OrFilter
+from classes.genEdFilter import GenEdFilter
+from classes.freeElectiveFilter import FreeElectiveFilter
 
 @pytest.fixture
 def plan():
@@ -24,18 +28,52 @@ def plan():
 
 def test_default_outstanding_reqs(plan):
     # print current courses
-    print("=============== current courses ===========")
-    print(plan.courses)
-    print("===========================================")
+    # print("")
+    # print("=============== current courses ===========")
+    # print(plan.courses)
+    # print("===========================================")
 
     # list of (key, val) tuples
     reqs = list((plan.get_outstanding_reqs()).items())
 
-    print("============= reqs ================")
-    print(reqs)
-    print("==============================")
+    # print("============= reqs ================")
+    # print(reqs)
+    # print("==============================")
 
-    # assert len(reqs) == 4
+    assert len(reqs) == 4
+
+    # first one is 6 UOC of COMP3900
+    comp3900 = reqs[0][0]
+    comp3900_uoc = reqs[0][1]
+    assert comp3900_uoc == 6
+    assert comp3900.uoc == 6
+    assert isinstance(comp3900.filter, SpecificCourseFilter)
+    assert comp3900.filter.course.course_code == "COMP3900"
+
+    # second is 30 UOC of level 3, 4, 6, 9 COMP
+    level = reqs[1][0]
+    level_uoc = reqs[1][1]
+    assert level_uoc == 30
+    assert level.uoc == 30
+    # TODO this will fail when fix AND requirements
+    assert isinstance(level.filter, OrFilter)
+    levels = level.filter.filters
+    # TODO expand test once OR for field requirements and levels is fixed
+    assert len(levels) == 4
+
+    # third is 12 UOC of gen ed
+    gens = reqs[2][0]
+    gens_uoc = reqs[2][1]
+    assert gens_uoc == 12
+    assert gens.uoc == 12
+    assert isinstance(gens.filter, GenEdFilter)
+
+    # fourth is 36 UOC of free electives
+    frees = reqs[3][0]
+    frees_uoc = reqs[3][1]
+    assert frees_uoc == 36
+    assert frees.uoc == 36
+    assert isinstance(frees.filter, FreeElectiveFilter)
 
     # # first one is 48 UOC of 
     # assert reqs[0][1] == 48

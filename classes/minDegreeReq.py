@@ -36,9 +36,9 @@ class MinDegreeReq(degreeReq.DegreeReq):
                 units += c.units
             return self.uoc - units
 
-        print("------------ courses -----------------")
-        print(courses)
-        print("--------------------------------")
+        # print("------------ courses -----------------")
+        # print(courses)
+        # print("--------------------------------")
 
         units = 0
         matching_courses = []
@@ -49,11 +49,13 @@ class MinDegreeReq(degreeReq.DegreeReq):
                 if units == self.uoc:
                     break
 
-        print("====== matching courses in MinDegreeReq.remaining() ======")
-        print(matching_courses)
-        print(f"----> units = {units}")
-        print("=====================================")
-        # TODO bug is that the matching courses are being found
+        # print("====== matching courses in MinDegreeReq.remaining() ======")
+        # print(matching_courses)
+        # print(f"----> units = {units}")
+        # print("=====================================")
+
+        # I think this bug is fixed?
+        # bug is that the matching courses are being found
         # but not shown on the other side. Return 2 things instead?
         # courses.remove() not working or not being added to dict
 
@@ -61,8 +63,8 @@ class MinDegreeReq(degreeReq.DegreeReq):
         # Only if this 
         for c in matching_courses:
             courses.remove(c)
-        print("---------- courses ---------")
-        print(courses)
-        print("----------------------------")
+        # print("---------- courses ---------")
+        # print(courses)
+        # print("----------------------------")
 
         return self.uoc - units

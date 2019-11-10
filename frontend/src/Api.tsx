@@ -27,6 +27,7 @@ export interface YearPlan {
 export interface RemainReq {
     units: number;
     filter_type: string;
+    info: string;
 }
 
 export interface Program {

@@ -8,7 +8,6 @@ const Container = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
   width: 400px;
-  height: 520px;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -25,6 +24,7 @@ const SubTitle = styled.h5`
 interface Req {
   filter_type: string;
   units: number;
+  info: string;
 }
 
 interface InfoBarProps {
@@ -43,7 +43,12 @@ function InfoBar(props: InfoBarProps) {
       <body>
         <SubTitle>Requirements</SubTitle>
         {props.degree_reqs.map(req => { return (
-          <p>{`${req.filter_type}: ${req.units}`}</p>
+          <div>
+            <p>{`${req.filter_type}: ${req.units} UOC of`}</p>
+            <ul>
+              <li>{`${req.info}`}</li>
+            </ul>
+          </div>
         )
         })}
       </body>

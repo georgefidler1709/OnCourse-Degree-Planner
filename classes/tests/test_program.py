@@ -85,11 +85,17 @@ def test_default_outstanding_reqs(plan):
     # -----> subject requirement <DegreeReq uoc=30, filter=<OrFilter filters=[<FieldFilter field='COMP'>, <FieldFilter field='COMP'>, <FieldFilter field='COMP'>, <FieldFilter field='COMP'>]>>
 
 
+# search for a SpecificCourseRequirement
+# requiring the given course code
+# returns bool, UOC for the requirement
+def search_course_reqs(reqs, course):
 
+    for r, uoc in reqs:
+        if (isinstance(r.filter, SpecificCourseFilter) 
+            and r.filter.course.course_code == course):
+            return True, uoc
 
-
-
-
+    return False, None
 
 def test_remove_core(plan):
     # print("=======> default plan courses")
@@ -107,35 +113,35 @@ def test_remove_core(plan):
     plan.remove_course(comp1511)
     assert plan.enrolled(comp1511.course) == False
 
-    # print("========== oustanding reqs ==========")
-    # reqs = plan.get_outstanding_reqs()
-    # print(f"length of reqs = {len(reqs)}")
-
-    # num = 0
-    # for r in reqs:
-    #     if r.core_requirement:
-    #         print(f"found a core: {r}")
-    #         num += 1
-    # print(f"printed {num} cores")
-    # first_key = list(reqs.keys())[0]
-    # first_val = reqs[first_key]
-
-    # print(f"first filter type {type(first_key)}")
-    # print(f"first filter value {first_val}")
-
-    # print("=====================================")
-
+    reqs = list((plan.get_outstanding_reqs()).items())
+    assert search_course_reqs(reqs, "COMP1511") == (True, 6)
 
     plan.remove_course(comp1521)
     assert plan.enrolled(comp1521.course) == False
+    reqs = list((plan.get_outstanding_reqs()).items())
+    assert search_course_reqs(reqs, "COMP1521") == (True, 6)
 
     plan.remove_course(comp1531)
     assert plan.enrolled(comp1531.course) == False
+    reqs = list((plan.get_outstanding_reqs()).items())
+    assert search_course_reqs(reqs, "COMP1531") == (True, 6)
 
     plan.remove_course(comp2521)
     assert plan.enrolled(comp2521.course) == False
+    reqs = list((plan.get_outstanding_reqs()).items())
+    assert search_course_reqs(reqs, "COMP2521") == (True, 6)
 
 def test_remove_elec(plan):
-    # TODO add an elec and then remove it
-    pass
+    # add an elec and then remove it, make sure length of reqs is the same
+    reqs = list((plan.get_outstanding_reqs()).items())
+    assert len(reqs) == 4
+
+
+    uni = University(query_db)
+
+    econ1202 = uni.find_course("ECON1202")
+
+    plan.add_course(econ1202, Term(2021, 1))
+
+    assert len(reqs) == 4
 

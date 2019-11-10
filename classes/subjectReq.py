@@ -53,7 +53,7 @@ class SubjectReq(singleReq.SingleReq):
                 if (coreq and enrollment.term <= term) or (enrollment.term < term):
                     return True
         return False
-    
+
     # Saves the requirement in the database
     # Return: the id of the requirement in the database
     def save(self) -> int:

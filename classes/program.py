@@ -35,6 +35,16 @@ class Program(object):
         self.degree = degree # degree.Degree
         self.courses = coursesTaken # <List>CourseEnrollments
 
+        # for debugging
+        # rem = degree.get_requirements(self)
+        # for r in rem:
+        #     print(r.filter.filter_name, rem[r])
+        #     if isinstance(r.filter, andFilter.AndFilter) or isinstance(r.filter, orFilter.OrFilter):
+        #         for f in r.filter.filters:
+        #             if isinstance(f, specificCourseFilter.SpecificCourseFilter):
+        #                 print(f.course.course_code)
+            
+
     # Input: a course
     # Return: Whether there is already an enrollment for this course in this term
     def enrolled(self, course: 'course.Course') -> bool:
@@ -51,25 +61,45 @@ class Program(object):
                 return enrollment.term
         return None
 
+    @property
+    # Return: start year for program
+    def intake_year(self) -> int:
+        return self.degree.year
+
     def __repr__(self) -> str:
         return f"<Program degree={self.degree!r}, courses={self.courses!r}>"
 
+    # Input: a course and a term of study
+    # Create a course enrollment for that term and add to courses
     def add_course(self, course: 'course.Course', term: term.Term) -> None:
         if self.enrolled(course):
             return
         enrollment = courseEnrollment.CourseEnrollment(course, term)
         self.courses.append(enrollment)
 
+    # Input: a course enrollment to remove
+    # Remove enrollment from program
     def remove_course(self, course: 'courseEnrollment.CourseEnrollment') -> None:
         self.courses.remove(course)
 
-    def unit_count(self, term: 'term.Term') -> int:
+    # Input: optionally, a term for which to count units
+    # Return: how many units are currently taken in that term, or if no term specified,
+    # how many units in the program
+    def unit_count(self, term: Optional['term.Term']=None) -> int:
         units = 0
         for enrollment in self.courses:
-            if enrollment.term == term:
+            if enrollment.term == term or term is None:
                 units += enrollment.course.units
         return units
 
+    # Return: a list of the courses taken in this program
+    def course_list(self) -> List['course.Course']:
+        courses = []
+        for enrollment in self.courses:
+            courses.append(enrollment.course)
+        return courses
+
+    # Return: requirements remaining to complete the program
     def get_outstanding_reqs(self) -> Dict[('degreeReq.DegreeReq', int)]:
         return self.degree.get_requirements(self)
 

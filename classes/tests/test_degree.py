@@ -5,7 +5,7 @@ from classes.degree import Degree
 @pytest.fixture
 def compa1_shallow():
 	deg = Degree(num_code=3778, name='Computer Science', year=2019,
-		duration=3, requirements=[], alpha_code='COMPA1')
+		duration=3, faculty="Engineering", requirements=[], alpha_code='COMPA1')
 	return deg
 
 

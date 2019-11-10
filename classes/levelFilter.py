@@ -32,7 +32,12 @@ class LevelFilter(CourseFilter):
     def core(self) -> bool:
         return False
 
+    @property
+    def field_filter(self) -> bool:
+        return False
+
     # Input: Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree',
+                eq: bool=True) -> bool:
         return course.level == self.level

@@ -38,7 +38,10 @@ class YearReq(singleReq.SingleReq):
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
-        pass
+        if term.year == program.intake_year + self.year - 1:
+            return True
+        return False
+        # TODO handle "Final Year" requirement
 
 
     # Saves the requirement in the database

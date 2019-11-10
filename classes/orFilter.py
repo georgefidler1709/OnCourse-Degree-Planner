@@ -26,10 +26,11 @@ class OrFilter(courseFilter.CourseFilter):
     # Returns whether this filters specific courses
     @property
     def core(self) -> bool:
-        for filter in self.filters:
-            if not filter.core:
-                return False
-        return True
+        return any(map(lambda x: x.core, self.filters))
+
+    @property
+    def field_filter(self) -> bool:
+        return any(map(lambda x: x.field_filter, self.filters))
 
     def __repr__(self) -> str:
         return f"<OrFilter filters={self.filters!r}>"
@@ -53,9 +54,10 @@ class OrFilter(courseFilter.CourseFilter):
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree',
+                eq: bool=True) -> bool:
         # make an iterable where element at a position is True if the filter at that position accepts
-        individual_acceptance = map(lambda x: x.accepts_course(course, degree), self.filters)
+        individual_acceptance = map(lambda x: x.accepts_course(course, degree, eq), self.filters)
 
         # accept if any of the filters accepts
         return any(individual_acceptance)

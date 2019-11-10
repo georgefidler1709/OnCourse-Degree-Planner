@@ -400,7 +400,7 @@ class Helper:
 		msg = '''INSERT INTO DegreeOfferingRequirements(offering_degree_id, offering_year_id, requirement_id, uoc_needed)
 			VALUES (?, ?, ?, ?)'''
 		vals = (degree_code, year, filter_id, uoc_needed)
-		inserted_id = self.safe_insert(msg, vals, vals)
+		inserted_id = self.safe_insert(msg, vals, vals)		
 
 		return inserted_id
 
@@ -466,6 +466,8 @@ def compsci_course_reqs(db="university.db"):
 	math1251 = h.make_course_req("completed", course="MATH1251")
 
 	compenrol = h.make_course_req("current", degree_id=3778)
+	enrol7001 = h.make_course_req("current", degree_id=7001)
+	enrol7002 = h.make_course_req("current", degree_id=7002)
 	# finalyear = h.make_course_req("year", )
 
 	# COMP1511
@@ -481,15 +483,15 @@ def compsci_course_reqs(db="university.db"):
 	# COMP1531
 	comp1531_or = h.combine_course_req("or", [comp1511, dpst1091, comp1917, comp1921])
 	h.courses_req_add("COMP1531", "pre", comp1531_or)
-	comp1531_ex = h.combine_course_req("or", [seng1020, seng1031, seng1010])
+	comp1531_ex = h.combine_course_req("and", [seng1020, seng1031, seng1010])
 	h.courses_req_add("COMP1531", "ex", comp1531_ex)
 	print("... COMP1531")
 
 	# COMP2511
 	comp2511_small_or = h.combine_course_req("or", [comp2521, comp1927])
-	comp2511_and = h.combine_course_req("or", [comp1531, comp2511_small_or])
+	comp2511_and = h.combine_course_req("and", [comp1531, comp2511_small_or])
 	h.courses_req_add("COMP2511", "pre", comp2511_and)
-	comp2511_ex = h.combine_course_req("or", [comp2911, comp2011])
+	comp2511_ex = h.combine_course_req("and", [comp2911, comp2011])
 	h.courses_req_add("COMP2511", "ex", comp2511_ex)
 	print("... COMP2511")
 
@@ -538,7 +540,7 @@ def compsci_course_reqs(db="university.db"):
 	math1131_ex = h.combine_course_req("and", [dpst1013, math1151, math1031, math1141, econ2291, math1011, econ1202])
 	h.courses_req_add("MATH1131", "ex", math1131_ex)
 	print("... MATH1131")
-	
+
 	# MATH1141
 	math1141_ex = h.combine_course_req("and", [dpst1013, math1151, math1031, math1131, econ2291, math1011, econ1202])
 	h.courses_req_add("MATH1141", "ex", math1141_ex)
@@ -580,7 +582,19 @@ def compsci_course_reqs(db="university.db"):
 	comp3821_eq = h.combine_course_req("and", [comp3121, comp9801])
 	print("... COMP3821")
 
+	# DPST1013
+	dpst1013_ex = h.combine_course_req("and", [math1131, math1151, math1031, math1141, econ2291, math1011, econ1202])
+	h.courses_req_add("DPST1013", "ex", dpst1013_ex)
+	dpst_or = h.combine_course_req("or", [enrol7001, enrol7002])
+	h.courses_req_add("DPST1013", "pre", dpst_or)
+	print("... DPST1013")
 
+	
+	# DPST1014
+	dpst1014_ex = h.combine_course_req("and", [math1231, math1241, math1251, math1021])
+	h.courses_req_add("DPST1014", "ex", dpst1014_ex)
+	h.courses_req_add("DPST1014", "pre", dpst_or)
+	print("... DPST1014")
 
 	h.close()
 
@@ -716,6 +730,9 @@ def insert_compsci_degree_requirements(db='university.db'):
 
 	# 36 UOC free electives
 	h.add_degree_reqs(COMPSCI, 2019, free_filter, 36)
+
+	# total UOC = 144
+	h.add_degree_reqs(COMPSCI, 2019, None, 144)
 
 	h.close()
 

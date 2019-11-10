@@ -25,8 +25,12 @@ from . import degree
 from . import program
 from . import term
 from . import generator
+from . import university
+from .query_db_offline import query_db
 
 # A simple mock university that just implements filter_courses, for the purpose of generator
+# WARNING high dependency with University.filter_courses() function
+# if you change University.filter_courses() you must change it here
 class MockUniversity():
     def __init__(self):
         self.courses = []
@@ -37,8 +41,9 @@ class MockUniversity():
     def reset_courses(self, courses: List['course.Course']) -> None:
         self.courses = courses
 
-    def filter_courses(self, desired_filter: 'courseFilter.CourseFilter', degree: 'degree.Degree') -> List['course.Course']:
-        return list(filter(lambda x: desired_filter.accepts_course(x, degree), self.courses))
+    def filter_courses(self, desired_filter: 'courseFilter.CourseFilter', degree: 'degree.Degree',
+        eq: bool=True) -> List['course.Course']:
+        return list(filter(lambda x: desired_filter.accepts_course(x, degree, eq), self.courses))
 
 uni = MockUniversity()
 

@@ -7,8 +7,11 @@ from classes.generator import Generator
 from classes.term import Term
 from classes.specificCourseFilter import SpecificCourseFilter
 from classes.orFilter import OrFilter
+from classes.andFilter import AndFilter
 from classes.genEdFilter import GenEdFilter
 from classes.freeElectiveFilter import FreeElectiveFilter
+from classes.fieldFilter import FieldFilter
+from classes.levelFilter import LevelFilter
 
 @pytest.fixture
 def plan():
@@ -55,11 +58,23 @@ def test_default_outstanding_reqs(plan):
     level_uoc = reqs[1][1]
     assert level_uoc == 30
     assert level.uoc == 30
-    # TODO this will fail when fix AND requirements
-    assert isinstance(level.filter, OrFilter)
-    levels = level.filter.filters
-    # TODO expand test once OR for field requirements and levels is fixed
+    assert isinstance(level.filter, AndFilter)
+    assert len(level.filter.filters) == 2
+    field = level.filter.filters[0]
+    assert isinstance(field, FieldFilter)
+    assert field.field == "COMP"
+
+    orfilter = level.filter.filters[1]
+    assert isinstance(orfilter, OrFilter)
+    levels = orfilter.filters
     assert len(levels) == 4
+    for l in levels:
+        assert isinstance(l, LevelFilter)
+    assert levels[0].level == 3
+    assert levels[1].level == 4
+    assert levels[2].level == 6
+    assert levels[3].level == 9
+
 
     # third is 12 UOC of gen ed
     gens = reqs[2][0]

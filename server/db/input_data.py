@@ -515,7 +515,7 @@ def compsci_course_reqs(db="university.db"):
 	# Prerequisite: COMP1531, and COMP2521 or COMP1927,
 	# and enrolled in a BSc Computer Science major with completion of 102 uoc.
 	comp3900_or = h.combine_course_req("or", [comp2521, comp1927])
-	comp3900_uoc = h.make_course_req("uoc", uoc_amount_required=102)
+	comp3900_uoc = h.make_course_req("uoc", uoc_amount_required=120)
 	comp3900_and = h.combine_course_req("and", [comp3900_or, compenrol, comp3900_uoc])
 	h.courses_req_add("COMP3900", "pre", comp3900_and)
 	comp3900_ex = h.combine_course_req("and", [comp9596, comp9945, comp9900])

@@ -207,12 +207,12 @@ def test_equivalent():
     gen = generator.Generator(degree1, uni)
     prog = gen.generate()
 
-    # assert prog.enrolled(subj1001)
-    # assert prog.enrolled(subj1006)
-    # assert not prog.enrolled(subj1005)
+    assert prog.enrolled(subj1001)
+    assert prog.enrolled(subj1006)
+    assert not prog.enrolled(subj1005)
 
-    # assert prog.term_taken(subj1001) == t1
-    # assert prog.term_taken(subj1006) == t2
+    assert prog.term_taken(subj1001) == t1
+    assert prog.term_taken(subj1006) == t2
 
 
 def test_term_cap_enrollment():

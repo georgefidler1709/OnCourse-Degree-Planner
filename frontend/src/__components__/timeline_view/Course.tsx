@@ -15,6 +15,7 @@ interface CourseProps {
   key: string;
   course_id: string;
   index: number;
+  course_name: String;
 }
 
 function Course(props: CourseProps) {

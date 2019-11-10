@@ -466,6 +466,8 @@ def compsci_course_reqs(db="university.db"):
 	math1251 = h.make_course_req("completed", course="MATH1251")
 
 	compenrol = h.make_course_req("current", degree_id=3778)
+	enrol7001 = h.make_course_req("current", degree_id=7001)
+	enrol7002 = h.make_course_req("current", degree_id=7002)
 	# finalyear = h.make_course_req("year", )
 
 	# COMP1511
@@ -538,7 +540,7 @@ def compsci_course_reqs(db="university.db"):
 	math1131_ex = h.combine_course_req("and", [dpst1013, math1151, math1031, math1141, econ2291, math1011, econ1202])
 	h.courses_req_add("MATH1131", "ex", math1131_ex)
 	print("... MATH1131")
-	
+
 	# MATH1141
 	math1141_ex = h.combine_course_req("and", [dpst1013, math1151, math1031, math1131, econ2291, math1011, econ1202])
 	h.courses_req_add("MATH1141", "ex", math1141_ex)
@@ -580,7 +582,19 @@ def compsci_course_reqs(db="university.db"):
 	comp3821_eq = h.combine_course_req("and", [comp3121, comp9801])
 	print("... COMP3821")
 
+	# DPST1013
+	dpst1013_ex = h.combine_course_req("and", [math1131, math1151, math1031, math1141, econ2291, math1011, econ1202])
+	h.courses_req_add("DPST1013", "ex", dpst1013_ex)
+	dpst_or = h.combine_course_req("or", [enrol7001, enrol7002])
+	h.courses_req_add("DPST1013", "pre", dpst_or)
+	print("... DPST1013")
 
+	
+	# DPST1014
+	dpst1014_ex = h.combine_course_req("and", [math1231, math1241, math1251, math1021])
+	h.courses_req_add("DPST1014", "ex", dpst1014_ex)
+	h.courses_req_add("DPST1014", "pre", dpst_or)
+	print("... DPST1014")
 
 	h.close()
 

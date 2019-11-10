@@ -19,14 +19,22 @@ const Container = styled.div`
 
 const LColumn = styled.div`
   float: left;
+<<<<<<< HEAD
   width: 70%;
+=======
+  width: 60%;
+>>>>>>> eedc184f90deb4b4e9180a0a4f033336d761d561
   padding: 10px;
   height: 2000px;
 `;
 
 const RColumn = styled.div`
   float: left;
+<<<<<<< HEAD
   width: 30%;
+=======
+  width: 40%;
+>>>>>>> eedc184f90deb4b4e9180a0a4f033336d761d561
   padding: 10px;
   height: 2000px;
 `;

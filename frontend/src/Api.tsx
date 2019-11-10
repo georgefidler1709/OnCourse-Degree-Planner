@@ -52,6 +52,7 @@ export interface Course {
     terms: Array<Term>;
     prereqs: string;
     coreqs: string;
+    equivalents: string;
     exclusions: string;
 }
 

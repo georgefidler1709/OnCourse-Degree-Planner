@@ -8,6 +8,8 @@ import { GeneratorResponse, YearPlan, TermPlan} from '../../Api';
 import {API_ADDRESS} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
+import html2canvas from 'html2canvas'
+import { saveAs } from 'file-saver'
 
 const TimeLineContext = styled.div`
   display: flex;
@@ -21,14 +23,14 @@ const LColumn = styled.div`
   float: left;
   width: 70%;
   padding: 10px;
-  height: 2000px;
+  min-height: 500px;
 `;
 
 const RColumn = styled.div`
   float: left;
   width: 30%;
   padding: 10px;
-  height: 2000px;
+  min-height: 500px;
 `;
 
 interface TimelineState extends GeneratorResponse { }
@@ -340,6 +342,16 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     this.setState(newState)
   }
 
+  savePlan() {
+    html2canvas(document.getElementById('timeline')!).then(function(canvas) {
+      canvas.toBlob(function(blob) {
+        // Generate file download
+        saveAs(blob!, "plan.png");
+    });
+  });
+  }
+
+  
   render() {
     if(!this.state) return <div></div>
 
@@ -351,6 +363,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
           <Navbar.Brand href="#home">OnCourse</Navbar.Brand>
           <Nav className="mr-auto">
           </Nav>
+          <Button variant="outline-info" onClick={this.savePlan}>Save</Button>
           <Button variant="outline-info"><i className="fa fa-cog"></i></Button>
         </Navbar>
         <br />
@@ -361,7 +374,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
             >
               { 
                 <div>
-                  <LColumn> {
+                  <LColumn id="timeline"> {
                     program.enrollments.map(year => (
                         <div>
                             <Container key={year.year}>

@@ -37,6 +37,10 @@ class FieldFilter(courseFilter.CourseFilter):
     def filter_name(self) -> str:
         return "FieldFilter"
 
+    @property
+    def info(self) -> str:
+        return f"Field '{self.field}'"
+
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     def accepts_course(self, course: 'course.Course', degree: 'degree.Degree',

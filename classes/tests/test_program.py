@@ -39,9 +39,10 @@ def test_default_outstanding_reqs(plan):
     # list of (key, val) tuples
     reqs = list((plan.get_outstanding_reqs()).items())
 
-    # print("============= reqs ================")
-    # print(reqs)
-    # print("==============================")
+    print("")
+    print("============= FYI: reqs for generated plan 3778 ================")
+    print(reqs)
+    print("======================================================================")
 
     assert len(reqs) == 4
 

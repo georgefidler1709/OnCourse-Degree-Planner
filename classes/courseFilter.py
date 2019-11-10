@@ -41,6 +41,13 @@ class CourseFilter(ABC):
             name = name.split("Filter")[0]
         return name
 
+    # returns information about the filter in a string form
+    # for easy displaying on front-end
+    # see individual filters for information it needs to pass
+    @property
+    def info(self) -> str:
+        return 'some info about the filter'
+
     # The id of the requirement for the database
     @property
     def filter_id(self) -> int:

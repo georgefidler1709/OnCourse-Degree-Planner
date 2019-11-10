@@ -25,6 +25,7 @@ const SubTitle = styled.h5`
 interface Req {
   filter_type: string;
   units: number;
+  info: string;
 }
 
 interface InfoBarProps {
@@ -43,7 +44,10 @@ function InfoBar(props: InfoBarProps) {
       <body>
         <SubTitle>Requirements</SubTitle>
         {props.degree_reqs.map(req => { return (
-          <p>{`${req.filter_type}: ${req.units}`}</p>
+          <div>
+            <p>{`${req.filter_type}: ${req.units}`}</p>
+            <p>{`${req.info}`}</p>
+          </div>
         )
         })}
       </body>

@@ -120,6 +120,7 @@ class Program(object):
             
         # TODO hardcode which reqs to output for now
         # until you fix the bug, then switch for commented out section below
+        '''
         output_req_types = (fieldFilter.FieldFilter, 
             freeElectiveFilter.FreeElectiveFilter,
             levelFilter.LevelFilter,
@@ -130,17 +131,24 @@ class Program(object):
             if isinstance(r.filter, output_req_types):
                 new: api.RemainReq = {'units': r.uoc, 'filter_type': r.filter.simple_name}
                 reqs.append(new)
+        '''
 
         # TODO this is the correct version, uncomment when
         # self.get_outstanding_reqs() is accurate
-        '''
+        # TODO need to format this nicer in api
+        
         outstanding_reqs = self.get_outstanding_reqs()
 
         reqs: List['api.RemainReq'] = []
         for key, val in outstanding_reqs.items():
-            new: api.RemainReq = {'units': val, 'filter_type': key.filter.simple_name}
+
+            new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
+            if key.filter:
+                new = {'units': val, 'filter_type': key.filter.simple_name,
+                    'info': key.filter.info}
+
             reqs.append(new)                
-        '''
+        
 
         return {'id': self.degree.num_code, 
                 'name': self.degree.name,

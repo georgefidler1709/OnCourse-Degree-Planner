@@ -44,10 +44,20 @@ class OrFilter(courseFilter.CourseFilter):
     # so get the name of one of its components
     @property
     def simple_name(self) -> str:
-        if len(self.filters) != 0:
-            return self.filters[0].simple_name
-        else:
-            return "Or"
+        # if len(self.filters) != 0:
+        #     return self.filters[0].simple_name
+        # else:
+        #     return "Or"
+        return "Choose from these requirements"
+
+    @property
+    def info(self) -> str:
+        res = ''
+        for f in self.filters:
+            res += f.info
+            res += '\n'
+
+        return res
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter

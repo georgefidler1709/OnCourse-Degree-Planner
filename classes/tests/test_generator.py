@@ -37,7 +37,7 @@ class MockUniversity():
     def reset_courses(self, courses: List['course.Course']) -> None:
         self.courses = courses
 
-    def filter_courses(self, desired_filter: 'courseFilter.CourseFilter', degree: 'degree.Degree', eq: bool=False) -> List['course.Course']:
+    def filter_courses(self, desired_filter: 'courseFilter.CourseFilter', degree: 'degree.Degree', eq: bool=True) -> List['course.Course']:
         return list(filter(lambda x: desired_filter.accepts_course(x, degree, eq), self.courses))
 
 uni = MockUniversity()

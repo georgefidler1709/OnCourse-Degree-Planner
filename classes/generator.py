@@ -96,6 +96,18 @@ class Generator(object):
 
             courses = courseIter.copy()
 
+            for c in courses:
+                if c.equivalents is None:
+                    continue
+                for e in c.equivalents:
+                    term = self.find_term(prog, e)
+                    if term is not None:
+                        prog.add_course(e, term)
+                        courseIter.remove(c)
+
+            courses = courseIter.copy()
+
+
         # now assume all core requirements fulfilled
         return prog
 

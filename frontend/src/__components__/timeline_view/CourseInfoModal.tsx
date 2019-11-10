@@ -2,18 +2,52 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
+const year = '2020'
+const handbook = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}`
+
+
 interface CourseInfoModalProps {
   index: number;
   onHide: () => void;
   show: boolean;
-  course_id: string;
-  course_name: String;
+  code: string;
+  name: string;
+  prereqs: string;
+  coreqs: string;
+  exclusions: string;
+}
+
+function displayCourseReqs(reqs: string, req_type: string) {
+
+  const noBullet = {
+    "list-style-type" : "none",
+  } as React.CSSProperties;
+  
+  return (
+    <div>
+      <h5>{req_type + ":"}</h5>
+      {reqs ? (
+        <ul>
+          {reqs.split("\n").map(req => <li>{addLinks(req)}</li>)}
+        </ul>
+      ) : (
+        <ul style={noBullet}>
+          <li>None</li>
+        </ul>
+      )} 
+    </div>
+  )
+}
+
+function addLinks(req: string) {
+  req = req.replace(/[()]/g, '');
+  return req.split(' ').map(word => {
+    if(word === "OR" || word === "AND" || word === "") return " " + word + " "
+    return (<a href={`${handbook}/${word}`}>{word}</a>)
+  })
 }
 
 function CourseInfoModal(props: CourseInfoModalProps) {
-    const year = '2020'
-    const handbook = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}`
-
     return (
       <Modal
         {...props}
@@ -23,12 +57,16 @@ function CourseInfoModal(props: CourseInfoModalProps) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {props.course_id + " - "}
-            {props.course_name}
+            {props.code + " - "}
+            {props.name}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <a href={`${handbook}/${props.course_id}`}>More Info</a>
+          {displayCourseReqs(props.prereqs, "Prereqs")}
+          {displayCourseReqs(props.coreqs, "Coreqs")}
+          {displayCourseReqs(props.exclusions, "Exclusions")}
+          <hr/>
+          <a href={`${handbook}/${props.code}`}>More Info</a>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>

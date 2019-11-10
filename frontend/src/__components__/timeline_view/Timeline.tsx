@@ -33,6 +33,11 @@ const RColumn = styled.div`
   min-height: 500px;
 `;
 
+const NavButton = styled(Button)`
+  margin-left: 8px;
+  margin-right: 8px;
+`;
+
 interface TimelineState extends GeneratorResponse { }
 
 class Timeline extends Component<RouteComponentProps<{degree: string}>, TimelineState> {
@@ -363,8 +368,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
           <Navbar.Brand href="#home">OnCourse</Navbar.Brand>
           <Nav className="mr-auto">
           </Nav>
-          <Button variant="outline-info" onClick={this.savePlan}>Save</Button>
-          <Button variant="outline-info"><i className="fa fa-cog"></i></Button>
+          <NavButton variant="outline-info" onClick={this.savePlan}><i className="fa fa-save"></i></NavButton>
+          <NavButton variant="outline-info"><i className="fa fa-cog"></i></NavButton>
         </Navbar>
         <br />
           <TimeLineContext>

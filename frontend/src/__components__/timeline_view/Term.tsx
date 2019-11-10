@@ -5,6 +5,7 @@ import Course from './Course';
 import { Course as ApiCourse } from '../../Api';
 
 interface DroppableProps {
+  isDraggingOver: boolean;
   highlight: boolean;
 }
 
@@ -25,8 +26,12 @@ const CourseList = styled.div<DroppableProps>`
   padding: 8px;
   flex-grow: 1;
   min-height: 100px;
-  background-color: ${props => props.highlight ? 'lightgreen' : 'white'};
-  transition: background-color 0.2 ease;
+  transition: background-color 0.2s ease;
+  background-color: ${props => {
+    if(props.highlight) {
+      return props.isDraggingOver ? 'green' : 'lightgreen'
+    } else return props.isDraggingOver ? 'lightgrey' : 'white'
+  }};
 `;
 
 interface TermProps {
@@ -41,10 +46,11 @@ function Term(props: TermProps) {
     <Container>
       <Title>{"T" + props.termId}</Title>
       <Droppable droppableId={props.termId}>
-        {provided => (
+        {(provided, snapshot) => (
           <CourseList 
             innerRef={provided.innerRef} 
             {...provided.droppableProps}
+            isDraggingOver={snapshot.isDraggingOver}
             highlight={props.highlight}
           >
             {props.courses.map((course, index) => {

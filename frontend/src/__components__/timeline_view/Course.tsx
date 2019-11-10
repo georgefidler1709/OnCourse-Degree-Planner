@@ -4,7 +4,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import CourseInfoModal from "./CourseInfoModal"
 
 interface DraggableProps {
-  isDragging: any;
+  isDragging: boolean;
 }
 
 
@@ -14,6 +14,10 @@ const Container = styled.div<DraggableProps>`
   padding: 8px;
   margin-bottom: 8px;
   background-color: ${props => props.isDragging ? 'lightblue' : 'white'};
+
+  &:hover {
+    background-color: ${props => props.isDragging ? 'lightblue' : 'lightgrey'};
+  }
 `;
 
 interface CourseProps {

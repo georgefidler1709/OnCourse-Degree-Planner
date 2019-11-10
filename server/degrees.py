@@ -84,20 +84,8 @@ def check_program() -> str:
     Return a jsonified program that has an annotation for each course
     about whether or not it's valid.
     '''
-    print("----------- request ------------")
-    # print(request)
-    # print(f"request.is_json = {request.is_json}")
-    # print(f"request.args = {request.args}")
-    # print(f"request.json = {request.json}")
-    # print(f"request.get_json() = {request.get_json()}")
-    # print(f"request.data = {request.data!r}")
-    # expects that this is the json of api.Program
     json_data = json.loads(request.data)
     data: api.Program = json_data
-    print(f"json_data = {data}")
-    print("-----------------------------------")
-
-    # raise Exception('Pause here')
 
     # create a new classes.program
     uni = University(query_db)
@@ -107,10 +95,5 @@ def check_program() -> str:
     enrollments = enrollments_api_to_classes(data, uni)
 
     new = program.Program(deg, enrollments)
-
-    print("=========== testing that program oustanding reqs updated ============")
-    reqs = list(new.get_outstanding_reqs().items())
-    print(reqs)
-    print("====================================================")
 
     return jsonify(new.to_api())

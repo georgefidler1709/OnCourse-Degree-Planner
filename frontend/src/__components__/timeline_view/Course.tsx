@@ -16,6 +16,9 @@ interface CourseProps {
   index: number;
   code: string;
   name: string;
+  prereqs: string;
+  coreqs: string;
+  exclusions: string;
 }
 
 function Course(props: CourseProps) {

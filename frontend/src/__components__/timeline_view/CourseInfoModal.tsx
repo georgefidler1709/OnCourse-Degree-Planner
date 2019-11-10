@@ -2,18 +2,52 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
+const year = '2020'
+const handbook = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}`
+
+
 interface CourseInfoModalProps {
   index: number;
   onHide: () => void;
   show: boolean;
   code: string;
-  name: String;
+  name: string;
+  prereqs: string;
+  coreqs: string;
+  exclusions: string;
+}
+
+function displayCourseReqs(reqs: string, req_type: string) {
+
+  const noBullet = {
+    "list-style-type" : "none",
+  } as React.CSSProperties;
+  
+  return (
+    <div>
+      <h5>{req_type + ":"}</h5>
+      {reqs ? (
+        <ul>
+          {reqs.split("\n").map(req => <li>{addLinks(req)}</li>)}
+        </ul>
+      ) : (
+        <ul style={noBullet}>
+          <li>None</li>
+        </ul>
+      )} 
+    </div>
+  )
+}
+
+function addLinks(req: string) {
+  req = req.replace(/[()]/g, '');
+  return req.split(' ').map(word => {
+    if(word === "OR" || word === "AND" || word === "") return " " + word + " "
+    return (<a href={`${handbook}/${word}`}>{word}</a>)
+  })
 }
 
 function CourseInfoModal(props: CourseInfoModalProps) {
-    const year = '2020'
-    const handbook = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}`
-
     return (
       <Modal
         {...props}
@@ -28,6 +62,10 @@ function CourseInfoModal(props: CourseInfoModalProps) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {displayCourseReqs(props.prereqs, "Prereqs")}
+          {displayCourseReqs(props.coreqs, "Coreqs")}
+          {displayCourseReqs(props.exclusions, "Exclusions")}
+          <hr/>
           <a href={`${handbook}/${props.code}`}>More Info</a>
         </Modal.Body>
         <Modal.Footer>

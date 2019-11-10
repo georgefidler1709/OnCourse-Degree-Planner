@@ -87,7 +87,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     var request = new Request(API_ADDRESS + '/check_program.json', {
       method: 'POST',
       body: JSON.stringify(this.state.program),
-      headers: new Headers()
+      headers: new Headers(/*{'Accept': 'application/json', 'Content-Type': 'application/json', 'dataType': 'json'}*/)
     });
 
     fetch(request)

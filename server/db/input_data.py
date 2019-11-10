@@ -679,7 +679,7 @@ def insert_compsci_degree_requirements(db='university.db'):
 	for course in core_courses:
 		core_filters.append(h.add_course_filter("spec", min_mark=50, course=course))
 
-	core_combo = h.combine_course_filters("or", core_filters)
+	# core_combo = h.combine_course_filters("or", core_filters)
 
 	math1_filters = []
 	for course in math1_opts:
@@ -717,7 +717,9 @@ def insert_compsci_degree_requirements(db='university.db'):
 	COMPSCI = 3778
 
 	# core stuff
-	h.add_degree_reqs(COMPSCI, 2019, core_combo, len(core_courses) * COURSE_UOC)
+	for f in core_filters:
+		h.add_degree_reqs(COMPSCI, 2019, f, COURSE_UOC)
+	# h.add_degree_reqs(COMPSCI, 2019, core_combo, len(core_courses) * COURSE_UOC)
 	h.add_degree_reqs(COMPSCI, 2019, math1_or, COURSE_UOC)
 	h.add_degree_reqs(COMPSCI, 2019, math2_or, COURSE_UOC)
 	h.add_degree_reqs(COMPSCI, 2019, algos_or, COURSE_UOC)

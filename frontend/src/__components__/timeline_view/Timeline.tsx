@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
-import { GeneratorResponse, YearPlan, TermPlan} from '../../Api';
 import {API_ADDRESS} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
 import html2canvas from 'html2canvas'
 import { saveAs } from 'file-saver'
+import { TimelineState, YearState, TermState } from '../../Types'
 
 const TimeLineContext = styled.div`
   display: flex;
@@ -37,8 +37,6 @@ const NavButton = styled(Button)`
   margin-left: 8px;
   margin-right: 8px;
 `;
-
-interface TimelineState extends GeneratorResponse { }
 
 class Timeline extends Component<RouteComponentProps<{degree: string}>, TimelineState> {
 
@@ -86,7 +84,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   }
 
 
-  addTerm(newTermId: number, year: YearPlan, yearIdx: number) {
+  addTerm(newTermId: number, year: YearState, yearIdx: number) {
     let idx = year.term_plans.findIndex(term => term.term > newTermId)
     if(idx === -1) {
       year.term_plans.push({course_ids: [], term: newTermId, highlight: false})
@@ -312,7 +310,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     this.setState(newState)
   }
 
-  isCourseOffered(courseId: string, term: TermPlan, year: YearPlan) {
+  isCourseOffered(courseId: string, term: TermState, year: YearState) {
     const termsOffered = this.state.courses[courseId].terms
     const isOffered = termsOffered.findIndex(offering => 
       offering.term === term.term && offering.year === year.year

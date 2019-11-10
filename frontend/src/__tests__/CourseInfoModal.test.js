@@ -14,7 +14,6 @@ const mockCourse = {
   prereqs: "(COMP1927 OR COMP2521)",
 }
 
-
 console.error = jest.fn();
 
 let modalShow = true;

@@ -68,13 +68,12 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       let cur_term = 0
       // fills in terms such that 'required terms' are always present and always in order
       // but other terms can be inserted in between
-      console.log(year.year)
       year.term_plans.forEach(term => {
         let new_term = required_terms.findIndex(req => req === term.term)
         if(new_term > cur_term) {
           for( ; cur_term < new_term; ++cur_term) this.addTerm(cur_term + 1, year, year_index);
         } 
-        if(new_term !== -1) cur_term++ 
+        if(new_term !== -1) ++cur_term
       })
       // if any 'required terms' were missing from the end, add them on here
       for( ; cur_term < required_terms.length; ++cur_term) this.addTerm(cur_term + 1, year, year_index);
@@ -363,7 +362,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
           <Navbar.Brand href="#home">OnCourse</Navbar.Brand>
           <Nav className="mr-auto">
           </Nav>
-          <NavButton variant="outline-info" onClick={this.savePlan}><i className="fa fa-save"></i></NavButton>
+          <NavButton id="save" variant="outline-info" onClick={this.savePlan}><i className="fa fa-save"></i></NavButton>
           <NavButton variant="outline-info"><i className="fa fa-cog"></i></NavButton>
         </Navbar>
         <br />

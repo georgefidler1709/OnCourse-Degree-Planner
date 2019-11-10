@@ -33,7 +33,6 @@ interface CourseProps {
 
 function Course(props: CourseProps) {
     const [modalShow, setModalShow] = React.useState(false);
-    console.log(props)
     return (
       <div>
       <Draggable draggableId={props.code} index={props.index}>

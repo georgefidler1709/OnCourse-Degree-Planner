@@ -19,7 +19,6 @@ from . import program
 from . import course
 from . import degree
 from . import api
-# from . import minDegreeReq
 from . import genEdFilter, freeElectiveFilter
 
 class DegreeReq(ABC):
@@ -53,6 +52,9 @@ class DegreeReq(ABC):
     def overall_requirement(self) -> bool:
         return self.filter is None
 
+    # the conditions for these checking functions 
+    # help to establish a hierarchy of requirements
+
     # Return whether this is a core requirement
     def core_requirement(self) -> bool:
         if self.filter is None:
@@ -61,9 +63,10 @@ class DegreeReq(ABC):
 
     # Return whether this is a subject requirement
     def subj_requirement(self) -> bool:
-        if (self.filter is not None and self.filter.field_filter):
-            # WARNING not sure why subject requirements had to be min degree reqs before
-            # and isinstance(self, minDegreeReq.MinDegreeReq)):
+        from . import minDegreeReq
+
+        if (self.filter is not None and self.filter.field_filter
+            and isinstance(self, minDegreeReq.MinDegreeReq)):
             return True
         else:
             return False

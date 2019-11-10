@@ -49,6 +49,10 @@ class MinDegreeReq(degreeReq.DegreeReq):
         print(matching_courses)
         print(f"----> units = {units}")
         print("=====================================")
+        # TODO bug is that the matching courses are being found
+        # but not shown on the other side. Return 2 things instead?
+        # courses.remove() not working or not being added to dict
+
         # Remove matching courses from import course list
         # Only if this 
         for c in matching_courses:

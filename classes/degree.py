@@ -64,25 +64,25 @@ class Degree(object):
             # requirement is outstanding if you don't have a Program (no enrollments)
             # or if your current Program doesn't fulfill this requirement
             if not program or not (courses and degree and req.fulfilled(courses, degree)):
-                # print(f"-----> core requirement {req}")
+                print(f"-----> core requirement {req}")
                 remaining[req] = req.remaining(courses, degree)
         
         # subject req
         for req in subj_reqs:
             if not program or not (courses and degree and req.fulfilled(courses, degree)):
-                # print(f"-----> subject requirement {req}")
+                print(f"-----> subject requirement {req}")
                 remaining[req] = req.remaining(courses, degree)
 
         # gen ed
         for req in gen_reqs:
             if not program or not (courses and degree and req.fulfilled(courses, degree)):
-                # print(f"-----> gen ed requirement {req}")
+                print(f"-----> gen ed requirement {req}")
                 remaining[req] = req.remaining(courses, degree)
 
         # free elec
         for req in free_reqs:
             if not program or not (courses and degree and req.fulfilled(courses, degree)):
-                # print(f"-----> free elec requirement {req}")
+                print(f"-----> free elec requirement {req}")
                 remaining[req] = req.remaining(courses, degree)
 
         return remaining

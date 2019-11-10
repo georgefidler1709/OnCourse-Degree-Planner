@@ -32,16 +32,16 @@ def plan():
 def test_default_outstanding_reqs(plan):
     # print current courses
     # print("")
-    print("=============== current courses ===========")
-    print(plan.courses)
-    print("===========================================")
+    # print("=============== current courses ===========")
+    # print(plan.courses)
+    # print("===========================================")
 
     # list of (key, val) tuples
     reqs = list((plan.get_outstanding_reqs()).items())
 
-    print("============= reqs ================")
-    print(reqs)
-    print("==============================")
+    # print("============= reqs ================")
+    # print(reqs)
+    # print("==============================")
 
     assert len(reqs) == 4
 

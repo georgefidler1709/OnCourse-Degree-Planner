@@ -19,22 +19,14 @@ const Container = styled.div`
 
 const LColumn = styled.div`
   float: left;
-<<<<<<< HEAD
   width: 70%;
-=======
-  width: 60%;
->>>>>>> eedc184f90deb4b4e9180a0a4f033336d761d561
   padding: 10px;
   height: 2000px;
 `;
 
 const RColumn = styled.div`
   float: left;
-<<<<<<< HEAD
   width: 30%;
-=======
-  width: 40%;
->>>>>>> eedc184f90deb4b4e9180a0a4f033336d761d561
   padding: 10px;
   height: 2000px;
 `;
@@ -71,15 +63,19 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       let cur_term = 0
       // fills in terms such that 'required terms' are always present and always in order
       // but other terms can be inserted in between
+      console.log(year.year)
       year.term_plans.forEach(term => {
         let new_term = required_terms.findIndex(req => req === term.term)
         if(new_term > cur_term) {
           for( ; cur_term < new_term; ++cur_term) this.addTerm(cur_term + 1, year, year_index);
-        } else cur_term++ 
+        } 
+        if(new_term !== -1) cur_term++ 
       })
       // if any 'required terms' were missing from the end, add them on here
       for( ; cur_term < required_terms.length; ++cur_term) this.addTerm(cur_term + 1, year, year_index);
     })
+
+    console.log(this.state)
   }
 
 
@@ -152,15 +148,18 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   }
 
   onDragEnd = (result: DropResult) => {
+
     const { destination, source, draggableId } = result
 
     // if not dragged into a term, don't change state
     if(!destination) {
+      this.resetTermHighlights()
       return;
     }
     // if location not changed, don't change state
     if(destination.droppableId === source.droppableId &&
       destination.index === source.index) {
+      this.resetTermHighlights()
       return;
     }
 
@@ -168,6 +167,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     let [startTermId, startYearId] = source.droppableId.split(" ").map(s => parseInt(s))
     if(destination.droppableId === "Remove") {
       this.removeCourse(source.index, draggableId, startTermId, startYearId)
+      this.resetTermHighlights()
       return
     }
     let [destTermId, destYearId] = destination.droppableId.split(" ").map(s => parseInt(s))
@@ -273,7 +273,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       newYear.term_plans[startTermIdx] = newTerm
       newState.program.enrollments[startYearIdx] = newYear;
     }
-
     this.setState(newState)
     this.resetTermHighlights()
   };
@@ -363,27 +362,26 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
               { 
                 <div>
                   <LColumn> {
-                program.enrollments.map(year => {
-                  return (
-                    <div>
-                        <Container key={year.year}>
-                          {year.term_plans.map(term => {
-                            const courses = term.course_ids.map(course_id => this.getCourseInfo(course_id));
-                            const term_tag = term.term.toString() + " " + year.year.toString()
-                            return <Term key={term_tag} termId={term_tag} courses={courses} highlight={term.highlight}/>;
-                          })}
-                        </Container>
-                    </div>
-                  )
-                })
-              } </LColumn> 
-                <RColumn>
-                  <InfoBar 
-                    degree_id={this.state.program.id}
-                    degree_name={this.state.program.name}
-                    degree_reqs={this.state.program.reqs}
-                  />
-                </RColumn>
+                    program.enrollments.map(year => (
+                        <div>
+                            <Container key={year.year}>
+                              {year.term_plans.map(term => {
+                                const courses = term.course_ids.map(course_id => this.getCourseInfo(course_id));
+                                const term_tag = term.term.toString() + " " + year.year.toString()
+                                return <Term key={term_tag} termId={term_tag} courses={courses} highlight={term.highlight}/>;
+                              })}
+                            </Container>
+                        </div>
+                      )
+                    )
+                  } </LColumn> 
+                  <RColumn>
+                    <InfoBar 
+                      degree_id={this.state.program.id}
+                      degree_name={this.state.program.name}
+                      degree_reqs={this.state.program.reqs}
+                    />
+                  </RColumn>
                 </div>
               }  
             </DragDropContext>

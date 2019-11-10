@@ -51,8 +51,6 @@ class Degree(object):
             courses = program.course_list()
             degree = program.degree
             
-            
-
         # split the requirements into types
         core_reqs = [ x for x in self.requirements if x.core_requirement() ]
         subj_reqs = [ x for x in self.requirements if x.subj_requirement() ]

@@ -36,6 +36,10 @@ class MinDegreeReq(degreeReq.DegreeReq):
                 units += c.units
             return self.uoc - units
 
+        print("------------ courses -----------------")
+        print(courses)
+        print("--------------------------------")
+
         units = 0
         matching_courses = []
         for c in courses:
@@ -57,5 +61,8 @@ class MinDegreeReq(degreeReq.DegreeReq):
         # Only if this 
         for c in matching_courses:
             courses.remove(c)
+        print("---------- courses ---------")
+        print(courses)
+        print("----------------------------")
 
         return self.uoc - units

@@ -18,6 +18,7 @@ interface CourseProps {
   name: string;
   prereqs: string;
   coreqs: string;
+  equivalents: string;
   exclusions: string;
 }
 

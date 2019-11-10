@@ -100,6 +100,7 @@ class Program(object):
         return courses
 
     # Return: requirements remaining to complete the program
+    # is a dict of degreerequirement and corresponding number of UOC needed
     def get_outstanding_reqs(self) -> Dict[('degreeReq.DegreeReq', int)]:
         return self.degree.get_requirements(self)
 

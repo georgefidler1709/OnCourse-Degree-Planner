@@ -282,9 +282,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     this.resetTermHighlights()
   };
 
-  getCourseInfo(course_id: string) {
-    return this.state.courses[course_id]!
-  }
 
   resetTermHighlights() {
     let newEnrollments = this.state.program.enrollments.map(year => {
@@ -382,7 +379,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                         <div>
                             <Container key={year.year}>
                               {year.term_plans.map(term => {
-                                const courses = term.course_ids.map(course_id => this.getCourseInfo(course_id));
+                                const courses = term.course_ids.map(course_id => this.state.courses[course_id]!);
                                 const term_tag = term.term.toString() + " " + year.year.toString()
                                 return <Term key={term_tag} termId={term_tag} courses={courses} highlight={term.highlight}/>;
                               })}

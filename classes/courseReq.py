@@ -29,6 +29,11 @@ class CourseReq(ABC):
     def __repr__(self) -> str:
         return f"<CourseReq>"
 
+    # Get info for the requirement, for displaying in information for the course
+    @abstractmethod
+    def info(self, top_level: bool=False, exclusion: bool=False) -> str:
+        pass
+
     # The name of the requirement for the database
     @property
     # @abstractmethod

@@ -45,7 +45,11 @@ class Course(object):
         self.prereqs = prereqs
         self.coreqs = coreqs
         self.exclusions = exclusions
-        self.equivalents = equivalents
+        self.equivalents: List['course.Course']
+        if equivalents is None:
+            self.equivalents = []
+        else:
+            self.equivalents = equivalents
 
     def __repr__(self) -> str:
         return f"<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>"
@@ -55,6 +59,10 @@ class Course(object):
                 "name": self.name,
                 "units": self.units,
                 "terms": [term.to_api() for term in self.terms],
+                "prereqs": self.prereqs.info(top_level=True) if self.prereqs else "",
+                "coreqs": self.coreqs.info(top_level=True) if self.coreqs else "",
+                "exclusions": self.exclusions.info(top_level=True, exclusion=True) if self.exclusions else "",
+                "equivalents": "\n".join(map(lambda x: x.course_code, self.equivalents))
                 }
 
     # returns the SUBJxxxx course code

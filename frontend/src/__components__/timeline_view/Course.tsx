@@ -22,16 +22,21 @@ const Container = styled.div<DraggableProps>`
 
 interface CourseProps {
   key: string;
-  course_id: string;
   index: number;
-  course_name: String;
+  code: string;
+  name: string;
+  prereqs: string;
+  coreqs: string;
+  equivalents: string;
+  exclusions: string;
 }
 
 function Course(props: CourseProps) {
     const [modalShow, setModalShow] = React.useState(false);
+    console.log(props)
     return (
       <div>
-      <Draggable draggableId={props.course_id} index={props.index}>
+      <Draggable draggableId={props.code} index={props.index}>
         {(provided, snapshot) => (
           <Container
             {...provided.draggableProps}
@@ -40,7 +45,7 @@ function Course(props: CourseProps) {
             isDragging={snapshot.isDragging}
             onClick={() => setModalShow(true)}
           >
-          {props.course_id}
+          {props.code}
           </Container>
         )}
       </Draggable>

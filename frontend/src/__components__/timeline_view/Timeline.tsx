@@ -92,7 +92,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     fetch(request)
     .then(response => response.json())
-    .then(plan => this.setState(plan))
+    .then(plan => this.setState({'program': plan}))
   }
 
   removeCourse(sourceIdx: number, draggableId: string, startTermId: number, startYearId: number) {

@@ -103,6 +103,7 @@ def check_program() -> str:
     uni = University(query_db)
 
     deg = uni.load_degree(data['id'])
+    assert deg is not None
     enrollments = enrollments_api_to_classes(data, uni)
 
     new = program.Program(deg, enrollments)

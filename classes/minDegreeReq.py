@@ -45,6 +45,10 @@ class MinDegreeReq(degreeReq.DegreeReq):
                 if units == self.uoc:
                     break
 
+        print("====== matching courses in MinDegreeReq.remaining() ======")
+        print(matching_courses)
+        print(f"----> units = {units}")
+        print("=====================================")
         # Remove matching courses from import course list
         # Only if this 
         for c in matching_courses:

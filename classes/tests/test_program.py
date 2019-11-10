@@ -38,6 +38,11 @@ def test_default_outstanding_reqs(plan):
 
     print(f"type of reqs[0] key {type(reqs[0][0])}")
 
+    # TODO test that the field filters actually match comp level 3, 6, 9 etc.
+    # right now is 
+    # -----> subject requirement <DegreeReq uoc=30, filter=<OrFilter filters=[<FieldFilter field='COMP'>, <FieldFilter field='COMP'>, <FieldFilter field='COMP'>, <FieldFilter field='COMP'>]>>
+
+
 
 
 

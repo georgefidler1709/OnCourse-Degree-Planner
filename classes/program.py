@@ -117,25 +117,6 @@ class Program(object):
                         "course_ids": courses,
                     } for (term, courses) in term_plan.items() ]
                 } for (year, term_plan) in enrollments_map.items()];
-            
-        # TODO hardcode which reqs to output for now
-        # until you fix the bug, then switch for commented out section below
-        '''
-        output_req_types = (fieldFilter.FieldFilter, 
-            freeElectiveFilter.FreeElectiveFilter,
-            levelFilter.LevelFilter,
-            genEdFilter.GenEdFilter)
-        outstanding_reqs = self.degree.requirements
-        reqs: List['api.RemainReq'] = []
-        for r in outstanding_reqs:
-            if isinstance(r.filter, output_req_types):
-                new: api.RemainReq = {'units': r.uoc, 'filter_type': r.filter.simple_name}
-                reqs.append(new)
-        '''
-
-        # TODO this is the correct version, uncomment when
-        # self.get_outstanding_reqs() is accurate
-        # TODO need to format this nicer in api
         
         outstanding_reqs = self.get_outstanding_reqs()
 

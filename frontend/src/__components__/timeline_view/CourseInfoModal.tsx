@@ -14,6 +14,7 @@ interface CourseInfoModalProps {
   name: string;
   prereqs: string;
   coreqs: string;
+  equivalents: string;
   exclusions: string;
 }
 
@@ -24,7 +25,7 @@ function displayCourseReqs(reqs: string, req_type: string) {
   } as React.CSSProperties;
   
   return (
-    <div>
+    <div id={req_type}>
       <h5>{req_type + ":"}</h5>
       {reqs ? (
         <ul>
@@ -64,6 +65,7 @@ function CourseInfoModal(props: CourseInfoModalProps) {
         <Modal.Body>
           {displayCourseReqs(props.prereqs, "Prereqs")}
           {displayCourseReqs(props.coreqs, "Coreqs")}
+          {displayCourseReqs(props.equivalents, "Equivalents")}
           {displayCourseReqs(props.exclusions, "Exclusions")}
           <hr/>
           <a href={`${handbook}/${props.code}`}>More Info</a>

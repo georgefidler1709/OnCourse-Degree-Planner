@@ -50,7 +50,8 @@ describe('Rendering a course info popup', () => {
         onHide={() => setModalShow(false)}
         {...mockCourse}
       />);
-
+      //enzyme does not include html to the line break between : and COMP1927 is preserved
+      expect(wrapper.find("#Prereqs").text()).toBe('Prereqs:COMP1927 OR COMP2521')
       wrapper.unmount();
     });
 });

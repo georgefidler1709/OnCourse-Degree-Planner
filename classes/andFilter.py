@@ -30,6 +30,10 @@ class AndFilter(courseFilter.CourseFilter):
     def core(self) -> bool:
         return all(map(lambda x: x.core, self.filters))
 
+    @property
+    def field_filter(self) -> bool:
+        return any(map(lambda x: x.field_filter, self.filters))
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
@@ -47,9 +51,10 @@ class AndFilter(courseFilter.CourseFilter):
 
     # Input: course.Course, degree the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree',
+                eq: bool=True) -> bool:
         # make an iterable where element at a position is True if the filter at that position accepts
-        individual_acceptance = map(lambda x: x.accepts_course(course, degree), self.filters)
+        individual_acceptance = map(lambda x: x.accepts_course(course, degree, eq), self.filters)
 
         # Only accept if all of the filters accepted
         return all(individual_acceptance)

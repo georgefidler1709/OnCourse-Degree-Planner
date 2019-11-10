@@ -27,6 +27,10 @@ class FreeElectiveFilter(courseFilter.CourseFilter):
     def core(self) -> bool:
         return False
 
+    @property
+    def field_filter(self) -> bool:
+        return False
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
@@ -34,7 +38,8 @@ class FreeElectiveFilter(courseFilter.CourseFilter):
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree',
+                eq: bool=True) -> bool:
         return True
 
     # Saves the filter in the database

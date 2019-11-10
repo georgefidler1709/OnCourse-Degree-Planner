@@ -20,16 +20,20 @@ from typing import Dict, Optional, Sequence
 from . import courseEnrollment
 from . import degreeReq
 from . import program
+from . import genEdFilter
+from . import freeElectiveFilter
+from . import minDegreeReq
 
 class Degree(object):
 
     def __init__(self, num_code: int, name: str, year: int, duration: int, 
-            requirements: Sequence['degreeReq.DegreeReq'], alpha_code: str):
+            faculty: str, requirements: Sequence['degreeReq.DegreeReq'], alpha_code: str):
         self.num_code = num_code
         self.alpha_code = alpha_code
         self.name = name
         self.year = year
         self.duration = duration
+        self.faculty = faculty
         self.requirements = requirements
 
     def __repr__(self) -> str:
@@ -40,10 +44,42 @@ class Degree(object):
 
     def get_requirements(self, program: Optional['program.Program']=None) -> Dict[('degreeReq.DegreeReq', int)]:
         remaining = {}
-        for req in self.requirements:
+        if program:
+            courses = program.course_list()
 
-            if not program or not req.fulfilled(program):
-                remaining[req] = req.remaining(program)
+        # core requirement
+        for req in self.requirements:
+            if req.core_requirement():
+                if not program:
+                    remaining[req] = req.remaining(None, None)
+                elif not req.fulfilled(courses, program.degree):
+                    remaining[req] = req.remaining(courses, program.degree)
+                
+        
+        # subject req
+        for req in self.requirements:
+            if req.filter is not None and req.filter.field_filter and isinstance(req, minDegreeReq.MinDegreeReq):
+                if not program:
+                    remaining[req] = req.remaining(None, None)
+                elif not req.fulfilled(courses, program.degree):
+                    remaining[req] = req.remaining(courses, program.degree)
+
+        # gen ed
+        for req in self.requirements:
+            if isinstance(req.filter, genEdFilter.GenEdFilter):
+                if not program:
+                    remaining[req] = req.remaining(None, None)
+                elif not req.fulfilled(courses, program.degree):
+                    remaining[req] = req.remaining(courses, program.degree)
+
+        # free elec
+        for req in self.requirements:
+            if isinstance(req.filter, freeElectiveFilter.FreeElectiveFilter):
+                if not program:
+                    remaining[req] = req.remaining(None, None)
+                elif not req.fulfilled(courses, program.degree):
+                    remaining[req] = req.remaining(courses, program.degree)
+
         return remaining
 
     # Input: list of courses completed

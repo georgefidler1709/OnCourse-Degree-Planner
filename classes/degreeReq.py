@@ -22,7 +22,7 @@ from . import api
 
 class DegreeReq(ABC):
 
-    def __init__(self, inFilter: 'courseFilter.CourseFilter', uoc: int):
+    def __init__(self, inFilter: Optional['courseFilter.CourseFilter'], uoc: int):
         # input as separate variables? or some other format
         self.uoc = uoc
         self.filter = inFilter
@@ -33,24 +33,28 @@ class DegreeReq(ABC):
 
     # Input: a degree and a list of courses
     # Return: whether this course list would fulfil this degree requirement
+    # Note: Deletes matching courses from list!
     @abstractmethod
-    def fulfilled(self, program:'program.Program') -> bool:
+    def fulfilled(self, courses: List['course.Course'], degree: 'degree.Degree') -> bool:
         pass
 
     
     # Input: a degree and a list of courses
     # Return: number of units remaining to complete this requirement
-    def remaining(self, program: Optional['program.Program']) -> int:
-        if not program:
-            return self.uoc
-        units = 0
-        for course_enrol in program.courses:
-            if self.filter.accepts_course(course_enrol.course, program.degree):
-                units += course_enrol.course.units
-        return self.uoc - units
+    # Note: Deletes matching courses from list!
+    @abstractmethod
+    def remaining(self, courses: Optional[List['course.Course']],
+            degree: Optional['degree.Degree']) -> int:
+        pass
+
+    # Return whether this filter is an overall requirement (e.g. must have completed 144 UoC total)
+    def overall_requirement(self) -> bool:
+        return self.filter is None
 
     # Return whether this is a core requirement
     def core_requirement(self) -> bool:
+        if self.filter is None:
+            return False
         return self.filter.core
 
     # Saves the requirement in the database

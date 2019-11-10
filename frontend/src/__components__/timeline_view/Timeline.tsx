@@ -76,6 +76,25 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     return idx
   }
 
+  // takes the current program in state,
+  // assuming it has been modified,
+  // and updates it via an API call to /check_program.json
+  updateProgram(state: GeneratorResponse): void {
+    // let data = {
+    //   'program': this.state.program
+    // }
+
+    var request = new Request(API_ADDRESS + '/check_program.json', {
+      method: 'POST',
+      body: JSON.stringify(this.state.program),
+      headers: new Headers()
+    });
+
+    fetch(request)
+    .then(response => response.json())
+    .then(plan => this.setState(plan))
+  }
+
   removeCourse(sourceIdx: number, draggableId: string, startTermId: number, startYearId: number) {
     let startYearIdx = this.state.program.enrollments.findIndex(year => year.year === startYearId)
     let startYear = this.state.program.enrollments[startYearIdx]
@@ -103,10 +122,13 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
         ...this.state,
       }
 
+      // make modifications to state
       newState.courses = newCourses
       newState.program.enrollments[startYearIdx] = newYear
 
+      // set state, then update program in the new state
       this.setState(newState)
+      this.updateProgram(newState)
       
       
   }

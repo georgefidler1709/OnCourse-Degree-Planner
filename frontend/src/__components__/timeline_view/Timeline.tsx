@@ -242,9 +242,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     this.setState(newState)
   };
 
-  getCourseInfo(course_id: string) {
-    return this.state.courses[course_id]!
-  }
 
   render() {
 
@@ -301,7 +298,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                     <div>
                         <Container key={year_num}>
                           {terms.map(term => {
-                            const courses = term.course_ids.map(course_id => this.getCourseInfo(course_id));
+                            const courses = term.course_ids.map(course_id => this.state.courses[course_id]!);
                             const term_tag = term.term.toString() + " " + year_num.toString()
                             return <Term key={term_tag} termId={term_tag} courses={courses} />;
                           })}

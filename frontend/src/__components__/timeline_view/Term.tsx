@@ -40,8 +40,6 @@ function Term(props: TermProps) {
               let course_id = course.code.toString()
               return <Course 
                 {...course}
-                course_name={course.name}
-                course_id={course_id}
                 key={course_id} 
                 index={index} />
             }

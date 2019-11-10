@@ -61,7 +61,7 @@ class Generator(object):
             # if we can take the course in this term
             if not course.has_offering(term):
                 continue
-            if prog.unit_count(term) + course.units <= self.term_unit_cap:
+            if prog.unit_count_term(term) + course.units <= self.term_unit_cap:
                 if (course.prereqs_fulfilled(prog, term) and course.coreqs_fulfilled(prog, term)
                     and not course.excluded(prog, term)):
                     return term

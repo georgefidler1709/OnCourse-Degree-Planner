@@ -66,6 +66,15 @@ class Program(object):
     def intake_year(self) -> int:
         return self.degree.year
 
+    @property
+    # Return: final year for program
+    def final_year(self) -> int:
+        final = self.degree.year + self.degree.duration - 1
+        for enrol in self.courses:
+            if enrol.term.year > final:
+                final = enrol.term.year
+        return final
+
     def __repr__(self) -> str:
         return f"<Program degree={self.degree!r}, courses={self.courses!r}>"
 
@@ -83,13 +92,24 @@ class Program(object):
         self.courses.remove(course)
 
     # Input: optionally, a term for which to count units
-    # Return: how many units are currently taken in that term, or if no term specified,
-    # how many units in the program
-    def unit_count(self, term: Optional['term.Term']=None) -> int:
+    # Return: how many units are currently taken in that term
+    def unit_count_term(self, term: 'term.Term') -> int:
         units = 0
         for enrollment in self.courses:
-            if enrollment.term == term or term is None:
-                units += enrollment.course.units
+            if enrollment.term == term:
+                    units += enrollment.course.units
+        return units
+
+    # Input: optionally, a term up to which to count units
+    # Return: how many units are currently taken up to that term, from the specified course list,
+    # or if no term or courses specified, how many units in the program
+    def unit_count_total(self, term: Optional['term.Term']=None,
+                courses: Optional[List['course.Course']]=None) -> int:
+        units = 0
+        for enrollment in self.courses:
+            if term is None or enrollment.term < term:
+                if courses is None or enrollment.course in courses:
+                    units += enrollment.course.units
         return units
 
     # Return: a list of the courses taken in this program

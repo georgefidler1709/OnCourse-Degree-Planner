@@ -9,7 +9,7 @@ scrapes the handbook to get all of the information from it and put it in text fo
 
 """
 from bs4 import BeautifulSoup
-from typing import Callable, Dict
+from typing import Callable, Dict, List
 
 handbook_url = "https://www.handbook.unsw.edu.au"
 
@@ -49,6 +49,35 @@ class Scraper(object):
 
         return field_links
 
+    # Given the path for a field, gets a list of all of the course codes for that field
+    def get_course_codes_for_field(self, field_path: str, year: int, postgrad: bool=False) -> List[str]:
+        url = handbook_url + field_path
+
+        page = BeautifulSoup(self.get_webpage(url), 'html.parser')
+
+        if postgrad:
+            course_tab = page.find(id="subjectPostgraduate")
+        else:
+            course_tab = page.find(id="subjectUndergraduate")
+
+        assert course_tab is not None
+
+
+        codes = []
+        # The courses are all in divs with the below class
+        course_tags = course_tab.find_all('div', class_='a-browse-tile-content')
+
+        for course_tag in course_tags:
+            sections = course_tag.find_all('div', class_='section')
+            # Course code is in the first section (no specific id or class so no easier way to find
+            # it)
+            code_tag = sections[0]
+            code = code_tag.string
+            codes.append(code)
+
+        return codes
+
+
 
 def get_webpage(url):
     response = requests.get(url)
@@ -61,4 +90,7 @@ if __name__ == '__main__':
 
     scraper = Scraper(get_webpage)
 
-    print(scraper.get_course_field_links(2019))
+    links = scraper.get_course_field_links(2019)
+
+    comp_codes = scraper.get_course_codes_for_field(links['COMP'], 2019, postgrad=False)
+    print(comp_codes)

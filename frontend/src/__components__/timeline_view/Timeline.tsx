@@ -393,7 +393,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                               {year.term_plans.map(term => {
                                 const courses = term.course_ids.map(course_id => this.state.courses[course_id]!);
                                 const term_tag = term.term.toString() + " " + year.year.toString()
-                                return <Term key={term_tag} termId={term_tag} courses={courses} highlight={term.highlight} removeCourse={this.removeCourse}/>;
+                                return <Term key={term_tag} termId={term_tag} courses={courses} highlight={term.highlight} removeCourse={this.removeCourse.bind(this)}/>;
                               })}
                             </Container>
                         </div>

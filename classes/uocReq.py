@@ -22,7 +22,11 @@ from . import singleReq
 
 class UOCReq(singleReq.SingleReq):
 
+<<<<<<< HEAD
     def __init__(self, uoc: int, filter: Optional['courseFilter.CourseFilter']):
+=======
+    def __init__(self, uoc: int, filter: Optional['courseFilter.CourseFilter']=None):
+>>>>>>> master
         super().__init__()
         self.uoc = uoc
         self.filter = filter
@@ -44,7 +48,16 @@ class UOCReq(singleReq.SingleReq):
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
-        pass
+        if self.filter is None:
+            return program.unit_count_total(term) >= self.uoc
+
+        units = 0
+        courses = program.course_list()
+        for c in courses:
+            if self.filter.accepts_course(c, program.degree):
+                if (coreq and program.term_taken(c) <= term) or (program.term_taken(c) < term):
+                    units += c.units
+        return units >= self.uoc
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database

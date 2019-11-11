@@ -26,10 +26,18 @@ def load_degrees() -> str:
 @degrees_bp.route('/courses.json')
 def load_courses() -> str:
     '''
-    Loads a dict of degree choices
+    Loads a dict of course choices with just the course code and name
     '''
     uni = University(query_db)
     return jsonify(uni.get_simple_courses())
+
+@degrees_bp.route('/full_courses.json')
+def load_full_courses() -> str:
+    '''
+    Loads a dict of course choices with cource code, name, UOC, terms
+    '''
+    uni = University(query_db)
+    return jsonify(uni.get_full_courses())
 
 @degrees_bp.route('/<code>/gen_program.json')
 def generate_program(code: int) -> str:

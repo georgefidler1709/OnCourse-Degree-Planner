@@ -1,5 +1,6 @@
 create table Degrees (
     name varchar(100),
+    faculty varchar(100),
     code varchar(100) unique,
     id integer primary key
 );
@@ -17,12 +18,12 @@ create table Courses (
     level integer required check (level > 0),
 
     name varchar(100),
+    faculty varchar(100),
     units integer required check(units > 0),
 
     prereq integer references CourseRequirements(id),
     coreq integer references CourseRequirements(id),
     exclusion integer references CourseRequirements(id),
-    equivalent integer references CourseRequirements(id),
 
     id integer primary key,
 
@@ -115,6 +116,15 @@ create table CourseOfferings (
     session_year integer references Sessions(year),
     session_term integer references Sessions(term),
     primary key (course_id, session_year, session_term)
+);
+
+create table EquivalentCourses (
+    first_course integer references Courses(id),
+    second_course integer references Courses(id),
+
+    check (first_course < second_course),
+
+    primary key (first_course, second_course)
 );
 
 create table CourseRequirementTypes (

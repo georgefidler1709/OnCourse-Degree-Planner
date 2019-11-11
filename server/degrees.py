@@ -39,7 +39,7 @@ def generate_program(code: int) -> str:
         # TODO see if there's a more elegant way of doing this
         raise Exception(f"Degree code {code} is not in the database.")
 
-    gen = Generator(deg)  
+    gen = Generator(deg, uni)
 
     return jsonify(gen.generate().get_generator_response_api())
 

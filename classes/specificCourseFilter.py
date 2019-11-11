@@ -25,8 +25,15 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
     def core(self) -> bool:
         return True
 
+    @property
+    def field_filter(self) -> bool:
+        return False
+
     def __repr__(self) -> str:
         return f"<SpecificCourseFilter course={self.course!r}>"
+
+    def info(self) -> str:
+        return self.course.course_code
 
     # The name of the requirement for the database
     @property
@@ -35,8 +42,15 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
-        return course == self.course
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree',
+                eq: bool=True) -> bool:
+        if course == self.course:
+            return True
+        elif eq and self.course.equivalent(course):
+            # The entered course is equivalent to the one we want, so accept
+            return True
+        else:
+            return False
 
     # Saves the filter in the database
     # Return: the id of the filter in the database

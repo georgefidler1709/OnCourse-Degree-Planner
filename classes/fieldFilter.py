@@ -24,9 +24,16 @@ class FieldFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<FieldFilter field={self.field!r}>"
 
+    def info(self) -> str:
+        return f"Field {self.field}"
+
     @property
     def core(self) -> bool:
         return False
+
+    @property
+    def field_filter(self) -> bool:
+        return True
 
     # The name of the requirement for the database
     @property
@@ -35,7 +42,8 @@ class FieldFilter(courseFilter.CourseFilter):
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
-    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree',
+                eq: bool=True) -> bool:
         return course.subject == self.field
 
     # Saves the filter in the database

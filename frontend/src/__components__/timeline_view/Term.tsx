@@ -4,42 +4,59 @@ import { Droppable } from 'react-beautiful-dnd';
 import Course from './Course';
 import { Course as ApiCourse } from '../../Api';
 
+interface DroppableProps {
+  isDraggingOver: boolean;
+  highlight: boolean;
+}
+
 const Container = styled.div`
-  margin: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
-  width: 220px;
-
+  width: 400px;
+  text-align: center;
   display: flex;
   flex-direction: column;
 `;
 const Title = styled.h3`
   padding: 8px;
 `;
-const CourseList = styled.div`
+const CourseList = styled.div<DroppableProps>`
   padding: 8px;
   flex-grow: 1;
   min-height: 100px;
+  transition: background-color 0.2s ease;
+  background-color: ${props => {
+    if(props.highlight) {
+      return props.isDraggingOver ? 'green' : 'lightgreen'
+    } else return props.isDraggingOver ? 'lightgrey' : 'white'
+  }};
 `;
 
 interface TermProps {
   key: string;
   termId: string;
   courses: Array<ApiCourse>;
+  highlight: boolean;
 }
 
 function Term(props: TermProps) {
   return (
     <Container>
-      <Title>{props.termId}</Title>
+      <Title>{"T" + props.termId}</Title>
       <Droppable droppableId={props.termId}>
-        {provided => (
-          <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
+        {(provided, snapshot) => (
+          <CourseList 
+            innerRef={provided.innerRef} 
+            {...provided.droppableProps}
+            isDraggingOver={snapshot.isDraggingOver}
+            highlight={props.highlight}
+          >
             {props.courses.map((course, index) => {
               let course_id = course.code.toString()
               return <Course 
                 {...course}
-                course_id={course_id}
                 key={course_id} 
                 index={index} />
             }

@@ -27,6 +27,11 @@ class CourseFilter(ABC):
     def __repr__(self) -> str:
         return f"<CourseFilter>"
 
+    # Get info for the filter, for displaying in information for the degree
+    @abstractmethod
+    def info(self) -> str:
+        pass
+
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
@@ -51,10 +56,18 @@ class CourseFilter(ABC):
     def core(self) -> bool:
         pass
 
-    # Input: Course, program the student is enrolled in
+    # Returns whether this filters based on field
+    @property
+    @abstractmethod
+    def field_filter(self) -> bool:
+        pass
+
+    # Input: Course, program the student is enrolled in,
+    # eq to indicate whether equivalent courses should be considered
     # Return: Whether this course matches the filter
     @abstractmethod
-    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree') -> bool:
+    def accepts_course(self, course: 'course.Course', degree: 'degree.Degree',
+                eq: bool=True) -> bool:
         pass
 
     # Saves the filter in the database

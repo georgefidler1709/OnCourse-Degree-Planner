@@ -23,15 +23,16 @@ from . import program
 
 class Course(object):
 
-    def __init__(self, 
+    def __init__(self,
             subject: str,
             code: int,
             name: str,
             units: int,
             terms: List[term.Term],
-            prereqs: Optional['courseReq.CourseReq']=None, 
+            faculty: str,
+            prereqs: Optional['courseReq.CourseReq']=None,
             coreqs: Optional['courseReq.CourseReq']=None,
-            exclusions: Optional[List['course.Course']]=None, 
+            exclusions: Optional['courseReq.CourseReq']=None,
             equivalents: Optional[List['course.Course']]=None):
         # figure out inputs - database or variables?
         # to be assigned:
@@ -40,10 +41,15 @@ class Course(object):
         self.name = name
         self.units = units
         self.terms = terms
+        self.faculty = faculty
         self.prereqs = prereqs
         self.coreqs = coreqs
         self.exclusions = exclusions
-        self.equivalents = equivalents
+        self.equivalents: List['course.Course']
+        if equivalents is None:
+            self.equivalents = []
+        else:
+            self.equivalents = equivalents
 
     def __repr__(self) -> str:
         return f"<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>"
@@ -53,6 +59,10 @@ class Course(object):
                 "name": self.name,
                 "units": self.units,
                 "terms": [term.to_api() for term in self.terms],
+                "prereqs": self.prereqs.info(top_level=True) if self.prereqs else "",
+                "coreqs": self.coreqs.info(top_level=True) if self.coreqs else "",
+                "exclusions": self.exclusions.info(top_level=True, exclusion=True) if self.exclusions else "",
+                "equivalents": "\n".join(map(lambda x: x.course_code, self.equivalents))
                 }
 
     # returns the SUBJxxxx course code
@@ -103,13 +113,12 @@ class Course(object):
 
     # Input: The program of the student trying to take the course, the term they are taking it in
     # Return: whether any exclusion courses have been taken
-    def excluded(self, prog: 'program.Program', term: term.Term) -> bool:
+    def excluded(self, program: 'program.Program', term: term.Term) -> bool:
         if self.exclusions is None:
             return False
-        for course in self.exclusions:
-            if prog.enrolled(course) and prog.term_taken(course) <= term:
-                 return True
-        return False
+        else:
+            # Check with coreq=True as we don't want to take excluded courses in the same term
+            return self.exclusions.fulfilled(program, term, coreq=True)
 
     # Input: a course
     # Return: whether it is an equivalent course

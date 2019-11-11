@@ -66,7 +66,7 @@ def test_program_to_api():
     deg = uni.find_degree_number_code(3778)
     assert deg is not None
 
-    prog = Generator(deg).generate()
+    prog = Generator(deg, uni).generate()
     assert isinstance(prog, Program)
 
     api = prog.to_api()

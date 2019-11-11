@@ -127,7 +127,7 @@ class SearchCourses extends Component<{}, SearchCourseState> {
           text: <>{begin}<u>{mid}</u>{end}</>
         })
       }
-      else if (course.code.includes(query)) { // used to be degree.id.includes(query)
+      else if (course.code.toLowerCase().includes(query)) { // used to be degree.id.includes(query)
         searchResults.push({course, text: <>{course.name}</>})
       }
     }

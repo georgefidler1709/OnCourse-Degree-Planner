@@ -283,7 +283,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     return (
       <div>
         <Navbar bg="dark" variant="dark" id="navbar">
-          <Navbar.Brand href="#home">OnCourse</Navbar.Brand>
+          <Navbar.Brand href="/">OnCourse</Navbar.Brand>
           <Nav className="mr-auto">
           </Nav>
           <Button variant="outline-info"><i className="fa fa-cog"></i></Button>

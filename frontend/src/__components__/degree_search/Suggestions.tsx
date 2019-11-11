@@ -52,6 +52,7 @@ function CourseSuggestions(props: {courses: Array<CourseSearchResult>}) {
   const placement : Position = "right"
   let history = useHistory();
 
+  // TODO make this add a course to the CourseDropBox
   function handleClick(event: MouseEvent<HTMLButtonElement>) {
     history.push("/" + event.currentTarget.id.toString())
   }

@@ -1,3 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Rendering a course on the timeline renders correctly 1`] = `ShallowWrapper {}`;
+exports[`Rendering a course on the timeline can render correctly within a term 1`] = `ReactWrapper {}`;
+
+exports[`Rendering a course on the timeline draggable cannot render outside of a droppable 1`] = `ShallowWrapper {}`;
+
+exports[`Rendering a course on the timeline renders correctly within a DragDropContext 1`] = `ReactWrapper {}`;

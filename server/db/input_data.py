@@ -474,7 +474,7 @@ def compsci_course_reqs(db="university.db"):
 	compenrol = h.make_course_req("current", degree_id=3778)
 	enrol7001 = h.make_course_req("current", degree_id=7001)
 	enrol7002 = h.make_course_req("current", degree_id=7002)
-	# finalyear = h.make_course_req("year", )
+	finalyear = h.make_course_req("year", year=-1)
 
 	# COMP1511
 	h.courses_req_add("COMP1511", "ex", dpst1091)
@@ -527,7 +527,7 @@ def compsci_course_reqs(db="university.db"):
 	# or BE / BE (Hons) Bioinformatics Engineering or Computer Engineering.
 	# Software Engineering students enrol in SENG4920.
 	comp4920_or = h.combine_course_req("or", [comp2511, comp2911])
-	comp4920_and = h.combine_course_req("and", [comp4920_or, compenrol])
+	comp4920_and = h.combine_course_req("and", [comp4920_or, compenrol, finalyear])
 	h.courses_req_add("COMP4920", "pre", comp4920_and)
 	comp4920_ex = h.combine_course_req("and", [binf4920, seng4920, seng4921, comp2920])
 	h.courses_req_add("COMP4920", "ex", comp4920_ex)

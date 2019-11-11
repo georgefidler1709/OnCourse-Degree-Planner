@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render degree planning timeline view renders correctly 1`] = `ReactWrapper {}`;

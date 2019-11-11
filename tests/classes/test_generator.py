@@ -13,6 +13,7 @@ Test the functions defined in generator.py
 import pytest
 from typing import List
 
+<<<<<<< HEAD:classes/test_generator.py
 from . import courseReq
 from . import subjectReq
 from . import course
@@ -27,6 +28,20 @@ from . import term
 from . import generator
 from . import university
 from .query_db_offline import query_db
+=======
+from classes import courseReq
+from classes import subjectReq
+from classes import course
+from classes import courseFilter
+from classes import specificCourseFilter
+from classes import orFilter
+from classes import andReq
+from classes import minDegreeReq
+from classes import degree
+from classes import program
+from classes import term
+from classes import generator
+>>>>>>> master:tests/classes/test_generator.py
 
 # A simple mock university that just implements filter_courses, for the purpose of generator
 # WARNING high dependency with University.filter_courses() function
@@ -41,8 +56,12 @@ class MockUniversity():
     def reset_courses(self, courses: List['course.Course']) -> None:
         self.courses = courses
 
+<<<<<<< HEAD:classes/test_generator.py
     def filter_courses(self, desired_filter: 'courseFilter.CourseFilter', degree: 'degree.Degree',
         eq: bool=True) -> List['course.Course']:
+=======
+    def filter_courses(self, desired_filter: 'courseFilter.CourseFilter', degree: 'degree.Degree', eq: bool=True) -> List['course.Course']:
+>>>>>>> master:tests/classes/test_generator.py
         return list(filter(lambda x: desired_filter.accepts_course(x, degree, eq), self.courses))
 
 uni = MockUniversity()

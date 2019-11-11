@@ -244,7 +244,6 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         self.h.insert_degree(input_degree)
 
         filter_type_id = self.h.get_filter_type_id('GenEdFilter')
-        print(filter_type_id)
 
         mark_needed = 90
 
@@ -437,6 +436,7 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         course = self.university.find_course(input_course.course_code)
 
         assert course == input_course
+        assert len(course.equivalents) == 0
         assert course.faculty == input_course.faculty
 
     def test_multiple_courses(self):

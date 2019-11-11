@@ -51,6 +51,10 @@ export interface Course {
     name: string;
     units: number;
     terms: Array<Term>;
+    prereqs: string;
+    coreqs: string;
+    equivalents: string;
+    exclusions: string;
 }
 
 export interface GeneratorResponse {

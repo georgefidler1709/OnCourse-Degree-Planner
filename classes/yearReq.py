@@ -20,12 +20,14 @@ from . import singleReq
 
 class YearReq(singleReq.SingleReq):
 
+    # Input: The year of your degree you should be in to take this course
+    # This could be 1, 2, 3 etc or -1 for final year, -2 for second-last etc.
     def __init__(self, year: int):
         super().__init__()
         self.year = year
 
     def __repr__(self) -> str:
-        return "<YearReq year={self.year!r}>"
+        return f"<YearReq year={self.year!r}>"
 
     def info(self, top_level: bool=False, exclusion: bool=False) -> str:
         return f"Year {self.year} in your degree"
@@ -38,10 +40,13 @@ class YearReq(singleReq.SingleReq):
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
-        if term.year == program.intake_year + self.year - 1:
+        if self.year < 0:
+            if term.year == program.final_year + self.year + 1:
+                return True
+            return False
+        elif term.year == program.intake_year + self.year - 1:
             return True
         return False
-        # TODO handle "Final Year" requirement
 
 
     # Saves the requirement in the database

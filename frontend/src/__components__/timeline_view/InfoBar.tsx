@@ -49,10 +49,8 @@ function InfoBar(props: InfoBarProps) {
         })}
       </body>
       <footer>
-        <CourseDropBox type="Remove"/>
         <CourseDropBox type="Add"/>
       </footer>
-      
     </Container>
   );
 }

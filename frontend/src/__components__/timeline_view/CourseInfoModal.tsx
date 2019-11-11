@@ -9,6 +9,7 @@ const handbook = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}
 interface CourseInfoModalProps {
   index: number;
   onHide: () => void;
+  removeCourse: (s: string) => void; 
   show: boolean;
   code: string;
   name: string;
@@ -72,6 +73,10 @@ function CourseInfoModal(props: CourseInfoModalProps) {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>
+          <Button onClick={() => {
+            props.onHide()
+            props.removeCourse(props.code)
+          }}>Remove</Button>
         </Modal.Footer>
       </Modal>
     );

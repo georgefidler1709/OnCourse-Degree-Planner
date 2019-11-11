@@ -15,6 +15,7 @@ const mockCourse = {
 }
 
 console.error = jest.fn();
+console.warn = jest.fn();
 
 describe('Rendering a course on the timeline', () => {
     it('draggable cannot render outside of a droppable', () => {

@@ -466,7 +466,9 @@ def compsci_course_reqs(db="university.db"):
 	math1251 = h.make_course_req("completed", course="MATH1251")
 
 	compenrol = h.make_course_req("current", degree_id=3778)
-	# finalyear = h.make_course_req("year", )
+	enrol7001 = h.make_course_req("current", degree_id=7001)
+	enrol7002 = h.make_course_req("current", degree_id=7002)
+	finalyear = h.make_course_req("year", year=-1)
 
 	# COMP1511
 	h.courses_req_add("COMP1511", "ex", dpst1091)
@@ -507,7 +509,7 @@ def compsci_course_reqs(db="university.db"):
 	# Prerequisite: COMP1531, and COMP2521 or COMP1927,
 	# and enrolled in a BSc Computer Science major with completion of 102 uoc.
 	comp3900_or = h.combine_course_req("or", [comp2521, comp1927])
-	comp3900_uoc = h.make_course_req("uoc", uoc_amount_required=102)
+	comp3900_uoc = h.make_course_req("uoc", uoc_amount_required=120)
 	comp3900_and = h.combine_course_req("and", [comp3900_or, compenrol, comp3900_uoc])
 	h.courses_req_add("COMP3900", "pre", comp3900_and)
 	comp3900_ex = h.combine_course_req("and", [comp9596, comp9945, comp9900])
@@ -519,7 +521,7 @@ def compsci_course_reqs(db="university.db"):
 	# or BE / BE (Hons) Bioinformatics Engineering or Computer Engineering.
 	# Software Engineering students enrol in SENG4920.
 	comp4920_or = h.combine_course_req("or", [comp2511, comp2911])
-	comp4920_and = h.combine_course_req("and", [comp4920_or, compenrol])
+	comp4920_and = h.combine_course_req("and", [comp4920_or, compenrol, finalyear])
 	h.courses_req_add("COMP4920", "pre", comp4920_and)
 	comp4920_ex = h.combine_course_req("and", [binf4920, seng4920, seng4921, comp2920])
 	h.courses_req_add("COMP4920", "ex", comp4920_ex)
@@ -538,7 +540,7 @@ def compsci_course_reqs(db="university.db"):
 	math1131_ex = h.combine_course_req("and", [dpst1013, math1151, math1031, math1141, econ2291, math1011, econ1202])
 	h.courses_req_add("MATH1131", "ex", math1131_ex)
 	print("... MATH1131")
-	
+
 	# MATH1141
 	math1141_ex = h.combine_course_req("and", [dpst1013, math1151, math1031, math1131, econ2291, math1011, econ1202])
 	h.courses_req_add("MATH1141", "ex", math1141_ex)
@@ -580,7 +582,19 @@ def compsci_course_reqs(db="university.db"):
 	comp3821_eq = h.combine_course_req("and", [comp3121, comp9801])
 	print("... COMP3821")
 
+	# DPST1013
+	dpst1013_ex = h.combine_course_req("and", [math1131, math1151, math1031, math1141, econ2291, math1011, econ1202])
+	h.courses_req_add("DPST1013", "ex", dpst1013_ex)
+	dpst_or = h.combine_course_req("or", [enrol7001, enrol7002])
+	h.courses_req_add("DPST1013", "pre", dpst_or)
+	print("... DPST1013")
 
+	
+	# DPST1014
+	dpst1014_ex = h.combine_course_req("and", [math1231, math1241, math1251, math1021])
+	h.courses_req_add("DPST1014", "ex", dpst1014_ex)
+	h.courses_req_add("DPST1014", "pre", dpst_or)
+	print("... DPST1014")
 
 	h.close()
 

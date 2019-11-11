@@ -222,7 +222,7 @@ class University(object):
     # Input: A filter string [ITEMISE THESE HERE]
     # Return: List of courses that match the requested filter
     def filter_courses(self, course_filter: 'courseFilter.CourseFilter',
-                degree: 'degree.Degree') -> List['course.Course']:
+                degree: 'degree.Degree', eq: bool=True) -> List['course.Course']:
         # TODO: Smart loading that only loads relevant courses from the database
         response = self.query_db('''select id from Courses''')
         course_ids = list(map(lambda x: x[0], response))
@@ -232,7 +232,7 @@ class University(object):
         courses = list(map(lambda x: self.load_course(x), course_ids))
 
         self.assert_no_nulls(*courses)
-        matching = list(filter(lambda x: x is not None and course_filter.accepts_course(x, degree),
+        matching = list(filter(lambda x: x is not None and course_filter.accepts_course(x, degree, eq),
             courses))
 
         self.assert_no_nulls(*matching)

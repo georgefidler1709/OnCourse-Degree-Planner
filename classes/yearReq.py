@@ -29,6 +29,9 @@ class YearReq(singleReq.SingleReq):
     def __repr__(self) -> str:
         return f"<YearReq year={self.year!r}>"
 
+    def info(self, top_level: bool=False, exclusion: bool=False) -> str:
+        return f"Year {self.year} in your degree"
+
     @property
     def requirement_name(self) -> str:
         return "YearRequirement"

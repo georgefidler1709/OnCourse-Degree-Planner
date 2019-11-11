@@ -3,7 +3,7 @@ import React, { Component, ChangeEvent } from 'react'
 import {Suggestions, CourseSuggestions} from './Suggestions'
 import {API_ADDRESS} from '../../Constants'
 import {SimpleDegrees, SimpleDegree, CourseList, Course} from '../../Api'
-import {SearchResult, CourseSearchResult, addCallbackType} from '../../Types'
+import {SearchResult, CourseSearchResult} from '../../Types'
 
 interface SearchState {
   searchResults : Array<SearchResult>;
@@ -18,7 +18,7 @@ interface SearchCourseState {
 }
 
 interface SearchCourseProps {
-  add_event: addCallbackType;
+  add_event: (course: Course) => void;
 }
 
 class Search extends Component<{}, SearchState> {

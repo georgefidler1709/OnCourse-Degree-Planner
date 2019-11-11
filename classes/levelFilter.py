@@ -25,6 +25,9 @@ class LevelFilter(CourseFilter):
     def __repr__(self) -> str:
         return f"<LevelFilter level={self.level!r}>"
 
+    def info(self) -> str:
+        return f"Level {self.level}"
+
     @property
     def filter_name(self) -> str:
         return "LevelFilter"

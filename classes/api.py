@@ -61,6 +61,10 @@ class Course(TypedDict):
     name: str;
     units: int;
     terms: List[Term];
+    prereqs: str;
+    coreqs: str;
+    exclusions: str;
+    equivalents: str;
 
 CourseList = List[Course]
 

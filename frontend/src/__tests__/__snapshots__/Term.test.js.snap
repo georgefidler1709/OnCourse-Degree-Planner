@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Rendering a term on the timeline renders correctly 1`] = `ShallowWrapper {}`;
+exports[`Won't render correctly outside of a DragDropContext Will render correctly within a DropDropContext 1`] = `ReactWrapper {}`;
+
+exports[`Won't render correctly outside of a DragDropContext renders correctly 1`] = `ShallowWrapper {}`;

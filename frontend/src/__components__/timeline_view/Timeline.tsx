@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
 import '@atlaskit/css-reset';
 import styled from 'styled-components';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
 import { GeneratorResponse, YearPlan, TermPlan, Course } from '../../Api';
 import {API_ADDRESS} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
+import html2canvas from 'html2canvas'
+import { saveAs } from 'file-saver'
+import { TimelineState, YearState, TermState } from '../../Types'
 
 const TimeLineContext = styled.div`
   display: flex;
@@ -19,37 +22,69 @@ const Container = styled.div`
 
 const LColumn = styled.div`
   float: left;
-  width: 60%;
+  width: 70%;
   padding: 10px;
+  min-height: 10000px;
 `;
 
 const RColumn = styled.div`
   float: left;
-  width: 40%;
+  width: 30%;
   padding: 10px;
+  min-height: 10000px;
 `;
 
-interface TimelineState extends GeneratorResponse { 
-  add_course: Course; // course to add, usually undefined
-}
+const NavButton = styled(Button)`
+  margin-left: 8px;
+  margin-right: 8px;
+`;
 
 class Timeline extends Component<RouteComponentProps<{degree: string}>, TimelineState> {
 
   constructor(props: RouteComponentProps<{degree: string}>) {
     super(props)
 
-    // bind function to component instance so you can pass it
-    this.addCourse = this.addCourse.bind(this);
-
     let code = props.match.params["degree"]
     fetch(API_ADDRESS + `/${code}/gen_program.json`)
     .then(response => response.json())
     .then(plan => {
-      this.setState(plan) // TODO might need to make sure add_course is undefined here
+      this.setState(plan) 
+      this.addMissingTerms()
     })
   }
 
-  // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
+  addMissingTerms() {
+    const program = this.state.program
+    // fill in required years for the program duration
+    let timeline: Array<number> = []
+    let year_max: number = program.enrollments[0].year
+    for(let i = 0; i < program.duration; ++i) {
+      timeline.push(year_max++)
+    }
+
+    timeline.forEach((year_num, year_index) => {
+      if(year_index >= program.enrollments.length) this.addYear(year_num)
+      let year = program.enrollments[year_index]
+        // fill in the minimum 3 terms per year
+      const required_terms = [1,2,3]
+      let cur_term = 0
+      // fills in terms such that 'required terms' are always present and always in order
+      // but other terms can be inserted in between
+      year.term_plans.forEach(term => {
+        let new_term = required_terms.findIndex(req => req === term.term)
+        if(new_term > cur_term) {
+          for( ; cur_term < new_term; ++cur_term) this.addTerm(cur_term + 1, year, year_index);
+        } 
+        if(new_term !== -1) ++cur_term
+      })
+      // if any 'required terms' were missing from the end, add them on here
+      for( ; cur_term < required_terms.length; ++cur_term) this.addTerm(cur_term + 1, year, year_index);
+    })
+
+    console.log(this.state)
+  }
+
+    // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
   // sets this.state.add_course to be the Course passed in
   addCourse(course: Course) {
     let newState = {
@@ -62,13 +97,14 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   }
 
-  addTerm(newTermId: number, year: YearPlan, yearIdx: number) {
+
+  addTerm(newTermId: number, year: YearState, yearIdx: number) {
     let idx = year.term_plans.findIndex(term => term.term > newTermId)
     if(idx === -1) {
-      year.term_plans.push({course_ids: [], term: newTermId})
+      year.term_plans.push({course_ids: [], term: newTermId, highlight: false})
       idx = year.term_plans.length - 1
     }
-    else year.term_plans.splice(idx, 0, {course_ids: [], term: newTermId})
+    else year.term_plans.splice(idx, 0, {course_ids: [], term: newTermId, highlight: false})
 
     let newState = {
       ...this.state,
@@ -114,10 +150,21 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     .then(plan => this.setState({'program': plan}))
   }
 
-  removeCourse(sourceIdx: number, draggableId: string, startTermId: number, startYearId: number) {
-    let startYearIdx = this.state.program.enrollments.findIndex(year => year.year === startYearId)
+  removeCourse(draggableId: string) {
+
+    let sourceIdx = -1
+    let startTermIdx = -1
+    let startYearIdx = -1
+
+    startYearIdx = this.state.program.enrollments.findIndex(year => {
+      startTermIdx = year.term_plans.findIndex(term => {
+        sourceIdx = term.course_ids.findIndex(id => id === draggableId)
+        return sourceIdx !== -1
+      })
+      return startTermIdx !== -1
+    })
+
     let startYear = this.state.program.enrollments[startYearIdx]
-    let startTermIdx = startYear.term_plans.findIndex(term => term.term === startTermId)
     let startTerm = startYear.term_plans[startTermIdx]
 
     const newCourseIds = Array.from(startTerm.course_ids)
@@ -135,7 +182,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       newYear.term_plans[startTermIdx] = newTerm
 
       let newCourses = this.state.courses
-      delete newCourses['draggableId']
+      delete newCourses[draggableId]
 
       let newState = {
         ...this.state,
@@ -148,15 +195,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       // set state, then update program in the new state
       this.setState(newState)
       this.updateProgram(newState)
-      
-      
   }
 
   newCourse(draggableId: string, destYearIdx: number, destTermIdx: number, destIdx: number) {
     // when you drag something from "add" box to somewhere on a term
-
-    // TODO get the course id, doesn't seem right
-    let course_code = draggableId
 
     // TODO add this course to your state
     let newState = {
@@ -176,6 +218,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   }
 
   onDragEnd = (result: DropResult) => {
+
     const { destination, source, draggableId } = result
     console.log(destination)
     console.log(source)
@@ -183,11 +226,13 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     // if not dragged into a term, don't change state
     if(!destination) {
+      this.resetTermHighlights()
       return;
     }
     // if location not changed, don't change state
     if(destination.droppableId === source.droppableId &&
       destination.index === source.index) {
+      this.resetTermHighlights()
       return;
     }
 
@@ -300,25 +345,84 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       newYear.term_plans[startTermIdx] = newTerm
       newState.program.enrollments[startYearIdx] = newYear;
     }
-
     this.setState(newState)
+    this.resetTermHighlights()
   };
 
-  getCourseInfo(course_id: string) {
-    return this.state.courses[course_id]!
+
+  resetTermHighlights() {
+    let newEnrollments = this.state.program.enrollments.map(year => {
+      let newYear = {
+        ...year,
+      }
+      newYear.term_plans = year.term_plans.map(term => {
+        let newTerm = {...term}
+        newTerm.highlight = false
+        return newTerm
+      })
+
+      return newYear
+    })
+
+    let newState = {
+      ...this.state,
+      program: {
+        ...this.state.program,
+        enrollments: newEnrollments
+      }
+    }
+    this.setState(newState)
   }
 
-  render() {
+  isCourseOffered(courseId: string, term: TermState, year: YearState) {
+    const termsOffered = this.state.courses[courseId].terms
+    const isOffered = termsOffered.findIndex(offering => 
+      offering.term === term.term && offering.year === year.year
+    )
+    return isOffered !== -1
+  }
 
-    if(!this.state) return <div></div>
-    const program = this.state.program
-    console.log(this.state)
-    // fill in required years for the program duration
-    let timeline: Array<number> = []
-    let year: number = program.enrollments[0].year
-    for(let i = 0; i < program.duration; ++i) {
-      timeline.push(year++)
+  onDragStart = (start: DragStart) => {
+    const { draggableId } = start
+
+    let newEnrollments = this.state.program.enrollments.map(year => {
+      let newYear = {
+        ...year,
+      }
+      newYear.term_plans = year.term_plans.map(term => {
+        let newTerm = {...term}
+        newTerm.highlight = this.isCourseOffered(draggableId, term, year)
+        return newTerm
+      })
+
+      return newYear
+    })
+
+    let newState = {
+      ...this.state,
+      program: {
+        ...this.state.program,
+        enrollments: newEnrollments
+      }
     }
+
+    this.setState(newState)
+  }
+
+  savePlan() {
+    html2canvas(document.getElementById('timeline')!).then(function(canvas) {
+      canvas.toBlob(function(blob) {
+        // Generate file download
+        saveAs(blob!, "plan.png");
+    });
+  });
+  }
+
+  
+  render() {
+    if(!this.state) return <div></div>
+
+    const program = this.state.program
 
     return (
       <div>
@@ -326,61 +430,47 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
           <Navbar.Brand href="/">OnCourse</Navbar.Brand>
           <Nav className="mr-auto">
           </Nav>
-          <Button variant="outline-info"><i className="fa fa-cog"></i></Button>
+          <NavButton id="save" variant="outline-info" onClick={this.savePlan}><i className="fa fa-save"></i></NavButton>
+          <NavButton variant="outline-info"><i className="fa fa-cog"></i></NavButton>
         </Navbar>
         <br />
           <TimeLineContext>
-            <DragDropContext onDragEnd={this.onDragEnd}>
+            <DragDropContext 
+              onDragEnd={this.onDragEnd}
+              onDragStart={this.onDragStart}
+            >
               { 
                 <div>
-                  <LColumn> {
-                timeline.map((year_num, year_index) => {
-                  let year: YearPlan  = {term_plans: [], year: year_num}
-                  if(year_index < program.enrollments.length) {
-                    year = program.enrollments[year_index]
-                  } 
-    
-                  // fill in the minimum 3 terms per year
-                  const required_terms = [1,2,3]
-                  let cur_term = 0
-                  let terms : Array<TermPlan> = []
-    
-                  // fills in terms such that 'required terms' are always present and always in order
-                  // but other terms can be inserted in between
-                  year.term_plans.forEach(term => {
-                    let new_term = required_terms.findIndex(req => req === term.term)
-                    if(new_term > cur_term) {
-                      for( ; cur_term < new_term; ++cur_term) terms.push({course_ids: [], term: required_terms[cur_term]})
-                    } 
-                    if(new_term === cur_term) ++cur_term
-                    terms.push(term)
-                  })
-    
-                  // if any 'required terms' were missing from the end, add them on here
-                  for( ; cur_term < required_terms.length; ++cur_term) terms.push({course_ids: [], term: required_terms[cur_term]})
-    
-                  return (
-                    <div>
-                        <Container key={year_num}>
-                          {terms.map(term => {
-                            const courses = term.course_ids.map(course_id => this.getCourseInfo(course_id));
-                            const term_tag = term.term.toString() + " " + year_num.toString()
-                            return <Term key={term_tag} termId={term_tag} courses={courses} />;
-                          })}
-                        </Container>
-                    </div>
-                  )
-                })
-              } </LColumn> 
-                <RColumn>
-                  <InfoBar 
-                    degree_id={this.state.program.id}
-                    degree_name={this.state.program.name}
-                    degree_reqs={this.state.program.reqs}
-                    add_course={this.state.add_course}
-                    add_event={this.addCourse}
-                  />
-                </RColumn>
+                  <LColumn id="timeline"> {
+                    program.enrollments.map(year => (
+                        <div>
+                            <Container key={year.year}>
+                              {year.term_plans.map(term => {
+                                const courses = term.course_ids.map(course_id => this.state.courses[course_id]!);
+                                const term_tag = term.term.toString() + " " + year.year.toString()
+                                return <Term 
+                                          key={term_tag} 
+                                          termId={term_tag} 
+                                          courses={courses} 
+                                          highlight={term.highlight} 
+                                          removeCourse={this.removeCourse.bind(this)}/>;
+                              })}
+                            </Container>
+                        </div>
+                      )
+                    )
+                  } </LColumn> 
+                  <RColumn>
+                    <InfoBar 
+                      degree_id={this.state.program.id}
+                      degree_name={this.state.program.name}
+                      degree_reqs={this.state.program.reqs}
+                      add_course={this.state.add_course}
+                      add_event={this.addCourse.bind(this)}
+                      remove_course={this.removeCourse.bind(this)}
+
+                    />
+                  </RColumn>
                 </div>
               }  
             </DragDropContext>

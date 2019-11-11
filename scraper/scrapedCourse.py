@@ -18,7 +18,7 @@ class ScrapedCourse(object):
             year: int,
             overview: str,
             equivalents: List[str],
-            exlusions: List[str],
+            exclusions: List[str],
             requirements: str,
             faculty: str,
             school: str,

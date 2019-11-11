@@ -1,11 +1,33 @@
 import React from 'react'
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import { DragDropContext } from 'react-beautiful-dnd';
 import Term from '../__components__/timeline_view/Term';
 
+console.error = jest.fn();
 
-describe('Rendering a term on the timeline', () => {
+describe("Won't render correctly outside of a DragDropContext", () => {
     it('renders correctly', () => {
-      const wrapper = shallow(<Term key={"T2 2019"} termId={"T2 2019"} courses={[{subject: "COMP", code: "1511"}]} />);
+      const wrapper = shallow(<Term key="test" termId="2 2019" courses={[]}/>);
       expect(wrapper).toMatchSnapshot();
+    });
+
+    it('Will render correctly within a DropDropContext', () => {
+      const wrapper = mount(
+      <DragDropContext>
+      {
+        <Term key="test" termId="2 2019" courses={[]}/>
+      }
+      </DragDropContext>);
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('Shows correct term title', () => {
+      const wrapper = mount(
+      <DragDropContext>
+      {
+        <Term key="test" termId="2 2019" courses={[]}/>
+      }
+      </DragDropContext>);
+      expect(wrapper.find(Term).first().text()).toBe('T2 2019')
     });
 });

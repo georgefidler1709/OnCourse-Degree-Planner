@@ -137,7 +137,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       newYear.term_plans[startTermIdx] = newTerm
 
       let newCourses = this.state.courses
-      delete newCourses['draggableId']
+      delete newCourses[draggableId]
 
       let newState = {
         ...this.state,
@@ -147,8 +147,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       newState.program.enrollments[startYearIdx] = newYear
 
       this.setState(newState)
-      
-      
   }
 
   onDragEnd = (result: DropResult) => {

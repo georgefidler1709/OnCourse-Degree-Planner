@@ -530,6 +530,22 @@ class University(object):
                                  from Courses''')
         return [{'id': i['letter_code'] + i['number_code'], 'name': i['name']} for i in response];
 
+    # get the course information with terms so you can display to user when courses are offered
+    def get_full_courses(self) -> api.CourseList:
+        # get the ids of all courses in database
+        responses = self.query_db('''select id from Courses''')
+
+        # now load the full course data using load_course logic
+        res: api.CourseList = []
+
+        for r in responses:
+            new = self.load_course(r['id'], need_requirements=False)
+            if new is None: continue
+            res.append(new.to_api())
+
+        return res
+
+
     # Assert that a sequence of arguments contains no None values
     def assert_no_nulls(self, *args):
         for i, arg in enumerate(args):

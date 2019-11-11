@@ -62,6 +62,8 @@ class Course(TypedDict):
     units: int;
     terms: List[Term];
 
+CourseList = List[Course]
+
 class GeneratorResponse(TypedDict):
     program: Program;
     courses: Dict[str, Course];

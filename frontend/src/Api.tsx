@@ -53,6 +53,8 @@ export interface Course {
     terms: Array<Term>;
 }
 
+export type CourseList = Array<Course>;
+
 export interface GeneratorResponse {
     program: Program;
     courses: {[index: string]: Course};

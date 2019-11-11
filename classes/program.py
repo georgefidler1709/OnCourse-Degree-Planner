@@ -145,8 +145,10 @@ class Program(object):
 
             new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
             if key.filter:
-                new = {'units': val, 'filter_type': key.filter.simple_name,
-                    'info': key.filter.info}
+                new = {'units': val, 
+                    'filter_type': key.filter.simple_name,
+                    'info': key.filter.info
+                }
 
             reqs.append(new)                
         

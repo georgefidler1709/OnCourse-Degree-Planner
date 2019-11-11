@@ -22,11 +22,7 @@ from . import singleReq
 
 class UOCReq(singleReq.SingleReq):
 
-<<<<<<< HEAD
-    def __init__(self, uoc: int, filter: Optional['courseFilter.CourseFilter']):
-=======
     def __init__(self, uoc: int, filter: Optional['courseFilter.CourseFilter']=None):
->>>>>>> master
         super().__init__()
         self.uoc = uoc
         self.filter = filter

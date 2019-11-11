@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import CourseDropBox from "./CourseDropBox"
 import { SearchCourses } from "../degree_search/Search"
 import { Course } from "../../Api"
+import { addCallbackType } from "../../Types"
 
 const Container = styled.div`
   margin: 8px;
@@ -34,7 +35,7 @@ interface InfoBarProps {
   degree_name: string;
   degree_reqs: Array<Req>;
   add_course: Course; // Course to add
-  add_event(course: Course): Function;// function to call when you want to add a course
+  add_event: addCallbackType;// function to call when you want to add a course
 }
 
 function InfoBar(props: InfoBarProps) {

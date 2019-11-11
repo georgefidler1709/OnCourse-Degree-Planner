@@ -30,7 +30,7 @@ function CourseDropBox(props: DropBoxProps) {
   // TODO spawn a course here using props
   // then change onDragEnd
 
-  let contents = provided.placeholder;
+  let contents = { provided => provided.placeholder };
   if (props.add_course !== undefined) {
     contents = <Course 
       course_name={props.add_course.name}

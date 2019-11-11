@@ -2,7 +2,7 @@ import React, {MouseEvent} from "react";
 import Button from "react-bootstrap/Button";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
-import {Position, SearchResult, CourseSearchResult} from '../../Types'
+import {Position, SearchResult, CourseSearchResult, addCallbackType} from '../../Types'
 
 
 function Suggestions(props: {degrees: Array<SearchResult>}) {
@@ -45,12 +45,12 @@ function Suggestions(props: {degrees: Array<SearchResult>}) {
 export default Suggestions;
 export { Suggestions };
 
-// interface CourseSuggestionsProps {
-//   courses: Array<CourseSearchResult>;
-//   add_event(course: Course): any;
-// }
+interface CourseSuggestionsProps {
+  courses: Array<CourseSearchResult>;
+  add_event: addCallbackType;
+}
 
-function CourseSuggestions(props: {courses: Array<CourseSearchResult>, add_event(course: Course): Function}) {
+function CourseSuggestions(props: CourseSuggestionsProps) {
 
   const year : string = "2020"
   const handbook : string = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}/`

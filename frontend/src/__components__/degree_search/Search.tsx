@@ -3,7 +3,7 @@ import React, { Component, ChangeEvent } from 'react'
 import {Suggestions, CourseSuggestions} from './Suggestions'
 import {API_ADDRESS} from '../../Constants'
 import {SimpleDegrees, SimpleDegree, CourseList, Course} from '../../Api'
-import {SearchResult, CourseSearchResult} from '../../Types'
+import {SearchResult, CourseSearchResult, addCallbackType} from '../../Types'
 
 interface SearchState {
   searchResults : Array<SearchResult>;
@@ -18,12 +18,12 @@ interface SearchCourseState {
 }
 
 interface SearchCourseProps {
-  add_event(course: Course): Function;
+  add_event: addCallbackType;
 }
 
-class Search extends Component<SearchCourseProps, SearchState> {
-  constructor(props: SearchCourseProps) {
-    super(props) // TODO add_event not being passed into props
+class Search extends Component<{}, SearchState> {
+  constructor(props: {}) {
+    super(props)
     this.state = {
       searchResults: [],
       degrees: [],
@@ -97,8 +97,8 @@ class Search extends Component<SearchCourseProps, SearchState> {
 
 export default Search
 
-class SearchCourses extends Component<{}, SearchCourseState> {
-  constructor(props: {}) {
+class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
+  constructor(props: SearchCourseProps) {
     super(props)
     this.state = {
       searchResults: [],

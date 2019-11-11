@@ -12,3 +12,5 @@ export interface CourseSearchResult {
 	text: JSX.Element
 	code: JSX.Element
 }
+
+export type addCallbackType = (course: Course) => void;

@@ -116,10 +116,22 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     return idx
   }
 
-  removeCourse(sourceIdx: number, draggableId: string, startTermId: number, startYearId: number) {
-    let startYearIdx = this.state.program.enrollments.findIndex(year => year.year === startYearId)
+
+  removeCourse(draggableId: string) {
+
+    let sourceIdx = -1
+    let startTermIdx = -1
+    let startYearIdx = -1
+
+    startYearIdx = this.state.program.enrollments.findIndex(year => {
+      startTermIdx = year.term_plans.findIndex(term => {
+        sourceIdx = term.course_ids.findIndex(id => id === draggableId)
+        return sourceIdx !== -1
+      })
+      return startTermIdx !== -1
+    })
+
     let startYear = this.state.program.enrollments[startYearIdx]
-    let startTermIdx = startYear.term_plans.findIndex(term => term.term === startTermId)
     let startTerm = startYear.term_plans[startTermIdx]
 
     const newCourseIds = Array.from(startTerm.course_ids)
@@ -171,7 +183,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     // get year and term for the start and dest of a drag
     let [startTermId, startYearId] = source.droppableId.split(" ").map(s => parseInt(s))
     if(destination.droppableId === "Remove") {
-      this.removeCourse(source.index, draggableId, startTermId, startYearId)
+      this.removeCourse(draggableId)
       this.resetTermHighlights()
       return
     }
@@ -381,7 +393,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                               {year.term_plans.map(term => {
                                 const courses = term.course_ids.map(course_id => this.state.courses[course_id]!);
                                 const term_tag = term.term.toString() + " " + year.year.toString()
-                                return <Term key={term_tag} termId={term_tag} courses={courses} highlight={term.highlight}/>;
+                                return <Term key={term_tag} termId={term_tag} courses={courses} highlight={term.highlight} removeCourse={this.removeCourse}/>;
                               })}
                             </Container>
                         </div>

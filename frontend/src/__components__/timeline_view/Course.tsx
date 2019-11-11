@@ -29,6 +29,7 @@ interface CourseProps {
   coreqs: string;
   equivalents: string;
   exclusions: string;
+  removeCourse: (s : string) => void;
 }
 
 function Course(props: CourseProps) {

@@ -9,8 +9,10 @@ Test the functions defined in scraper.py
 
 """
 
+import os
 import pytest
 import requests
+import sys
 
 from scraper import scraper
 
@@ -129,4 +131,40 @@ class TestScraper_GetCourseCodes(TestScraper):
         results = self.scraper.get_course_codes(2020, field='ACCT', postgrad=True)
         assert len(results) == 1
         assert 'ACCT1501' in results
+
+class TestScraper_GetCourse(TestScraper):
+    def test_get_comp1511(self):
+        page = open(os.path.join(sys.path[0], 'comp1511_handbook.html')).read()
+
+        path = '/undergraduate/courses/2020/comp1511'
+
+        self.requests.add_page(path, page)
+
+        scraped_course = self.scraper.get_course(2020, 'COMP1511')
+
+        assert scraped_course.year == 2020
+        assert sorted(scraped_course.equivalents) == ['COMP1917', 'DPST1091']
+        assert scraped_course.exclusions == ['DPST1091']
+        assert scraped_course.requirements == ''
+        assert scraped_course.faculty == 'Faculty of Engineering'
+        assert scraped_course.school == 'School of Computer Science and Engineering'
+        assert scraped_course.study_level == 'Undergraduate'
+        assert scraped_course.terms == 'Term 1, Term 2, Term 3'
+
+    def test_get_math1231(self):
+        page = open(os.path.join(sys.path[0], 'math1231_handbook.html')).read()
+
+        path = '/undergraduate/courses/2020/math1231'
+
+        self.requests.add_page(path, page)
+
+        scraped_course = self.scraper.get_course(2020, 'MATH1231')
+
+        assert scraped_course.year == 2020
+        assert sorted(scraped_course.equivalents) == ['DPST1014']
+        assert scraped_course.requirements == 'Prerequisite: MATH1131 or DPST1013 or MATH1141'
+        assert scraped_course.faculty == 'Faculty of Science'
+        assert scraped_course.school == 'School of Mathematics & Statistics'
+        assert scraped_course.study_level == 'Undergraduate'
+        assert scraped_course.terms == 'Term 1, Term 2, Term 3'
 

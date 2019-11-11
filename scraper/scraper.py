@@ -13,6 +13,8 @@ import json
 import requests
 from typing import Callable, Dict, List, Optional
 
+from . import scrapedCourse
+
 handbook_url = "https://www.handbook.unsw.edu.au"
 
 
@@ -71,6 +73,12 @@ class Scraper(object):
         codes = list(map(lambda x: x['code'], course_objects))
 
         return codes
+
+    # Scrape the given course for the given year and return it as a ScrapedCourse
+    # (a course with all of the information unparsed in string form)
+    def get_course(self, year: int, course_code: str,
+            postgrad: bool=False) -> scrapedCourse.ScrapedCourse:
+        return scrapedCourse.ScrapedCourse(0, "", [], [], "", "", "", "", "")
 
 
 

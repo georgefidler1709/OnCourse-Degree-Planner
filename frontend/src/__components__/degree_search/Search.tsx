@@ -117,19 +117,34 @@ class SearchCourses extends Component<{}, SearchCourseState> {
     let searchResults: Array<CourseSearchResult> = [];
 
     function processCourse(course: Course) {
+      // see if query matches part of name or course code
       let index = course.name.toLowerCase().indexOf(query);
+      let textRes = <>{course.name}</>
       if (index !== -1) {
         let begin = course.name.substring(0, index);
         let mid = course.name.substring(index, index + query.length);
-        let end = course.name.substring(index + query.length)
+        let end = course.name.substring(index + query.length);
+        textRes = <>{begin}<u>{mid}</u>{end}</>;
+      }
+
+      let codeIndex = course.code.toLowerCase().indexOf(query);
+      let codeRes = <>{course.code}</>
+      if (codeIndex !== -1) {
+        let beginC = course.code.substring(0, codeIndex);
+        let midC = course.code.substring(codeIndex, codeIndex + query.length);
+        let endC = course.code.substring(codeIndex + query.length);
+        codeRes = <>{beginC}<u>{midC}</u>{endC}</>;
+      }
+
+      if (index !== -1 || codeIndex !== -1) {
+        // matches at least one, display result
         searchResults.push({
           course,
-          text: <>{begin}<u>{mid}</u>{end}</>
+          text: textRes,
+          code: codeRes
         })
       }
-      else if (course.code.toLowerCase().includes(query)) { // used to be degree.id.includes(query)
-        searchResults.push({course, text: <>{course.name}</>})
-      }
+
     }
 
     if (query.length !== 0) {

@@ -10,4 +10,5 @@ export interface SearchResult {
 export interface CourseSearchResult {
 	course: Course
 	text: JSX.Element
+	code: JSX.Element
 }

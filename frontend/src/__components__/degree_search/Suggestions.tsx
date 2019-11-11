@@ -72,7 +72,7 @@ function CourseSuggestions(props: {courses: Array<CourseSearchResult>}) {
         value={r.course.code}
         onClick={handleClick}
       >
-        <h1 className="suggestion-code">{r.course.code}</h1>
+        <h1 className="suggestion-code">{r.code}</h1>
         <p className="suggestion-name">{r.text}</p>
       </Button>
     </SuggestionInfoHover>

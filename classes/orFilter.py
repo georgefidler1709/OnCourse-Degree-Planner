@@ -31,9 +31,12 @@ class OrFilter(courseFilter.CourseFilter):
     @property
     def field_filter(self) -> bool:
         return any(map(lambda x: x.field_filter, self.filters))
-    
+
     def __repr__(self) -> str:
         return f"<OrFilter filters={self.filters!r}>"
+
+    def info(self) -> str:
+        return "(" + " OR ".join(map(lambda x: x.info(), self.filters)) + ")"
 
     # The name of the requirement for the database
     @property

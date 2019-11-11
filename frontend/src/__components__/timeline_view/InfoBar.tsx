@@ -12,6 +12,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
+  position: fixed;
 `;
 
 const Title = styled.h3`
@@ -48,10 +49,8 @@ function InfoBar(props: InfoBarProps) {
         })}
       </body>
       <footer>
-        <CourseDropBox type="Remove"/>
         <CourseDropBox type="Add"/>
       </footer>
-      
     </Container>
   );
 }

@@ -2,11 +2,10 @@ import React, {MouseEvent} from "react";
 import Button from "react-bootstrap/Button";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
-import {Position} from '../../Types'
-import {SimpleDegrees} from '../../Api'
+import {Position, SearchResult} from '../../Types'
 
 
-function Suggestions(props: {degrees: SimpleDegrees}) {
+function Suggestions(props: {degrees: Array<SearchResult>}) {
 
   const year : string = "2020"
   const handbook : string = `https://www.handbook.unsw.edu.au/undergraduate/programs/${year}/`
@@ -15,29 +14,26 @@ function Suggestions(props: {degrees: SimpleDegrees}) {
 
   function handleClick(event: MouseEvent<HTMLButtonElement>) {
     history.push("/" + event.currentTarget.id.toString())
-    console.log(event.currentTarget);
-    console.log(event.currentTarget.value);
-    console.log(event.currentTarget.id.toString());
   }
   
   const options = props.degrees.map((r,i) => (
     <SuggestionInfoHover
       content={
-        <a href={handbook + r.id}>More Info</a>
+        <a href={handbook + r.degree.id}>More Info</a>
       }
       placement={placement}
       delay={200}
-      key={r.id}
+      key={r.degree.id}
     >
       <Button
         variant="light"
         className="suggestion"
-        id={r.id}
-        value={r.name}
+        id={r.degree.id}
+        value={r.degree.id}
         onClick={handleClick}
       >
-        <h1 className="suggestion-code">{r.id}</h1>
-        <p className="suggestion-name">{r.name}</p>
+        <h1 className="suggestion-code">{r.degree.id}</h1>
+        <p className="suggestion-name">{r.text}</p>
       </Button>
     </SuggestionInfoHover>
     

@@ -8,6 +8,7 @@ import { GeneratorResponse, YearPlan, TermPlan} from '../../Api';
 import {API_ADDRESS} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
+import { SearchCourses } from "../degree_search/Search"
 
 const TimeLineContext = styled.div`
   display: flex;
@@ -343,7 +344,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
               }  
             </DragDropContext>
           </TimeLineContext>
-        </div>
+          <SearchCourses/>
+      </div>
     );
   }
 }

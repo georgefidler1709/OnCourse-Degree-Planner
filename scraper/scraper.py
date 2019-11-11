@@ -78,6 +78,7 @@ class Scraper(object):
         return codes
 
 
+import requests
 
 def get_webpage(url):
     response = requests.get(url)
@@ -86,8 +87,6 @@ def get_webpage(url):
     return response.text
 
 if __name__ == '__main__':
-    import requests
-
     scraper = Scraper(get_webpage)
 
     links = scraper.get_course_field_links(2019)

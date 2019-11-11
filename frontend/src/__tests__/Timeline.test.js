@@ -10,6 +10,60 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+describe('onDragEnd method', () => {
+  it('will preserve changing of the order of courses within a term', async() => {
+    const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
+    await sleep(1000);
+    wrapper.update();
+
+    // expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]).toBe("COMP1511")
+    // expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids).toHaveLength(3)
+    // expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[2]).toBe("MATH1081")
+    // wrapper.instance().onDragEnd({
+    //   destination: {index: 2, droppableId: "1 2019"},
+    //   source: {index: 0, droppableId: "1 2019"},
+    //   draggableId: "COMP1511",
+    // })
+    // expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]).toBe("MATH1131")
+    // expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[2]).toBe("COMP1511")
+
+    // reverse operation
+    wrapper.instance().onDragEnd({
+      destination: {index: 0, droppableId: "1 2019"},
+      source: {index: 2, droppableId: "1 2019"},
+      draggableId: "COMP1511",
+    })
+  });
+
+  it('will preserve changing the term of a course', async() => {
+    const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
+    await sleep(1000);
+    wrapper.update();
+
+    expect(wrapper.state().program.enrollments[0].term_plans[0]).toBe('f')
+    expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]).toBe("COMP1511")
+    expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids).toHaveLength(3)
+    expect(wrapper.state().program.enrollments[0].term_plans[1].course_ids[0]).toBe("COMP1521")
+    expect(wrapper.state().program.enrollments[0].term_plans[1].course_ids).toHaveLength(2)
+    wrapper.instance().onDragEnd({
+      destination: {index: 0, droppableId: "2 2019"},
+      source: {index: 0, droppableId: "1 2019"},
+      draggableId: "COMP1511",
+    })
+    expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]).toBe("MATH1131")
+    expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids).toHaveLength(2)
+    expect(wrapper.state().program.enrollments[0].term_plans[1].course_ids[0]).toBe("COMP1511")
+    expect(wrapper.state().program.enrollments[0].term_plans[1].course_ids).toHaveLength(3)
+
+    // reverse operation
+    wrapper.instance().onDragEnd({
+      destination: {index: 0, droppableId: "1 2019"},
+      source: {index: 0, droppableId: "2 2019"},
+      draggableId: "COMP1511",
+    })
+  });
+});
+
 describe('removeCourse method', () => {
   it('has the course to be removed before removal', async() => {
     const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
@@ -60,16 +114,6 @@ describe('onDragStart method', () => {
     expect(wrapper.state().program.enrollments[0].term_plans[1].highlight).toBeTruthy()
   });
 });
-
-// describe('onDragEnd method', () => {
-//   it('will preserve changing of the order of courses within a term', async() => {
-//     const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
-//     await sleep(1000);
-//     wrapper.update();
-
-//     //expect(wrapper.state().program.enrollments[0].term_plans[0].).toBeFalsy()
-//   });
-// });
 
 
 describe('Render degree planning timeline view', () => {

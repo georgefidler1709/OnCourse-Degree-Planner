@@ -23,14 +23,14 @@ const LColumn = styled.div`
   float: left;
   width: 70%;
   padding: 10px;
-  min-height: 500px;
+  min-height: 10000px;
 `;
 
 const RColumn = styled.div`
   float: left;
   width: 30%;
   padding: 10px;
-  min-height: 500px;
+  min-height: 10000px;
 `;
 
 const NavButton = styled(Button)`
@@ -152,6 +152,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   onDragEnd = (result: DropResult) => {
 
     const { destination, source, draggableId } = result
+    console.log(destination)
+    console.log(source)
+    console.log(draggableId)
 
     // if not dragged into a term, don't change state
     if(!destination) {

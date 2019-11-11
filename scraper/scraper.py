@@ -78,7 +78,27 @@ class Scraper(object):
     # (a course with all of the information unparsed in string form)
     def get_course(self, year: int, course_code: str,
             postgrad: bool=False) -> scrapedCourse.ScrapedCourse:
-        return scrapedCourse.ScrapedCourse(0, "", [], [], "", "", "", "", "")
+        if postgrad:
+            study_level = 'postgraduate'
+        else:
+            study_level = 'undergraduate'
+
+        lowercase_code = course_code.lower()
+
+        url = handbook_url + f'/{study_level}/courses/{year}/{lowercase_code}'
+
+        page = BeautifulSoup(self.get_webpage(url), 'html.parser')
+
+        # Get overview
+        overview_wrapper = page.find(id='subject-intro')
+        overview_tag = overview_wrapper.find(class_='readmore__wrapper')
+        overview = overview_tag.encode_contents()
+        print(overview)
+
+
+        return scrapedCourse.ScrapedCourse(year=year, code=course_code, overview=overview, equivalents=[],
+                exclusions=[], requirements="", faculty="", school="", study_level=study_level,
+                terms="", units=0)
 
 
 
@@ -93,8 +113,14 @@ if __name__ == '__main__':
 
     fields = scraper.get_course_fields(2019)
 
+    course = scraper.get_course(2020, "COMP1511")
+
+    '''
+
     for field in fields:
         print("Field is", field)
 
         codes = scraper.get_course_codes_for_field(2019, field, postgrad=False)
         print(field + ":", codes)
+
+    '''

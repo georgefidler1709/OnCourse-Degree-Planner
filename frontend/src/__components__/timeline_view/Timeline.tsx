@@ -152,20 +152,19 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       
   }
 
-  newCourse(draggableId: string, destYearIdx: number, destTermIdx: number) {
+  newCourse(draggableId: string, destYearIdx: number, destTermIdx: number, destIdx: number) {
     // when you drag something from "add" box to somewhere on a term
 
     // TODO get the course id, doesn't seem right
-    let course_code = this.courses[draggableId].course_id
+    let course_code = draggableId
 
     // TODO add this course to your state
     let newState = {
       ...this.state,
     }
 
-    // push this course onto the right term plan
-    // TODO but what if you dragged it into the middle of something? this pops to the end always
-    newState.program.enrollments[destYearIdx].term_plans[destTermIdx].course_ids.push(course_code)
+    // push this course onto the right term plan (in the right idx)
+    newState.program.enrollments[destYearIdx].term_plans[destTermIdx].course_ids.splice(destIdx, 0, draggableId)
 
     // add this to courses? I don't think we need to cuz we only send program to backend
     // let newCourses = this.state.courses
@@ -194,16 +193,19 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     // get year and term for the start and dest of a drag
     let [startTermId, startYearId] = source.droppableId.split(" ").map(s => parseInt(s))
-    if(destination.droppableId === "Remove") {
-      this.removeCourse(source.index, draggableId, startTermId, startYearId)
-      return
-    }
     let [destTermId, destYearId] = destination.droppableId.split(" ").map(s => parseInt(s))
 
     let destYearIdx = this.state.program.enrollments.findIndex(year => year.year === destYearId)
-    // if destination year does not exist in state (i.e. it's empty), add it
-    if(destYearIdx === -1) destYearIdx = this.addYear(destYearId)
     let destYear = this.state.program.enrollments[destYearIdx]
+
+    let destTermIdx = destYear.term_plans.findIndex(term => term.term === destTermId)
+    let destTerm = destYear.term_plans[destTermIdx]
+
+    // see if you are adding a course to the TimeLineContext
+    if (source.droppableId === "Add") {
+      this.newCourse(draggableId, destYearIdx, destTermIdx, destination.index)
+      return
+    }
 
     let startYearIdx = destYearIdx
     let startYear = destYear
@@ -212,22 +214,11 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       startYear = this.state.program.enrollments[startYearIdx]
     }
 
-    let destTermIdx = destYear.term_plans.findIndex(term => term.term === destTermId)
-    // if destination term does not exist in state (i.e. it's empty), add it
-    if(destTermIdx === -1) destTermIdx = this.addTerm(destTermId, destYear, destYearIdx)
-    let destTerm = destYear.term_plans[destTermIdx]
-
     let startTermIdx = destTermIdx
     let startTerm = destTerm
     if(startYearId !== destYearId || startTermId !== destTermId) {
       startTermIdx = startYear.term_plans.findIndex(term => term.term === startTermId)
       startTerm = startYear.term_plans[startTermIdx]
-    }
-
-    // see if you are adding a course to the TimeLineContext
-    if (source.droppableId === "Add") {
-      this.newCourse(draggableId, destYearIdx, destTermIdx)
-      return
     }
 
     let newState = {

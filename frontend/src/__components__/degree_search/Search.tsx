@@ -1,13 +1,19 @@
 import fetch from 'node-fetch';
 import React, { Component, ChangeEvent } from 'react'
-import Suggestions from './Suggestions'
+import {Suggestions, CourseSuggestions} from './Suggestions'
 import {API_ADDRESS} from '../../Constants'
-import {SimpleDegrees, SimpleDegree, CourseList} from '../../Api'
-import {SearchResult} from '../../Types'
+import {SimpleDegrees, SimpleDegree, CourseList, Course} from '../../Api'
+import {SearchResult, CourseSearchResult} from '../../Types'
 
 interface SearchState {
   searchResults : Array<SearchResult>;
   degrees: SimpleDegrees
+  oldQuery: string
+}
+
+interface SearchCourseState {
+  searchResults : Array<CourseSearchResult>;
+  courses: CourseList
   oldQuery: string
 }
 
@@ -87,30 +93,58 @@ class Search extends Component<{}, SearchState> {
 
 export default Search
 
-// similar to search but for courses to add
-class SearchCourses extends Component<{}, {query: string; courses: CourseList}> {
+class SearchCourses extends Component<{}, SearchCourseState> {
   constructor(props: {}) {
     super(props)
     this.state = {
-      query: '',
+      searchResults: [],
       courses: [],
+      oldQuery: '',
     }
-    this.handleInputChange = this.handleInputChange.bind(this)
-  }
 
-  getCourses(): void {
     fetch(API_ADDRESS + '/full_courses.json')
-    .then(response => response.json())
-    .then(courses => {
-      this.setState({ courses })
-    })
+      .then(response => response.json())
+      .then(courses => {
+        this.setState({ courses })
+      })
+      .catch((error) => console.error(error));
+
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
-    this.setState({
-      query: event.target.value
-    })
-    this.getCourses()
+    let query = event.target.value.toLowerCase();
+    let searchResults: Array<CourseSearchResult> = [];
+
+    function processCourse(course: Course) {
+      let index = course.name.toLowerCase().indexOf(query);
+      if (index !== -1) {
+        let begin = course.name.substring(0, index);
+        let mid = course.name.substring(index, index + query.length);
+        let end = course.name.substring(index + query.length)
+        searchResults.push({
+          course,
+          text: <>{begin}<u>{mid}</u>{end}</>
+        })
+      }
+      else if (course.code.includes(query)) { // used to be degree.id.includes(query)
+        searchResults.push({course, text: <>{course.name}</>})
+      }
+    }
+
+    if (query.length !== 0) {
+      if (this.state.oldQuery.length !== 0 && (query.startsWith(this.state.oldQuery) || query.endsWith(this.state.oldQuery))) {
+        for (let result of this.state.searchResults) {
+          processCourse(result.course);
+        }
+      }
+      else {
+        for (let course of this.state.courses) {
+          processCourse(course);
+        }
+      }
+    }
+    this.setState({ searchResults, oldQuery: query });
   }
 
   render() {
@@ -120,14 +154,13 @@ class SearchCourses extends Component<{}, {query: string; courses: CourseList}> 
           <input
             className="search-bar"
             placeholder="Search for a course..."
-            value={this.state.query}
+            //value={this.state.query}
             onChange={this.handleInputChange}
           />
         </form>
       {
-        this.state.courses.length > 0 && 
-        this.state.query.length > 0 /*&&
-        <Suggestions degrees={this.state.degrees} />*/
+        this.state.searchResults.length > 0 &&
+        <CourseSuggestions courses={this.state.searchResults} />
         }
       </div>
       )

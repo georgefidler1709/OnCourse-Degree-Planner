@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
+import { Course } from "../../Api"
 
 const Container = styled.div`
   margin: 8px;
@@ -22,16 +23,30 @@ const CourseList = styled.div`
 
 interface DropBoxProps {
   type: string;
+  add_course: Course;
 }
 
 function CourseDropBox(props: DropBoxProps) {
+  // TODO spawn a course here using props
+  // then change onDragEnd
+
+  let contents = provided.placeholder;
+  if (props.add_course !== undefined) {
+    contents = <Course 
+      course_name={props.add_course.name}
+      course_id={props.add_course.code.toString()}
+      key={prop.add_course.code}
+      index={0} // only one element in the list
+    />;
+  }
+
   return (
     <Container>
       <Title>{props.type}</Title>
       <Droppable droppableId={props.type}>
         {provided => (
           <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
-            {provided.placeholder}
+            {contents}
           </CourseList>
         )}
       </Droppable>

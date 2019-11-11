@@ -17,9 +17,13 @@ interface SearchCourseState {
   oldQuery: string
 }
 
-class Search extends Component<{}, SearchState> {
-  constructor(props: {}) {
-    super(props)
+interface SearchCourseProps {
+  add_event(course: Course): Function;
+}
+
+class Search extends Component<SearchCourseProps, SearchState> {
+  constructor(props: SearchCourseProps) {
+    super(props) // TODO add_event not being passed into props
     this.state = {
       searchResults: [],
       degrees: [],
@@ -175,7 +179,7 @@ class SearchCourses extends Component<{}, SearchCourseState> {
         </form>
       {
         this.state.searchResults.length > 0 &&
-        <CourseSuggestions courses={this.state.searchResults} />
+        <CourseSuggestions courses={this.state.searchResults} add_event={this.props.add_event}/>
         }
       </div>
       )

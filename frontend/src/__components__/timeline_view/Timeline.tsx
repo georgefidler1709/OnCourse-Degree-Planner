@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
-import { GeneratorResponse, YearPlan, TermPlan} from '../../Api';
+import { GeneratorResponse, YearPlan, TermPlan, Course } from '../../Api';
 import {API_ADDRESS} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
@@ -29,18 +29,38 @@ const RColumn = styled.div`
   padding: 10px;
 `;
 
-interface TimelineState extends GeneratorResponse { }
+interface TimelineState extends GeneratorResponse { 
+  add_course: Course; // course to add, usually undefined
+}
 
 class Timeline extends Component<RouteComponentProps<{degree: string}>, TimelineState> {
 
   constructor(props: RouteComponentProps<{degree: string}>) {
     super(props)
+
+    // bind function to component instance so you can pass it
+    this.addCourse = this.addCourse.bind(this);
+
     let code = props.match.params["degree"]
     fetch(API_ADDRESS + `/${code}/gen_program.json`)
     .then(response => response.json())
     .then(plan => {
-      this.setState(plan)
+      this.setState(plan) // TODO might need to make sure add_course is undefined here
     })
+  }
+
+  // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
+  // sets this.state.add_course to be the Course passed in
+  addCourse(course: Course) {
+    let newState = {
+      ...this.state,
+    }
+
+    newState.add_course = course
+
+    this.setState(newState)
+
+    // TODO when it shows up in the box code onDragEnd
   }
 
   addTerm(newTermId: number, year: YearPlan, yearIdx: number) {
@@ -337,6 +357,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                     degree_id={this.state.program.id}
                     degree_name={this.state.program.name}
                     degree_reqs={this.state.program.reqs}
+                    add_course={this.state.add_course}
+                    add_event={this.addCourse}
                   />
                 </RColumn>
                 </div>

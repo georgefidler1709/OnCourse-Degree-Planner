@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import CourseDropBox from "./CourseDropBox"
 import { SearchCourses } from "../degree_search/Search"
+import { Course } from "../../Api"
 
 const Container = styled.div`
   margin: 8px;
@@ -31,7 +32,9 @@ interface Req {
 interface InfoBarProps {
   degree_id: number;
   degree_name: string;
-  degree_reqs: Array<Req>
+  degree_reqs: Array<Req>;
+  add_course: Course; // Course to add
+  add_event(course: Course): Function;// function to call when you want to add a course
 }
 
 function InfoBar(props: InfoBarProps) {
@@ -55,8 +58,8 @@ function InfoBar(props: InfoBarProps) {
       </body>
       <footer>
         <CourseDropBox type="Remove"/>
-        <CourseDropBox type="Add"/>
-        <SearchCourses />
+        <CourseDropBox type="Add" add_course={props.add_course}/>
+        <SearchCourses add_event={props.add_event}/>
       </footer>
       
     </Container>

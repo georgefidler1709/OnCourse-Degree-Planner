@@ -45,17 +45,17 @@ function Suggestions(props: {degrees: Array<SearchResult>}) {
 export default Suggestions;
 export { Suggestions };
 
-function CourseSuggestions(props: {courses: Array<CourseSearchResult>}) {
+// interface CourseSuggestionsProps {
+//   courses: Array<CourseSearchResult>;
+//   add_event(course: Course): any;
+// }
+
+function CourseSuggestions(props: {courses: Array<CourseSearchResult>, add_event(course: Course): Function}) {
 
   const year : string = "2020"
   const handbook : string = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}/`
   const placement : Position = "right"
   let history = useHistory();
-
-  // TODO make this add a course to the CourseDropBox
-  function handleClick(event: MouseEvent<HTMLButtonElement>) {
-    history.push("/" + event.currentTarget.id.toString())
-  }
   
   const options = props.courses.map((r,i) => (
     <SuggestionInfoHover
@@ -71,13 +71,12 @@ function CourseSuggestions(props: {courses: Array<CourseSearchResult>}) {
         className="suggestion"
         id={r.course.code}
         value={r.course.code}
-        onClick={handleClick}
+        onClick={() => props.add_event(r.course)}
       >
         <h1 className="suggestion-code">{r.code}</h1>
         <p className="suggestion-name">{r.text}</p>
       </Button>
     </SuggestionInfoHover>
-    // TODO might want to add a suggestion_name, etc. line for the course name
     
   ));
 

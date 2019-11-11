@@ -37,7 +37,7 @@ def load_full_courses() -> str:
     Loads a dict of course choices with cource code, name, UOC, terms
     '''
     uni = University(query_db)
-    return jsonify(uni.get_full_courses())
+    return jsonify(uni.get_full_courses()) # WARNING change this function to put prereqs in when you merge prereqs and Course has more info
 
 @degrees_bp.route('/<code>/gen_program.json')
 def generate_program(code: int) -> str:

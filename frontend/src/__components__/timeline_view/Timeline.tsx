@@ -60,7 +60,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     this.setState(newState)
 
-    // TODO when it shows up in the box code onDragEnd
   }
 
   addTerm(newTermId: number, year: YearPlan, yearIdx: number) {
@@ -153,6 +152,30 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       
   }
 
+  newCourse(draggableId: string, destYearIdx: number, destTermIdx: number) {
+    // when you drag something from "add" box to somewhere on a term
+
+    // TODO get the course id, doesn't seem right
+    let course_code = this.courses[draggableId].course_id
+
+    // TODO add this course to your state
+    let newState = {
+      ...this.state,
+    }
+
+    // push this course onto the right term plan
+    // TODO but what if you dragged it into the middle of something? this pops to the end always
+    newState.program.enrollments[destYearIdx].term_plans[destTermIdx].course_ids.push(course_code)
+
+    // add this to courses? I don't think we need to cuz we only send program to backend
+    // let newCourses = this.state.courses
+    // need to add this course to this.state.courses? or is it already in there?
+
+    // TODO set state and update program
+    this.setState(newState)
+    this.updateProgram(newState)
+  }
+
   onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result
     console.log(destination)
@@ -199,6 +222,12 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     if(startYearId !== destYearId || startTermId !== destTermId) {
       startTermIdx = startYear.term_plans.findIndex(term => term.term === startTermId)
       startTerm = startYear.term_plans[startTermIdx]
+    }
+
+    // see if you are adding a course to the TimeLineContext
+    if (source.droppableId === "Add") {
+      this.newCourse(draggableId, destYearIdx, destTermIdx)
+      return
     }
 
     let newState = {

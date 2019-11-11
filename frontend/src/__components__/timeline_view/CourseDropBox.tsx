@@ -28,8 +28,6 @@ interface DropBoxProps {
 }
 
 function CourseDropBox(props: DropBoxProps) {
-  // TODO spawn a course here using props
-  // then change onDragEnd
 
   if (props.add_course !== undefined) {
     // make a course and put it in the box

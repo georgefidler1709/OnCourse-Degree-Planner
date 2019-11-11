@@ -4,6 +4,7 @@ import CourseDropBox from '../__components__/timeline_view/CourseDropBox';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 console.error = jest.fn();
+console.warn = jest.fn();
 
 describe('Render degree planning timeline view', () => {
   it('renders correctly', () => {

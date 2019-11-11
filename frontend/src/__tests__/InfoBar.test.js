@@ -4,6 +4,7 @@ import Timeline from '../__components__/timeline_view/Timeline';
 import InfoBar from '../__components__/timeline_view/InfoBar';
 
 console.error = jest.fn();
+console.warn = jest.fn();
 console.log = jest.fn();
 
 const mockProgram = {

@@ -4,6 +4,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import Term from '../__components__/timeline_view/Term';
 
 console.error = jest.fn();
+console.warn = jest.fn();
 
 describe("Won't render correctly outside of a DragDropContext", () => {
     it('renders correctly', () => {

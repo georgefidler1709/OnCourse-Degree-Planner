@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
-import { Course } from "../../Api"
+import { Course as ApiCourse } from "../../Api";
+import Course from './Course';
 
 const Container = styled.div`
   margin: 8px;
@@ -23,35 +24,49 @@ const CourseList = styled.div`
 
 interface DropBoxProps {
   type: string;
-  add_course: Course;
+  add_course: ApiCourse;
 }
 
 function CourseDropBox(props: DropBoxProps) {
   // TODO spawn a course here using props
   // then change onDragEnd
 
-  let contents = { provided => provided.placeholder };
   if (props.add_course !== undefined) {
-    contents = <Course 
-      course_name={props.add_course.name}
-      course_id={props.add_course.code.toString()}
-      key={prop.add_course.code}
-      index={0} // only one element in the list
-    />;
+    // make a course and put it in the box
+    return (
+      <Container>
+        <Title>{props.type}</Title>
+        <Droppable droppableId={props.type}>
+          {provided => (
+            <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
+              <Course
+                course_name={props.add_course.name}
+                course_id={props.add_course.code.toString()}
+                key={props.add_course.code}
+                index={0}
+              />
+            </CourseList>
+          )}
+        </Droppable>
+      </Container>
+    );
+  } else {
+    // placeholder box
+    return (
+      <Container>
+        <Title>{props.type}</Title>
+        <Droppable droppableId={props.type}>
+          {provided => (
+            <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
+              {provided.placeholder}
+            </CourseList>
+          )}
+        </Droppable>
+      </Container>
+    );
+
   }
 
-  return (
-    <Container>
-      <Title>{props.type}</Title>
-      <Droppable droppableId={props.type}>
-        {provided => (
-          <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
-            {contents}
-          </CourseList>
-        )}
-      </Droppable>
-    </Container>
-  );
 }
 
 export default CourseDropBox

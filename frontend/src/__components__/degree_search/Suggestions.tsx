@@ -55,7 +55,6 @@ function CourseSuggestions(props: CourseSuggestionsProps) {
   const year : string = "2020"
   const handbook : string = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}/`
   const placement : Position = "right"
-  let history = useHistory();
   
   const options = props.courses.map((r,i) => (
     <SuggestionInfoHover

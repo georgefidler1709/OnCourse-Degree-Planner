@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import CourseDropBox from "./CourseDropBox"
+import { SearchCourses } from "../degree_search/Search"
 
 const Container = styled.div`
   margin: 8px;
@@ -55,6 +56,7 @@ function InfoBar(props: InfoBarProps) {
       <footer>
         <CourseDropBox type="Remove"/>
         <CourseDropBox type="Add"/>
+        <SearchCourses />
       </footer>
       
     </Container>

@@ -1,7 +1,7 @@
 import React, { Component, ChangeEvent } from 'react'
 import Suggestions from './Suggestions'
 import {API_ADDRESS} from '../../Constants'
-import {SimpleDegrees} from '../../Api'
+import {SimpleDegrees, CourseList} from '../../Api'
 
 class Search extends Component<{}, {query: string; degrees: SimpleDegrees}> {
   constructor(props: {}) {
@@ -57,16 +57,16 @@ class SearchCourses extends Component<{}, {query: string; courses: CourseList}> 
     super(props)
     this.state = {
       query: '',
-      degrees: [],
+      courses: [],
     }
     this.handleInputChange = this.handleInputChange.bind(this)
   }
 
-  getDegrees(): void {
-    fetch(API_ADDRESS + '/degrees.json')
+  getCourses(): void {
+    fetch(API_ADDRESS + '/full_courses.json')
     .then(response => response.json())
-    .then(degrees => {
-      this.setState({ degrees })
+    .then(courses => {
+      this.setState({ courses })
     })
   }
 
@@ -74,7 +74,7 @@ class SearchCourses extends Component<{}, {query: string; courses: CourseList}> 
     this.setState({
       query: event.target.value
     })
-    this.getDegrees()
+    this.getCourses()
   }
 
   render() {
@@ -83,19 +83,19 @@ class SearchCourses extends Component<{}, {query: string; courses: CourseList}> 
         <form>
           <input
             className="search-bar"
-            placeholder="Search for your degree..."
+            placeholder="Search for a course..."
             value={this.state.query}
             onChange={this.handleInputChange}
           />
         </form>
       {
-        this.state.degrees.length > 0 && 
-        this.state.query.length > 0 &&
-        <Suggestions degrees={this.state.degrees} />
+        this.state.courses.length > 0 && 
+        this.state.query.length > 0 /*&&
+        <Suggestions degrees={this.state.degrees} />*/
         }
       </div>
       )
   }
 }
 
-export default SearchCourses
+export { SearchCourses };

@@ -28,7 +28,6 @@ describe('removeCourse method', () => {
 });
 
 describe('addMissingTerms method', () => {
-
   it('will add missing term', async() => {
     const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
     await sleep(1000);
@@ -49,6 +48,28 @@ describe('addMissingTerms method', () => {
     expect(wrapper.state().program.enrollments).toHaveLength(3)
   });
 });
+
+describe('onDragStart method', () => {
+  it('will highlight terms which contain an offering for the course being dragged', async() => {
+    const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
+    await sleep(1000);
+    wrapper.update();
+
+    wrapper.instance().onDragStart({draggableId: "COMP3121"})
+    expect(wrapper.state().program.enrollments[0].term_plans[0].highlight).toBeFalsy()
+    expect(wrapper.state().program.enrollments[0].term_plans[1].highlight).toBeTruthy()
+  });
+});
+
+// describe('onDragEnd method', () => {
+//   it('will preserve changing of the order of courses within a term', async() => {
+//     const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
+//     await sleep(1000);
+//     wrapper.update();
+
+//     //expect(wrapper.state().program.enrollments[0].term_plans[0].).toBeFalsy()
+//   });
+// });
 
 
 describe('Render degree planning timeline view', () => {

@@ -158,15 +158,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     })
   }
 
-  // adds the offering info of this new course code i.e. "COMP1511"
-  // into the this.state.courses
-  // updateCourses(state: TimelineState): void {
-  //   // TODO backend fetch request for the new course info
-
-  //   // append it to state.courses
-  //   // set the state
-  // }
-
   removeCourse(draggableId: string) {
     let sourceIdx = -1
     let startTermIdx = -1
@@ -239,8 +230,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   newCourse(draggableId: string, destYearIdx: number, destTermIdx: number, destIdx: number) {
     // when you drag something from "add" box to somewhere on a term
-
-    // TODO add this course to your state
     let newState = {
       ...this.state,
     }
@@ -248,11 +237,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     // push this course onto the right term plan (in the right idx)
     newState.program.enrollments[destYearIdx].term_plans[destTermIdx].course_ids.splice(destIdx, 0, draggableId)
 
-    // add this to courses? I don't think we need to cuz we only send program to backend
-    // let newCourses = this.state.courses
-    // need to add this course to this.state.courses? or is it already in there?
-
-    // TODO set state and update program
     this.setState(newState)
     this.updateProgram(newState)
   }
@@ -415,9 +399,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   }
 
   isCourseOffered(courseId: string, term: TermState, year: YearState) {
-    console.log(courseId)
-    console.log(this.state.courses)
-    console.log(this.state.courses[courseId])
     const termsOffered = this.state.courses[courseId].terms
     const isOffered = termsOffered.findIndex(offering => 
       offering.term === term.term && offering.year === year.year
@@ -430,13 +411,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     // get offering info for this new course
     if (source.droppableId == "Add") {
-      console.log("adding a course")
-      console.log(draggableId)
       await this.getCourseInfo(draggableId);
-      console.log("done adding a course")
-      console.log(this.state.courses)
-      console.log(this.state.courses[draggableId.toString()])
-      console.log(this.state.courses['COMP3821'])
     }
 
     let newEnrollments = this.state.program.enrollments.map(year => {

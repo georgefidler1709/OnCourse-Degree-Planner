@@ -51,7 +51,7 @@ class CourseReq(ABC):
     # coreq set to False, if true then terms allowed include input term
     # ex set to False, if true then this is an exclusion requirement
     @abstractmethod
-    def fulfilled(self, program: program.Program, term: term.Term,
+    def fulfilled(self, program: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
         pass
 

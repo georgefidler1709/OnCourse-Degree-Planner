@@ -111,14 +111,35 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }
     else newState.program.enrollments.splice(idx, 0, {term_plans: [], year: newYearId})
 
+    // check if this increased program duration
+    if (newState.program.enrollments.length > newState.program.duration) {
+      newState.program.duration += 1
+    }
+
     this.setState(newState)
 
     return idx
   }
 
+  // takes the current program in state,
+  // assuming it has been modified,
+  // and updates it via an API call to /check_program.json
+  updateProgram(state: TimelineState): void {
+    var request = new Request(API_ADDRESS + '/check_program.json', {
+      method: 'POST',
+      body: JSON.stringify(this.state.program),
+      headers: new Headers(/*{'Accept': 'application/json', 'Content-Type': 'application/json', 'dataType': 'json'}*/)
+    });
+
+    fetch(request)
+    .then(response => response.json())
+    .then(plan => {
+      this.setState({'program': plan})
+      this.addMissingTerms()
+    })
+  }
 
   removeCourse(draggableId: string) {
-
     let sourceIdx = -1
     let startTermIdx = -1
     let startYearIdx = -1
@@ -155,10 +176,14 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
         ...this.state,
       }
 
+      // make modifications to state
       newState.courses = newCourses
       newState.program.enrollments[startYearIdx] = newYear
 
+      // set state, then update program in the new state
       this.setState(newState)
+      this.updateProgram(newState)
+
   }
 
   onDragEnd = (result: DropResult) => {

@@ -27,6 +27,7 @@ from . import  (
     fieldFilter,
     freeElectiveFilter,
     genEdFilter,
+    levelFilter,
     orFilter,
     orReq,
     specificCourseFilter,
@@ -432,6 +433,8 @@ class University(object):
             return self.load_gen_ed_filter(filter_data)
         elif type_name == 'FieldFilter':
             return self.load_field_filter(filter_data)
+        elif type_name == 'LevelFilter':
+            return self.load_level_filter(filter_data)
         elif type_name == 'FreeElectiveFilter':
             return self.load_free_elective_filter(filter_data)
         elif type_name == 'AndFilter':
@@ -467,6 +470,10 @@ class University(object):
     def load_field_filter(self, filter_data: Row) -> 'fieldFilter.FieldFilter':
         field_code = filter_data['field_code']
         return fieldFilter.FieldFilter(field_code)
+
+    def load_level_filter(self, filter_data: Row) -> 'levelFilter.LevelFilter':
+        level = filter_data['level']
+        return levelFilter.LevelFilter(level)
 
     # Input: row from the CourseFilters table in the db for a free elective filter
     # Return: The relevant filter

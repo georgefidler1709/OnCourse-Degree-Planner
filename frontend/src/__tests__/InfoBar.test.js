@@ -29,4 +29,13 @@ describe('Render degree planning timeline view', () => {
     wrapper.update();
     expect(wrapper).toMatchSnapshot();
   });
+
+
+  it('displays missing course under requirements if a required course is missing', async() => {
+    const wrapper = mount(<Timeline match={{params: {degree: "degree"}}} />);
+    await sleep(1000);
+    wrapper.update();
+    wrapper.instance().removeCourse("COMP1511");
+    expect(wrapper).toMatchSnapshot();
+  });
 });

@@ -8,6 +8,7 @@ insert into CourseRequirementTypes(name) values ('OrRequirement');
 insert into CourseFilterTypes(name) values ('SpecificCourseFilter');
 insert into CourseFilterTypes(name) values ('GenEdFilter');
 insert into CourseFilterTypes(name) values ('FieldFilter');
+insert into CourseFilterTypes(name) values ('LevelFilter');
 insert into CourseFilterTypes(name) values ('FreeElectiveFilter');
 insert into CourseFilterTypes(name) values ('AndFilter');
 insert into CourseFilterTypes(name) values ('OrFilter');

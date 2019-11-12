@@ -23,9 +23,6 @@ class FreeElectiveFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<FreeElectiveFilter>"
 
-    def info(self) -> str:
-        return "Any course"
-
     @property
     def core(self) -> bool:
         return False
@@ -38,6 +35,10 @@ class FreeElectiveFilter(courseFilter.CourseFilter):
     @property
     def filter_name(self) -> str:
         return "FreeElectiveFilter"
+
+    @property
+    def info(self) -> str:
+        return 'Any free elective'
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter

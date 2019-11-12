@@ -73,7 +73,7 @@ function CourseInfoModal(props: CourseInfoModalProps) {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>
-          <Button onClick={() => {
+          <Button variant="danger" onClick={() => {
             props.onHide()
             props.removeCourse(props.code)
           }}>Remove</Button>

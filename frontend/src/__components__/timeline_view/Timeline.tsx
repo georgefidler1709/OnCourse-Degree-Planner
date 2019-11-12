@@ -140,6 +140,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   // assuming it has been modified,
   // and updates it via an API call to /check_program.json
   updateProgram(state: TimelineState): void {
+    // if you change anything other than the enrollments or the degree duration in front-end
+    // go to server/degrees.py and change in check_program() what is being created as the new state
+    // to reflect those changes
+
     var request = new Request(API_ADDRESS + '/check_program.json', {
       method: 'POST',
       body: JSON.stringify(this.state.program),
@@ -149,10 +153,19 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     fetch(request)
     .then(response => response.json())
     .then(plan => {
-      this.setState({'program': plan})
+      this.setState(plan)
       this.addMissingTerms()
     })
   }
+
+  // adds the offering info of this new course code i.e. "COMP1511"
+  // into the this.state.courses
+  // updateCourses(state: TimelineState): void {
+  //   // TODO backend fetch request for the new course info
+
+  //   // append it to state.courses
+  //   // set the state
+  // }
 
   removeCourse(draggableId: string) {
     let sourceIdx = -1
@@ -198,6 +211,24 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       // set state, then update program in the new state
       this.setState(newState)
       this.updateProgram(newState)
+  }
+
+  getCourseInfo(draggableId: string) {
+    // fetches information about this course's offerings
+    // and modifies the state's courses
+    var request = new Request(API_ADDRESS + `/${draggableId}/course_info.json`, {
+      method: 'GET',
+      headers: new Headers()
+    })
+
+    fetch(request)
+    .then(response => response.json())
+    .then(course => {
+      let newState = {...this.state,}
+      newState.courses[draggableId] = course
+      this.setState(newState)
+      console.log(this.state)
+    })
   }
 
   newCourse(draggableId: string, destYearIdx: number, destTermIdx: number, destIdx: number) {
@@ -378,6 +409,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   }
 
   isCourseOffered(courseId: string, term: TermState, year: YearState) {
+    console.log(courseId)
+    console.log(this.state.courses)
+    console.log(this.state.courses[courseId])
     const termsOffered = this.state.courses[courseId].terms
     const isOffered = termsOffered.findIndex(offering => 
       offering.term === term.term && offering.year === year.year
@@ -386,7 +420,13 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   }
 
   onDragStart = (start: DragStart) => {
-    const { draggableId } = start
+    const { draggableId, source } = start
+
+    // get offering info for this new course
+    if (source.droppableId == "Add") {
+      console.log(draggableId)
+      this.getCourseInfo(draggableId)
+    }
 
     let newEnrollments = this.state.program.enrollments.map(year => {
       let newYear = {

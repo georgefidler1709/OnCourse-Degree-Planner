@@ -39,6 +39,21 @@ def load_full_courses() -> str:
     uni = University(query_db)
     return jsonify(uni.get_full_courses()) # WARNING change this function to put prereqs in when you merge prereqs and Course has more info
 
+@degrees_bp.route('/<course>/course_info.json')
+def course_info(course: str) -> str:
+    '''
+    <course> should be a string for course code, i.e. "COMP1511"
+    Gets the information about when this course is offered
+    and returns it as an api.Course
+    '''
+    uni = University(query_db)
+    course_info = uni.find_course(course.upper())
+    if not course_info:
+        raise Exception(f"course code {course} doesn't exist in the db")
+
+    return jsonify(course_info.to_api())
+
+
 @degrees_bp.route('/<code>/gen_program.json')
 def generate_program(code: int) -> str:
     '''
@@ -107,4 +122,8 @@ def check_program() -> str:
 
     new = program.Program(deg, enrollments)
 
-    return jsonify(new.to_api())
+    print("=========================== new program from check_program() ==================")
+    print(new.get_generator_response_api())
+    print("==================================================")
+
+    return jsonify(new.get_generator_response_api())

@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Render degree planning timeline view displays missing course under requirements if a required course is missing 1`] = `ReactWrapper {}`;
+
 exports[`Render degree planning timeline view renders correctly as part of timeline 1`] = `ShallowWrapper {}`;

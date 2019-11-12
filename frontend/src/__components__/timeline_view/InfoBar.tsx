@@ -9,11 +9,10 @@ const Container = styled.div`
   padding: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
-  width: 400px;
-  display: flex;
-  flex-direction: column;
+  width: 350px;
+  height: 1000px;
   text-align: center;
-  position: fixed;
+  overflow-y: scroll;
 `;
 
 const Title = styled.h3`
@@ -57,10 +56,12 @@ function InfoBar(props: InfoBarProps) {
           </div>
         )
         })}
-      </body>
-      <footer>
+        <SubTitle>Add a Course</SubTitle>
+        <p>Search for a course and click on it. Then drag the course into your timeline from the <b>Add</b> box.</p>
         <CourseDropBox type="Add" add_course={props.add_course} remove_course={props.remove_course}/>
         <SearchCourses add_event={props.add_event}/>
+      </body>
+      <footer>
       </footer>
     </Container>
   );

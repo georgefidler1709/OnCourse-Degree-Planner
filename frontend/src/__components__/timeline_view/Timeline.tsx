@@ -111,6 +111,11 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }
     else newState.program.enrollments.splice(idx, 0, {term_plans: [], year: newYearId})
 
+    // check if this increased program duration
+    if (newState.program.enrollments.length > newState.program.duration) {
+      newState.program.duration += 1
+    }
+
     this.setState(newState)
 
     return idx
@@ -128,7 +133,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     fetch(request)
     .then(response => response.json())
-    .then(plan => this.setState({'program': plan}))
+    .then(plan => {
+      this.setState({'program': plan})
+      this.addMissingTerms()
+    })
   }
 
   removeCourse(draggableId: string) {

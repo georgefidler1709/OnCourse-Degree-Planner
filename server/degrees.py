@@ -90,8 +90,12 @@ def check_program() -> str:
     # create a new classes.program
     uni = University(query_db)
 
-    deg = uni.load_degree(data['id'])
+    # create the degree with requirements
+    deg = uni.load_degree(data['id']) # TODO when we have more than one year we need to search by id and year
     assert deg is not None
+    # TODO reflect any changes in frontend if you change degree.year
+    deg.duration = data['duration']
+
     enrollments = enrollments_api_to_classes(data, uni)
 
     new = program.Program(deg, enrollments)

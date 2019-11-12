@@ -1,7 +1,653 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Rendering a course on the timeline can render correctly within a term 1`] = `ReactWrapper {}`;
+exports[`Rendering a course on the timeline can render correctly within a term 1`] = `
+<DragDropContext>
+  <ErrorBoundary>
+    <App
+      contextId="1"
+      liftInstruction="Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift."
+      setCallbacks={[Function]}
+    >
+      <Provider
+        context={
+          Object {
+            "$$typeof": Symbol(react.context),
+            "Consumer": Object {
+              "$$typeof": Symbol(react.context),
+              "_calculateChangedBits": null,
+              "_context": [Circular],
+            },
+            "Provider": Object {
+              "$$typeof": Symbol(react.provider),
+              "_context": [Circular],
+            },
+            "_calculateChangedBits": null,
+            "_currentRenderer": Object {},
+            "_currentRenderer2": null,
+            "_currentValue": null,
+            "_currentValue2": null,
+            "_threadCount": 0,
+          }
+        }
+        store={
+          Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          }
+        }
+      >
+        <Term
+          courses={
+            Array [
+              Object {
+                "code": "COMP1511",
+                "coreqs": "",
+                "equivalents": "",
+                "exclusions": "DPST1091",
+                "name": "Programming Fundamentals",
+                "prereqs": "",
+              },
+            ]
+          }
+          key="test"
+          termId="term"
+        >
+          <styled.div>
+            <div
+              className="sc-bwzfXH itFJcJ"
+            >
+              <styled.h3>
+                <h3
+                  className="sc-htpNat gltnqu"
+                >
+                  Tterm
+                </h3>
+              </styled.h3>
+              <ConnectFunction
+                direction="vertical"
+                droppableId="term"
+                getContainerForClone={[Function]}
+                ignoreContainerClipping={false}
+                isCombineEnabled={false}
+                isDropDisabled={false}
+                mode="standard"
+                renderClone={null}
+                type="DEFAULT"
+              >
+                <Droppable
+                  direction="vertical"
+                  droppableId="term"
+                  getContainerForClone={[Function]}
+                  ignoreContainerClipping={false}
+                  isCombineEnabled={false}
+                  isDropDisabled={false}
+                  mode="standard"
+                  placeholder={null}
+                  renderClone={null}
+                  shouldAnimatePlaceholder={false}
+                  snapshot={
+                    Object {
+                      "draggingFromThisWith": null,
+                      "draggingOverWith": null,
+                      "isDraggingOver": false,
+                      "isUsingPlaceholder": false,
+                    }
+                  }
+                  type="DEFAULT"
+                  updateViewportMaxScroll={[Function]}
+                  useClone={null}
+                >
+                  <styled.div
+                    data-rbd-droppable-context-id="1"
+                    data-rbd-droppable-id="term"
+                    innerRef={[Function]}
+                    isDraggingOver={false}
+                  >
+                    <div
+                      className="sc-bxivhb jBEfKi"
+                      data-rbd-droppable-context-id="1"
+                      data-rbd-droppable-id="term"
+                    >
+                      <Course
+                        code="COMP1511"
+                        coreqs=""
+                        equivalents=""
+                        exclusions="DPST1091"
+                        index={0}
+                        key="COMP1511"
+                        name="Programming Fundamentals"
+                        prereqs=""
+                      >
+                        <div>
+                          <PublicDraggable
+                            draggableId="COMP1511"
+                            index={0}
+                          >
+                            <PrivateDraggable
+                              canDragInteractiveElements={false}
+                              draggableId="COMP1511"
+                              index={0}
+                              isClone={false}
+                              isEnabled={true}
+                              shouldRespectForcePress={false}
+                            >
+                              <Connect(Draggable)
+                                canDragInteractiveElements={false}
+                                draggableId="COMP1511"
+                                index={0}
+                                isClone={false}
+                                isEnabled={true}
+                                shouldRespectForcePress={false}
+                              >
+                                <Draggable
+                                  canDragInteractiveElements={false}
+                                  draggableId="COMP1511"
+                                  dropAnimationFinished={[Function]}
+                                  index={0}
+                                  isClone={false}
+                                  isEnabled={true}
+                                  mapped={
+                                    Object {
+                                      "combineTargetFor": null,
+                                      "offset": Object {
+                                        "x": 0,
+                                        "y": 0,
+                                      },
+                                      "shouldAnimateDisplacement": true,
+                                      "snapshot": Object {
+                                        "combineTargetFor": null,
+                                        "combineWith": null,
+                                        "draggingOver": null,
+                                        "dropAnimation": null,
+                                        "isClone": false,
+                                        "isDragging": false,
+                                        "isDropAnimating": false,
+                                        "mode": null,
+                                      },
+                                      "type": "SECONDARY",
+                                    }
+                                  }
+                                  shouldRespectForcePress={false}
+                                >
+                                  <styled.div
+                                    aria-labelledby="rbd-lift-instruction-1"
+                                    data-rbd-drag-handle-context-id="1"
+                                    data-rbd-drag-handle-draggable-id="COMP1511"
+                                    data-rbd-draggable-context-id="1"
+                                    data-rbd-draggable-id="COMP1511"
+                                    draggable={false}
+                                    innerRef={[Function]}
+                                    isDragging={false}
+                                    onClick={[Function]}
+                                    onDragStart={[Function]}
+                                    onTransitionEnd={null}
+                                    style={
+                                      Object {
+                                        "transform": null,
+                                        "transition": null,
+                                      }
+                                    }
+                                    tabIndex={0}
+                                  >
+                                    <div
+                                      aria-labelledby="rbd-lift-instruction-1"
+                                      className="sc-bdVaJa fyohpZ"
+                                      data-rbd-drag-handle-context-id="1"
+                                      data-rbd-drag-handle-draggable-id="COMP1511"
+                                      data-rbd-draggable-context-id="1"
+                                      data-rbd-draggable-id="COMP1511"
+                                      draggable={false}
+                                      onClick={[Function]}
+                                      onDragStart={[Function]}
+                                      onTransitionEnd={null}
+                                      style={
+                                        Object {
+                                          "transform": null,
+                                          "transition": null,
+                                        }
+                                      }
+                                      tabIndex={0}
+                                    >
+                                      COMP1511
+                                    </div>
+                                  </styled.div>
+                                </Draggable>
+                              </Connect(Draggable)>
+                            </PrivateDraggable>
+                          </PublicDraggable>
+                          <CourseInfoModal
+                            code="COMP1511"
+                            coreqs=""
+                            equivalents=""
+                            exclusions="DPST1091"
+                            index={0}
+                            name="Programming Fundamentals"
+                            onHide={[Function]}
+                            prereqs=""
+                            show={false}
+                          >
+                            <Bootstrap(Modal)
+                              aria-labelledby="contained-modal-title-vcenter"
+                              centered={true}
+                              code="COMP1511"
+                              coreqs=""
+                              equivalents=""
+                              exclusions="DPST1091"
+                              index={0}
+                              name="Programming Fundamentals"
+                              onHide={[Function]}
+                              prereqs=""
+                              show={false}
+                              size="lg"
+                            >
+                              <Modal
+                                animation={true}
+                                aria-labelledby="contained-modal-title-vcenter"
+                                autoFocus={true}
+                                backdrop={true}
+                                bsPrefix="modal"
+                                centered={true}
+                                code="COMP1511"
+                                coreqs=""
+                                dialogAs={
+                                  Object {
+                                    "$$typeof": Symbol(react.forward_ref),
+                                    "displayName": "ModalDialog",
+                                    "render": [Function],
+                                  }
+                                }
+                                enforceFocus={true}
+                                equivalents=""
+                                exclusions="DPST1091"
+                                index={0}
+                                keyboard={true}
+                                manager={
+                                  BootstrapModalManager {
+                                    "adjustAndStore": [Function],
+                                    "containers": Array [],
+                                    "data": Array [],
+                                    "handleContainerOverflow": true,
+                                    "hideSiblingNodes": true,
+                                    "modals": Array [],
+                                    "restore": [Function],
+                                    "scrollbarSize": 0,
+                                  }
+                                }
+                                name="Programming Fundamentals"
+                                onHide={[Function]}
+                                prereqs=""
+                                restoreFocus={true}
+                                show={false}
+                                size="lg"
+                              >
+                                <Modal
+                                  autoFocus={true}
+                                  backdrop={true}
+                                  backdropTransition={[Function]}
+                                  className="modal"
+                                  containerClassName="modal-open"
+                                  enforceFocus={true}
+                                  keyboard={true}
+                                  manager={
+                                    BootstrapModalManager {
+                                      "adjustAndStore": [Function],
+                                      "containers": Array [],
+                                      "data": Array [],
+                                      "handleContainerOverflow": true,
+                                      "hideSiblingNodes": true,
+                                      "modals": Array [],
+                                      "restore": [Function],
+                                      "scrollbarSize": 0,
+                                    }
+                                  }
+                                  onClick={[Function]}
+                                  onEnter={[Function]}
+                                  onEntering={[Function]}
+                                  onExited={[Function]}
+                                  onHide={[Function]}
+                                  onMouseUp={[Function]}
+                                  renderBackdrop={[Function]}
+                                  restoreFocus={true}
+                                  role="dialog"
+                                  show={false}
+                                  style={Object {}}
+                                  transition={[Function]}
+                                />
+                              </Modal>
+                            </Bootstrap(Modal)>
+                          </CourseInfoModal>
+                        </div>
+                      </Course>
+                      <AnimateInOut
+                        on={null}
+                        shouldAnimate={false}
+                      />
+                    </div>
+                  </styled.div>
+                </Droppable>
+              </ConnectFunction>
+            </div>
+          </styled.div>
+        </Term>
+      </Provider>
+    </App>
+  </ErrorBoundary>
+</DragDropContext>
+`;
 
-exports[`Rendering a course on the timeline draggable cannot render outside of a droppable 1`] = `ShallowWrapper {}`;
+exports[`Rendering a course on the timeline draggable cannot render outside of a droppable 1`] = `
+<div>
+  <PublicDraggable
+    draggableId="COMP1511"
+    index={1}
+  >
+    <Component />
+  </PublicDraggable>
+  <CourseInfoModal
+    code="COMP1511"
+    coreqs=""
+    equivalents=""
+    exclusions="DPST1091"
+    index={1}
+    name="Programming Fundamentals"
+    onHide={[Function]}
+    prereqs=""
+    show={false}
+  />
+</div>
+`;
 
-exports[`Rendering a course on the timeline renders correctly within a DragDropContext 1`] = `ReactWrapper {}`;
+exports[`Rendering a course on the timeline renders correctly within a DragDropContext 1`] = `
+<DragDropContext>
+  <ErrorBoundary>
+    <App
+      contextId="0"
+      liftInstruction="Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift."
+      setCallbacks={[Function]}
+    >
+      <Provider
+        context={
+          Object {
+            "$$typeof": Symbol(react.context),
+            "Consumer": Object {
+              "$$typeof": Symbol(react.context),
+              "_calculateChangedBits": null,
+              "_context": [Circular],
+            },
+            "Provider": Object {
+              "$$typeof": Symbol(react.provider),
+              "_context": [Circular],
+            },
+            "_calculateChangedBits": null,
+            "_currentRenderer": Object {},
+            "_currentRenderer2": null,
+            "_currentValue": null,
+            "_currentValue2": null,
+            "_threadCount": 0,
+          }
+        }
+        store={
+          Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          }
+        }
+      >
+        <ConnectFunction
+          direction="vertical"
+          droppableId="droppable"
+          getContainerForClone={[Function]}
+          ignoreContainerClipping={false}
+          isCombineEnabled={false}
+          isDropDisabled={false}
+          mode="standard"
+          renderClone={null}
+          type="DEFAULT"
+        >
+          <Droppable
+            direction="vertical"
+            droppableId="droppable"
+            getContainerForClone={[Function]}
+            ignoreContainerClipping={false}
+            isCombineEnabled={false}
+            isDropDisabled={false}
+            mode="standard"
+            placeholder={null}
+            renderClone={null}
+            shouldAnimatePlaceholder={false}
+            snapshot={
+              Object {
+                "draggingFromThisWith": null,
+                "draggingOverWith": null,
+                "isDraggingOver": false,
+                "isUsingPlaceholder": false,
+              }
+            }
+            type="DEFAULT"
+            updateViewportMaxScroll={[Function]}
+            useClone={null}
+          >
+            <div
+              data-rbd-droppable-context-id="0"
+              data-rbd-droppable-id="droppable"
+              innerRef={[Function]}
+            >
+              <Course
+                code="COMP1511"
+                coreqs=""
+                equivalents=""
+                exclusions="DPST1091"
+                name="Programming Fundamentals"
+                prereqs=""
+              >
+                <div>
+                  <PublicDraggable
+                    draggableId="COMP1511"
+                  >
+                    <PrivateDraggable
+                      canDragInteractiveElements={false}
+                      draggableId="COMP1511"
+                      isClone={false}
+                      isEnabled={true}
+                      shouldRespectForcePress={false}
+                    >
+                      <Connect(Draggable)
+                        canDragInteractiveElements={false}
+                        draggableId="COMP1511"
+                        isClone={false}
+                        isEnabled={true}
+                        shouldRespectForcePress={false}
+                      >
+                        <Draggable
+                          canDragInteractiveElements={false}
+                          draggableId="COMP1511"
+                          dropAnimationFinished={[Function]}
+                          isClone={false}
+                          isEnabled={true}
+                          mapped={
+                            Object {
+                              "combineTargetFor": null,
+                              "offset": Object {
+                                "x": 0,
+                                "y": 0,
+                              },
+                              "shouldAnimateDisplacement": true,
+                              "snapshot": Object {
+                                "combineTargetFor": null,
+                                "combineWith": null,
+                                "draggingOver": null,
+                                "dropAnimation": null,
+                                "isClone": false,
+                                "isDragging": false,
+                                "isDropAnimating": false,
+                                "mode": null,
+                              },
+                              "type": "SECONDARY",
+                            }
+                          }
+                          shouldRespectForcePress={false}
+                        >
+                          <styled.div
+                            aria-labelledby="rbd-lift-instruction-0"
+                            data-rbd-drag-handle-context-id="0"
+                            data-rbd-drag-handle-draggable-id="COMP1511"
+                            data-rbd-draggable-context-id="0"
+                            data-rbd-draggable-id="COMP1511"
+                            draggable={false}
+                            innerRef={[Function]}
+                            isDragging={false}
+                            onClick={[Function]}
+                            onDragStart={[Function]}
+                            onTransitionEnd={null}
+                            style={
+                              Object {
+                                "transform": null,
+                                "transition": null,
+                              }
+                            }
+                            tabIndex={0}
+                          >
+                            <div
+                              aria-labelledby="rbd-lift-instruction-0"
+                              className="sc-bdVaJa fyohpZ"
+                              data-rbd-drag-handle-context-id="0"
+                              data-rbd-drag-handle-draggable-id="COMP1511"
+                              data-rbd-draggable-context-id="0"
+                              data-rbd-draggable-id="COMP1511"
+                              draggable={false}
+                              onClick={[Function]}
+                              onDragStart={[Function]}
+                              onTransitionEnd={null}
+                              style={
+                                Object {
+                                  "transform": null,
+                                  "transition": null,
+                                }
+                              }
+                              tabIndex={0}
+                            >
+                              COMP1511
+                            </div>
+                          </styled.div>
+                        </Draggable>
+                      </Connect(Draggable)>
+                    </PrivateDraggable>
+                  </PublicDraggable>
+                  <CourseInfoModal
+                    code="COMP1511"
+                    coreqs=""
+                    equivalents=""
+                    exclusions="DPST1091"
+                    name="Programming Fundamentals"
+                    onHide={[Function]}
+                    prereqs=""
+                    show={false}
+                  >
+                    <Bootstrap(Modal)
+                      aria-labelledby="contained-modal-title-vcenter"
+                      centered={true}
+                      code="COMP1511"
+                      coreqs=""
+                      equivalents=""
+                      exclusions="DPST1091"
+                      name="Programming Fundamentals"
+                      onHide={[Function]}
+                      prereqs=""
+                      show={false}
+                      size="lg"
+                    >
+                      <Modal
+                        animation={true}
+                        aria-labelledby="contained-modal-title-vcenter"
+                        autoFocus={true}
+                        backdrop={true}
+                        bsPrefix="modal"
+                        centered={true}
+                        code="COMP1511"
+                        coreqs=""
+                        dialogAs={
+                          Object {
+                            "$$typeof": Symbol(react.forward_ref),
+                            "displayName": "ModalDialog",
+                            "render": [Function],
+                          }
+                        }
+                        enforceFocus={true}
+                        equivalents=""
+                        exclusions="DPST1091"
+                        keyboard={true}
+                        manager={
+                          BootstrapModalManager {
+                            "adjustAndStore": [Function],
+                            "containers": Array [],
+                            "data": Array [],
+                            "handleContainerOverflow": true,
+                            "hideSiblingNodes": true,
+                            "modals": Array [],
+                            "restore": [Function],
+                            "scrollbarSize": 0,
+                          }
+                        }
+                        name="Programming Fundamentals"
+                        onHide={[Function]}
+                        prereqs=""
+                        restoreFocus={true}
+                        show={false}
+                        size="lg"
+                      >
+                        <Modal
+                          autoFocus={true}
+                          backdrop={true}
+                          backdropTransition={[Function]}
+                          className="modal"
+                          containerClassName="modal-open"
+                          enforceFocus={true}
+                          keyboard={true}
+                          manager={
+                            BootstrapModalManager {
+                              "adjustAndStore": [Function],
+                              "containers": Array [],
+                              "data": Array [],
+                              "handleContainerOverflow": true,
+                              "hideSiblingNodes": true,
+                              "modals": Array [],
+                              "restore": [Function],
+                              "scrollbarSize": 0,
+                            }
+                          }
+                          onClick={[Function]}
+                          onEnter={[Function]}
+                          onEntering={[Function]}
+                          onExited={[Function]}
+                          onHide={[Function]}
+                          onMouseUp={[Function]}
+                          renderBackdrop={[Function]}
+                          restoreFocus={true}
+                          role="dialog"
+                          show={false}
+                          style={Object {}}
+                          transition={[Function]}
+                        />
+                      </Modal>
+                    </Bootstrap(Modal)>
+                  </CourseInfoModal>
+                </div>
+              </Course>
+              <AnimateInOut
+                on={null}
+                shouldAnimate={false}
+              />
+            </div>
+          </Droppable>
+        </ConnectFunction>
+      </Provider>
+    </App>
+  </ErrorBoundary>
+</DragDropContext>
+`;

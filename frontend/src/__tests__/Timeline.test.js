@@ -101,11 +101,13 @@ describe('addMissingTerms method', () => {
 describe('onDragStart method', () => {
   it('will highlight terms which contain an offering for the course being dragged', async() => {
     const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
-    await sleep(1000);
+    await sleep(100);
     wrapper.update();
 
-    wrapper.instance().onDragStart({draggableId: "COMP3121"})
+    wrapper.instance().onDragStart({draggableId: "COMP3121", source: {droppableId: "1 2019"}})
     expect(wrapper.state().program.enrollments[0].term_plans[0].highlight).toBeFalsy()
+    await sleep(100);
+    wrapper.update();
     expect(wrapper.state().program.enrollments[0].term_plans[1].highlight).toBeTruthy()
   });
 });

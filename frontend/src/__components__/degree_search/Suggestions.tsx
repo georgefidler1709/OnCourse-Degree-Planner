@@ -2,7 +2,8 @@ import React, {MouseEvent} from "react";
 import Button from "react-bootstrap/Button";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
-import {Position, SearchResult, CourseSearchResult, addCallbackType} from '../../Types'
+import { Course } from '../../Api'
+import {Position, SearchResult, CourseSearchResult} from '../../Types'
 
 
 function Suggestions(props: {degrees: Array<SearchResult>}) {
@@ -47,7 +48,7 @@ export { Suggestions };
 
 interface CourseSuggestionsProps {
   courses: Array<CourseSearchResult>;
-  add_event: addCallbackType;
+  add_event: (course: Course) => void;
 }
 
 function CourseSuggestions(props: CourseSuggestionsProps) {

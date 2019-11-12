@@ -1,5 +1,139 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Won't render correctly outside of a DragDropContext Will render correctly within a DropDropContext 1`] = `ReactWrapper {}`;
+exports[`Won't render correctly outside of a DragDropContext Will render correctly within a DropDropContext 1`] = `
+<DragDropContext>
+  <ErrorBoundary>
+    <App
+      contextId="0"
+      liftInstruction="Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift."
+      setCallbacks={[Function]}
+    >
+      <Provider
+        context={
+          Object {
+            "$$typeof": Symbol(react.context),
+            "Consumer": Object {
+              "$$typeof": Symbol(react.context),
+              "_calculateChangedBits": null,
+              "_context": [Circular],
+            },
+            "Provider": Object {
+              "$$typeof": Symbol(react.provider),
+              "_context": [Circular],
+            },
+            "_calculateChangedBits": null,
+            "_currentRenderer": Object {},
+            "_currentRenderer2": null,
+            "_currentValue": null,
+            "_currentValue2": null,
+            "_threadCount": 0,
+          }
+        }
+        store={
+          Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          }
+        }
+      >
+        <Term
+          courses={Array []}
+          key="test"
+          termId="2 2019"
+        >
+          <styled.div>
+            <div
+              className="sc-bwzfXH itFJcJ"
+            >
+              <styled.h3>
+                <h3
+                  className="sc-htpNat gltnqu"
+                >
+                  T2 2019
+                </h3>
+              </styled.h3>
+              <ConnectFunction
+                direction="vertical"
+                droppableId="2 2019"
+                getContainerForClone={[Function]}
+                ignoreContainerClipping={false}
+                isCombineEnabled={false}
+                isDropDisabled={false}
+                mode="standard"
+                renderClone={null}
+                type="DEFAULT"
+              >
+                <Droppable
+                  direction="vertical"
+                  droppableId="2 2019"
+                  getContainerForClone={[Function]}
+                  ignoreContainerClipping={false}
+                  isCombineEnabled={false}
+                  isDropDisabled={false}
+                  mode="standard"
+                  placeholder={null}
+                  renderClone={null}
+                  shouldAnimatePlaceholder={false}
+                  snapshot={
+                    Object {
+                      "draggingFromThisWith": null,
+                      "draggingOverWith": null,
+                      "isDraggingOver": false,
+                      "isUsingPlaceholder": false,
+                    }
+                  }
+                  type="DEFAULT"
+                  updateViewportMaxScroll={[Function]}
+                  useClone={null}
+                >
+                  <styled.div
+                    data-rbd-droppable-context-id="0"
+                    data-rbd-droppable-id="2 2019"
+                    innerRef={[Function]}
+                    isDraggingOver={false}
+                  >
+                    <div
+                      className="sc-bxivhb jBEfKi"
+                      data-rbd-droppable-context-id="0"
+                      data-rbd-droppable-id="2 2019"
+                    >
+                      <AnimateInOut
+                        on={null}
+                        shouldAnimate={false}
+                      />
+                    </div>
+                  </styled.div>
+                </Droppable>
+              </ConnectFunction>
+            </div>
+          </styled.div>
+        </Term>
+      </Provider>
+    </App>
+  </ErrorBoundary>
+</DragDropContext>
+`;
 
-exports[`Won't render correctly outside of a DragDropContext renders correctly 1`] = `ShallowWrapper {}`;
+exports[`Won't render correctly outside of a DragDropContext renders correctly 1`] = `
+<styled.div>
+  <styled.h3>
+    T2 2019
+  </styled.h3>
+  <Connect(Droppable)
+    direction="vertical"
+    droppableId="2 2019"
+    getContainerForClone={[Function]}
+    ignoreContainerClipping={false}
+    isCombineEnabled={false}
+    isDropDisabled={false}
+    mode="standard"
+    renderClone={null}
+    type="DEFAULT"
+  >
+    <Component />
+  </Connect(Droppable)>
+</styled.div>
+`;

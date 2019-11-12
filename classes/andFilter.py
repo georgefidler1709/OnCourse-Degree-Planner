@@ -48,7 +48,7 @@ class AndFilter(courseFilter.CourseFilter):
         # else:
         #     return "And"
         return "Satisfy all of these requirements"
-    
+
     @property
     def info(self) -> str:
         res = ''
@@ -56,7 +56,7 @@ class AndFilter(courseFilter.CourseFilter):
             if res != '':
                 res += ' AND '
             res += '(' + f.info + ')'
-
+        
         return res
 
     # Input: course.Course, degree the student is enrolled in

@@ -66,6 +66,8 @@ class Course(TypedDict):
     exclusions: str;
     equivalents: str;
 
+CourseList = List[Course]
+
 class GeneratorResponse(TypedDict):
     program: Program;
     courses: Dict[str, Course];

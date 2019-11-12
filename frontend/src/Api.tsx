@@ -57,6 +57,8 @@ export interface Course {
     exclusions: string;
 }
 
+export type CourseList = Array<Course>;
+
 export interface GeneratorResponse {
     program: Program;
     courses: {[index: string]: Course};

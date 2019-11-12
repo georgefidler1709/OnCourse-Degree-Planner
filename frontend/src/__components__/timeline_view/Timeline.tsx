@@ -90,11 +90,21 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     console.log(this.state)
   }
 
+  isYearEmpty(year: YearState) {
+    return year.term_plans.findIndex(term => term.course_ids.length > 0) === -1;
+  }
+
   removeYear() {
     let newState = {
       ...this.state,
     }
-    newState.program.enrollments.pop()
+
+    const enrollments = this.state.program.enrollments;
+    if(this.isYearEmpty(enrollments[enrollments.length - 1])) newState.program.enrollments.pop()
+    else {
+      // THROW APPROPRIATE ERROR MESSAGE TO SAY WE WON"T DELETE A YEAR WITH COURSES IN IT
+      newState.program.duration++
+    }
 
     this.setState(newState)
   }

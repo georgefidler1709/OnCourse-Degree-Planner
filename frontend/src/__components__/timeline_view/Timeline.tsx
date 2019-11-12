@@ -213,7 +213,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       this.updateProgram(newState)
   }
 
-  getCourseInfo(draggableId: string) {
+  // this one gets one course at a time
+  async getCourseInfo(draggableId: string): Promise<void> {
     // fetches information about this course's offerings
     // and modifies the state's courses
     var request = new Request(API_ADDRESS + `/${draggableId}/course_info.json`, {
@@ -221,15 +222,20 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       headers: new Headers()
     })
 
-    fetch(request)
-    .then(response => response.json())
-    .then(course => {
-      let newState = {...this.state,}
-      newState.courses[draggableId] = course
-      this.setState(newState)
-      console.log(this.state)
-    })
+    // need to do this before isCourseOffered() is checked
+    let response = await fetch(request);
+    let course = await response.json();
+    
+    let newState = {
+      ...this.state,
+    }
+    newState.courses[draggableId] = course
+
+    await this.setState(newState)
+
   }
+
+
 
   newCourse(draggableId: string, destYearIdx: number, destTermIdx: number, destIdx: number) {
     // when you drag something from "add" box to somewhere on a term
@@ -419,13 +425,18 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     return isOffered !== -1
   }
 
-  onDragStart = (start: DragStart) => {
+  onDragStart = async (start: DragStart) => {
     const { draggableId, source } = start
 
     // get offering info for this new course
     if (source.droppableId == "Add") {
+      console.log("adding a course")
       console.log(draggableId)
-      this.getCourseInfo(draggableId)
+      await this.getCourseInfo(draggableId);
+      console.log("done adding a course")
+      console.log(this.state.courses)
+      console.log(this.state.courses[draggableId.toString()])
+      console.log(this.state.courses['COMP3821'])
     }
 
     let newEnrollments = this.state.program.enrollments.map(year => {

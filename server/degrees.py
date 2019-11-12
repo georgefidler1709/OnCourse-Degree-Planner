@@ -122,8 +122,4 @@ def check_program() -> str:
 
     new = program.Program(deg, enrollments)
 
-    print("=========================== new program from check_program() ==================")
-    print(new.get_generator_response_api())
-    print("==================================================")
-
     return jsonify(new.get_generator_response_api())

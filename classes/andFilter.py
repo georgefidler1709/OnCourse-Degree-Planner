@@ -43,10 +43,11 @@ class AndFilter(courseFilter.CourseFilter):
     # so get the name of one of its components
     @property
     def simple_name(self) -> str:
-        if len(self.filters) != 0:
-            return self.filters[0].simple_name
-        else:
-            return "And"
+        # if len(self.filters) != 0:
+        #     return self.filters[0].simple_name
+        # else:
+        #     return "And"
+        return "Satisfy all of these requirements"
 
     @property
     def info(self) -> str:

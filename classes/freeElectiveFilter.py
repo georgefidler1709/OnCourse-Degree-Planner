@@ -23,9 +23,6 @@ class FreeElectiveFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<FreeElectiveFilter>"
 
-    def info(self) -> str:
-        return "Any course"
-
     @property
     def core(self) -> bool:
         return False

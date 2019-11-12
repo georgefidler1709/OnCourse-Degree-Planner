@@ -22,9 +22,6 @@ class GenEdFilter(courseFilter.CourseFilter):
     def __repr__(self):
         return f"<GenEdFilter>"
 
-    def info(self) -> str:
-        return "General Education"
-
     @property
     def core(self) -> bool:
         return False

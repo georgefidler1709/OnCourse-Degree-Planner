@@ -5,6 +5,7 @@ import CourseInfoModal from "./CourseInfoModal"
 
 interface DraggableProps {
   isDragging: boolean;
+  error?: string;
 }
 
 
@@ -13,10 +14,18 @@ const Container = styled.div<DraggableProps>`
   border-radius: 2px;
   padding: 8px;
   margin-bottom: 8px;
-  background-color: ${props => props.isDragging ? 'lightblue' : 'white'};
+  background-color: ${props => { 
+    if (props.isDragging) return 'lightblue';
+    else if(props.error !== undefined) return 'red';
+    else return 'white';
+  }};
 
   &:hover {
-    background-color: ${props => props.isDragging ? 'lightblue' : 'lightgrey'};
+    background-color: ${props => { 
+      if (props.isDragging) return 'lightblue';
+      else if(props.error !== undefined) return 'darkred';
+      else return 'grey';
+    }};
   }
 `;
 
@@ -30,6 +39,7 @@ interface CourseProps {
   equivalents: string;
   exclusions: string;
   removeCourse: (s : string) => void;
+  error?: string;
 }
 
 function Course(props: CourseProps) {
@@ -44,6 +54,7 @@ function Course(props: CourseProps) {
             innerRef={provided.innerRef}
             isDragging={snapshot.isDragging}
             onClick={() => setModalShow(true)}
+            error={props.error}
           >
           {props.code}
           </Container>

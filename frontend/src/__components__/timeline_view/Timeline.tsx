@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
-import { Course } from '../../Api';
+import { Course, CheckResponse } from '../../Api';
 import {API_ADDRESS} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
@@ -48,7 +48,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     fetch(API_ADDRESS + `/${code}/gen_program.json`)
     .then(response => response.json())
     .then(plan => {
-      this.setState(plan) 
+      this.setState({
+        ...plan, 
+        course_reqs: [],
+      }) 
       this.addMissingTerms()
     })
   }
@@ -152,8 +155,16 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     fetch(request)
     .then(response => response.json())
-    .then(plan => {
-      this.setState(plan)
+    .then((plan : CheckResponse) => {
+      this.setState(
+        (state, _) => {
+          return {
+            program: {
+              ...state.program,
+              req: plan.degree_reqs
+            }, 
+            course_reqs: plan.course_reqs};
+        }); 
       this.addMissingTerms()
     })
   }
@@ -482,7 +493,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                                           termId={term_tag} 
                                           courses={courses} 
                                           highlight={term.highlight} 
-                                          removeCourse={this.removeCourse.bind(this)}/>;
+                                          removeCourse={this.removeCourse.bind(this)}
+                                          getError={(s) => this.state.course_reqs[s]}/>;
                               })}
                             </Container>
                         </div>

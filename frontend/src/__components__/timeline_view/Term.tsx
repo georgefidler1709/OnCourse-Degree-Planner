@@ -40,6 +40,7 @@ interface TermProps {
   courses: Array<ApiCourse>;
   highlight: boolean;
   removeCourse: (s: string) => void;
+  getError: (s: string) => (string | undefined);
 }
 
 function Term(props: TermProps) {
@@ -61,6 +62,7 @@ function Term(props: TermProps) {
                 key={course_id} 
                 index={index} 
                 removeCourse={props.removeCourse}
+                error={props.getError(course_id)}
                 />
             }
             )}

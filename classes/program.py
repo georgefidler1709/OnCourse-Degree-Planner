@@ -124,6 +124,23 @@ class Program(object):
     def get_outstanding_reqs(self) -> Dict[('degreeReq.DegreeReq', int)]:
         return self.degree.get_requirements(self)
 
+    def get_reqs_api(self) -> List['api.RemainReq']:
+        outstanding_reqs = self.get_outstanding_reqs()
+
+        reqs: List['api.RemainReq'] = []
+        for key, val in outstanding_reqs.items():
+
+            new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
+            if key.filter:
+                new = {'units': val, 
+                    'filter_type': key.filter.simple_name,
+                    'info': key.filter.info
+                }
+
+            reqs.append(new)                
+        return reqs;
+
+
     def to_api(self) -> api.Program:
         # sort the enrolled courses by term then name
         enrollments_map: Dict[int, Dict[int, List[str]]]= {}
@@ -138,29 +155,19 @@ class Program(object):
                     } for (term, courses) in term_plan.items() ]
                 } for (year, term_plan) in enrollments_map.items()];
         
-        outstanding_reqs = self.get_outstanding_reqs()
-
-        reqs: List['api.RemainReq'] = []
-        for key, val in outstanding_reqs.items():
-
-            new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
-            if key.filter:
-                new = {'units': val, 
-                    'filter_type': key.filter.simple_name,
-                    'info': key.filter.info
-                }
-
-            reqs.append(new)                
-        
-
         return {'id': self.degree.num_code, 
                 'name': self.degree.name,
                 'year': self.degree.year,
                 'duration': self.degree.duration,
                 'url': self.degree.get_url(),
-                'reqs': reqs,
+                'reqs': self.get_reqs_api(),
                 'enrollments': enrollments};
 
     def get_generator_response_api(self) -> api.GeneratorResponse:
         return {'program': self.to_api(),
                 'courses': {enrollment.course_code() : enrollment.course.to_api() for enrollment in self.courses}};
+    
+    def get_prereq_conflicts_api(self) -> api.CheckResponse:
+        return {'degree_reqs': self.get_reqs_api(),
+                'course_reqs': {}};
+

@@ -71,3 +71,8 @@ CourseList = List[Course]
 class GeneratorResponse(TypedDict):
     program: Program;
     courses: Dict[str, Course];
+
+class CheckResponse(TypedDict):
+    degree_reqs: List[RemainReq];
+    course_reqs: Dict[str, str];
+

@@ -17,6 +17,7 @@ interface CourseInfoModalProps {
   coreqs: string;
   equivalents: string;
   exclusions: string;
+  error?: string;
 }
 
 function displayCourseReqs(reqs: string, req_type: string) {
@@ -64,6 +65,7 @@ function CourseInfoModal(props: CourseInfoModalProps) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {props.error === undefined && <div> Errors highlighted in <span style={{color:"red"}}>red</span></div>}
           {displayCourseReqs(props.prereqs, "Prereqs")}
           {displayCourseReqs(props.coreqs, "Coreqs")}
           {displayCourseReqs(props.equivalents, "Equivalents")}

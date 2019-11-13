@@ -64,3 +64,7 @@ export interface GeneratorResponse {
     courses: {[index: string]: Course};
 }
 
+export interface CheckResponse{
+    degree_reqs: Array<RemainReq>;
+    course_reqs: {[index: string]: string};
+}

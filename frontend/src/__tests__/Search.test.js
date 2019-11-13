@@ -1,3 +1,5 @@
+import fetch, {Response} from 'node-fetch';
+import Button from "react-bootstrap/Button";
 import React from 'react'
 import { shallow } from 'enzyme';
 import Search from '../__components__/degree_search/Search';
@@ -27,7 +29,10 @@ describe('Rendering the degree search page', () => {
   //   expect(wrapper).toMatchSnapshot();
   // });
 
-  // it('searches correctly', () => {
-  //   expect(wrapper.state.degrees).toEqual([{ id: "1", name: "this is a test" }]);
-  // });
+  // TODO(kevin): fix these tests
+  //wrapper.find('input.search-bar').simulate("change", { target: { value: "study" }})
+
+  //it('searches correctly', () => {
+  //  expect(wrapper.find(Button).first().text()).toBe("studyology");
+  //});
 });

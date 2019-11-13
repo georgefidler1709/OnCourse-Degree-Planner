@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
-import { GeneratorResponse, YearPlan, TermPlan, Course } from '../../Api';
+import { Course } from '../../Api';
 import {API_ADDRESS} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
@@ -410,7 +410,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     const { draggableId, source } = start
 
     // get offering info for this new course
-    if (source.droppableId == "Add") {
+    if (source.droppableId === "Add") {
       await this.getCourseInfo(draggableId);
     }
 

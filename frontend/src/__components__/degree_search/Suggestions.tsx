@@ -1,9 +1,30 @@
 import React, {MouseEvent} from "react";
-import Button from "react-bootstrap/Button";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
 import { Course } from '../../Api'
 import {Position, SearchResult, CourseSearchResult} from '../../Types'
+import styled from 'styled-components'
+
+const Suggestion = styled.button`
+  border: 1px solid #575756;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 8px;
+  width: 220px;
+  background-color: #c2eced;
+`
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`
+const Code = styled.h1`
+  pointer-events: none;
+`
+const Name = styled.p`
+  pointer-events: none;
+`
 
 
 function Suggestions(props: {degrees: Array<SearchResult>}) {
@@ -26,21 +47,19 @@ function Suggestions(props: {degrees: Array<SearchResult>}) {
       delay={200}
       key={r.degree.id}
     >
-      <Button
-        variant="light"
-        className="suggestion"
+      <Suggestion
         id={r.degree.id}
         value={r.degree.id}
         onClick={handleClick}
       >
-        <h1 className="suggestion-code">{r.degree.id}</h1>
-        <p className="suggestion-name">{r.text}</p>
-      </Button>
+        <Code>{r.degree.id}</Code>
+        <Name>{r.text}</Name>
+      </Suggestion>
     </SuggestionInfoHover>
     
   ));
 
-  return <div className="suggestion-container">{options}</div>;
+  return <Container>{options}</Container>;
 }
 
 export default Suggestions;
@@ -66,21 +85,19 @@ function CourseSuggestions(props: CourseSuggestionsProps) {
       delay={200}
       key={r.course.code}
     >
-      <Button
-        variant="light"
-        className="suggestion"
+      <Suggestion
         id={r.course.code}
         value={r.course.code}
         onClick={() => props.add_event(r.course)}
       >
-        <h1 className="suggestion-code">{r.code}</h1>
-        <p className="suggestion-name">{r.text}</p>
-      </Button>
+        <Code>{r.code}</Code>
+        <Name>{r.text}</Name>
+      </Suggestion>
     </SuggestionInfoHover>
     
   ));
 
-  return <div className="suggestion-container">{options}</div>;
+  return <Container>{options}</Container>;
 }
 
 export { CourseSuggestions };

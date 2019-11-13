@@ -17,6 +17,8 @@ class ScrapedCourse(object):
     def __init__(self,
             year: int,
             code: str,
+            name: str,
+            units: int,
             overview: str,
             equivalents: List[str],
             exclusions: List[str],
@@ -24,10 +26,11 @@ class ScrapedCourse(object):
             faculty: str,
             school: str,
             study_level: str,
-            terms: str,
-            units: int):
+            terms: str):
         self.year = year
         self.code = code
+        self.name = name
+        self.units = units
         self.overview = overview
         self.equivalents = equivalents
         self.exclusions = exclusions
@@ -36,4 +39,3 @@ class ScrapedCourse(object):
         self.school = school
         self.study_level = study_level
         self.terms = terms
-        self.units = units

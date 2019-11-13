@@ -5,22 +5,22 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
   <SuggestionInfoHover
     content={
       <a
-        href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/1"
+        href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3778"
       >
         More Info
       </a>
     }
     delay={200}
-    key="1"
+    key="3778"
     placement="right"
   >
     <styled.button
-      id={1}
+      id="3778"
       onClick={[Function]}
-      value={1}
+      value="3778"
     >
       <styled.h1>
-        1
+        3778
       </styled.h1>
       <styled.p />
     </styled.button>
@@ -28,22 +28,22 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
   <SuggestionInfoHover
     content={
       <a
-        href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/2"
+        href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/7001"
       >
         More Info
       </a>
     }
     delay={200}
-    key="2"
+    key="7001"
     placement="right"
   >
     <styled.button
-      id={2}
+      id="7001"
       onClick={[Function]}
-      value={2}
+      value="7001"
     >
       <styled.h1>
-        2
+        7001
       </styled.h1>
       <styled.p />
     </styled.button>

@@ -22,6 +22,7 @@ const Container = styled.div`
 const Code = styled.h1`
   pointer-events: none;
 `
+
 const Name = styled.p`
   pointer-events: none;
 `

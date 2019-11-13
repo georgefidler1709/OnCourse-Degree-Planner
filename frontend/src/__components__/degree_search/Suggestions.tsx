@@ -2,7 +2,8 @@ import React, {MouseEvent} from "react";
 import Button from "react-bootstrap/Button";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
-import {Position, SearchResult} from '../../Types'
+import { Course } from '../../Api'
+import {Position, SearchResult, CourseSearchResult} from '../../Types'
 
 
 function Suggestions(props: {degrees: Array<SearchResult>}) {
@@ -43,3 +44,43 @@ function Suggestions(props: {degrees: Array<SearchResult>}) {
 }
 
 export default Suggestions;
+export { Suggestions };
+
+interface CourseSuggestionsProps {
+  courses: Array<CourseSearchResult>;
+  add_event: (course: Course) => void;
+}
+
+function CourseSuggestions(props: CourseSuggestionsProps) {
+
+  const year : string = "2020"
+  const handbook : string = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}/`
+  const placement : Position = "right"
+  
+  const options = props.courses.map((r,i) => (
+    <SuggestionInfoHover
+      content={
+        <a href={handbook + r.course.code}>More Info</a>
+      }
+      placement={placement}
+      delay={200}
+      key={r.course.code}
+    >
+      <Button
+        variant="light"
+        className="suggestion"
+        id={r.course.code}
+        value={r.course.code}
+        onClick={() => props.add_event(r.course)}
+      >
+        <h1 className="suggestion-code">{r.code}</h1>
+        <p className="suggestion-name">{r.text}</p>
+      </Button>
+    </SuggestionInfoHover>
+    
+  ));
+
+  return <div className="suggestion-container">{options}</div>;
+}
+
+export { CourseSuggestions };

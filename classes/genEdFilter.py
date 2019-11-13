@@ -22,9 +22,6 @@ class GenEdFilter(courseFilter.CourseFilter):
     def __repr__(self):
         return f"<GenEdFilter>"
 
-    def info(self) -> str:
-        return "General Education"
-
     @property
     def core(self) -> bool:
         return False
@@ -37,6 +34,11 @@ class GenEdFilter(courseFilter.CourseFilter):
     @property
     def filter_name(self) -> str:
         return "GenEdFilter"
+
+    @property
+    def info(self) -> str:
+        # TODO can add the URL here or as a button on front-end
+        return 'Any general education course'
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter

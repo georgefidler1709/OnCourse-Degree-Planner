@@ -24,9 +24,6 @@ class FieldFilter(courseFilter.CourseFilter):
     def __repr__(self) -> str:
         return f"<FieldFilter field={self.field!r}>"
 
-    def info(self) -> str:
-        return f"Field {self.field}"
-
     @property
     def core(self) -> bool:
         return False
@@ -39,6 +36,10 @@ class FieldFilter(courseFilter.CourseFilter):
     @property
     def filter_name(self) -> str:
         return "FieldFilter"
+
+    @property
+    def info(self) -> str:
+        return f"Field '{self.field}'"
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter

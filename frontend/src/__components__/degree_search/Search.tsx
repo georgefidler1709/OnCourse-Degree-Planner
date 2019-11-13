@@ -1,13 +1,23 @@
 import React, { Component, ChangeEvent } from 'react'
-import Suggestions from './Suggestions'
+import {Suggestions, CourseSuggestions} from './Suggestions'
 import {API_ADDRESS} from '../../Constants'
-import {SimpleDegrees, SimpleDegree} from '../../Api'
-import {SearchResult} from '../../Types'
+import {SimpleDegrees, SimpleDegree, CourseList, Course} from '../../Api'
+import {SearchResult, CourseSearchResult} from '../../Types'
 
 interface SearchState {
   searchResults : Array<SearchResult>;
   degrees: SimpleDegrees
   oldQuery: string
+}
+
+interface SearchCourseState {
+  searchResults : Array<CourseSearchResult>;
+  courses: CourseList
+  oldQuery: string
+}
+
+interface SearchCourseProps {
+  add_event: (course: Course) => void;
 }
 
 class Search extends Component<{}, SearchState> {
@@ -86,3 +96,94 @@ class Search extends Component<{}, SearchState> {
 }
 
 export default Search
+
+class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
+  constructor(props: SearchCourseProps) {
+    super(props)
+    this.state = {
+      searchResults: [],
+      courses: [],
+      oldQuery: '',
+    }
+
+    fetch(API_ADDRESS + '/full_courses.json')
+      .then(response => response.json())
+      .then(courses => {
+        this.setState({ courses })
+      })
+      .catch((error) => console.error(error));
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
+    let query = event.target.value.toLowerCase();
+    let searchResults: Array<CourseSearchResult> = [];
+
+    function processCourse(course: Course) {
+      // see if query matches part of name or course code
+      let index = course.name.toLowerCase().indexOf(query);
+      let textRes = <>{course.name}</>
+      if (index !== -1) {
+        let begin = course.name.substring(0, index);
+        let mid = course.name.substring(index, index + query.length);
+        let end = course.name.substring(index + query.length);
+        textRes = <>{begin}<u>{mid}</u>{end}</>;
+      }
+
+      let codeIndex = course.code.toLowerCase().indexOf(query);
+      let codeRes = <>{course.code}</>
+      if (codeIndex !== -1) {
+        let beginC = course.code.substring(0, codeIndex);
+        let midC = course.code.substring(codeIndex, codeIndex + query.length);
+        let endC = course.code.substring(codeIndex + query.length);
+        codeRes = <>{beginC}<u>{midC}</u>{endC}</>;
+      }
+
+      if (index !== -1 || codeIndex !== -1) {
+        // matches at least one, display result
+        searchResults.push({
+          course,
+          text: textRes,
+          code: codeRes
+        })
+      }
+
+    }
+
+    if (query.length !== 0) {
+      if (this.state.oldQuery.length !== 0 && (query.startsWith(this.state.oldQuery) || query.endsWith(this.state.oldQuery))) {
+        for (let result of this.state.searchResults) {
+          processCourse(result.course);
+        }
+      }
+      else {
+        for (let course of this.state.courses) {
+          processCourse(course);
+        }
+      }
+    }
+    this.setState({ searchResults, oldQuery: query });
+  }
+
+  render() {
+    return (
+      <div className="search-bar-container">
+        <form>
+          <input
+            className="search-bar"
+            placeholder="Search for a course..."
+            //value={this.state.query}
+            onChange={this.handleInputChange}
+          />
+        </form>
+      {
+        this.state.searchResults.length > 0 &&
+        <CourseSuggestions courses={this.state.searchResults} add_event={this.props.add_event}/>
+        }
+      </div>
+      )
+  }
+}
+
+export { SearchCourses };

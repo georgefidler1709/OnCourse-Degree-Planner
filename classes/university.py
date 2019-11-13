@@ -209,12 +209,13 @@ class University(object):
                 else:
                     equivalent_id = second_course_id
 
-                equivalent_course = self.load_course(equivalent_id)
-                if equivalent_course is None:
-                    print(f"ERROR: Equivalent course for id {equivalent_id} should not be None")
-                    continue
+                # equivalent_course = self.load_course(equivalent_id)
+                # if equivalent_course is None:
+                #     print(f"ERROR: Equivalent course for id {equivalent_id} should not be None")
+                #     continue
 
-                result_course.add_equivalent(equivalent_course)
+                # result_course.add_equivalent(equivalent_course)
+                result_course.add_equivalent(equivalent_id)
 
         return result_course
 

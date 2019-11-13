@@ -33,7 +33,7 @@ class Course(object):
             prereqs: Optional['courseReq.CourseReq']=None,
             coreqs: Optional['courseReq.CourseReq']=None,
             exclusions: Optional['courseReq.CourseReq']=None,
-            equivalents: Optional[List['course.Course']]=None):
+            equivalents: Optional[List[str]]=None):
         # figure out inputs - database or variables?
         # to be assigned:
         self.subject = subject
@@ -78,7 +78,7 @@ class Course(object):
         self.terms.append(term)
 
     # Add an equivalent to this course
-    def add_equivalent(self, c):
+    def add_equivalent(self, c: str) -> None:
         if self.equivalents is None:
             self.equivalents = []
         self.equivalents.append(c)
@@ -118,7 +118,7 @@ class Course(object):
         if self.equivalents is None:
             return False
         for c in self.equivalents:
-            if c == other:
+            if c == other.course_code:
                 return True
         return False
 

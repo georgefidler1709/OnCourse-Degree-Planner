@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Rendering a degree suggestion renders correctly 1`] = `
-<div
-  className="suggestion-container"
->
+<styled.div>
   <SuggestionInfoHover
     content={
       <a
@@ -16,25 +14,16 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
     key="1"
     placement="right"
   >
-    <Button
-      active={false}
-      className="suggestion"
-      disabled={false}
+    <styled.button
       id={1}
       onClick={[Function]}
-      type="button"
       value={1}
-      variant="light"
     >
-      <h1
-        className="suggestion-code"
-      >
+      <styled.h1>
         1
-      </h1>
-      <p
-        className="suggestion-name"
-      />
-    </Button>
+      </styled.h1>
+      <styled.p />
+    </styled.button>
   </SuggestionInfoHover>
   <SuggestionInfoHover
     content={
@@ -48,25 +37,16 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
     key="2"
     placement="right"
   >
-    <Button
-      active={false}
-      className="suggestion"
-      disabled={false}
+    <styled.button
       id={2}
       onClick={[Function]}
-      type="button"
       value={2}
-      variant="light"
     >
-      <h1
-        className="suggestion-code"
-      >
+      <styled.h1>
         2
-      </h1>
-      <p
-        className="suggestion-name"
-      />
-    </Button>
+      </styled.h1>
+      <styled.p />
+    </styled.button>
   </SuggestionInfoHover>
-</div>
+</styled.div>
 `;

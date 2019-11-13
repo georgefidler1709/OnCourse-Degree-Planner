@@ -170,6 +170,14 @@ class Scraper(object):
             courses = list(map(lambda x: x.find('span'), course_sections))
             return list(map(lambda x: x.string, courses))
 
+    def scrape_all_courses(self, year: int, postgrad: bool = False) -> List[scrapedCourse.ScrapedCourse]:
+        course_codes = self.get_course_codes(year, '', postgrad)
+
+        courses = list(map(lambda x: self.get_course(year, x, postgrad), course_codes))
+
+        return courses
+
+
 
 def get_webpage(url):
     response = requests.get(url)

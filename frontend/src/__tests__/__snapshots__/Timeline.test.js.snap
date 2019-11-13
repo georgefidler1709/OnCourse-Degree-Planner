@@ -47,10 +47,10 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
           id="timeline"
         >
            
-          <div>
-            <styled.div
-              key="2019"
-            >
+          <div
+            key="2019"
+          >
+            <styled.div>
               <Term
                 courses={
                   Array [
@@ -525,10 +525,10 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
               />
             </styled.div>
           </div>
-          <div>
-            <styled.div
-              key="2020"
-            >
+          <div
+            key="2020"
+          >
+            <styled.div>
               <Term
                 courses={Array []}
                 highlight={false}
@@ -664,10 +664,10 @@ COMP9101",
               />
             </styled.div>
           </div>
-          <div>
-            <styled.div
-              key="2021"
-            >
+          <div
+            key="2021"
+          >
+            <styled.div>
               <Term
                 courses={Array []}
                 highlight={false}

@@ -30,7 +30,7 @@ function displayCourseReqs(reqs: string, req_type: string) {
       <h5>{req_type + ":"}</h5>
       {reqs ? (
         <ul>
-          {reqs.split("\n").map(req => <li>{addLinks(req)}</li>)}
+          {reqs.split("\n").map(req => <li key={req}>{addLinks(req)}</li>)}
         </ul>
       ) : (
         <ul style={noBullet}>
@@ -45,7 +45,7 @@ function addLinks(req: string) {
   req = req.replace(/[()]/g, '');
   return req.split(' ').map(word => {
     if(word === "OR" || word === "AND" || word === "") return " " + word + " "
-    return (<a href={`${handbook}/${word}`}>{word}</a>)
+    return (<a key={word} href={`${handbook}/${word}`}>{word}</a>)
   })
 }
 

@@ -113,14 +113,9 @@ class Program(object):
     def get_outstanding_reqs(self) -> Dict[('degreeReq.DegreeReq', int)]:
         return self.degree.get_requirements(self)
 
-    # Input: a term
-    # Return: whether the term is overloaded
-    def overloaded(self, term: 'term.Term') -> bool:
-        return self.unit_count_term(term) > self.degree.term_unit_cap
-
     # Return: a list of tuples containing a course code and a list of errors
     # pertaining to the requirements of that course
-    def check_course_reqs(self) -> List[Tuple[str, List[str]]]:
+    def check_course_reqs(self) -> List[Tuple[str, List[Tuple[str, List[str]]]]]:
         errors = []
         for enrol in self.courses:
             course_errors = enrol.course.check_reqs(self, enrol.term)

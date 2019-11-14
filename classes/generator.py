@@ -104,6 +104,7 @@ class Generator(object):
                     if term is not None:
                         prog.add_course(e, term)
                         courseIter.remove(c)
+                        break
 
             courses = courseIter.copy()
 

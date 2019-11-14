@@ -20,6 +20,7 @@ from . import term
 from . import api
 from . import course
 from . import program
+from . import subjectReq
 
 class Course(object):
 
@@ -32,7 +33,7 @@ class Course(object):
             faculty: str,
             prereqs: Optional['courseReq.CourseReq']=None,
             coreqs: Optional['courseReq.CourseReq']=None,
-            exclusions: Optional['courseReq.CourseReq']=None,
+            exclusions: Optional[List['course.Course']]=None,
             equivalents: Optional[List['course.Course']]=None):
         # figure out inputs - database or variables?
         # to be assigned:
@@ -44,7 +45,12 @@ class Course(object):
         self.faculty = faculty
         self.prereqs = prereqs
         self.coreqs = coreqs
-        self.exclusions = exclusions
+        self.exclusions: List['course.Course']
+        if exclusions is None:
+            self.exclusions = []
+        else:
+            self.exclusions = exclusions
+
         self.equivalents: List['course.Course']
         if equivalents is None:
             self.equivalents = []
@@ -61,7 +67,8 @@ class Course(object):
                 "terms": [term.to_api() for term in self.terms],
                 "prereqs": self.prereqs.info(top_level=True) if self.prereqs else "",
                 "coreqs": self.coreqs.info(top_level=True) if self.coreqs else "",
-                "exclusions": self.exclusions.info(top_level=True, exclusion=True) if self.exclusions else "",
+                "exclusions": "\n".join(map(lambda x: x.course_code, self.exclusions)),
+
                 "equivalents": "\n".join(map(lambda x: x.course_code, self.equivalents))
                 }
 
@@ -84,6 +91,12 @@ class Course(object):
     # Add an offering of this course in a given term
     def add_offering(self, term: term.Term) -> None:
         self.terms.append(term)
+
+    # Add an exclusion to this course
+    def add_exclusion(self, c):
+        if self.exclusions is None:
+            self.exclusions = []
+        self.exclusions.append(c)
 
     # Add an equivalent to this course
     def add_equivalent(self, c):
@@ -114,11 +127,23 @@ class Course(object):
     # Input: The program of the student trying to take the course, the term they are taking it in
     # Return: whether any exclusion courses have been taken
     def excluded(self, program: 'program.Program', term: term.Term) -> bool:
-        if self.exclusions is None:
-            return False
-        else:
-            # Check with coreq=True as we don't want to take excluded courses in the same term
-            return self.exclusions.fulfilled(program, term, coreq=True)
+        return len(self.exclusion_errors(program, term)) != 0
+
+    # Input: The program of the student trying to take the course, the term they are taking it in
+    # Return: The list of exclusion courses that have been taken
+    def exclusion_errors(self, program: 'program.Program', term: term.Term) -> List[str]:
+        errors = []
+        for exclusion in self.exclusions:
+           # Make a subject requirement with this course, and if it succeeds then we know we've hit
+           # an exclusion
+           exclusion_req = subjectReq.SubjectReq(exclusion)
+
+           if len(exclusion_req.check(program, term, coreq=True)) == 0:
+               # The check to see if we've matched the excluded course didn't give any errors,
+               # which means that we are doing the excluded course
+               errors.append(exclusion.course_code)
+
+        return errors
 
     # Input: a course
     # Return: whether it is an equivalent course
@@ -143,11 +168,9 @@ class Course(object):
                 errors.append(("Corequisite:", coreq_errors))
         
         # handle exclusions
-        # if self.exclusions is not None:
-        #     ex_errors = self.exclusions.check(prog, term, coreq=True)
-        #     for e in coreq_errors:
-        #         errors.append(e)
-
+        exclusion_errors = self.exclusion_errors(prog, term)
+        if len(exclusion_errors) > 0:
+            errors.append(("Exclusion:", exclusion_errors))
         # min mark warnings
 
         return errors

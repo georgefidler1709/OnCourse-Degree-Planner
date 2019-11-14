@@ -86,8 +86,8 @@ class Degree(object):
     # NOTE we might have to consider how to handle one course
     # fulfilling multiple requirements
     def complete(self, program: 'program.Program') -> bool:
-        remaining = self.get_requirements()
-        if len(remaining) == 0:
+        remaining = self.get_requirements(program)
+        if not remaining:
             return True
         return False
 

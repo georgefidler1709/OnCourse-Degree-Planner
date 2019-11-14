@@ -102,7 +102,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     const enrollments = this.state.program.enrollments;
     if(this.isYearEmpty(enrollments[enrollments.length - 1])) newState.program.enrollments.pop()
     else {
-      // THROW APPROPRIATE ERROR MESSAGE TO SAY WE WON"T DELETE A YEAR WITH COURSES IN IT
+      alert("Remove courses from a year before deleting it")
       newState.program.duration++
     }
 
@@ -299,6 +299,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       this.newCourse(draggableId, destYearIdx, destTermIdx, destination.index)
       return
     }
+
+    if(!this.isCourseOffered(draggableId, destTerm, destYear)) return
 
     let startYearIdx = destYearIdx
     let startYear = destYear

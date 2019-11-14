@@ -260,7 +260,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     // push this course onto the right term plan (in the right idx)
     newState.program.enrollments[destYearIdx].term_plans[destTermIdx].course_ids.splice(destIdx, 0, draggableId)
-
+    newState.add_course = undefined
     this.setState(newState)
     this.updateProgram(newState)
   }

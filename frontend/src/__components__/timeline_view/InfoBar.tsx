@@ -33,7 +33,7 @@ interface InfoBarProps {
   degree_id: number;
   degree_name: string;
   degree_reqs: Array<Req>;
-  add_course: Course; // Course to add
+  add_course?: Course; // Course to add
   add_event: (course: Course) => void;// function to call when you want to add a course
   remove_course: (id: string) => void;
 }

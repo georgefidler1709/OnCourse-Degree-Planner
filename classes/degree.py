@@ -99,6 +99,15 @@ class Degree(object):
         url = f"https://www.handbook.unsw.edu.au/{study_level}/programs/{self.year}/{self.num_code}"
         return url
 
+    # Defines what it means for two degrees to be equal
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, Degree):
+            return False
+        if int(self.num_code) ==  int(other.num_code):
+            if self.year == other.year:
+                return True
+        return False
+
     # Saves degree into the database
     # Return: the id of the degree
     def save(self) -> int:

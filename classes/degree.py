@@ -15,9 +15,9 @@ requirements.
 """
 
 from flask import g
-from typing import Dict, Optional, Sequence
+from typing import Dict, Optional, Sequence, List
 
-from . import courseEnrollment
+from . import courseEnrollment, course
 from . import degreeReq
 from . import program
 from . import genEdFilter
@@ -44,41 +44,40 @@ class Degree(object):
 
     def get_requirements(self, program: Optional['program.Program']=None) -> Dict[('degreeReq.DegreeReq', int)]:
         remaining = {}
+        # if there isn't a program, pass in None's to DegreeRequirement.remaining()
+        courses: Optional[List['course.Course']] = None
+        degree: Optional['Degree'] = None
         if program:
             courses = program.course_list()
+            degree = program.degree
+            
+        # split the requirements into types
+        core_reqs = [ x for x in self.requirements if x.core_requirement() ]
+        subj_reqs = [ x for x in self.requirements if x.subj_requirement() ]
+        gen_reqs = [ x for x in self.requirements if x.gen_requirement() ]
+        free_reqs = [ x for x in self.requirements if x.free_requirement() ]
 
         # core requirement
-        for req in self.requirements:
-            if req.core_requirement():
-                if not program:
-                    remaining[req] = req.remaining(None, None)
-                elif not req.fulfilled(courses, program.degree):
-                    remaining[req] = req.remaining(courses, program.degree)
-                
+        for req in core_reqs:
+            # requirement is outstanding if you don't have a Program (no enrollments)
+            # or if your current Program doesn't fulfill this requirement
+            if not program or not (courses and degree and req.fulfilled(courses, degree)):
+                remaining[req] = req.remaining(courses, degree)
         
         # subject req
-        for req in self.requirements:
-            if req.filter is not None and req.filter.field_filter and isinstance(req, minDegreeReq.MinDegreeReq):
-                if not program:
-                    remaining[req] = req.remaining(None, None)
-                elif not req.fulfilled(courses, program.degree):
-                    remaining[req] = req.remaining(courses, program.degree)
+        for req in subj_reqs:
+            if not program or not (courses and degree and req.fulfilled(courses, degree)):
+                remaining[req] = req.remaining(courses, degree)
 
         # gen ed
-        for req in self.requirements:
-            if isinstance(req.filter, genEdFilter.GenEdFilter):
-                if not program:
-                    remaining[req] = req.remaining(None, None)
-                elif not req.fulfilled(courses, program.degree):
-                    remaining[req] = req.remaining(courses, program.degree)
+        for req in gen_reqs:
+            if not program or not (courses and degree and req.fulfilled(courses, degree)):
+                remaining[req] = req.remaining(courses, degree)
 
         # free elec
-        for req in self.requirements:
-            if isinstance(req.filter, freeElectiveFilter.FreeElectiveFilter):
-                if not program:
-                    remaining[req] = req.remaining(None, None)
-                elif not req.fulfilled(courses, program.degree):
-                    remaining[req] = req.remaining(courses, program.degree)
+        for req in free_reqs:
+            if not program or not (courses and degree and req.fulfilled(courses, degree)):
+                remaining[req] = req.remaining(courses, degree)
 
         return remaining
 

@@ -120,6 +120,7 @@ class Program(object):
         return courses
 
     # Return: requirements remaining to complete the program
+    # is a dict of degreerequirement and corresponding number of UOC needed
     def get_outstanding_reqs(self) -> Dict[('degreeReq.DegreeReq', int)]:
         return self.degree.get_requirements(self)
 
@@ -136,30 +137,21 @@ class Program(object):
                         "course_ids": courses,
                     } for (term, courses) in term_plan.items() ]
                 } for (year, term_plan) in enrollments_map.items()];
-            
-        # TODO hardcode which reqs to output for now
-        # until you fix the bug, then switch for commented out section below
-        output_req_types = (fieldFilter.FieldFilter, 
-            freeElectiveFilter.FreeElectiveFilter,
-            levelFilter.LevelFilter,
-            genEdFilter.GenEdFilter)
-        outstanding_reqs = self.degree.requirements
-        reqs: List['api.RemainReq'] = []
-        for r in outstanding_reqs:
-            if isinstance(r.filter, output_req_types):
-                new: api.RemainReq = {'units': r.uoc, 'filter_type': r.filter.simple_name}
-                reqs.append(new)
-
-        # TODO this is the correct version, uncomment when
-        # self.get_outstanding_reqs() is accurate
-        '''
+        
         outstanding_reqs = self.get_outstanding_reqs()
 
         reqs: List['api.RemainReq'] = []
         for key, val in outstanding_reqs.items():
-            new: api.RemainReq = {'units': val, 'filter_type': key.filter.simple_name}
+
+            new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
+            if key.filter:
+                new = {'units': val, 
+                    'filter_type': key.filter.simple_name,
+                    'info': key.filter.info
+                }
+
             reqs.append(new)                
-        '''
+        
 
         return {'id': self.degree.num_code, 
                 'name': self.degree.name,

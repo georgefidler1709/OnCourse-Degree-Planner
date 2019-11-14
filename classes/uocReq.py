@@ -30,6 +30,12 @@ class UOCReq(singleReq.SingleReq):
     def __repr__(self) -> str:
         return f"<UOCReq uoc={self.uoc!r}, filter={self.filter!r}>"
 
+    def info(self, top_level: bool=False, exclusion: bool=False) -> str:
+        if self.filter is None:
+            return f"{self.uoc} UoC"
+        else:
+            return f"{self.uoc} UoC fulfilling [{self.filter.info}]"
+
     @property
     def requirement_name(self) -> str:
         return "UocRequirement"

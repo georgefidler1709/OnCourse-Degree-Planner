@@ -31,7 +31,7 @@ class OrFilter(courseFilter.CourseFilter):
     @property
     def field_filter(self) -> bool:
         return any(map(lambda x: x.field_filter, self.filters))
-    
+
     def __repr__(self) -> str:
         return f"<OrFilter filters={self.filters!r}>"
 
@@ -44,10 +44,22 @@ class OrFilter(courseFilter.CourseFilter):
     # so get the name of one of its components
     @property
     def simple_name(self) -> str:
-        if len(self.filters) != 0:
-            return self.filters[0].simple_name
-        else:
-            return "Or"
+        # if len(self.filters) != 0:
+        #     return self.filters[0].simple_name
+        # else:
+        #     return "Or"
+        return "Choose from these requirements"
+
+    @property
+    def info(self) -> str:
+        res = ''
+        for f in self.filters:
+            if res != '':
+                res += ' OR '
+            # res += f.info
+            res += '(' + f.info + ')'
+
+        return res
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter

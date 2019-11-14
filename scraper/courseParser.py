@@ -1,95 +1,223 @@
-# '''
-# Parser for courses
-# '''
+'''
+Parser for courses
+'''
 
-# from typing import List, Tuple, Optional
-# class CourseParser(object):
+from typing import List, Tuple, Optional
 
-#     def __init__(self):
-#         pass
+from classes import course
+from classes import term
+from classes import courseFilter
+from classes import fieldFilter
+from classes import levelFilter
+from classes import orFilter
+from classes import andFilter
+from . import scrapedEnrollmentReq
+from . import scrapedSubjectReq
+from classes import courseReq
+from classes import yearReq
+from classes import uocReq
+from classes import wamReq
+from classes import andReq
+from classes import orReq
 
-#     # Parse the string to return the list of term offerings
-#     def parse_terms(self) -> List['term.Term']:
-#         terms: List['term.Term'] = []
-#         for i in range(1, 4):
-#             if str(i) in self.terms:
-#                 terms.append(term.Term(self.year, i))
-#         return terms
-#         # TODO summer terms
 
-#     # Split a str of bracketed phrases by the outer level conjunction
-#     # Return: list of split phrases and the conjunction joining them
-#     # Note: outer brackets of phrases removed
-#     def split_by_conj(self, string: str) -> Tuple[List[str], Optional[str]]:
-#         pass
+class CourseParser(object):
 
-#     # interpret a string containing a single course requirement
-#     def make_single_course_req(self, string) -> 'courseReq.CourseReq':
-#         split = string.split()
+    def __init__(self):
+        pass
+
+    # Parse the string to return the list of term offerings
+    def parse_terms(self, string: str, year: int) -> List['term.Term']:
+        terms: List['term.Term'] = []
+        for i in range(1, 4):
+            if str(i) in string:
+                terms.append(term.Term(year, i))
+        return terms
+        # TODO summer terms
+
+    def is_course_code(self, string: str) -> bool:
+        if string[:4].isalpha() and string[4:].isdigit():
+            return True
+        return False
+
+    # Split a str of bracketed phrases by the outer level conjunction
+    # Return: list of split phrases and the conjunction joining them
+    # Note: outer brackets of phrases removed
+    def split_by_conj(self, string: str) -> Tuple[List[str], Optional[str]]:
+        # find outer level conjunctions
+        break_points: List[int] = []
+        brackets: List[str] = []
+
+        length = len(string)
+        for i in range(0, length):
+            if string[i] == '(':
+                brackets.append(string[i])
+            elif string[i] == ')':
+                if len(brackets) == 1:
+                    if i < length - 3:
+                        if string[i+2] == 'a':
+                            conj = 'and'
+                        elif string[i+2] == 'o':
+                            conj = 'or'
+                        else:
+                            print("ERROR splitting requirements for course:")
+                            print(string)
+                    break_points.append(i+1)
+                    brackets = []
+                else:
+                    brackets.pop()
         
-#         #POSSIBLY MOD SUBJREQ TO TAKE COURSE CODE RATHER THAN COURSE OBJECT??
-#         if len(split) == 1:
-#             c = load_course(split[0])
+        #should now have list of breakpoints corresponding to closing brackets
+
+        # remove brackets around a single compositeReq
+        if len(break_points) == 1:
+            string = string[1:-1]
+
+        # no brackets = split on conjunctions
+        if len(break_points) < 2:
+            if string.find(' or ') > 0:
+                return (string.split(' or '), 'or')
+            elif string.find(' and ') > 0:
+                return (string.split(' and '), 'and')
+            else:
+                return ([string], None)
+
+        # bracketed subphrases to consider
+        strs: List[str] = []
+
+        start = 0
+        for end in break_points:
+            split_string = string[start:end]
+            split_string.strip()
+            strs.append(split_string)
+            start = end + len(conj) + 2
+
+        return (strs, conj)
+
+
+    # Parse standard form of uoc req filter spec and return appropriate filter
+    def parse_uoc_req_filter(self, req: List[str]) -> Optional['courseFilter.CourseFilter']:
+        fields: List[str] = []
+        levels: List[int] = []
+        f: bool = False
+        l: bool = False
+        for word in req[2:]:
+            if word == "f":
+                f = True
+                l = False
+            elif word == "l":
+                f = False
+                l = True
+            elif f:
+                fields.append(word)
+            elif l:
+                levels.append(int(word))
+
+        field_filters: List['courseFilter.CourseFilter'] = []
+        level_filters: List['courseFilter.CourseFilter'] = []
+
+        for field in fields:
+            field_filters.append(fieldFilter.FieldFilter(field))
+        for level in levels:
+            level_filters.append(levelFilter.LevelFilter(level))
+
+        ffs = None
+        lfs = None
+        if len(field_filters) == 1:
+            ffs = field_filters[0]
+        elif len(field_filters) > 1:
+            ffs = orFilter.OrFilter(field_filters)
+        if len(level_filters) == 1:
+            lfs = level_filters[0]
+        if len(level_filters) > 1:
+            lfs = orFilter.OrFilter(level_filters)
+
+        if ffs and lfs:
+            return andFilter.AndFilter([ffs, lfs])
+        elif ffs:
+            return ffs
+        elif lfs:
+            return lfs
+        else:
+            return None
+
+
+    # interpret a string containing a single course requirement
+    def make_single_course_req(self, string: str) -> Optional['courseReq.CourseReq']:
+        split = string.split()
         
-#         if course is not None:
-#             return subjectReq.SubjectReq(c)
+        # subject requirements
+        if self.is_course_code(split[0]):
+            if len(split) == 1:
+                return scrapedSubjectReq.ScrapedSubjectReq(split[0])
+            elif len(split) == 2:
+                return scrapedSubjectReq.ScrapedSubjectReq(split[0], int(split[1]))
         
-#         elif split[0].lower() == "wam":
-#             return wamReq.WAMReq(split[1])
+        # WAM requirements
+        elif split[0].lower() == "wam":
+            return wamReq.WAMReq(int(split[1]))
         
-#         elif split[0].lower() == "year":
-#             return yearReq.YearReq(split[1])
+        # year requirements
+        elif split[0].lower() == "year":
+            return yearReq.YearReq(int(split[1]))
         
-#         # CAN WE LOAD A FILTER FROM DB??
-#         elif split[0].lower() == "uoc":
-#             units = int(split[1])
-#             if len(split) > 2:
-#                 filter = parse_uoc_req_filter(split)
-#                 return uocReq.UOCReq(units, filter)
-#             return uocReq.UOCReq(units)
+        # UOC requirements
+        elif split[0].lower() == "uoc":
+            units = int(split[1])
+            if len(split) > 2:
+                filter = self.parse_uoc_req_filter(split)
+                return uocReq.UOCReq(units, filter)
+            else:
+                return uocReq.UOCReq(units)
 
-#         # HOW DO WE HANDLE DEGREE/FACULTY/ETC
-#         elif split[0].lower() == "enrol":
-#             pass
-
-#     # parse a string containing a possibly nested course requirement
-#     def parse_course_req(self, req_str: str) -> Optional['courseReq.CourseReq']:
-#         # split by outer conjunctions
-#         tokenised = split_by_conj(req_str)
-
-#         # this was a single course req
-#         if conj == None:
-#             return make_single_course_req(tokenised[0])
-
-#         reqs = []
-#         for s in tokenised:
-#             reqs.append(parse_course_req(s))
-
-#         # something has gone wrong
-#         # notify somehow? Catalogue for manual checking?
-#         if len(reqs) == 0:
-#             return None
+        # enrollment requirements
+        elif split[0].lower() == "enrol":
+            degree = int(split[1])
+            return scrapedEnrollmentReq.ScrapedEnrollmentReq(degree)
         
-#         # create the composite req
-#         if conj.lower() == "and":
-#             return andReq.AndReq(reqs)
+        # something has gone wrong
+        print("ERROR: could not parse course req")
+        print(string)
+        return None
 
-#         elif conj.lower() == "or":
-#             return orReq.OrReq(reqs)
+    # parse a string containing a possibly nested course requirement
+    def parse_course_req(self, req_str: str) -> Optional['courseReq.CourseReq']:
+        # split by outer conjunctions
+        tokenised, conj = self.split_by_conj(req_str)
 
-#         return None
+        # this was a single course req
+        if conj == None:
+            return self.make_single_course_req(tokenised[0])
 
-#     # Parse a string containing a course requirement
-#     def parse_req(self, req: str) -> Optional['courseReq.CourseReq']:
-#         if self.prereqs == None:
-#             return None
+        reqs = []
+        for s in tokenised:
+            r = self.parse_course_req(s)
+            if r:
+                reqs.append(r)
+                
+        # something has gone wrong
+        # notify somehow? Catalogue for manual checking?
+        if len(reqs) < 2:
+            print("ERROR parsing course reqs:")
+            print(req_str)
+            print(reqs)
+            return None
         
-#         if self.prereqs == "":
-#             return None
+        # create the composite req
+        if conj == 'and':
+            return andReq.AndReq(reqs)
 
-#         return parse_course_req(req)
+        elif conj == 'or':
+            return orReq.OrReq(reqs)
 
-#     # could we store equivalents as strings?
-#     # course == str where str == course code??
-#     def parse_eq(self, codes: List[str]) -> List['course.Course']:
-#         pass
+        return None
+
+    # Parse a string containing a course requirement
+    def parse_req(self, req: str) -> Optional['courseReq.CourseReq']:
+        if req == None:
+            return None
+        
+        if req == "":
+            return None
+
+        return self.parse_course_req(req)

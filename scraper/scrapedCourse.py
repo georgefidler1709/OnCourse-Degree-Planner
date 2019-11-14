@@ -13,6 +13,9 @@ A class to contain information about a course, scraped from the handbook
 
 from typing import List
 
+from . import courseParser
+from classes import course
+
 class ScrapedCourse(object):
     def __init__(self,
             year: int,
@@ -38,16 +41,27 @@ class ScrapedCourse(object):
         self.terms = terms
         self.units = units
 
-    # Convert to a course object
-    def to_course(self):
-        parser = parser.Parser()
+    def save_to_dict(self) -> List['course.Course']:
+        pass
 
+    # Convert to a course object
+    def to_course(self) -> 'course.Course':
+        parser = courseParser.CourseParser()
+
+        # Step 1: save into db
         subject = ""
         code  = 0
         name = ""
         units = self.units
-        terms = parser.parse_terms(self.terms)
+        terms = parser.parse_terms(self.terms, self.year)
         faculty = self.faculty
+
+        # store in dict
+        return course.Course(subject, code, name, units, terms, faculty)
+
+    def fill_reqs(self):
+        parser = courseParser.CourseParser()
+
         prereqs = parser.parse_req(self.prereqs)
         coreqs = parser.parse_req(self.coreqs)
         exclusions = parser.parse_req(self.exclusions)

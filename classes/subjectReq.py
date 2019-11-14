@@ -18,6 +18,7 @@ from . import term
 from . import program
 from . import singleReq
 
+default_mark = 50
 
 class SubjectReq(singleReq.SingleReq):
 
@@ -25,12 +26,18 @@ class SubjectReq(singleReq.SingleReq):
         super().__init__()
         self.course = course
         if min_mark is None:
-            self.min_mark = 50
+            self.min_mark = default_mark
         else:
             self.min_mark = min_mark
 
     def __repr__(self) -> str:
         return f"<SubjectReq course={self.course!r} min_mark={self.min_mark!r}>"
+
+    def info(self, top_level: bool=False, exclusion: bool=False) -> str:
+        if self.min_mark == default_mark:
+            return self.course.course_code
+        else:
+            return "A mark of {self.min_mark} in {self.course.course_code}"
 
      # The name of the requirement for the database
     @property
@@ -41,6 +48,9 @@ class SubjectReq(singleReq.SingleReq):
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, prog: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
+        for c in prog.prior_studies:
+            if c == self.course or c.equivalent(self.course):
+                return True
         for enrollment in prog.courses:
             if enrollment.course == self.course or enrollment.course.equivalent(self.course):
                 if (coreq and enrollment.term <= term) or (enrollment.term < term):

@@ -106,8 +106,11 @@ class Helper:
 				check = "SELECT type_id, id FROM CourseFilters where type_id = ?"
 			elif type_id == 3:
 				# field filter
-				check = "SELECT type_id, field_code, level, id FROM CourseFilters where type_id = ? and field_code = ? and level = ?"
+				check = "SELECT type_id, field_code, id FROM CourseFilters where type_id = ? and field_code = ?"
 			elif type_id == 4:
+				# level filter
+				check = "SELECT type_id, field_code, id FROM CourseFilters where type_id = ? and level = ?"
+			elif type_id == 5:
 				# free elective filter
 				check = "SELECT type_id, id FROM CourseFilters where type_id = ?"
 			# TODO not checking AND or OR requirements yet cuz complicated
@@ -255,7 +258,7 @@ class Helper:
 		return last_id
 
 	def make_course_req(self, ty, min_mark=None, course=None, degree_id=None,
-		year=None, uoc_amount_required=None, uoc_min_level=None, uoc_subject=None, 
+		year=None, uoc_amount_required=None, uoc_min_level=None, uoc_subject=None,
 		uoc_course_filter=None):
 		'''
 		Add an entry to CourseRequirements. Base types only.
@@ -331,7 +334,7 @@ class Helper:
 
 		Returns id of inserted CourseFilters entry
 		'''
-		COMBO_ID_START = 5
+		COMBO_ID_START = 6
 		valid_combos = ["and", "or"]
 		if combo_type not in valid_combos:
 			raise Exception(f"combo type {combo_type} must be a combo CourseFilterTypes: {valid_combos}")
@@ -359,7 +362,7 @@ class Helper:
 
 		Returns id of inserted CourseFilters entry
 		'''
-		valid_types = ["spec", "gen", "field", "free"]
+		valid_types = ["spec", "gen", "field", "level", "free"]
 		if ty not in valid_types:
 			raise Exception(f"type {ty} must be a base CourseFilter: {valid_types}")
 		type_id = valid_types.index(ty) + 1
@@ -372,8 +375,11 @@ class Helper:
 			course_id = self.get_course_id(course)
 			vals = (type_id, min_mark, course_id)
 		elif ty == "field":
-			msg += ", field_code, level) VALUES (?, ?, ?)"
-			vals = (type_id, field_code, level)
+			msg += ", field_code) VALUES (?, ?)"
+			vals = (type_id, field_code)
+		elif ty == "level":
+			msg += ", level) VALUES (?, ?)"
+			vals = (type_id, level)
 		elif ty == "gen" or ty == "free":
 			msg += ") VALUES (?)"
 			vals = (type_id,)
@@ -679,7 +685,7 @@ def insert_compsci_degree_requirements(db='university.db'):
 	for course in core_courses:
 		core_filters.append(h.add_course_filter("spec", min_mark=50, course=course))
 
-	core_combo = h.combine_course_filters("or", core_filters)
+	# core_combo = h.combine_course_filters("or", core_filters)
 
 	math1_filters = []
 	for course in math1_opts:
@@ -699,11 +705,15 @@ def insert_compsci_degree_requirements(db='university.db'):
 	# comp elective filters, 30 UOC level 3, 4, 6, 9
 	# "I guess you'd have OR(AND(COMP, level 3), AND(COMP, level4)) etc" - Eleni
 	# WARNING making levels a part of filter that can be None / NULL if you just need any COMP course
-	comp3 = h.add_course_filter("field", field_code="COMP", level=3)
-	comp4 = h.add_course_filter("field", field_code="COMP", level=4)
-	comp6 = h.add_course_filter("field", field_code="COMP", level=6)
-	comp9 = h.add_course_filter("field", field_code="COMP", level=9)
-	comp_elec = h.combine_course_filters("or", [comp3, comp4, comp6, comp9])
+	level3 = h.add_course_filter("level", level=3)
+	level4 = h.add_course_filter("level", level=4)
+	level6 = h.add_course_filter("level", level=6)
+	level9 = h.add_course_filter("level", level=9)
+
+	comp = h.add_course_filter("field", field_code="COMP")
+	level3_or_above = h.combine_course_filters("or", [level3, level4, level6, level9])
+
+	comp_elec = h.combine_course_filters("and", [comp, level3_or_above])
 
 	# gen ed filters, 12 UOC
 	gen_filter = h.add_course_filter("gen")
@@ -717,7 +727,9 @@ def insert_compsci_degree_requirements(db='university.db'):
 	COMPSCI = 3778
 
 	# core stuff
-	h.add_degree_reqs(COMPSCI, 2019, core_combo, len(core_courses) * COURSE_UOC)
+	for f in core_filters:
+		h.add_degree_reqs(COMPSCI, 2019, f, COURSE_UOC)
+	# h.add_degree_reqs(COMPSCI, 2019, core_combo, len(core_courses) * COURSE_UOC)
 	h.add_degree_reqs(COMPSCI, 2019, math1_or, COURSE_UOC)
 	h.add_degree_reqs(COMPSCI, 2019, math2_or, COURSE_UOC)
 	h.add_degree_reqs(COMPSCI, 2019, algos_or, COURSE_UOC)

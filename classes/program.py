@@ -31,23 +31,18 @@ from . import specificCourseFilter
 
 class Program(object):
 
-    def __init__(self, degree: 'degree.Degree', coursesTaken: List['courseEnrollment.CourseEnrollment']):
+    def __init__(self, degree: 'degree.Degree', courses_taken: List['courseEnrollment.CourseEnrollment'],
+            prior_studies: List['course.Course']):
         self.degree = degree # degree.Degree
-        self.courses = coursesTaken # <List>CourseEnrollments
-
-        # for debugging
-        # rem = degree.get_requirements(self)
-        # for r in rem:
-        #     print(r.filter.filter_name, rem[r])
-        #     if isinstance(r.filter, andFilter.AndFilter) or isinstance(r.filter, orFilter.OrFilter):
-        #         for f in r.filter.filters:
-        #             if isinstance(f, specificCourseFilter.SpecificCourseFilter):
-        #                 print(f.course.course_code)
-            
+        self.courses = courses_taken # <List>CourseEnrollments
+        self.prior_studies = prior_studies
 
     # Input: a course
-    # Return: Whether there is already an enrollment for this course in this term
+    # Return: Whether there is already an enrollment for this course
     def enrolled(self, course: 'course.Course') -> bool:
+        for c in self.prior_studies:
+            if c == course:
+                return True
         for enrollment in self.courses:
             if enrollment.course == course:
                 return True
@@ -106,6 +101,9 @@ class Program(object):
     def unit_count_total(self, term: Optional['term.Term']=None,
                 courses: Optional[List['course.Course']]=None) -> int:
         units = 0
+        for c in self.prior_studies:
+            if courses is None or c in courses:
+                    units += c.units
         for enrollment in self.courses:
             if term is None or enrollment.term < term:
                 if courses is None or enrollment.course in courses:
@@ -115,11 +113,14 @@ class Program(object):
     # Return: a list of the courses taken in this program
     def course_list(self) -> List['course.Course']:
         courses = []
+        for c in self.prior_studies:
+            courses.append(c)
         for enrollment in self.courses:
             courses.append(enrollment.course)
         return courses
 
     # Return: requirements remaining to complete the program
+    # is a dict of degreerequirement and corresponding number of UOC needed
     def get_outstanding_reqs(self) -> Dict[('degreeReq.DegreeReq', int)]:
         return self.degree.get_requirements(self)
 
@@ -136,30 +137,21 @@ class Program(object):
                         "course_ids": courses,
                     } for (term, courses) in term_plan.items() ]
                 } for (year, term_plan) in enrollments_map.items()];
-            
-        # TODO hardcode which reqs to output for now
-        # until you fix the bug, then switch for commented out section below
-        output_req_types = (fieldFilter.FieldFilter, 
-            freeElectiveFilter.FreeElectiveFilter,
-            levelFilter.LevelFilter,
-            genEdFilter.GenEdFilter)
-        outstanding_reqs = self.degree.requirements
-        reqs: List['api.RemainReq'] = []
-        for r in outstanding_reqs:
-            if isinstance(r.filter, output_req_types):
-                new: api.RemainReq = {'units': r.uoc, 'filter_type': r.filter.simple_name}
-                reqs.append(new)
-
-        # TODO this is the correct version, uncomment when
-        # self.get_outstanding_reqs() is accurate
-        '''
+        
         outstanding_reqs = self.get_outstanding_reqs()
 
         reqs: List['api.RemainReq'] = []
         for key, val in outstanding_reqs.items():
-            new: api.RemainReq = {'units': val, 'filter_type': key.filter.simple_name}
+
+            new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
+            if key.filter:
+                new = {'units': val, 
+                    'filter_type': key.filter.simple_name,
+                    'info': key.filter.info
+                }
+
             reqs.append(new)                
-        '''
+        
 
         return {'id': self.degree.num_code, 
                 'name': self.degree.name,

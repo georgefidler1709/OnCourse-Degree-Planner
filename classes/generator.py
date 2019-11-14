@@ -24,7 +24,8 @@ from . import degreeReq
 
 class Generator(object):
 
-    def __init__(self, degree: 'degree.Degree', university: 'university.University'):
+    def __init__(self, degree: 'degree.Degree', university: 'university.University',
+            prior_studies: Optional[List['course.Course']]=None):
         self.university = university
         self.degree = degree
         self.term_unit_cap = 18 # default for first release
@@ -34,6 +35,10 @@ class Generator(object):
         for year in range(degree.year, (degree.year + degree.duration)):
             for t in range(1, self.n_terms + 1):
                 self.terms.append(term.Term(year, t))
+        if prior_studies:
+            self.prior_studies = prior_studies
+        else:
+            self.prior_studies = []
         # TODO exclude terms
         # TODO add summer term
         # TODO term specific unit cap
@@ -45,12 +50,22 @@ class Generator(object):
         assert req.core_requirement()
         # mypy doesn't realise that core requires filter to not be None, so make an explicit check
         assert req.filter is not None
+        # assert isinstance(self.university, university.University)
         course_options: List['course.Course'] = self.university.filter_courses(req.filter,
                 prog.degree, eq=False)
         units: int = 0
+        fulfilled: bool = False
         for c in course_options:
             if units >= req.uoc:
                 break
+            # handle prior studies
+            for prior in self.prior_studies:
+                if c == prior or c.equivalent(prior):
+                    fulfilled = True
+                    units += prior.units
+            if fulfilled:
+                fulfilled = False
+                continue
             courses.append(c)
             units += c.units
      
@@ -70,7 +85,7 @@ class Generator(object):
     # Generate a program of study that fulfils the core units of the degree
     def generate(self) -> 'program.Program':
         # create program
-        prog = program.Program(self.degree, [])
+        prog = program.Program(self.degree, [], self.prior_studies)
         courses: List['course.Course'] = []
 
         # for each degree requirement, add courses to course list

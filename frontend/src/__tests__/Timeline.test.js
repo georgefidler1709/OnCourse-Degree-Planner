@@ -29,6 +29,7 @@ describe('savePlan method', () => {
   });
 });
 
+
 describe('onDragEnd method', () => {
   it('will preserve changing of the order of courses within a term', async() => {
     const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
@@ -122,6 +123,52 @@ describe('Render degree planning timeline view', () => {
 
     wrapper.unmount();
   })
+});
+
+describe('add and remove years', () => {
+  it('add an empty year', async() => {
+    const wrapper = mount(<Timeline match={{params: {degree: "degree"}}} />);
+    await sleep(100);
+    wrapper.update();
+
+    const original_years = wrapper.state().program.enrollments.length
+    wrapper.instance().updateDuration(1)
+    wrapper.update();
+    const new_years = wrapper.state().program.enrollments.length
+    expect(new_years).toBe(original_years + 1);
+
+    wrapper.unmount();
+  });
+
+  it('remove an empty year', async() => {
+    const wrapper = mount(<Timeline match={{params: {degree: "degree"}}} />);
+    await sleep(100);
+    wrapper.update();
+
+    const original_years = wrapper.state().program.enrollments.length
+    wrapper.instance().updateDuration(-1)
+    wrapper.update();
+    const new_years = wrapper.state().program.enrollments.length
+    expect(new_years).toBe(original_years - 1);
+
+    wrapper.unmount();
+  });
+
+  it('will not remove a year with courses in it', async() => {
+    const wrapper = mount(<Timeline match={{params: {degree: "degree"}}} />);
+    await sleep(100);
+    wrapper.update();
+    wrapper.instance().updateDuration(-1)
+    wrapper.update();
+
+    const original_years = wrapper.state().program.enrollments.length
+    wrapper.instance().updateDuration(-1)
+    wrapper.update();
+    const new_years = wrapper.state().program.enrollments.length
+    expect(new_years).toBe(original_years);
+
+    wrapper.unmount();
+  });
 });
 
 describe('removeCourse method', () => {

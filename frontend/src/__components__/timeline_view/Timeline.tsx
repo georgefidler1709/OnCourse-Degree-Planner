@@ -24,20 +24,22 @@ const LColumn = styled.div`
   float: left;
   width: 70%;
   padding: 10px;
-  min-height: 10000px;
 `;
 
 const RColumn = styled.div`
   float: left;
   width: 30%;
   padding: 10px;
-  min-height: 10000px;
 `;
 
 const NavButton = styled(Button)`
-  margin-left: 8px;
-  margin-right: 8px;
+  margin: 0px 8px;
 `;
+
+const YearButton = styled(Button)`
+  width: 40px;
+  margin: 0px 4px;
+`
 
 class Timeline extends Component<RouteComponentProps<{degree: string}>, TimelineState> {
 
@@ -81,7 +83,30 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       for( ; cur_term < required_terms.length; ++cur_term) this.addTerm(cur_term + 1, year, year_index);
     })
 
+    for(let year_max = this.state.program.enrollments.length; year_max > timeline.length; --year_max) {
+      this.removeYear()
+    }
+
     console.log(this.state)
+  }
+
+  isYearEmpty(year: YearState) {
+    return year.term_plans.findIndex(term => term.course_ids.length > 0) === -1;
+  }
+
+  removeYear() {
+    let newState = {
+      ...this.state,
+    }
+
+    const enrollments = this.state.program.enrollments;
+    if(this.isYearEmpty(enrollments[enrollments.length - 1])) newState.program.enrollments.pop()
+    else {
+      alert("Remove courses from a year before deleting it")
+      newState.program.duration++
+    }
+
+    this.setState(newState)
   }
 
     // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
@@ -154,7 +179,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     .then(response => response.json())
     .then(plan => {
       this.setState(plan)
-      this.addMissingTerms()
     })
   }
 
@@ -236,7 +260,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     // push this course onto the right term plan (in the right idx)
     newState.program.enrollments[destYearIdx].term_plans[destTermIdx].course_ids.splice(destIdx, 0, draggableId)
-
+    newState.add_course = undefined
     this.setState(newState)
     this.updateProgram(newState)
   }
@@ -273,6 +297,11 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     // see if you are adding a course to the TimeLineContext
     if (source.droppableId === "Add") {
       this.newCourse(draggableId, destYearIdx, destTermIdx, destination.index)
+      return
+    }
+
+    if(!this.isCourseOffered(draggableId, destTerm, destYear)) {
+      this.resetTermHighlights()
       return
     }
 
@@ -447,12 +476,22 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   });
   }
 
+  updateDuration(updateVal : number) {
+    let newState = {
+      ...this.state
+    }
+    newState.program.duration += updateVal
+    this.setState(newState)
+
+    console.log(this.state)
+  }
+
   
   render() {
     if(!this.state) return <div></div>
 
     const program = this.state.program
-
+    this.addMissingTerms()
     return (
       <div>
         <Navbar bg="dark" variant="dark" id="navbar">
@@ -463,47 +502,53 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
           <NavButton variant="outline-info"><i className="fa fa-cog"></i></NavButton>
         </Navbar>
         <br />
-          <TimeLineContext>
-            <DragDropContext 
-              onDragEnd={this.onDragEnd}
-              onDragStart={this.onDragStart}
-            >
-              { 
-                <div>
-                  <LColumn id="timeline"> {
-                    program.enrollments.map(year => (
-                        <div key={year.year}>
-                            <Container>
-                              {year.term_plans.map(term => {
-                                const courses = term.course_ids.map(course_id => this.state.courses[course_id]!);
-                                const term_tag = term.term.toString() + " " + year.year.toString()
-                                return <Term 
-                                          key={term_tag} 
-                                          termId={term_tag} 
-                                          courses={courses} 
-                                          highlight={term.highlight} 
-                                          removeCourse={this.removeCourse.bind(this)}/>;
-                              })}
-                            </Container>
-                        </div>
+        <TimeLineContext>
+          <DragDropContext 
+            onDragEnd={this.onDragEnd}
+            onDragStart={this.onDragStart}
+          >
+            { 
+              <div>
+                <LColumn> 
+                  <div id="timeline">
+                    {
+                      program.enrollments.map(year => (
+                          <div key={year.year}>
+                              <Container key={year.year}>
+                                {year.term_plans.map(term => {
+                                  const courses = term.course_ids.map(course_id => this.state.courses[course_id]!);
+                                  const term_tag = term.term.toString() + " " + year.year.toString()
+                                  return <Term 
+                                            key={term_tag} 
+                                            termId={term_tag} 
+                                            courses={courses} 
+                                            highlight={term.highlight} 
+                                            removeCourse={this.removeCourse.bind(this)}/>;
+                                })}
+                              </Container>
+                          </div>
+                        )
                       )
-                    )
-                  } </LColumn> 
-                  <RColumn>
-                    <InfoBar 
-                      degree_id={this.state.program.id}
-                      degree_name={this.state.program.name}
-                      degree_reqs={this.state.program.reqs}
-                      add_course={this.state.add_course}
-                      add_event={this.addCourse.bind(this)}
-                      remove_course={this.removeCourse.bind(this)}
+                    } 
+                  </div>
+                  <YearButton onClick={() => this.updateDuration(1)}>++</YearButton>
+                  <YearButton onClick={() => this.updateDuration(-1)}>--</YearButton>
+                </LColumn> 
+                <RColumn>
+                  <InfoBar 
+                    degree_id={this.state.program.id}
+                    degree_name={this.state.program.name}
+                    degree_reqs={this.state.program.reqs}
+                    add_course={this.state.add_course}
+                    add_event={this.addCourse.bind(this)}
+                    remove_course={this.removeCourse.bind(this)}
 
-                    />
-                  </RColumn>
-                </div>
-              }  
-            </DragDropContext>
-          </TimeLineContext>
+                  />
+                </RColumn>
+              </div>
+            }  
+          </DragDropContext>
+        </TimeLineContext>
       </div>
     );
   }

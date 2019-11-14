@@ -1,72 +1,52 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Rendering a degree suggestion renders correctly 1`] = `
-<div
-  className="suggestion-container"
->
+<styled.div>
   <SuggestionInfoHover
     content={
       <a
-        href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/1"
+        href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3778"
       >
         More Info
       </a>
     }
     delay={200}
-    key="1"
+    key="3778"
     placement="right"
   >
-    <Button
-      active={false}
-      className="suggestion"
-      disabled={false}
-      id={1}
+    <styled.button
+      id="3778"
       onClick={[Function]}
-      type="button"
-      value={1}
-      variant="light"
+      value="3778"
     >
-      <h1
-        className="suggestion-code"
-      >
-        1
-      </h1>
-      <p
-        className="suggestion-name"
-      />
-    </Button>
+      <styled.h1>
+        3778
+      </styled.h1>
+      <styled.p />
+    </styled.button>
   </SuggestionInfoHover>
   <SuggestionInfoHover
     content={
       <a
-        href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/2"
+        href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/7001"
       >
         More Info
       </a>
     }
     delay={200}
-    key="2"
+    key="7001"
     placement="right"
   >
-    <Button
-      active={false}
-      className="suggestion"
-      disabled={false}
-      id={2}
+    <styled.button
+      id="7001"
       onClick={[Function]}
-      type="button"
-      value={2}
-      variant="light"
+      value="7001"
     >
-      <h1
-        className="suggestion-code"
-      >
-        2
-      </h1>
-      <p
-        className="suggestion-name"
-      />
-    </Button>
+      <styled.h1>
+        7001
+      </styled.h1>
+      <styled.p />
+    </styled.button>
   </SuggestionInfoHover>
-</div>
+</styled.div>
 `;

@@ -50,7 +50,7 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
             >
               <styled.h3>
                 <h3
-                  className="sc-htpNat gltnqu"
+                  className="sc-htpNat jumdkD"
                 >
                   T2 2019
                 </h3>
@@ -96,7 +96,7 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
                     isDraggingOver={false}
                   >
                     <div
-                      className="sc-bxivhb jBEfKi"
+                      className="sc-bxivhb hYJMoY"
                       data-rbd-droppable-context-id="0"
                       data-rbd-droppable-id="2 2019"
                     >

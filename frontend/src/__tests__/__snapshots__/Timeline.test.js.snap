@@ -43,655 +43,671 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
       onDragStart={[Function]}
     >
       <div>
-        <styled.div
-          id="timeline"
-        >
-           
-          <div>
-            <styled.div
+        <styled.div>
+          <div
+            id="timeline"
+          >
+            <div
               key="2019"
             >
-              <Term
-                courses={
-                  Array [
-                    Object {
-                      "code": "MATH1081",
-                      "coreqs": "(DPST1013 OR MATH1131 OR MATH1141 OR MATH1151)",
-                      "equivalents": "",
-                      "exclusions": "MATH1090",
-                      "name": "Discrete Mathematics",
-                      "prereqs": "",
-                      "terms": Array [
-                        Object {
-                          "term": 1,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2025,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2025,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2025,
-                        },
-                      ],
-                      "units": 6,
-                    },
-                    Object {
-                      "code": "COMP1511",
-                      "coreqs": "",
-                      "equivalents": "",
-                      "exclusions": "DPST1091",
-                      "name": "Programming Fundamentals",
-                      "prereqs": "",
-                      "terms": Array [
-                        Object {
-                          "term": 1,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2025,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2025,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2025,
-                        },
-                      ],
-                      "units": 6,
-                    },
-                  ]
-                }
-                key="1 2019"
-                removeCourse={[Function]}
-                termId="1 2019"
-              />
-              <Term
-                courses={
-                  Array [
-                    Object {
-                      "code": "MATH1131",
-                      "coreqs": "",
-                      "equivalents": "DPST1013",
-                      "exclusions": "(DPST1013 AND ECON1202 AND ECON2291 AND MATH1011 AND MATH1031 AND MATH1141 AND MATH1151)",
-                      "name": "Mathematics 1A",
-                      "prereqs": "",
-                      "terms": Array [
-                        Object {
-                          "term": 1,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2025,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2025,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2025,
-                        },
-                      ],
-                      "units": 6,
-                    },
-                    Object {
-                      "code": "COMP1521",
-                      "coreqs": "",
-                      "equivalents": "",
-                      "exclusions": "DPST1092",
-                      "name": "Computer Systems Fundamentals",
-                      "prereqs": "(COMP1911 OR COMP1917 OR COMP1511 OR DPST1091)",
-                      "terms": Array [
-                        Object {
-                          "term": 2,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2025,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2025,
-                        },
-                      ],
-                      "units": 6,
-                    },
-                    Object {
-                      "code": "MATH1231",
-                      "coreqs": "",
-                      "equivalents": "DPST1014",
-                      "exclusions": "(DPST1014 AND MATH1021 AND MATH1241 AND MATH1251)",
-                      "name": "Mathematics 1B",
-                      "prereqs": "(DPST1013 OR MATH1131 OR MATH1141)",
-                      "terms": Array [
-                        Object {
-                          "term": 1,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 1,
-                          "year": 2025,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2025,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2025,
-                        },
-                      ],
-                      "units": 6,
-                    },
-                  ]
-                }
-                key="2 2019"
-                removeCourse={[Function]}
-                termId="2 2019"
-              />
-              <Term
-                courses={Array []}
-                highlight={false}
-                key="3 2019"
-                removeCourse={[Function]}
-                termId="3 2019"
-              />
-            </styled.div>
-          </div>
-          <div>
-            <styled.div
+              <styled.div
+                key="2019"
+              >
+                <Term
+                  courses={
+                    Array [
+                      Object {
+                        "code": "MATH1081",
+                        "coreqs": "(DPST1013 OR MATH1131 OR MATH1141 OR MATH1151)",
+                        "equivalents": "",
+                        "exclusions": "MATH1090",
+                        "name": "Discrete Mathematics",
+                        "prereqs": "",
+                        "terms": Array [
+                          Object {
+                            "term": 1,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2025,
+                          },
+                        ],
+                        "units": 6,
+                      },
+                      Object {
+                        "code": "COMP1511",
+                        "coreqs": "",
+                        "equivalents": "",
+                        "exclusions": "DPST1091",
+                        "name": "Programming Fundamentals",
+                        "prereqs": "",
+                        "terms": Array [
+                          Object {
+                            "term": 1,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2025,
+                          },
+                        ],
+                        "units": 6,
+                      },
+                    ]
+                  }
+                  key="1 2019"
+                  removeCourse={[Function]}
+                  termId="1 2019"
+                />
+                <Term
+                  courses={
+                    Array [
+                      Object {
+                        "code": "MATH1131",
+                        "coreqs": "",
+                        "equivalents": "DPST1013",
+                        "exclusions": "(DPST1013 AND ECON1202 AND ECON2291 AND MATH1011 AND MATH1031 AND MATH1141 AND MATH1151)",
+                        "name": "Mathematics 1A",
+                        "prereqs": "",
+                        "terms": Array [
+                          Object {
+                            "term": 1,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2025,
+                          },
+                        ],
+                        "units": 6,
+                      },
+                      Object {
+                        "code": "COMP1521",
+                        "coreqs": "",
+                        "equivalents": "",
+                        "exclusions": "DPST1092",
+                        "name": "Computer Systems Fundamentals",
+                        "prereqs": "(COMP1911 OR COMP1917 OR COMP1511 OR DPST1091)",
+                        "terms": Array [
+                          Object {
+                            "term": 2,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2025,
+                          },
+                        ],
+                        "units": 6,
+                      },
+                      Object {
+                        "code": "MATH1231",
+                        "coreqs": "",
+                        "equivalents": "DPST1014",
+                        "exclusions": "(DPST1014 AND MATH1021 AND MATH1241 AND MATH1251)",
+                        "name": "Mathematics 1B",
+                        "prereqs": "(DPST1013 OR MATH1131 OR MATH1141)",
+                        "terms": Array [
+                          Object {
+                            "term": 1,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2025,
+                          },
+                        ],
+                        "units": 6,
+                      },
+                    ]
+                  }
+                  key="2 2019"
+                  removeCourse={[Function]}
+                  termId="2 2019"
+                />
+                <Term
+                  courses={Array []}
+                  highlight={false}
+                  key="3 2019"
+                  removeCourse={[Function]}
+                  termId="3 2019"
+                />
+              </styled.div>
+            </div>
+            <div
               key="2020"
             >
-              <Term
-                courses={Array []}
-                highlight={false}
-                key="1 2020"
-                removeCourse={[Function]}
-                termId="1 2020"
-              />
-              <Term
-                courses={
-                  Array [
-                    Object {
-                      "code": "COMP3121",
-                      "coreqs": "",
-                      "equivalents": "COMP3821
+              <styled.div
+                key="2020"
+              >
+                <Term
+                  courses={Array []}
+                  highlight={false}
+                  key="1 2020"
+                  removeCourse={[Function]}
+                  termId="1 2020"
+                />
+                <Term
+                  courses={
+                    Array [
+                      Object {
+                        "code": "COMP3121",
+                        "coreqs": "",
+                        "equivalents": "COMP3821
 COMP9801
 COMP3120
 COMP9101",
-                      "exclusions": "",
-                      "name": "Algorithms and Programming Techniques",
-                      "prereqs": "(COMP1927 OR COMP2521)",
-                      "terms": Array [
-                        Object {
-                          "term": 2,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2025,
-                        },
-                      ],
-                      "units": 6,
-                    },
-                    Object {
-                      "code": "COMP2511",
-                      "coreqs": "",
-                      "equivalents": "",
-                      "exclusions": "(COMP2011 AND COMP2911)",
-                      "name": "Object-Oriented Design & Programming",
-                      "prereqs": "COMP1531
+                        "exclusions": "",
+                        "name": "Algorithms and Programming Techniques",
+                        "prereqs": "(COMP1927 OR COMP2521)",
+                        "terms": Array [
+                          Object {
+                            "term": 2,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2025,
+                          },
+                        ],
+                        "units": 6,
+                      },
+                      Object {
+                        "code": "COMP2511",
+                        "coreqs": "",
+                        "equivalents": "",
+                        "exclusions": "(COMP2011 AND COMP2911)",
+                        "name": "Object-Oriented Design & Programming",
+                        "prereqs": "COMP1531
 (COMP1927 OR COMP2521)",
-                      "terms": Array [
-                        Object {
-                          "term": 2,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2019,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2020,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2021,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2022,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2023,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2024,
-                        },
-                        Object {
-                          "term": 2,
-                          "year": 2025,
-                        },
-                        Object {
-                          "term": 3,
-                          "year": 2025,
-                        },
-                      ],
-                      "units": 6,
-                    },
-                  ]
-                }
-                key="2 2020"
-                removeCourse={[Function]}
-                termId="2 2020"
-              />
-              <Term
-                courses={Array []}
-                highlight={false}
-                key="3 2020"
-                removeCourse={[Function]}
-                termId="3 2020"
-              />
-            </styled.div>
-          </div>
-          <div>
-            <styled.div
+                        "terms": Array [
+                          Object {
+                            "term": 2,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2025,
+                          },
+                        ],
+                        "units": 6,
+                      },
+                    ]
+                  }
+                  key="2 2020"
+                  removeCourse={[Function]}
+                  termId="2 2020"
+                />
+                <Term
+                  courses={Array []}
+                  highlight={false}
+                  key="3 2020"
+                  removeCourse={[Function]}
+                  termId="3 2020"
+                />
+              </styled.div>
+            </div>
+            <div
               key="2021"
             >
-              <Term
-                courses={Array []}
-                highlight={false}
-                key="1 2021"
-                removeCourse={[Function]}
-                termId="1 2021"
-              />
-              <Term
-                courses={Array []}
-                highlight={false}
-                key="2 2021"
-                removeCourse={[Function]}
-                termId="2 2021"
-              />
-              <Term
-                courses={Array []}
-                highlight={false}
-                key="3 2021"
-                removeCourse={[Function]}
-                termId="3 2021"
-              />
-            </styled.div>
+              <styled.div
+                key="2021"
+              >
+                <Term
+                  courses={Array []}
+                  highlight={false}
+                  key="1 2021"
+                  removeCourse={[Function]}
+                  termId="1 2021"
+                />
+                <Term
+                  courses={Array []}
+                  highlight={false}
+                  key="2 2021"
+                  removeCourse={[Function]}
+                  termId="2 2021"
+                />
+                <Term
+                  courses={Array []}
+                  highlight={false}
+                  key="3 2021"
+                  removeCourse={[Function]}
+                  termId="3 2021"
+                />
+              </styled.div>
+            </div>
           </div>
-           
+          <Styled(Button)
+            onClick={[Function]}
+          >
+            ++
+          </Styled(Button)>
+          <Styled(Button)
+            onClick={[Function]}
+          >
+            --
+          </Styled(Button)>
         </styled.div>
         <styled.div>
           <InfoBar

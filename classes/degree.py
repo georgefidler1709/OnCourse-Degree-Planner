@@ -86,8 +86,8 @@ class Degree(object):
     # NOTE we might have to consider how to handle one course
     # fulfilling multiple requirements
     def complete(self, program: 'program.Program') -> bool:
-        remaining = self.get_requirements()
-        if len(remaining) == 0:
+        remaining = self.get_requirements(program)
+        if not remaining:
             return True
         return False
 
@@ -98,6 +98,15 @@ class Degree(object):
         study_level = "undergraduate"
         url = f"https://www.handbook.unsw.edu.au/{study_level}/programs/{self.year}/{self.num_code}"
         return url
+
+    # Defines what it means for two degrees to be equal
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, Degree):
+            return False
+        if int(self.num_code) ==  int(other.num_code):
+            if self.year == other.year:
+                return True
+        return False
 
     # Saves degree into the database
     # Return: the id of the degree

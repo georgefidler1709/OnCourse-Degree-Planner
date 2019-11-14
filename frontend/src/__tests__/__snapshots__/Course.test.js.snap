@@ -61,7 +61,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
             >
               <styled.h3>
                 <h3
-                  className="sc-htpNat gltnqu"
+                  className="sc-htpNat jumdkD"
                 >
                   Tterm
                 </h3>
@@ -107,7 +107,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                     isDraggingOver={false}
                   >
                     <div
-                      className="sc-bxivhb jBEfKi"
+                      className="sc-bxivhb hYJMoY"
                       data-rbd-droppable-context-id="1"
                       data-rbd-droppable-id="term"
                     >
@@ -194,7 +194,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                                   >
                                     <div
                                       aria-labelledby="rbd-lift-instruction-1"
-                                      className="sc-bdVaJa fyohpZ"
+                                      className="sc-bdVaJa feQPoh"
                                       data-rbd-drag-handle-context-id="1"
                                       data-rbd-drag-handle-draggable-id="COMP1511"
                                       data-rbd-draggable-context-id="1"
@@ -515,7 +515,7 @@ exports[`Rendering a course on the timeline renders correctly within a DragDropC
                           >
                             <div
                               aria-labelledby="rbd-lift-instruction-0"
-                              className="sc-bdVaJa fyohpZ"
+                              className="sc-bdVaJa feQPoh"
                               data-rbd-drag-handle-context-id="0"
                               data-rbd-drag-handle-draggable-id="COMP1511"
                               data-rbd-draggable-context-id="0"

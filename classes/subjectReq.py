@@ -48,6 +48,9 @@ class SubjectReq(singleReq.SingleReq):
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, prog: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
+        for c in prog.prior_studies:
+            if c == self.course or c.equivalent(self.course):
+                return True
         for enrollment in prog.courses:
             if enrollment.course == self.course or enrollment.course.equivalent(self.course):
                 if (coreq and enrollment.term <= term) or (enrollment.term < term):

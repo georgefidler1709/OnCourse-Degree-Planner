@@ -300,7 +300,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       return
     }
 
-    if(!this.isCourseOffered(draggableId, destTerm, destYear)) return
+    if(!this.isCourseOffered(draggableId, destTerm, destYear)) {
+      this.resetTermHighlights()
+      return
+    }
 
     let startYearIdx = destYearIdx
     let startYear = destYear

@@ -155,10 +155,10 @@ exports[`Render degree planning timeline view adds a course to the Add box after
                       id="timeline"
                     >
                        
-                      <div>
-                        <styled.div
-                          key="2019"
-                        >
+                      <div
+                        key="2019"
+                      >
+                        <styled.div>
                           <div
                             className="sc-gZMcBi koPbPx"
                           >
@@ -3963,10 +3963,10 @@ exports[`Render degree planning timeline view adds a course to the Add box after
                           </div>
                         </styled.div>
                       </div>
-                      <div>
-                        <styled.div
-                          key="2020"
-                        >
+                      <div
+                        key="2020"
+                      >
+                        <styled.div>
                           <div
                             className="sc-gZMcBi koPbPx"
                           >
@@ -5129,10 +5129,10 @@ COMP9101"
                           </div>
                         </styled.div>
                       </div>
-                      <div>
-                        <styled.div
-                          key="2021"
-                        >
+                      <div
+                        key="2021"
+                      >
+                        <styled.div>
                           <div
                             className="sc-gZMcBi koPbPx"
                           >
@@ -6469,10 +6469,10 @@ exports[`Render degree planning timeline view displays missing course under requ
                       id="timeline"
                     >
                        
-                      <div>
-                        <styled.div
-                          key="2019"
-                        >
+                      <div
+                        key="2019"
+                      >
+                        <styled.div>
                           <div
                             className="sc-gZMcBi koPbPx"
                           >
@@ -10942,10 +10942,10 @@ exports[`Render degree planning timeline view displays missing course under requ
                           </div>
                         </styled.div>
                       </div>
-                      <div>
-                        <styled.div
-                          key="2020"
-                        >
+                      <div
+                        key="2020"
+                      >
+                        <styled.div>
                           <div
                             className="sc-gZMcBi koPbPx"
                           >
@@ -12108,10 +12108,10 @@ COMP9101"
                           </div>
                         </styled.div>
                       </div>
-                      <div>
-                        <styled.div
-                          key="2021"
-                        >
+                      <div
+                        key="2021"
+                      >
+                        <styled.div>
                           <div
                             className="sc-gZMcBi koPbPx"
                           >
@@ -12580,10 +12580,10 @@ exports[`Render degree planning timeline view renders correctly as part of timel
           id="timeline"
         >
            
-          <div>
-            <styled.div
-              key="2019"
-            >
+          <div
+            key="2019"
+          >
+            <styled.div>
               <Term
                 courses={
                   Array [
@@ -13194,10 +13194,10 @@ exports[`Render degree planning timeline view renders correctly as part of timel
               />
             </styled.div>
           </div>
-          <div>
-            <styled.div
-              key="2020"
-            >
+          <div
+            key="2020"
+          >
+            <styled.div>
               <Term
                 courses={Array []}
                 highlight={false}
@@ -13333,10 +13333,10 @@ COMP9101",
               />
             </styled.div>
           </div>
-          <div>
-            <styled.div
-              key="2021"
-            >
+          <div
+            key="2021"
+          >
+            <styled.div>
               <Term
                 courses={Array []}
                 highlight={false}

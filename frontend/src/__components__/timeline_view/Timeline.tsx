@@ -381,6 +381,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       newState.program.enrollments[startYearIdx] = newYear;
     }
     this.setState(newState)
+    this.updateProgram(newState)
     this.resetTermHighlights()
   };
 

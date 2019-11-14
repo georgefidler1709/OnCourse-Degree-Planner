@@ -44,15 +44,20 @@ class SubjectReq(singleReq.SingleReq):
     def requirement_name(self) -> str:
         return "CompletedCourseRequirement"
 
-    # Input: program.Program of study, term this course is to be taken
-    # Return: Whether this requirement is fulfilled
-    def fulfilled(self, prog: 'program.Program', term: 'term.Term',
-            coreq: bool=False) -> bool:
-        for enrollment in prog.courses:
+    # Input: a program and a term in which the required course is taken
+    # Return: any errors pertaining to this requirement
+    def check(self, program: 'program.Program', term: 'term.Term',
+        coreq: bool=False, excl: bool=False) -> List[str]:
+        errors = []
+        for enrollment in program.courses:
             if enrollment.course == self.course or enrollment.course.equivalent(self.course):
                 if (coreq and enrollment.term <= term) or (enrollment.term < term):
-                    return True
-        return False
+                    if excl:
+                        errors.append(self.course.course_code)
+                    return errors
+        if not excl:
+            errors.append(self.course.course_code)
+        return errors
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database

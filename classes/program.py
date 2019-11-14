@@ -11,7 +11,7 @@ study.
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Tuple
 
 from . import course
 from . import courseEnrollment
@@ -34,16 +34,6 @@ class Program(object):
     def __init__(self, degree: 'degree.Degree', coursesTaken: List['courseEnrollment.CourseEnrollment']):
         self.degree = degree # degree.Degree
         self.courses = coursesTaken # <List>CourseEnrollments
-
-        # for debugging
-        # rem = degree.get_requirements(self)
-        # for r in rem:
-        #     print(r.filter.filter_name, rem[r])
-        #     if isinstance(r.filter, andFilter.AndFilter) or isinstance(r.filter, orFilter.OrFilter):
-        #         for f in r.filter.filters:
-        #             if isinstance(f, specificCourseFilter.SpecificCourseFilter):
-        #                 print(f.course.course_code)
-            
 
     # Input: a course
     # Return: Whether there is already an enrollment for this course in this term
@@ -122,6 +112,21 @@ class Program(object):
     # Return: requirements remaining to complete the program
     def get_outstanding_reqs(self) -> Dict[('degreeReq.DegreeReq', int)]:
         return self.degree.get_requirements(self)
+
+    # Input: a term
+    # Return: whether the term is overloaded
+    def overloaded(self, term: 'term.Term') -> bool:
+        return self.unit_count_term(term) > self.degree.term_unit_cap
+
+    # Return: a list of tuples containing a course code and a list of errors
+    # pertaining to the requirements of that course
+    def check_course_reqs(self) -> List[Tuple[str, List[str]]]:
+        errors = []
+        for enrol in self.courses:
+            course_errors = enrol.course.check_reqs(self, enrol.term)
+            if len(course_errors) > 0:
+                errors.append((enrol.course.course_code, course_errors))
+        return errors
 
     def to_api(self) -> api.Program:
         # sort the enrolled courses by term then name

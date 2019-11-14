@@ -13,7 +13,7 @@ concerning requirements.
 """
 
 from flask import g
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from . import courseReq
 from . import term
@@ -129,6 +129,28 @@ class Course(object):
             if c == other:
                 return True
         return False
+
+    def check_reqs(self, prog: 'program.Program', term: 'term.Term') -> List[Tuple[str, List[str]]]:
+        errors = []
+        if self.prereqs is not None:
+            prereq_errors = self.prereqs.check(prog, term)
+            if len(prereq_errors) > 0:
+                errors.append(("Prerequisite:", prereq_errors))
+
+        if self.coreqs is not None:
+            coreq_errors = self.coreqs.check(prog, term, coreq=True)
+            if len(coreq_errors) > 0:
+                errors.append(("Corequisite:", coreq_errors))
+        
+        # handle exclusions
+        # if self.exclusions is not None:
+        #     ex_errors = self.exclusions.check(prog, term, coreq=True)
+        #     for e in coreq_errors:
+        #         errors.append(e)
+
+        # min mark warnings
+
+        return errors
 
     # Saves the course in the database
     # Return: the id of the course

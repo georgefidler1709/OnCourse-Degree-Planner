@@ -513,7 +513,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                   <div id="timeline">
                     {
                       program.enrollments.map(year => (
-                          <div>
+                          <div key={year.year}>
                               <Container key={year.year}>
                                 {year.term_plans.map(term => {
                                   const courses = term.course_ids.map(course_id => this.state.courses[course_id]!);

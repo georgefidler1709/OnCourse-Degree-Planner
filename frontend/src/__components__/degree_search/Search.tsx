@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import React, { Component, ChangeEvent } from 'react'
 import {Suggestions, CourseSuggestions} from './Suggestions'
 import {API_ADDRESS} from '../../Constants'
@@ -78,6 +77,7 @@ class Search extends Component<{}, SearchState> {
     let query = event.target.value.toLowerCase();
     let searchResults: Array<SearchResult> = [];
 
+    console.log(this.state.degrees);
     function processDegree(degree: SimpleDegree) {
       let index = degree.name.toLowerCase().indexOf(query);
       if (index !== -1) {

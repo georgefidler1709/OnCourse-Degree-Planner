@@ -55,7 +55,7 @@ exports[`Render degree planning timeline view adds a course to the Add box after
         >
           <Button
             active={false}
-            className="sc-kgoBCf glySg"
+            className="sc-kGXeez kEgkzh"
             disabled={false}
             id="save"
             onClick={[Function]}
@@ -63,7 +63,7 @@ exports[`Render degree planning timeline view adds a course to the Add box after
             variant="outline-info"
           >
             <button
-              className="sc-kgoBCf glySg btn btn-outline-info"
+              className="sc-kGXeez kEgkzh btn btn-outline-info"
               disabled={false}
               id="save"
               onClick={[Function]}
@@ -80,13 +80,13 @@ exports[`Render degree planning timeline view adds a course to the Add box after
         >
           <Button
             active={false}
-            className="sc-kgoBCf glySg"
+            className="sc-kGXeez kEgkzh"
             disabled={false}
             type="button"
             variant="outline-info"
           >
             <button
-              className="sc-kgoBCf glySg btn btn-outline-info"
+              className="sc-kGXeez kEgkzh btn btn-outline-info"
               disabled={false}
               type="button"
             >
@@ -101,7 +101,7 @@ exports[`Render degree planning timeline view adds a course to the Add box after
     <br />
     <styled.div>
       <div
-        className="sc-jzJRlG cIWcxL"
+        className="sc-cSHVUG jTfjLr"
       >
         <DragDropContext
           onDragEnd={[Function]}
@@ -149,17 +149,19 @@ exports[`Render degree planning timeline view adds a course to the Add box after
                 <div>
                   <styled.div>
                     <div
-                      className="sc-kAzzGY bXRFCn"
+                      className="sc-chPdSV jPXevF"
                     >
                       <div
                         id="timeline"
                       >
-                        <div>
+                        <div
+                          key="2019"
+                        >
                           <styled.div
                             key="2019"
                           >
                             <div
-                              className="sc-cSHVUG kVZMia"
+                              className="sc-kAzzGY bOfWLD"
                             >
                               <Term
                                 courses={
@@ -3962,12 +3964,14 @@ exports[`Render degree planning timeline view adds a course to the Add box after
                             </div>
                           </styled.div>
                         </div>
-                        <div>
+                        <div
+                          key="2020"
+                        >
                           <styled.div
                             key="2020"
                           >
                             <div
-                              className="sc-cSHVUG kVZMia"
+                              className="sc-kAzzGY bOfWLD"
                             >
                               <Term
                                 courses={Array []}
@@ -5128,12 +5132,14 @@ COMP9101"
                             </div>
                           </styled.div>
                         </div>
-                        <div>
+                        <div
+                          key="2021"
+                        >
                           <styled.div
                             key="2021"
                           >
                             <div
-                              className="sc-cSHVUG kVZMia"
+                              className="sc-kAzzGY bOfWLD"
                             >
                               <Term
                                 courses={Array []}
@@ -5369,14 +5375,14 @@ COMP9101"
                       >
                         <Button
                           active={false}
-                          className="sc-kGXeez dJvmgV"
+                          className="sc-kpOJdX bsCxnj"
                           disabled={false}
                           onClick={[Function]}
                           type="button"
                           variant="primary"
                         >
                           <button
-                            className="sc-kGXeez dJvmgV btn btn-primary"
+                            className="sc-kpOJdX bsCxnj btn btn-primary"
                             disabled={false}
                             onClick={[Function]}
                             type="button"
@@ -5390,14 +5396,14 @@ COMP9101"
                       >
                         <Button
                           active={false}
-                          className="sc-kGXeez dJvmgV"
+                          className="sc-kpOJdX bsCxnj"
                           disabled={false}
                           onClick={[Function]}
                           type="button"
                           variant="primary"
                         >
                           <button
-                            className="sc-kGXeez dJvmgV btn btn-primary"
+                            className="sc-kpOJdX bsCxnj btn btn-primary"
                             disabled={false}
                             onClick={[Function]}
                             type="button"
@@ -5410,7 +5416,7 @@ COMP9101"
                   </styled.div>
                   <styled.div>
                     <div
-                      className="sc-chPdSV GVpXh"
+                      className="sc-kgoBCf gsifCj"
                     >
                       <InfoBar
                         add_course={
@@ -5534,15 +5540,11 @@ COMP9101"
                             <header>
                               <styled.h3>
                                 <h3
-                                  className="sc-jTzLTM EwhUL"
+                                  className="sc-jTzLTM fvKxmO"
                                 >
                                   Computer Science
-                                </h3>
-                              </styled.h3>
-                              <styled.h3>
-                                <h3
-                                  className="sc-jTzLTM EwhUL"
-                                >
+                                  <br />
+                                  <br />
                                   3778
                                 </h3>
                               </styled.h3>
@@ -5550,34 +5552,40 @@ COMP9101"
                             <body>
                               <styled.h5>
                                 <h5
-                                  className="sc-fjdhpX kUyEeC"
+                                  className="sc-fjdhpX ptahi"
                                 >
                                   Requirements
                                 </h5>
                               </styled.h5>
-                              <div>
-                                <p>
-                                  GenEd: 12 UOC of
-                                </p>
-                                <ul>
-                                  <li>
-                                    undefined
-                                  </li>
-                                </ul>
-                              </div>
-                              <div>
-                                <p>
-                                  FreeElective: 36 UOC of
-                                </p>
-                                <ul>
-                                  <li>
-                                    undefined
-                                  </li>
-                                </ul>
-                              </div>
+                              <styled.div>
+                                <div
+                                  className="sc-jzJRlG jwkTdo"
+                                >
+                                  <div>
+                                    <p>
+                                      GenEd: 12 UOC of
+                                    </p>
+                                    <ul>
+                                      <li>
+                                        undefined
+                                      </li>
+                                    </ul>
+                                  </div>
+                                  <div>
+                                    <p>
+                                      FreeElective: 36 UOC of
+                                    </p>
+                                    <ul>
+                                      <li>
+                                        undefined
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </styled.div>
                               <styled.h5>
                                 <h5
-                                  className="sc-fjdhpX kUyEeC"
+                                  className="sc-fjdhpX ptahi"
                                 >
                                   Add a Course
                                 </h5>
@@ -6417,7 +6425,7 @@ exports[`Render degree planning timeline view displays missing course under requ
         >
           <Button
             active={false}
-            className="sc-kgoBCf glySg"
+            className="sc-kGXeez kEgkzh"
             disabled={false}
             id="save"
             onClick={[Function]}
@@ -6425,7 +6433,7 @@ exports[`Render degree planning timeline view displays missing course under requ
             variant="outline-info"
           >
             <button
-              className="sc-kgoBCf glySg btn btn-outline-info"
+              className="sc-kGXeez kEgkzh btn btn-outline-info"
               disabled={false}
               id="save"
               onClick={[Function]}
@@ -6442,13 +6450,13 @@ exports[`Render degree planning timeline view displays missing course under requ
         >
           <Button
             active={false}
-            className="sc-kgoBCf glySg"
+            className="sc-kGXeez kEgkzh"
             disabled={false}
             type="button"
             variant="outline-info"
           >
             <button
-              className="sc-kgoBCf glySg btn btn-outline-info"
+              className="sc-kGXeez kEgkzh btn btn-outline-info"
               disabled={false}
               type="button"
             >
@@ -6463,7 +6471,7 @@ exports[`Render degree planning timeline view displays missing course under requ
     <br />
     <styled.div>
       <div
-        className="sc-jzJRlG cIWcxL"
+        className="sc-cSHVUG jTfjLr"
       >
         <DragDropContext
           onDragEnd={[Function]}
@@ -6511,17 +6519,19 @@ exports[`Render degree planning timeline view displays missing course under requ
                 <div>
                   <styled.div>
                     <div
-                      className="sc-kAzzGY bXRFCn"
+                      className="sc-chPdSV jPXevF"
                     >
                       <div
                         id="timeline"
                       >
-                        <div>
+                        <div
+                          key="2019"
+                        >
                           <styled.div
                             key="2019"
                           >
                             <div
-                              className="sc-cSHVUG kVZMia"
+                              className="sc-kAzzGY bOfWLD"
                             >
                               <Term
                                 courses={
@@ -10989,12 +10999,14 @@ exports[`Render degree planning timeline view displays missing course under requ
                             </div>
                           </styled.div>
                         </div>
-                        <div>
+                        <div
+                          key="2020"
+                        >
                           <styled.div
                             key="2020"
                           >
                             <div
-                              className="sc-cSHVUG kVZMia"
+                              className="sc-kAzzGY bOfWLD"
                             >
                               <Term
                                 courses={Array []}
@@ -12155,12 +12167,14 @@ COMP9101"
                             </div>
                           </styled.div>
                         </div>
-                        <div>
+                        <div
+                          key="2021"
+                        >
                           <styled.div
                             key="2021"
                           >
                             <div
-                              className="sc-cSHVUG kVZMia"
+                              className="sc-kAzzGY bOfWLD"
                             >
                               <Term
                                 courses={Array []}
@@ -12396,14 +12410,14 @@ COMP9101"
                       >
                         <Button
                           active={false}
-                          className="sc-kGXeez dJvmgV"
+                          className="sc-kpOJdX bsCxnj"
                           disabled={false}
                           onClick={[Function]}
                           type="button"
                           variant="primary"
                         >
                           <button
-                            className="sc-kGXeez dJvmgV btn btn-primary"
+                            className="sc-kpOJdX bsCxnj btn btn-primary"
                             disabled={false}
                             onClick={[Function]}
                             type="button"
@@ -12417,14 +12431,14 @@ COMP9101"
                       >
                         <Button
                           active={false}
-                          className="sc-kGXeez dJvmgV"
+                          className="sc-kpOJdX bsCxnj"
                           disabled={false}
                           onClick={[Function]}
                           type="button"
                           variant="primary"
                         >
                           <button
-                            className="sc-kGXeez dJvmgV btn btn-primary"
+                            className="sc-kpOJdX bsCxnj btn btn-primary"
                             disabled={false}
                             onClick={[Function]}
                             type="button"
@@ -12437,7 +12451,7 @@ COMP9101"
                   </styled.div>
                   <styled.div>
                     <div
-                      className="sc-chPdSV GVpXh"
+                      className="sc-kgoBCf gsifCj"
                     >
                       <InfoBar
                         add_event={[Function]}
@@ -12464,15 +12478,11 @@ COMP9101"
                             <header>
                               <styled.h3>
                                 <h3
-                                  className="sc-jTzLTM EwhUL"
+                                  className="sc-jTzLTM fvKxmO"
                                 >
                                   Computer Science
-                                </h3>
-                              </styled.h3>
-                              <styled.h3>
-                                <h3
-                                  className="sc-jTzLTM EwhUL"
-                                >
+                                  <br />
+                                  <br />
                                   3778
                                 </h3>
                               </styled.h3>
@@ -12480,34 +12490,40 @@ COMP9101"
                             <body>
                               <styled.h5>
                                 <h5
-                                  className="sc-fjdhpX kUyEeC"
+                                  className="sc-fjdhpX ptahi"
                                 >
                                   Requirements
                                 </h5>
                               </styled.h5>
-                              <div>
-                                <p>
-                                  GenEd: 12 UOC of
-                                </p>
-                                <ul>
-                                  <li>
-                                    undefined
-                                  </li>
-                                </ul>
-                              </div>
-                              <div>
-                                <p>
-                                  FreeElective: 36 UOC of
-                                </p>
-                                <ul>
-                                  <li>
-                                    undefined
-                                  </li>
-                                </ul>
-                              </div>
+                              <styled.div>
+                                <div
+                                  className="sc-jzJRlG jwkTdo"
+                                >
+                                  <div>
+                                    <p>
+                                      GenEd: 12 UOC of
+                                    </p>
+                                    <ul>
+                                      <li>
+                                        undefined
+                                      </li>
+                                    </ul>
+                                  </div>
+                                  <div>
+                                    <p>
+                                      FreeElective: 36 UOC of
+                                    </p>
+                                    <ul>
+                                      <li>
+                                        undefined
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </styled.div>
                               <styled.h5>
                                 <h5
-                                  className="sc-fjdhpX kUyEeC"
+                                  className="sc-fjdhpX ptahi"
                                 >
                                   Add a Course
                                 </h5>
@@ -12676,7 +12692,9 @@ exports[`Render degree planning timeline view renders correctly as part of timel
           <div
             id="timeline"
           >
-            <div>
+            <div
+              key="2019"
+            >
               <styled.div
                 key="2019"
               >
@@ -13290,7 +13308,9 @@ exports[`Render degree planning timeline view renders correctly as part of timel
                 />
               </styled.div>
             </div>
-            <div>
+            <div
+              key="2020"
+            >
               <styled.div
                 key="2020"
               >
@@ -13429,7 +13449,9 @@ COMP9101",
                 />
               </styled.div>
             </div>
-            <div>
+            <div
+              key="2021"
+            >
               <styled.div
                 key="2021"
               >

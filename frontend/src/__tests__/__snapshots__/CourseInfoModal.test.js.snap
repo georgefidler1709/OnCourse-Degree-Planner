@@ -34,15 +34,19 @@ exports[`Rendering a course info popup renders correctly 1`] = `
         Prereqs:
       </h5>
       <ul>
-        <li>
+        <li
+          key="(COMP1927 OR COMP2521)"
+        >
           <a
             href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP1927"
+            key="COMP1927"
           >
             COMP1927
           </a>
            OR 
           <a
             href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP2521"
+            key="COMP2521"
           >
             COMP2521
           </a>
@@ -74,24 +78,30 @@ exports[`Rendering a course info popup renders correctly 1`] = `
         Equivalents:
       </h5>
       <ul>
-        <li>
+        <li
+          key="COMP3821, COMP9801, COMP3120, COMP9101"
+        >
           <a
             href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP3821,"
+            key="COMP3821,"
           >
             COMP3821,
           </a>
           <a
             href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP9801,"
+            key="COMP9801,"
           >
             COMP9801,
           </a>
           <a
             href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP3120,"
+            key="COMP3120,"
           >
             COMP3120,
           </a>
           <a
             href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP9101"
+            key="COMP9101"
           >
             COMP9101
           </a>

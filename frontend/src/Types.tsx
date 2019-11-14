@@ -17,16 +17,15 @@ export interface YearState extends YearPlan {
 export interface TermState extends TermPlan {
     highlight: boolean;
 }
-
 export interface SearchResult {
-    degree: SimpleDegree 
-    text: JSX.Element 
-  }
-  
-  export interface CourseSearchResult {
-      course: Course
-      text: JSX.Element
-      code: JSX.Element
-  }
-  
-  export type addCallbackType = (course: Course) => void;
+  degree: SimpleDegree 
+  text: JSX.Element 
+}
+
+export interface CourseSearchResult {
+  course: Course
+  text: JSX.Element
+  code: JSX.Element
+}
+
+export type addCallbackType = (course: Course) => void;

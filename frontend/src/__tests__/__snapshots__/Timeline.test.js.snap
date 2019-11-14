@@ -47,7 +47,9 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
           <div
             id="timeline"
           >
-            <div>
+            <div
+              key="2019"
+            >
               <styled.div
                 key="2019"
               >
@@ -525,7 +527,9 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                 />
               </styled.div>
             </div>
-            <div>
+            <div
+              key="2020"
+            >
               <styled.div
                 key="2020"
               >
@@ -664,7 +668,9 @@ COMP9101",
                 />
               </styled.div>
             </div>
-            <div>
+            <div
+              key="2021"
+            >
               <styled.div
                 key="2021"
               >

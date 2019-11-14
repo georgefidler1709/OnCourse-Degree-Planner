@@ -84,14 +84,29 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     console.log(this.state)
   }
 
-    // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
+  isEnrolled(course: Course): bool {
+    // checks if the current state has the given course in its enrollments
+    var found = this.enrollments.find(function(year) {
+      return year.term_plans.find(function(courseId) {
+        return courseId.find(course.code)
+      })
+    })
+  }
+
+  // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
   // sets this.state.add_course to be the Course passed in
   addCourse(course: Course) {
     let newState = {
       ...this.state,
     }
 
-    newState.add_course = course
+    // if already have this course on timeline, then can't enroll in it
+    if (this.isEnrolled(course)) {
+      alert(`You already have ${course.code} on your timeline.`)
+    } else {
+      // can add this course
+      newState.add_course = course
+    }
 
     this.setState(newState)
 

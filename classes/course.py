@@ -170,7 +170,7 @@ class Course(object):
             coreq_errors = self.coreqs.check(prog, term, coreq=True)
             if len(coreq_errors) > 0:
                 errors.append(("Corequisite:", coreq_errors))
-        
+
         # handle exclusions
         exclusion_errors = self.exclusion_errors(prog, term)
         if len(exclusion_errors) > 0:

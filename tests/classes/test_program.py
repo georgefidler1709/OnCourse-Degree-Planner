@@ -150,7 +150,7 @@ def test_remove_core(plan):
 def test_remove_elec(plan):
     # add an elec and then remove it, make sure length of reqs is the same
     reqs = list((plan.get_outstanding_reqs()).items())
-    assert len(reqs) == 4
+    original_reqs_len = len(reqs)
 
 
     uni = University(query_db)
@@ -159,5 +159,5 @@ def test_remove_elec(plan):
 
     plan.add_course(econ1202, Term(2021, 1))
 
-    assert len(reqs) == 4
+    assert len(reqs) == original_reqs_len
 

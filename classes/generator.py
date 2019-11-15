@@ -54,7 +54,7 @@ class Generator(object):
                 break
             courses.append(c)
             units += c.units
-     
+
     # Input: a program of study and a course
     # Return: an appropriate term in which to take given course
     def find_term(self, prog: 'program.Program', course: 'course.Course') -> Optional['term.Term']:

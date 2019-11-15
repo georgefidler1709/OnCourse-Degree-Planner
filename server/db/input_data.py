@@ -345,7 +345,7 @@ class Helper:
 
                 Returns id of inserted CourseFilters entry
                 '''
-                COMBO_ID_START = 5
+                COMBO_ID_START = 6
                 valid_combos = ["and", "or"]
                 if combo_type not in valid_combos:
                         raise Exception(f"combo type {combo_type} must be a combo CourseFilterTypes: {valid_combos}")

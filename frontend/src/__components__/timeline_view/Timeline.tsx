@@ -15,6 +15,7 @@ import { TimelineState, YearState, TermState } from '../../Types'
 const TimeLineContext = styled.div`
   display: flex;
   justify-content: center;
+  margin: 0px;
 `;
 const Container = styled.div`
   display: flex;
@@ -27,9 +28,9 @@ const LColumn = styled.div`
 `;
 
 const RColumn = styled.div`
-  float: left;
+  display: flex;
+  justify-content: flex-end;
   width: 30%;
-  padding: 10px;
 `;
 
 const NavButton = styled(Button)`
@@ -501,7 +502,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
           <NavButton id="save" variant="outline-info" onClick={this.savePlan}><i className="fa fa-save"></i></NavButton>
           <NavButton variant="outline-info"><i className="fa fa-cog"></i></NavButton>
         </Navbar>
-        <br />
         <TimeLineContext>
           <DragDropContext 
             onDragEnd={this.onDragEnd}

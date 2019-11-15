@@ -5,7 +5,6 @@ import { SearchCourses } from "../degree_search/Search"
 import { Course } from "../../Api"
 
 const Container = styled.div`
-  margin: 8px;
   padding: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
@@ -31,7 +30,7 @@ const ReqContainer = styled.div`
   margin-bottom: 4px;
   font-family: Arial, Helvetica, sans-serif;
   border-bottom: 1px solid lightgrey;
-
+  text-align: left;
 `;
 
 interface Req {
@@ -52,10 +51,7 @@ interface InfoBarProps {
 function InfoBar(props: InfoBarProps) {
   return (
     <Container>
-      <header>
         <Title>{props.degree_name}<br/><br/>{props.degree_id.toString()}</Title>
-      </header>
-      <body>
         <SubTitle>Requirements</SubTitle>
         <ReqContainer>
           {props.degree_reqs.map(req => { return (
@@ -72,9 +68,6 @@ function InfoBar(props: InfoBarProps) {
         <p>Search for a course and click on it. Then drag the course into your timeline from the <b>Add</b> box.</p>
         <CourseDropBox type="Add" add_course={props.add_course} remove_course={props.remove_course}/>
         <SearchCourses add_event={props.add_event}/>
-      </body>
-      <footer>
-      </footer>
     </Container>
   );
 }

@@ -47,7 +47,8 @@ class ScrapedCourse(object):
         parser = courseParser.CourseParser()
 
         # Type for requirements??
-        self.prereqs, self.coreqs = parser.parse_reqs(self.requirements)
+        # make sure these return none if can't parse
+        self.prereqs, self.coreqs, self.finished = parser.parse_reqs(self.requirements)
         self.terms = parser.parse_terms(terms, self.year)
 
 

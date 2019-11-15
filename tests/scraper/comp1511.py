@@ -1,3 +1,4 @@
+text = '''
 <!DOCTYPE html>
 <html lang="en">
 
@@ -2145,3 +2146,4 @@ gtag('config', 'GTM-5JB423');
 	
 </body>
 </html>
+'''

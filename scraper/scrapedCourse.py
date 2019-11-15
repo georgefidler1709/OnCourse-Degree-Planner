@@ -43,7 +43,7 @@ class ScrapedCourse(object):
         self.school = school
         self.study_level = study_level
         self.units = units
-        
+
         parser = courseParser.CourseParser()
 
         # Type for requirements??
@@ -62,21 +62,7 @@ class ScrapedCourse(object):
         if self.coreqs:
             course.coreqs = self.coreqs.inflate(university)
 
-        exclusions = []
-        for ex in self.exclusions:
-            c = university.find_course(ex)
-            if c:
-                exclusions.append(c)
-        course.exclusions = exclusions
-
-        equivalents = []
-        for eq in self.equivalents:
-            c = university.find_course(eq)
-            if c:
-                equivalents.append(c)
-        course.equivalents = equivalents
         return course
-
 
 
     # Convert to a course object
@@ -84,13 +70,14 @@ class ScrapedCourse(object):
          # Step 1: save into db
         subject = self.code[:4]
         code  = int(self.code[4:])
-        name = ""
+        name = self.name
         units = self.units
         terms = self.terms
         faculty = self.faculty
 
         # store in dict
         #STORE IN DB
-        return course.Course(subject, code, name, units, terms, faculty)
+        return course.Course(subject, code, name, units, terms, faculty,
+                    exclusions=self.exclusions, equivalents=self.equivalents)
 
 

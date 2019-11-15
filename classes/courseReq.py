@@ -18,7 +18,6 @@ from typing import List, Optional
 from . import course
 from . import term
 from . import program
-from . import university
 
 
 class CourseReq(ABC):
@@ -48,7 +47,7 @@ class CourseReq(ABC):
                 self.requirement_name)
     
     @abstractmethod
-    def inflate(self, university: 'university.University') -> Optional[CourseReq]:
+    def inflate(self, university: 'university.University') -> Optional['CourseReq']:
         pass
 
     # Input: a program and a term in which the required course is taken

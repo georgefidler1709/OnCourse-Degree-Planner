@@ -18,8 +18,6 @@ from . import course
 from . import courseReq
 from . import term
 from . import program
-from . import university
-
 
 class SingleReq(courseReq.CourseReq, ABC):
 

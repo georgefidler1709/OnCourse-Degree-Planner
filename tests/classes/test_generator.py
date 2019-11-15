@@ -27,6 +27,8 @@ from classes import term
 from classes import generator
 
 # A simple mock university that just implements filter_courses, for the purpose of generator
+# WARNING high dependency with University.filter_courses() function
+# if you change University.filter_courses() you must change it here
 class MockUniversity():
     def __init__(self):
         self.courses = []

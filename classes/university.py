@@ -27,6 +27,7 @@ from . import  (
     fieldFilter,
     freeElectiveFilter,
     genEdFilter,
+    levelFilter,
     orFilter,
     orReq,
     specificCourseFilter,
@@ -452,6 +453,8 @@ class University(object):
             return self.load_gen_ed_filter(filter_data)
         elif type_name == 'FieldFilter':
             return self.load_field_filter(filter_data)
+        elif type_name == 'LevelFilter':
+            return self.load_level_filter(filter_data)
         elif type_name == 'FreeElectiveFilter':
             return self.load_free_elective_filter(filter_data)
         elif type_name == 'AndFilter':
@@ -487,6 +490,10 @@ class University(object):
     def load_field_filter(self, filter_data: Row) -> 'fieldFilter.FieldFilter':
         field_code = filter_data['field_code']
         return fieldFilter.FieldFilter(field_code)
+
+    def load_level_filter(self, filter_data: Row) -> 'levelFilter.LevelFilter':
+        level = filter_data['level']
+        return levelFilter.LevelFilter(level)
 
     # Input: row from the CourseFilters table in the db for a free elective filter
     # Return: The relevant filter
@@ -542,6 +549,22 @@ class University(object):
         response = self.query_db('''select letter_code, number_code, name
                                  from Courses''')
         return [{'id': i['letter_code'] + i['number_code'], 'name': i['name']} for i in response];
+
+    # get the course information with terms so you can display to user when courses are offered
+    def get_full_courses(self) -> api.CourseList:
+        # get the ids of all courses in database
+        responses = self.query_db('''select id from Courses''')
+
+        # now load the full course data using load_course logic
+        res: api.CourseList = []
+
+        for r in responses:
+            new = self.load_course(r['id'], need_requirements=False)
+            if new is None: continue
+            res.append(new.to_api())
+
+        return res
+
 
     # Assert that a sequence of arguments contains no None values
     def assert_no_nulls(self, *args):

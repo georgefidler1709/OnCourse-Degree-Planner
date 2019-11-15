@@ -57,8 +57,12 @@ class Course(object):
         else:
             self.equivalents = equivalents
 
+    # WARNING getting hard to debug with this, restore later
+    # def __repr__(self) -> str:
+    #     return f"<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>"
+
     def __repr__(self) -> str:
-        return f"<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>"
+        return f"{self.subject}{self.code}"
 
     def to_api(self) -> api.Course:
         return { "code": self.course_code,

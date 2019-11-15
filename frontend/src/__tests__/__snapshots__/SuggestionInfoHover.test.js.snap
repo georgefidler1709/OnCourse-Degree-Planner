@@ -1,5 +1,89 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Rendering a degree tooltip displays more info on mouseover 1`] = `ShallowWrapper {}`;
+exports[`Rendering a degree tooltip displays more info on mouseover 1`] = `
+<Fragment>
+  <div
+    className="test"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    Show tooltip
+  </div>
+  <Overlay
+    placement="top"
+    rootClose={false}
+    show={false}
+    target={null}
+    transition={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "defaultProps": Object {
+          "appear": false,
+          "in": false,
+          "mountOnEnter": false,
+          "timeout": 300,
+          "unmountOnExit": false,
+        },
+        "displayName": "Fade",
+        "render": [Function],
+      }
+    }
+  >
+    <Bootstrap(Popover)
+      id="popover"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <ForwardRef>
+        <div>
+          More Info
+        </div>
+      </ForwardRef>
+    </Bootstrap(Popover)>
+  </Overlay>
+</Fragment>
+`;
 
-exports[`Rendering a degree tooltip renders correctly 1`] = `ShallowWrapper {}`;
+exports[`Rendering a degree tooltip renders correctly 1`] = `
+<Fragment>
+  <div
+    className="test"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    Show tooltip
+  </div>
+  <Overlay
+    placement="top"
+    rootClose={false}
+    show={false}
+    target={null}
+    transition={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "defaultProps": Object {
+          "appear": false,
+          "in": false,
+          "mountOnEnter": false,
+          "timeout": 300,
+          "unmountOnExit": false,
+        },
+        "displayName": "Fade",
+        "render": [Function],
+      }
+    }
+  >
+    <Bootstrap(Popover)
+      id="popover"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <ForwardRef>
+        <div>
+          More Info
+        </div>
+      </ForwardRef>
+    </Bootstrap(Popover)>
+  </Overlay>
+</Fragment>
+`;

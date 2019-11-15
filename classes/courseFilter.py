@@ -27,13 +27,9 @@ class CourseFilter(ABC):
     def __repr__(self) -> str:
         return f"<CourseFilter>"
 
-    # Get info for the filter, for displaying in information for the degree
-    @abstractmethod
-    def info(self) -> str:
-        pass
-
     # The name of the requirement for the database
     @property
+    @abstractmethod
     def filter_name(self) -> str:
         return "GenericFilter"
 
@@ -44,6 +40,13 @@ class CourseFilter(ABC):
         if "Filter" in name:
             name = name.split("Filter")[0]
         return name
+
+    # returns information about the filter in a string form
+    # for easy displaying on front-end
+    # see individual filters for information it needs to pass
+    @property
+    def info(self) -> str:
+        return 'some info about the filter'
 
     # The id of the requirement for the database
     @property

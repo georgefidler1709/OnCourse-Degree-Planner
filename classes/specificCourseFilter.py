@@ -20,6 +20,10 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
         super().__init__()
         self.course = course
 
+    @property
+    def info(self) -> str:
+        return self.course.course_code
+
     # Returns whether this filters specific courses
     @property
     def core(self) -> bool:
@@ -31,9 +35,6 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
 
     def __repr__(self) -> str:
         return f"<SpecificCourseFilter course={self.course!r}>"
-
-    def info(self) -> str:
-        return self.course.course_code
 
     # The name of the requirement for the database
     @property

@@ -2,6 +2,7 @@ import React from 'react'
 import { shallow, mount } from 'enzyme';
 import { Button } from 'react-bootstrap'
 import Timeline from '../__components__/timeline_view/Timeline';
+import InfoBar from '../__components__/timeline_view/InfoBar';
 
 console.error = jest.fn();
 console.warn = jest.fn();
@@ -75,23 +76,6 @@ describe('onDragEnd method', () => {
   });
 });
 
-describe('removeCourse method', () => {
-  it('has the course to be removed before removal', async() => {
-    const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
-    await sleep(100);
-    wrapper.update();
-    expect(wrapper.state().courses["COMP1511"]).toBeDefined()
-  });
-
-  it('does not have removed course after removal', async() => {
-    const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
-    await sleep(1000);
-    wrapper.update();
-    wrapper.instance().removeCourse(0, "COMP1511", 1, 2019)
-    expect(wrapper.state().courses["COMP1511"]).toBeUndefined()
-  });
-});
-
 describe('addMissingTerms method', () => {
   it('will add missing term', async() => {
     const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
@@ -117,16 +101,16 @@ describe('addMissingTerms method', () => {
 describe('onDragStart method', () => {
   it('will highlight terms which contain an offering for the course being dragged', async() => {
     const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
-    await sleep(1000);
+    await sleep(100);
     wrapper.update();
 
-    wrapper.instance().onDragStart({draggableId: "COMP3121"})
+    wrapper.instance().onDragStart({draggableId: "COMP3121", source: {droppableId: "1 2019"}})
     expect(wrapper.state().program.enrollments[0].term_plans[0].highlight).toBeFalsy()
+    await sleep(100);
+    wrapper.update();
     expect(wrapper.state().program.enrollments[0].term_plans[1].highlight).toBeTruthy()
   });
 });
-
-
 
 describe('Render degree planning timeline view', () => {
   it('renders correctly', async() => {
@@ -138,4 +122,21 @@ describe('Render degree planning timeline view', () => {
 
     wrapper.unmount();
   })
+});
+
+describe('removeCourse method', () => {
+  it('has the course to be removed before removal', async() => {
+    const wrapper = mount(<Timeline match={{params: {degree: "degree"}}} />);
+    await sleep(100);
+    wrapper.update();
+    expect(wrapper.state().courses["COMP1511"]).toBeDefined()
+  });
+
+  it('does not have removed course after removal', async() => {
+    const wrapper = mount(<Timeline match={{params: {degree: "degree"}}} />);
+    await sleep(100);
+    wrapper.update();
+    wrapper.instance().removeCourse("COMP1511")
+    expect(wrapper.state().courses["COMP1511"]).toBeUndefined()
+  });
 });

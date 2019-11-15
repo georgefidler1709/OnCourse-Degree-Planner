@@ -1,3 +1,161 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Render degree planning timeline view renders correctly 1`] = `ReactWrapper {}`;
+exports[`Render degree planning timeline view renders correctly 1`] = `
+<DragDropContext>
+  <ErrorBoundary>
+    <App
+      contextId="0"
+      liftInstruction="Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift."
+      setCallbacks={[Function]}
+    >
+      <Provider
+        context={
+          Object {
+            "$$typeof": Symbol(react.context),
+            "Consumer": Object {
+              "$$typeof": Symbol(react.context),
+              "_calculateChangedBits": null,
+              "_context": [Circular],
+            },
+            "Provider": Object {
+              "$$typeof": Symbol(react.provider),
+              "_context": [Circular],
+            },
+            "_calculateChangedBits": null,
+            "_currentRenderer": Object {},
+            "_currentRenderer2": null,
+            "_currentValue": null,
+            "_currentValue2": null,
+            "_threadCount": 0,
+          }
+        }
+        store={
+          Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          }
+        }
+      >
+        <ConnectFunction
+          direction="vertical"
+          droppableId="droppable"
+          getContainerForClone={[Function]}
+          ignoreContainerClipping={false}
+          isCombineEnabled={false}
+          isDropDisabled={false}
+          mode="standard"
+          renderClone={null}
+          type="DEFAULT"
+        >
+          <Droppable
+            direction="vertical"
+            droppableId="droppable"
+            getContainerForClone={[Function]}
+            ignoreContainerClipping={false}
+            isCombineEnabled={false}
+            isDropDisabled={false}
+            mode="standard"
+            placeholder={null}
+            renderClone={null}
+            shouldAnimatePlaceholder={false}
+            snapshot={
+              Object {
+                "draggingFromThisWith": null,
+                "draggingOverWith": null,
+                "isDraggingOver": false,
+                "isUsingPlaceholder": false,
+              }
+            }
+            type="DEFAULT"
+            updateViewportMaxScroll={[Function]}
+            useClone={null}
+          >
+            <div
+              data-rbd-droppable-context-id="0"
+              data-rbd-droppable-id="droppable"
+              innerRef={[Function]}
+            >
+              <CourseDropBox
+                type="test"
+              >
+                <styled.div>
+                  <div
+                    className="sc-bwzfXH jiYeRs"
+                  >
+                    <styled.h5>
+                      <h5
+                        className="sc-htpNat gltnqu"
+                      >
+                        test
+                      </h5>
+                    </styled.h5>
+                    <ConnectFunction
+                      direction="vertical"
+                      droppableId="test"
+                      getContainerForClone={[Function]}
+                      ignoreContainerClipping={false}
+                      isCombineEnabled={false}
+                      isDropDisabled={false}
+                      mode="standard"
+                      renderClone={null}
+                      type="DEFAULT"
+                    >
+                      <Droppable
+                        direction="vertical"
+                        droppableId="test"
+                        getContainerForClone={[Function]}
+                        ignoreContainerClipping={false}
+                        isCombineEnabled={false}
+                        isDropDisabled={false}
+                        mode="standard"
+                        placeholder={null}
+                        renderClone={null}
+                        shouldAnimatePlaceholder={false}
+                        snapshot={
+                          Object {
+                            "draggingFromThisWith": null,
+                            "draggingOverWith": null,
+                            "isDraggingOver": false,
+                            "isUsingPlaceholder": false,
+                          }
+                        }
+                        type="DEFAULT"
+                        updateViewportMaxScroll={[Function]}
+                        useClone={null}
+                      >
+                        <styled.div
+                          data-rbd-droppable-context-id="0"
+                          data-rbd-droppable-id="test"
+                          innerRef={[Function]}
+                        >
+                          <div
+                            className="sc-bxivhb cAEClB"
+                            data-rbd-droppable-context-id="0"
+                            data-rbd-droppable-id="test"
+                          >
+                            <AnimateInOut
+                              on={null}
+                              shouldAnimate={false}
+                            />
+                          </div>
+                        </styled.div>
+                      </Droppable>
+                    </ConnectFunction>
+                  </div>
+                </styled.div>
+              </CourseDropBox>
+              <AnimateInOut
+                on={null}
+                shouldAnimate={false}
+              />
+            </div>
+          </Droppable>
+        </ConnectFunction>
+      </Provider>
+    </App>
+  </ErrorBoundary>
+</DragDropContext>
+`;

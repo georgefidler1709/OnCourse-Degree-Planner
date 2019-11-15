@@ -34,7 +34,7 @@ class UOCReq(singleReq.SingleReq):
         if self.filter is None:
             return f"{self.uoc} UoC"
         else:
-            return f"{self.uoc} UoC fulfilling [{self.filter.info()}]"
+            return f"{self.uoc} UoC fulfilling [{self.filter.info}]"
 
     @property
     def requirement_name(self) -> str:

@@ -37,6 +37,8 @@ class YearPlan(TypedDict):
 class RemainReq(TypedDict):
     units: int;
     filter_type: str;
+    # list of conditions / courses
+    info: str;
 
 class Program(TypedDict):
     # Degree object
@@ -63,6 +65,8 @@ class Course(TypedDict):
     coreqs: str;
     exclusions: str;
     equivalents: str;
+
+CourseList = List[Course]
 
 class GeneratorResponse(TypedDict):
     program: Program;

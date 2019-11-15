@@ -64,7 +64,6 @@ class CourseReq(ABC):
         else:
             return len(self.check(program, term, coreq)) == 0
 
-
     # Saves the requirement in the database
     # Return: the id of the requirement in the database
     # @abstractmethod

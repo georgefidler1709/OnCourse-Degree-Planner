@@ -23,11 +23,16 @@ def query_db(query : str, args: Tuple = (), one = False) -> sqlite3.Row:
     rv = cur.fetchall()
     return (rv[0] if rv else None) if one else rv
 
-def store_db(command: str, args: Tuple = ()) -> None:
+def store_db(command: str, args: Tuple = ()) -> int:
     # Store information in the database
 
-    get_db().execute(command, args)
+    cur = get_db().cursor()
+    cur.execute(command, args)
+
+    insert_id = cur.lastrowid
     get_db().commit()
+
+    return insert_id
 
 def get_db() -> sqlite3.Connection:
     if 'db' not in g:

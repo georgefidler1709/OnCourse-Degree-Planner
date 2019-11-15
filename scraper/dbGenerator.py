@@ -11,9 +11,11 @@ A class to generate the database based on scraping information from the handbook
 from mypy_extensions import DefaultArg
 import requests
 from sqlite3 import Row
-from typing import Callable, Tuple
+from typing import Callable, Tuple, Optional, List
 
 from classes import university
+from classes import course
+from classes import courseReq
 
 from . import scraper
 
@@ -50,9 +52,13 @@ class dbGenerator(object):
         # Now insert all of them with their prerequisites
         for scraped_course in scraped_courses:
             course_id = scraped_courses_to_course_id[scraped_course]
-            requirements = scraped_course.get_reqs()
+            full_course = scraped_course.inflate(self.university)
 
-            self.insert_requirements(course_id, requirements)
+            if course is not None and course.finished:
+                self.insert_requirements(course_id, course.prereqs, course.coreqs, course.exclusions,
+                        course.equivalents)
+            else:
+                print(f"Course {course.course_code} could not be parsed properly")
 
     def insert_course_without_requirements(self, course: 'course.Course') -> int:
         result_id = self.store_db('''insert or replace into Courses(letter_code, number_code, level, name,
@@ -64,21 +70,30 @@ class dbGenerator(object):
     def insert_requirements(self, course_id: int, prereqs: Optional['courseReq.CourseReq'], coreqs:
             Optional['courseReq.CourseReq'], exclusions: List[str], equivalents: List[str]):
 
-        prereq_id = self.store_course_requirement(prereqs)
-        coreq_id = self.store_course_requirement(coreqs)
+        if prereqs is None:
+            prereq_id = None
+        else:
+            prereq_id = self.store_course_requirement(prereqs)
 
-        self.store_db('''update Coures set prereq = ?, coreq = ? where id = ?''', (prereq_id,
+        if coreqs is None:
+            coreq_id = None
+        else:
+            coreq_id = self.store_course_requirement(coreqs)
+
+        self.store_db('''update Coures set prereq = ?, coreq = ?, finished = 1 where id = ?''', (prereq_id,
             coreq_id, course_id))
 
         for exclusion in exclusions:
             letter_code = exclusion[:4]
             number_code = exclusion[4:]
 
-            exclusion_id = self.query_db('''select id from Courses where letter_code = ? and
+            result = self.query_db('''select id from Courses where letter_code = ? and
             number_code = ?''', (letter_code, number_code), one=True)
 
-            if exclusion_id is None:
+            if result is None:
                 raise ValueError(f"No course with code {exclusion} for exclusions")
+
+            (exclusion_id,) = result
 
             if exclusion_id < course_id:
                 first_id, second_id = exclusion_id, course_id
@@ -91,11 +106,13 @@ class dbGenerator(object):
             letter_code = equivalent[:4]
             number_code = equivalent[4:]
 
-            equivalent_id = self.query_db('''select id from Courses where letter_code = ? and
+            result = self.query_db('''select id from Courses where letter_code = ? and
             number_code = ?''', (letter_code, number_code), one=True)
 
-            if equivalent_id is None:
+            if result is None:
                 raise ValueError(f"No course with code {equivalent} for equivalents")
+
+            (equivalent_id,) = result
 
             if equivalent_id < course_id:
                 first_id, second_id = equivalent_id, course_id
@@ -104,9 +121,6 @@ class dbGenerator(object):
 
             self.store_db('''insert into EquivalentCourses(first_course, second_course) values (?, ?)''', (first_id, second_id))
 
-
-
-
-        
-
+    def store_course_requirement(self, requirement: 'courseReq.CourseReq'):
+        raise NotImplementedError("Have not yet implemented store_course_requirement")
 

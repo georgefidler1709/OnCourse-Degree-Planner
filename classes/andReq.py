@@ -21,7 +21,7 @@ from . import program
 
 class AndReq(compositeReq.CompositeReq):
 
-    def __init__(self, reqs: List[courseReq.CourseReq]):
+    def __init__(self, reqs: List['courseReq.CourseReq']):
         super().__init__(reqs)
 
     def __repr__(self) -> str:

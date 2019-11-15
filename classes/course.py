@@ -13,13 +13,14 @@ concerning requirements.
 """
 
 from flask import g
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from . import courseReq
 from . import term
 from . import api
 from . import course
 from . import program
+from . import subjectReq
 
 class Course(object):
 
@@ -32,7 +33,7 @@ class Course(object):
             faculty: str,
             prereqs: Optional['courseReq.CourseReq']=None,
             coreqs: Optional['courseReq.CourseReq']=None,
-            exclusions: Optional['courseReq.CourseReq']=None,
+            exclusions: Optional[List[str]]=None,
             equivalents: Optional[List[str]]=None):
         # figure out inputs - database or variables?
         # to be assigned:
@@ -44,8 +45,13 @@ class Course(object):
         self.faculty = faculty
         self.prereqs = prereqs
         self.coreqs = coreqs
-        self.exclusions = exclusions
-        self.equivalents: List['course.Course']
+        self.exclusions: List[str]
+        if exclusions is None:
+            self.exclusions = []
+        else:
+            self.exclusions = exclusions
+
+        self.equivalents: List[str]
         if equivalents is None:
             self.equivalents = []
         else:
@@ -65,8 +71,9 @@ class Course(object):
                 "terms": [term.to_api() for term in self.terms],
                 "prereqs": self.prereqs.info(top_level=True) if self.prereqs else "",
                 "coreqs": self.coreqs.info(top_level=True) if self.coreqs else "",
-                "exclusions": self.exclusions.info(top_level=True, exclusion=True) if self.exclusions else "",
-                "equivalents": "\n".join(map(lambda x: x.course_code, self.equivalents))
+                "exclusions": "\n".join(self.exclusions),
+
+                "equivalents": "\n".join(self.equivalents)
                 }
 
     # returns the SUBJxxxx course code
@@ -88,6 +95,12 @@ class Course(object):
     # Add an offering of this course in a given term
     def add_offering(self, term: term.Term) -> None:
         self.terms.append(term)
+
+    # Add an exclusion to this course
+    def add_exclusion(self, c):
+        if self.exclusions is None:
+            self.exclusions = []
+        self.exclusions.append(c)
 
     # Add an equivalent to this course
     def add_equivalent(self, c: str) -> None:
@@ -118,21 +131,48 @@ class Course(object):
     # Input: The program of the student trying to take the course, the term they are taking it in
     # Return: whether any exclusion courses have been taken
     def excluded(self, program: 'program.Program', term: term.Term) -> bool:
-        if self.exclusions is None:
-            return False
-        else:
-            # Check with coreq=True as we don't want to take excluded courses in the same term
-            return self.exclusions.fulfilled(program, term, coreq=True)
+        return len(self.exclusion_errors(program, term)) != 0
+
+    # Input: The program of the student trying to take the course, the term they are taking it in
+    # Return: The list of exclusion courses that have been taken
+    def exclusion_errors(self, program: 'program.Program', term: term.Term) -> List[str]:
+        errors = []
+        for exclusion in self.exclusions:
+            for enrollment in program.courses:
+                if enrollment.course.course_code == exclusion:
+                    errors.append(exclusion)
+
+        return errors
 
     # Input: a course
     # Return: whether it is an equivalent course
-    def equivalent(self, other: 'course. Course') -> bool:
+    def equivalent(self, other: 'course.Course') -> bool:
         if self.equivalents is None:
             return False
         for c in self.equivalents:
             if c == other.course_code:
                 return True
         return False
+
+    def check_reqs(self, prog: 'program.Program', term: 'term.Term') -> List[Tuple[str, List[str]]]:
+        errors = []
+        if self.prereqs is not None:
+            prereq_errors = self.prereqs.check(prog, term)
+            if len(prereq_errors) > 0:
+                errors.append(("Prerequisite:", prereq_errors))
+
+        if self.coreqs is not None:
+            coreq_errors = self.coreqs.check(prog, term, coreq=True)
+            if len(coreq_errors) > 0:
+                errors.append(("Corequisite:", coreq_errors))
+
+        # handle exclusions
+        exclusion_errors = self.exclusion_errors(prog, term)
+        if len(exclusion_errors) > 0:
+            errors.append(("Exclusion:", exclusion_errors))
+        # min mark warnings
+
+        return errors
 
     # Saves the course in the database
     # Return: the id of the course

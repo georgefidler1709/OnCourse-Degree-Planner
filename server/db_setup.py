@@ -56,7 +56,7 @@ def scrape_handbook() -> None:
     year = 2020
     postgrad = False
 
-    dbGenerator.generate_db(year, postgrad)
+    generator.generate_db(year, postgrad)
 
 @click.command('init-db')
 @with_appcontext

@@ -42,15 +42,24 @@ class ScrapedSubjectReq(singleReq.SingleReq):
     def __repr__(self) -> str:
         return f"<SubjectReq course={self.course!r} min_mark={self.min_mark!r}>"
 
+    def info(self, top_level: bool=False, exclusion: bool=False) -> str:
+        pass
+
+
      # The name of the requirement for the database
     @property
     def requirement_name(self) -> str:
         return "CompletedCourseRequirement"
 
+    def check(self, program: 'program.Program', term: 'term.Term',
+            coreq: bool=False, excl: bool=False) -> List[str]:
+        pass
+
+
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, prog: 'program.Program', term: 'term.Term',
-            coreq: bool=False) -> bool:
+            coreq: bool=False, excl: bool=False) -> bool:
         pass
 
 

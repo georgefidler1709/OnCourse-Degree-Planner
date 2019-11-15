@@ -7,6 +7,7 @@ create table Degrees (
 
 create table DegreeOfferings (
     year integer,
+    finished integer required,
     degree_id integer references Degrees(id),
     primary key (year, degree_id)
 );
@@ -23,7 +24,8 @@ create table Courses (
 
     prereq integer references CourseRequirements(id),
     coreq integer references CourseRequirements(id),
-    exclusion integer references CourseRequirements(id),
+
+    finished integer required,
 
     id integer primary key,
 
@@ -121,6 +123,15 @@ create table CourseOfferings (
 );
 
 create table EquivalentCourses (
+    first_course integer references Courses(id),
+    second_course integer references Courses(id),
+
+    check (first_course < second_course),
+
+    primary key (first_course, second_course)
+);
+
+create table ExcludedCourses (
     first_course integer references Courses(id),
     second_course integer references Courses(id),
 

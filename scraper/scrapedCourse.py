@@ -11,10 +11,11 @@ A class to contain information about a course, scraped from the handbook
 """
 
 
-from typing import List
+from typing import List, Optional
 
 from . import courseParser
 from classes import course
+from classes import university
 
 class ScrapedCourse(object):
     def __init__(self,
@@ -38,36 +39,56 @@ class ScrapedCourse(object):
         self.faculty = faculty
         self.school = school
         self.study_level = study_level
-        self.terms = terms
         self.units = units
 
-    def save_to_dict(self) -> List['course.Course']:
-        pass
+        parser = courseParser.CourseParser()
+
+        # Type for requirements??
+        self.prereqs, self.coreqs = parser.parse_reqs(self.requirements)
+        self.terms = parser.parse_terms(terms, self.year)
+
+
+    # Given a university with database populated excluding requirements,
+    def inflate(self, university: 'university.University') -> Optional['course.Course']:
+        course = university.find_course(self.code)
+        if course is None:
+            # ERROR
+            return None
+        if self.prereqs:
+            course.prereqs = self.prereqs.inflate(university)
+        if self.coreqs:
+            course.coreqs = self.coreqs.inflate(university)
+
+        exclusions = []
+        for ex in self.exclusions:
+            c = university.find_course(ex)
+            if c:
+                exclusions.append(c)
+        course.exclusions = exclusions
+
+        equivalents = []
+        for eq in self.equivalents:
+            c = university.find_course(eq)
+            if c:
+                equivalents.append(c)
+        course.equivalents = equivalents
+        return course
+
+
 
     # Convert to a course object
     def to_course(self) -> 'course.Course':
-        parser = courseParser.CourseParser()
-
-        # Step 1: save into db
-        subject = ""
-        code  = 0
+         # Step 1: save into db
+        subject = self.code[:4]
+        code  = int(self.code[4:])
         name = ""
         units = self.units
-        terms = parser.parse_terms(self.terms, self.year)
+        terms = self.terms
         faculty = self.faculty
 
         # store in dict
+        #STORE IN DB
         return course.Course(subject, code, name, units, terms, faculty)
 
-    def fill_reqs(self):
-        parser = courseParser.CourseParser()
-
-        prereqs = parser.parse_req(self.prereqs)
-        coreqs = parser.parse_req(self.coreqs)
-        exclusions = parser.parse_req(self.exclusions)
-        equivalents = parser.parse_eq(self.equivalents)
-
-        return course.Course(subject, code, name, units, terms, faculty,
-                    prereqs, coreqs, exclusions, equivalents)
 
 

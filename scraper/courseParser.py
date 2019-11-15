@@ -1,5 +1,5 @@
 '''
-Parser for courses
+Parses course information
 '''
 
 from typing import List, Tuple, Optional
@@ -213,11 +213,25 @@ class CourseParser(object):
         return None
 
     # Parse a string containing a course requirement
-    def parse_req(self, req: str) -> Optional['courseReq.CourseReq']:
+    def parse_reqs(self, req: str) -> Tuple[Optional['courseReq.CourseReq'], Optional['courseReq.CourseReq']]:
         if req == None:
-            return None
+            return (None, None)
         
         if req == "":
-            return None
+            return (None, None)
 
-        return self.parse_course_req(req)
+        co = req.find('coreq')
+        pre = req.find('prereq')
+
+        if pre < 0:
+            prereqs = None
+        else:
+            prereqs = self.parse_course_req(req[:co])
+
+        if co < 0:
+            coreqs = None
+            prereqs = self.parse_course_req(req)
+        else:
+            coreqs = self.parse_course_req(req[co:])
+
+        return (prereqs, coreqs)

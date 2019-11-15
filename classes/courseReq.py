@@ -13,11 +13,12 @@ of course requirements.
 
 from abc import ABC, abstractmethod
 from flask import g
-from typing import List
+from typing import List, Optional
 
 from . import course
 from . import term
 from . import program
+from . import university
 
 
 class CourseReq(ABC):
@@ -40,6 +41,10 @@ class CourseReq(ABC):
     def requirement_id(self) -> int:
         return g.db.execute('select id from CourseRequirementTypes where name = ?',
                 self.requirement_name)
+    
+    @abstractmethod
+    def inflate(self, university: 'university.University') -> Optional[CourseReq]:
+        pass
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled

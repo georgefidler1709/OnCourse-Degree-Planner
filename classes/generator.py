@@ -100,6 +100,7 @@ class Generator(object):
                 if c.equivalents is None:
                     continue
                 for e in c.equivalents:
+                    # E IS a STR not a course?
                     term = self.find_term(prog, e)
                     if term is not None:
                         prog.add_course(e, term)

@@ -12,13 +12,13 @@ Abstract class which collects the two kinds of composite requirement (AND/OR)
 """
 
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Optional
 
 from . import course
 from . import courseReq
 from . import term
 from . import program
-
+from . import university
 
 class CompositeReq(courseReq.CourseReq, ABC):
 
@@ -29,6 +29,18 @@ class CompositeReq(courseReq.CourseReq, ABC):
     @abstractmethod
     def __repr__(self) -> str:
         return f"<CompositeReq reqs={self.reqs!r}>"
+
+    # Convert all sub requirements from 
+    def inflate(self, university: 'university.University') -> Optional['courseReq.CourseReq']:
+        new_reqs: List['courseReq.CourseReq'] = []
+        for req in self.reqs:
+            new = req.inflate(university)
+            if new:
+                new_reqs.append(new)
+            # ELSE ERROR
+        self.reqs = new_reqs
+        return self
+
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled

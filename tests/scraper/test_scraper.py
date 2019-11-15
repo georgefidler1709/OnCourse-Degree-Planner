@@ -134,7 +134,8 @@ class TestScraper_GetCourseCodes(TestScraper):
 
 class TestScraper_GetCourse(TestScraper):
     def test_get_comp1511(self):
-        page = open(os.path.join(sys.path[0], 'comp1511_handbook.html')).read()
+        from . import comp1511
+        page = comp1511.text
 
         path = '/undergraduate/courses/2020/comp1511'
 
@@ -154,7 +155,8 @@ class TestScraper_GetCourse(TestScraper):
         assert scraped_course.units == 6
 
     def test_get_math1231(self):
-        page = open(os.path.join(sys.path[0], 'math1231_handbook.html')).read()
+        from . import math1231
+        page = math1231.text
 
         path = '/undergraduate/courses/2020/math1231'
 

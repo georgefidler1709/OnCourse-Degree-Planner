@@ -244,7 +244,6 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         self.h.insert_degree(input_degree)
 
         filter_type_id = self.h.get_filter_type_id('GenEdFilter')
-        print(filter_type_id)
 
         mark_needed = 90
 
@@ -272,12 +271,9 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
 
         filter_type_id = self.h.get_filter_type_id('FieldFilter')
         field = 'COMP'
-        level = 2
 
-        mark_needed = 90
-
-        self.cursor.execute('''insert into CourseFilters(type_id, field_code, level) values(?, ?,
-                ?)''', (filter_type_id, field, level))
+        self.cursor.execute('''insert into CourseFilters(type_id, field_code) values(?, ?)''',
+                (filter_type_id, field))
 
         filter_id = self.cursor.lastrowid
 
@@ -294,6 +290,33 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         filter = requirement.filter
         assert filter.filter_name == 'FieldFilter'
         assert filter.field == field
+
+    def test_degree_with_level_filter(self):
+        input_degree = self.first_degree
+
+        self.h.insert_degree(input_degree)
+
+        filter_type_id = self.h.get_filter_type_id('LevelFilter')
+        level = 3
+
+        self.cursor.execute('''insert into CourseFilters(type_id, level) values(?, ?)''',
+                (filter_type_id, level))
+
+        filter_id = self.cursor.lastrowid
+
+        uoc_needed = 51
+
+        self.h.insert_degree_requirement(input_degree, filter_id, uoc_needed)
+
+        degree = self.university.find_degree_number_code(input_degree.num_code)
+
+        assert degree is not None
+        assert len(degree.requirements) == 1
+        requirement = degree.requirements[0]
+        assert requirement.uoc == uoc_needed
+        filter = requirement.filter
+        assert filter.filter_name == 'LevelFilter'
+        assert filter.level == level
 
     def test_degree_with_free_elective_filter(self):
         input_degree = self.first_degree
@@ -413,6 +436,7 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         course = self.university.find_course(input_course.course_code)
 
         assert course == input_course
+        assert len(course.equivalents) == 0
         assert course.faculty == input_course.faculty
 
     def test_multiple_courses(self):

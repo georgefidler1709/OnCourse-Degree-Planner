@@ -33,7 +33,7 @@ class CourseParser(object):
             if str(i) in string:
                 terms.append(term.Term(year, i))
         return terms
-        # TODO summer terms
+    # TODO summer terms
 
     def is_course_code(self, string: str) -> bool:
         if string[:4].isalpha() and string[4:].isdigit():
@@ -66,7 +66,7 @@ class CourseParser(object):
                     brackets = []
                 else:
                     brackets.pop()
-        
+
         #should now have list of breakpoints corresponding to closing brackets
 
         # remove brackets around a single compositeReq
@@ -145,22 +145,22 @@ class CourseParser(object):
     # interpret a string containing a single course requirement
     def make_single_course_req(self, string: str) -> Optional['courseReq.CourseReq']:
         split = string.split()
-        
+
         # subject requirements
         if self.is_course_code(split[0]):
             if len(split) == 1:
                 return scrapedSubjectReq.ScrapedSubjectReq(split[0])
             elif len(split) == 2:
                 return scrapedSubjectReq.ScrapedSubjectReq(split[0], int(split[1]))
-        
+
         # WAM requirements
         elif split[0].lower() == "wam":
             return wamReq.WAMReq(int(split[1]))
-        
+
         # year requirements
         elif split[0].lower() == "year":
             return yearReq.YearReq(int(split[1]))
-        
+
         # UOC requirements
         elif split[0].lower() == "uoc":
             units = int(split[1])
@@ -174,7 +174,7 @@ class CourseParser(object):
         elif split[0].lower() == "enrol":
             degree = int(split[1])
             return scrapedEnrollmentReq.ScrapedEnrollmentReq(degree)
-        
+
         # something has gone wrong
         print("ERROR: could not parse course req")
         print(string)
@@ -194,7 +194,7 @@ class CourseParser(object):
             r = self.parse_course_req(s)
             if r:
                 reqs.append(r)
-                
+
         # something has gone wrong
         # notify somehow? Catalogue for manual checking?
         if len(reqs) < 2:
@@ -202,7 +202,7 @@ class CourseParser(object):
             print(req_str)
             print(reqs)
             return None
-        
+
         # create the composite req
         if conj == 'and':
             return andReq.AndReq(reqs)
@@ -216,7 +216,7 @@ class CourseParser(object):
     def parse_req(self, req: str) -> Optional['courseReq.CourseReq']:
         if req == None:
             return None
-        
+
         if req == "":
             return None
 

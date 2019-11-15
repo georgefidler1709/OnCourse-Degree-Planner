@@ -26,6 +26,14 @@ class LevelFilter(CourseFilter):
         return f"<LevelFilter level={self.level!r}>"
 
     @property
+    def filter_name(self) -> str:
+        return "LevelFilter"
+
+    @property
+    def info(self) -> str:
+        return f"level {self.level}"
+
+    @property
     def core(self) -> bool:
         return False
 

@@ -27,6 +27,7 @@ export interface YearPlan {
 export interface RemainReq {
     units: number;
     filter_type: string;
+    info: string;
 }
 
 export interface Program {
@@ -50,7 +51,13 @@ export interface Course {
     name: string;
     units: number;
     terms: Array<Term>;
+    prereqs: string;
+    coreqs: string;
+    equivalents: string;
+    exclusions: string;
 }
+
+export type CourseList = Array<Course>;
 
 export interface GeneratorResponse {
     program: Program;

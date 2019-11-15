@@ -33,3 +33,11 @@ class CourseEnrollment(object):
 
     def units(self) -> int:
         return self.course.units
+
+    # override equality
+    def __eq__(self, other) -> bool: # For x == y
+        if (isinstance(other, CourseEnrollment) and 
+            self.course == other.course and self.term == other.term):
+            return True
+        else:
+            return False

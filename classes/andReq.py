@@ -26,6 +26,13 @@ class AndReq(compositeReq.CompositeReq):
 
     def __repr__(self) -> str:
         return f"<AndReq reqs={self.reqs!r}>"
+    
+    def info(self, top_level: bool=False, exclusion: bool=False) -> str:
+        if top_level and not exclusion:
+            # For top level prereqs and coreqs, we want to show it as a list
+            return "\n".join(map(lambda x: x.info(), self.reqs))
+        else:
+            return "(" + " AND ".join(map(lambda x: x.info(), self.reqs)) + ")"
 
     # The name of the requirement for the database
     @property

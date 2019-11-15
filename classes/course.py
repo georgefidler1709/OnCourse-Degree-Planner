@@ -34,7 +34,8 @@ class Course(object):
             prereqs: Optional['courseReq.CourseReq']=None,
             coreqs: Optional['courseReq.CourseReq']=None,
             exclusions: Optional[List[str]]=None,
-            equivalents: Optional[List[str]]=None):
+            equivalents: Optional[List[str]]=None,
+            finished: bool=True):
         # figure out inputs - database or variables?
         # to be assigned:
         self.subject = subject
@@ -56,6 +57,8 @@ class Course(object):
             self.equivalents = []
         else:
             self.equivalents = equivalents
+
+        self.finished = finished
 
     # WARNING getting hard to debug with this, restore later
     # def __repr__(self) -> str:

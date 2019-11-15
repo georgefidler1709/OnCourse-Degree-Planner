@@ -19,9 +19,7 @@ from . import course
 from . import term
 from . import program
 
-
 class CourseReq(ABC):
-
     def __init__(self):
         pass
 
@@ -45,7 +43,7 @@ class CourseReq(ABC):
     def requirement_id(self) -> int:
         return g.db.execute('select id from CourseRequirementTypes where name = ?',
                 self.requirement_name)
-    
+
     @abstractmethod
     def inflate(self, university: 'university.University') -> Optional['CourseReq']:
         pass
@@ -76,3 +74,7 @@ class CourseReq(ABC):
                 self.requirement_id)
 
         return g.db.lastrowid
+
+
+# Imports that were causing circular dependency issues at the bottom
+from . import university

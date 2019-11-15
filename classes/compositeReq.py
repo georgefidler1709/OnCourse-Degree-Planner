@@ -18,10 +18,11 @@ from . import course
 from . import courseReq
 from . import term
 from . import program
+from . import university
 
 class CompositeReq(courseReq.CourseReq, ABC):
 
-    def __init__(self, reqs: List[courseReq.CourseReq]):
+    def __init__(self, reqs: List['courseReq.CourseReq']):
         super().__init__()
         self.reqs = reqs # <List>courseReq.CourseReq
 
@@ -29,7 +30,7 @@ class CompositeReq(courseReq.CourseReq, ABC):
     def __repr__(self) -> str:
         return f"<CompositeReq reqs={self.reqs!r}>"
 
-    # Convert all sub requirements from 
+    # Convert all sub requirements from
     def inflate(self, university: 'university.University') -> Optional['courseReq.CourseReq']:
         new_reqs: List['courseReq.CourseReq'] = []
         for req in self.reqs:

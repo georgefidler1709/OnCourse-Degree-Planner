@@ -61,17 +61,17 @@ class DbHelper:
 
     # Inserts a course into the database
     # Ignores the terms it runs in or any prereqs/coreqs/exclusions/equivalents
-    def insert_course(self, course, prereq=None, coreq=None, exclusion=None, equivalents=[]):
+    def insert_course(self, course, prereq=None, coreq=None, exclusion=[], equivalents=[]):
         return self.insert_course_from_fields(course.subject, course.code, course.level,
                 course.name, course.units, course.faculty, prereq, coreq, exclusion, equivalents)
 
     # Inserts a course from just the fields that make up the course
     def insert_course_from_fields(self, letter_code='COMP', number_code='1511', level=1,
-            name='Intro to computing', units=6, faculty="Engineering", prereq=None, coreq=None, exclusion=None,
-            equivalents=[]):
+            name='Intro to computing', units=6, faculty="Engineering", prereq=None, coreq=None,
+            exclusions=[], equivalents=[]):
         self.cursor.execute('''insert into Courses(letter_code, number_code, level, name, units,
-        faculty, prereq, coreq, exclusion) values (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-        (letter_code, number_code, level, name, units, faculty, prereq, coreq, exclusion))
+        faculty, prereq, coreq) values (?, ?, ?, ?, ?, ?, ?, ?)''',
+        (letter_code, number_code, level, name, units, faculty, prereq, coreq))
 
         id = self.cursor.lastrowid
 
@@ -83,6 +83,16 @@ class DbHelper:
                 first_course = equivalent_id
                 second_course = id
             self.cursor.execute('''insert or ignore into EquivalentCourses(first_course, second_course)
+            values(?, ?)''', (first_course, second_course))
+
+        for exclusion_id in exclusions:
+            if id < exclusion_id:
+                first_course = id
+                second_course = exclusion_id
+            else:
+                first_course = exclusion_id
+                second_course = id
+            self.cursor.execute('''insert or ignore into ExcludedCourses(first_course, second_course)
             values(?, ?)''', (first_course, second_course))
 
         return id
@@ -244,7 +254,6 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         self.h.insert_degree(input_degree)
 
         filter_type_id = self.h.get_filter_type_id('GenEdFilter')
-        print(filter_type_id)
 
         mark_needed = 90
 
@@ -272,12 +281,9 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
 
         filter_type_id = self.h.get_filter_type_id('FieldFilter')
         field = 'COMP'
-        level = 2
 
-        mark_needed = 90
-
-        self.cursor.execute('''insert into CourseFilters(type_id, field_code, level) values(?, ?,
-                ?)''', (filter_type_id, field, level))
+        self.cursor.execute('''insert into CourseFilters(type_id, field_code) values(?, ?)''',
+                (filter_type_id, field))
 
         filter_id = self.cursor.lastrowid
 
@@ -294,6 +300,33 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         filter = requirement.filter
         assert filter.filter_name == 'FieldFilter'
         assert filter.field == field
+
+    def test_degree_with_level_filter(self):
+        input_degree = self.first_degree
+
+        self.h.insert_degree(input_degree)
+
+        filter_type_id = self.h.get_filter_type_id('LevelFilter')
+        level = 3
+
+        self.cursor.execute('''insert into CourseFilters(type_id, level) values(?, ?)''',
+                (filter_type_id, level))
+
+        filter_id = self.cursor.lastrowid
+
+        uoc_needed = 51
+
+        self.h.insert_degree_requirement(input_degree, filter_id, uoc_needed)
+
+        degree = self.university.find_degree_number_code(input_degree.num_code)
+
+        assert degree is not None
+        assert len(degree.requirements) == 1
+        requirement = degree.requirements[0]
+        assert requirement.uoc == uoc_needed
+        filter = requirement.filter
+        assert filter.filter_name == 'LevelFilter'
+        assert filter.level == level
 
     def test_degree_with_free_elective_filter(self):
         input_degree = self.first_degree
@@ -413,6 +446,7 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         course = self.university.find_course(input_course.course_code)
 
         assert course == input_course
+        assert len(course.equivalents) == 0
         assert course.faculty == input_course.faculty
 
     def test_multiple_courses(self):
@@ -705,25 +739,14 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
 
         required_course_id = self.h.insert_course(required_course)
 
-
-        type_id = self.h.get_requirement_type_id('CompletedCourseRequirement')
-        min_mark = 50
-
-        self.cursor.execute('''insert into CourseRequirements(type_id, min_mark, course_id)
-        values(?, ?, ?)''', (type_id, min_mark, required_course_id))
-
-        requirement_id = self.cursor.lastrowid
-
-        self.h.insert_course(input_course, exclusion=requirement_id)
+        self.h.insert_course(input_course, exclusion=[required_course_id])
 
         course = self.university.find_course(input_course.course_code)
 
         assert course is not None
-        exclusion = course.exclusions
-        assert exclusion is not None
-        assert exclusion.requirement_name == 'CompletedCourseRequirement'
-        inner_course = exclusion.course
-        assert inner_course == required_course
+        assert len(course.exclusions) == 1
+        exclusion = course.exclusions[0]
+        assert exclusion == required_course
 
     def test_course_with_equivalents(self):
         input_course = self.first_course

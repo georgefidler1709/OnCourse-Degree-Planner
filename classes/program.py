@@ -11,7 +11,7 @@ study.
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Tuple
 
 from . import course
 from . import courseEnrollment
@@ -34,16 +34,6 @@ class Program(object):
     def __init__(self, degree: 'degree.Degree', coursesTaken: List['courseEnrollment.CourseEnrollment']):
         self.degree = degree # degree.Degree
         self.courses = coursesTaken # <List>CourseEnrollments
-
-        # for debugging
-        # rem = degree.get_requirements(self)
-        # for r in rem:
-        #     print(r.filter.filter_name, rem[r])
-        #     if isinstance(r.filter, andFilter.AndFilter) or isinstance(r.filter, orFilter.OrFilter):
-        #         for f in r.filter.filters:
-        #             if isinstance(f, specificCourseFilter.SpecificCourseFilter):
-        #                 print(f.course.course_code)
-            
 
     # Input: a course
     # Return: Whether there is already an enrollment for this course in this term
@@ -120,8 +110,19 @@ class Program(object):
         return courses
 
     # Return: requirements remaining to complete the program
+    # is a dict of degreerequirement and corresponding number of UOC needed
     def get_outstanding_reqs(self) -> Dict[('degreeReq.DegreeReq', int)]:
         return self.degree.get_requirements(self)
+
+    # Return: a list of tuples containing a course code and a list of errors
+    # pertaining to the requirements of that course
+    def check_course_reqs(self) -> List[Tuple[str, List[Tuple[str, List[str]]]]]:
+        errors = []
+        for enrol in self.courses:
+            course_errors = enrol.course.check_reqs(self, enrol.term)
+            if len(course_errors) > 0:
+                errors.append((enrol.course.course_code, course_errors))
+        return errors
 
     def to_api(self) -> api.Program:
         # sort the enrolled courses by term then name
@@ -136,30 +137,21 @@ class Program(object):
                         "course_ids": courses,
                     } for (term, courses) in term_plan.items() ]
                 } for (year, term_plan) in enrollments_map.items()];
-            
-        # TODO hardcode which reqs to output for now
-        # until you fix the bug, then switch for commented out section below
-        output_req_types = (fieldFilter.FieldFilter, 
-            freeElectiveFilter.FreeElectiveFilter,
-            levelFilter.LevelFilter,
-            genEdFilter.GenEdFilter)
-        outstanding_reqs = self.degree.requirements
-        reqs: List['api.RemainReq'] = []
-        for r in outstanding_reqs:
-            if isinstance(r.filter, output_req_types):
-                new: api.RemainReq = {'units': r.uoc, 'filter_type': r.filter.simple_name}
-                reqs.append(new)
-
-        # TODO this is the correct version, uncomment when
-        # self.get_outstanding_reqs() is accurate
-        '''
+        
         outstanding_reqs = self.get_outstanding_reqs()
 
         reqs: List['api.RemainReq'] = []
         for key, val in outstanding_reqs.items():
-            new: api.RemainReq = {'units': val, 'filter_type': key.filter.simple_name}
+
+            new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
+            if key.filter:
+                new = {'units': val, 
+                    'filter_type': key.filter.simple_name,
+                    'info': key.filter.info
+                }
+
             reqs.append(new)                
-        '''
+        
 
         return {'id': self.degree.num_code, 
                 'name': self.degree.name,

@@ -11,6 +11,7 @@ import pytest
 from . import courseParser
 from . import scrapedSubjectReq
 from . import scrapedEnrollmentReq
+from classes import courseReq
 from classes import uocReq
 from classes import yearReq
 from classes import wamReq

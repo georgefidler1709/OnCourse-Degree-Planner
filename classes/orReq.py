@@ -27,14 +27,31 @@ class OrReq(compositeReq.CompositeReq):
     def __repr__(self) -> str:
         return f"<OrReq reqs={self.reqs!r}>"
 
+    def info(self, top_level: bool=False, exclusion: bool=False) -> str:
+        if top_level and exclusion:
+            # For top level exclusions, we want to show it as a list
+            return "\n".join(map(lambda x: x.info(), self.reqs))
+        else:
+            return "(" + " OR ".join(map(lambda x: x.info(), self.reqs)) + ")"
+
     @property
     def requirement_name(self) -> str:
         return "OrRequirement"
 
+    # Input: a program and a term in which the required course is taken
+    # Return: any errors pertaining to this requirement
+    def check(self, program: 'program.Program', term: 'term.Term',
+        coreq: bool=False, excl: bool=False) -> List[str]:
+        errors = []
+        if not self.fulfilled(program, term, coreq):
+            errors.append(self.info())
+        return errors
+
+
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: 'program.Program', term: 'term.Term',
-            coreq: bool=False) -> bool:
+            coreq: bool=False, excl: bool=False) -> bool:
         individual_fulfills = map(lambda x: x.fulfilled(program, term, coreq),
                 self.reqs)
 

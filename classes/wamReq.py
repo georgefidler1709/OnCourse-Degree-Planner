@@ -27,7 +27,7 @@ class WAMReq(singleReq.SingleReq):
     def __repr__(self) -> str:
         return f"<WAMReq WAM>={self.wam!r}>"
 
-    def info(self) -> str:
+    def info(self, top_level: bool=False, exclusion: bool=False) -> str:
         return f"Required WAM of {self.wam!r} or more"
 
     @property
@@ -37,7 +37,7 @@ class WAMReq(singleReq.SingleReq):
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def check(self, program: program.Program, term: term.Term,
-            coreq: bool=False) -> List[str]:
+            coreq: bool=False, excl: bool=False) -> List[str]:
         errors = []
         errors.append(self.info())
         return errors
@@ -46,7 +46,7 @@ class WAMReq(singleReq.SingleReq):
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: program.Program, term: term.Term,
-            coreq: bool=False) -> bool:
+            coreq: bool=False, excl: bool=False) -> bool:
         return True
 
 

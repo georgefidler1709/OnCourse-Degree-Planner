@@ -23,6 +23,12 @@ def query_db(query : str, args: Tuple = (), one = False) -> sqlite3.Row:
     rv = cur.fetchall()
     return (rv[0] if rv else None) if one else rv
 
+def store_db(command: str, args: Tuple = ()) -> None:
+    # Store information in the database
+
+    get_db().execute(command, args)
+    get_db().commit()
+
 def get_db() -> sqlite3.Connection:
     if 'db' not in g:
         g.db = sqlite3.connect(
@@ -38,6 +44,19 @@ def close_db(err : Exception = None) -> None:
 
     if db is not None:
         db.close()
+
+@click.command('scrape-handbook')
+@with_appcontext
+def scrape_handbook() -> None:
+    from scraper import dbGenerator
+
+    generator = dbGenerator.dbGenerator(query_db, store_db)
+
+    # TODO: Change later if we decide to include multiple years or different study levels
+    year = 2020
+    postgrad = False
+
+    generator.generate_db(year, postgrad)
 
 @click.command('init-db')
 @with_appcontext

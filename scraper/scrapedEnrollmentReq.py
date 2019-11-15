@@ -30,10 +30,17 @@ class ScrapedEnrollmentReq(singleReq.SingleReq):
     def __repr__(self) -> str:
         return f"<EnrollmentReq degree={self.degree!r}>"
 
+    def info(self, top_level: bool=False, exclusion: bool=False) -> str:
+        pass
 
     @property
     def requirement_name(self) -> str:
         return "CurrentDegreeRequirement"
+
+    def check(self, program: 'program.Program', term: 'term.Term',
+            coreq: bool=False, excl: bool=False) -> List[str]:
+        pass
+
 
     # turn into proper EnrollmentReq
     def inflate(self, university: 'university.University') -> Optional['enrollmentReq.EnrollmentReq']:
@@ -47,7 +54,7 @@ class ScrapedEnrollmentReq(singleReq.SingleReq):
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: 'program.Program', term: 'term.Term',
-            coreq: bool=False) -> bool:
+            coreq: bool=False, excl: bool=False) -> bool:
         pass
 
     # Saves the requirement in the database

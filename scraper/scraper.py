@@ -8,6 +8,7 @@ scraper.py
 scrapes the handbook to get all of the information from it and put it in text form to then be parsed
 
 """
+import bs4
 from bs4 import BeautifulSoup
 import json
 import requests
@@ -53,11 +54,13 @@ class Scraper(object):
     # leave the field blank to get all codes in total
     def get_course_codes(self, year: int, field: str="", postgrad: bool=False) -> List[str]:
         if postgrad:
-            study_level = "postgraduate"
+            study_level = "Postgraduate"
         else:
-            study_level = "undergraduate"
+            study_level = "Undergraduate"
 
-        url=handbook_url + f"/api/content/query/+contentType:subject%20-subject.published_in_handbook:0%20+subject.implementation_year:{year}%20+subject.code:*{field}*%20+subject.study_level:{study_level}%20+deleted:false%20+working:true/offset/0/limit/10000000/orderby/subject.code%20asc"
+        lowercase_study_level = study_level.lower()
+
+        url=handbook_url + f"/api/content/query/+contentType:subject%20-subject.published_in_handbook:0%20+subject.implementation_year:{year}%20+subject.code:*{field}*%20+subject.study_level:{lowercase_study_level}%20+deleted:false%20+working:true/offset/0/limit/10000000/orderby/subject.code%20asc"
 
 
         try:
@@ -79,26 +82,100 @@ class Scraper(object):
     def get_course(self, year: int, course_code: str,
             postgrad: bool=False) -> scrapedCourse.ScrapedCourse:
         if postgrad:
-            study_level = 'postgraduate'
+            study_level = 'Postgraduate'
         else:
-            study_level = 'undergraduate'
+            study_level = 'Undergraduate'
 
         lowercase_code = course_code.lower()
+        lowercase_study_level = study_level.lower()
 
-        url = handbook_url + f'/{study_level}/courses/{year}/{lowercase_code}'
+        url = handbook_url + f'/{lowercase_study_level}/courses/{year}/{lowercase_code}'
 
         page = BeautifulSoup(self.get_webpage(url), 'html.parser')
+
+        # Get course name
+        name_tag = page.find(attrs={'data-hbui':'module-title'})
+        course_name = name_tag.string
+
+
+        # Get units
+        uoc_wrapper = page.find(attrs={'data-credit-points':True})
+        uoc_tag = uoc_wrapper.find(class_='hide-lg').find('strong')
+        uoc = uoc_tag.string
+
+        units_number, uoc_text = uoc.split(' ')
+        assert uoc_text == 'UOC'
+
+        units = int(units_number)
+
+
 
         # Get overview
         overview_wrapper = page.find(id='subject-intro')
         overview_tag = overview_wrapper.find(class_='readmore__wrapper')
         overview = overview_tag.encode_contents()
-        print(overview)
+
+        # Get equivalents and exclusions
+        equivalent_section = page.find(id='equivalence-rules')
+        equivalents = self.find_courses_from_section(equivalent_section)
+
+        exclusion_section = page.find(id='exclusion-rules')
+        exclusions = self.find_courses_from_section(exclusion_section)
+
+        requirements_section = page.find(id='SubjectConditions')
+        if requirements_section is None:
+            requirements = ''
+        else:
+            requirements_wrapper = requirements_section.find(class_='a-card-text')
+            requirements_tag = requirements_wrapper.find('div')
+            requirements = requirements_tag.string
 
 
-        return scrapedCourse.ScrapedCourse(year=year, code=course_code, overview=overview, equivalents=[],
-                exclusions=[], requirements="", faculty="", school="", study_level=study_level,
-                terms="", units=0)
+        faculty = ''
+        school = ''
+        terms = ''
+
+        # Faculty, school, study level and terms are all in an attributes table
+        attributes_table = page.find(class_='o-attributes-table')
+        attributes = attributes_table.find_all(class_='o-attributes-table-item')
+        for attribute in attributes:
+            name_tag = attribute.contents[1]
+            value_tag = attribute.contents[3]
+            attr_name = name_tag.string
+            value = value_tag.string
+            if attr_name == 'Faculty':
+                faculty = value
+            elif attr_name == 'School':
+                school = value
+            elif attr_name == 'Study Level':
+                # Just make sure that we have the right study level for sanity
+                if value != study_level:
+                    raise ValueError(f'''Expected study level {study_level} should be equal to actual study
+                    level {value}''')
+            elif attr_name == 'Offering Terms':
+                terms = value
+
+
+        return scrapedCourse.ScrapedCourse(year=year, code=course_code, name=course_name, units=units, overview=overview,
+                equivalents=equivalents,
+                exclusions=exclusions, requirements=requirements, faculty=faculty, school=school, study_level=study_level,
+                terms=terms)
+
+    def find_courses_from_section(self, section: bs4.element.Tag):
+        if section is None:
+            return []
+        else:
+            course_sections = section.find_all(class_='m-single-course-top-row')
+
+            courses = list(map(lambda x: x.find('span'), course_sections))
+            return list(map(lambda x: x.string, courses))
+
+    def scrape_all_courses(self, year: int, postgrad: bool = False) -> List[scrapedCourse.ScrapedCourse]:
+        course_codes = self.get_course_codes(year, '', postgrad)
+
+        courses = list(map(lambda x: self.get_course(year, x, postgrad), course_codes))
+
+        return courses
 
 
 

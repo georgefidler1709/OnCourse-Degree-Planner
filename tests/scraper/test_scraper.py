@@ -143,6 +143,7 @@ class TestScraper_GetCourse(TestScraper):
         scraped_course = self.scraper.get_course(2020, 'COMP1511')
 
         assert scraped_course.year == 2020
+        assert scraped_course.name == 'Programming Fundamentals'
         assert sorted(scraped_course.equivalents) == ['COMP1917', 'DPST1091']
         assert scraped_course.exclusions == ['DPST1091']
         assert scraped_course.requirements == ''
@@ -162,7 +163,9 @@ class TestScraper_GetCourse(TestScraper):
         scraped_course = self.scraper.get_course(2020, 'MATH1231')
 
         assert scraped_course.year == 2020
+        assert scraped_course.name == 'Mathematics 1B'
         assert sorted(scraped_course.equivalents) == ['DPST1014']
+        assert sorted(scraped_course.exclusions) == ['DPST1014', 'MATH1021', 'MATH1241', 'MATH1251']
         assert scraped_course.requirements == 'Prerequisite: MATH1131 or DPST1013 or MATH1141'
         assert scraped_course.faculty == 'Faculty of Science'
         assert scraped_course.school == 'School of Mathematics & Statistics'

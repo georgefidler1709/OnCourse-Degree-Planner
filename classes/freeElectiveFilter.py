@@ -36,6 +36,10 @@ class FreeElectiveFilter(courseFilter.CourseFilter):
     def filter_name(self) -> str:
         return "FreeElectiveFilter"
 
+    @property
+    def info(self) -> str:
+        return 'Any free elective'
+
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     def accepts_course(self, course: 'course.Course', degree: 'degree.Degree',

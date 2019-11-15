@@ -13,6 +13,7 @@ import os
 import pytest
 import requests
 import sys
+from typing import Dict
 
 from scraper import scraper
 
@@ -21,7 +22,7 @@ handbook_url = "https://www.handbook.unsw.edu.au"
 # This just contains a mapping of urls to pages, for testing the scraper
 class MockRequests:
     def __init__(self, base_url: str):
-        self.pages = {}
+        self.pages: Dict[str, str] = {}
         self.base_url = base_url
 
     def add_page(self, url: str, page: str):

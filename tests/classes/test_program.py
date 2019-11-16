@@ -161,3 +161,6 @@ def test_remove_elec(plan):
 
     assert len(reqs) == original_reqs_len
 
+
+def test_check_reqs():
+    pass

@@ -33,5 +33,5 @@ class SingleReq(courseReq.CourseReq, ABC):
     # Return: any errors pertaining to this requirement
     @abstractmethod
     def check(self, program: program.Program, term: term.Term,
-        coreq: bool=False, excl: bool=False) -> List[str]:
+        coreq: bool=False) -> List[str]:
         pass

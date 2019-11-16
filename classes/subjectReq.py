@@ -47,17 +47,12 @@ class SubjectReq(singleReq.SingleReq):
     # Input: a program and a term in which the required course is taken
     # Return: any errors pertaining to this requirement
     def check(self, program: 'program.Program', term: 'term.Term',
-        coreq: bool=False, excl: bool=False) -> List[str]:
-        errors = []
+        coreq: bool=False) -> List[str]:
         for enrollment in program.courses:
             if enrollment.course == self.course or enrollment.course.equivalent(self.course):
                 if (coreq and enrollment.term <= term) or (enrollment.term < term):
-                    if excl:
-                        errors.append(self.course.course_code)
-                    return errors
-        if not excl:
-            errors.append(self.course.course_code)
-        return errors
+                    return []
+        return[self.course.course_code]
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database

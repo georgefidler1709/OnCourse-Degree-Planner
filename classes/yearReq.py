@@ -41,14 +41,13 @@ class YearReq(singleReq.SingleReq):
     # Input: a program and a term in which the required course is taken
     # Return: any errors pertaining to this requirement
     def check(self, program: 'program.Program', term: 'term.Term',
-        coreq: bool=False, excl: bool=False) -> List[str]:
-        errors = []
+        coreq: bool=False) -> List[str]:
         if self.year < 0:
             if term.year < program.final_year + self.year + 1:
-                errors.append(self.info())
+                return [self.info()]
         elif term.year < program.intake_year + self.year - 1:
-            errors.append(self.info())
-        return errors
+            return [self.info()]
+        return []
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database

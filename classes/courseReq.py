@@ -50,7 +50,7 @@ class CourseReq(ABC):
     # Return: any errors pertaining to this requirement
     @abstractmethod
     def check(self, program: 'program.Program', term: 'term.Term',
-            coreq: bool=False, excl: bool=False) -> List[str]:
+            coreq: bool=False) -> List[str]:
         pass
 
     # Input: program.Program of study, term this course is to be taken
@@ -58,11 +58,8 @@ class CourseReq(ABC):
     # coreq set to False, if true then terms allowed include input term
     # ex set to False, if true then this is an exclusion requirement
     def fulfilled(self, program: program.Program, term: term.Term,
-            coreq: bool=False, excl: bool=False) -> bool:
-        if excl:
-            return len(self.check(program, term, coreq, excl)) == 0
-        else:
-            return len(self.check(program, term, coreq)) == 0
+            coreq: bool=False) -> bool:
+        return len(self.check(program, term, coreq)) == 0
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database

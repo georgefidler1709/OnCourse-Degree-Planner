@@ -122,4 +122,4 @@ def check_program() -> str:
 
     new = program.Program(deg, enrollments)
 
-    return jsonify(new.get_generator_response_api())
+    return jsonify(new.get_prereq_conflicts_api())

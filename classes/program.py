@@ -169,5 +169,5 @@ class Program(object):
     
     def get_prereq_conflicts_api(self) -> api.CheckResponse:
         return {'degree_reqs': self.get_reqs_api(),
-                'course_reqs': {}};
+                'course_reqs': {}}; #TODO: fill this
 

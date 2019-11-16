@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
 import Course from './Course';
-import { Course as ApiCourse } from '../../Api';
+import { Course as ApiCourse, CourseReq } from '../../Api';
 
 interface DroppableProps {
   isDraggingOver: boolean;
@@ -40,7 +40,7 @@ interface TermProps {
   courses: Array<ApiCourse>;
   highlight: boolean;
   removeCourse: (s: string) => void;
-  getError: (s: string) => (string | undefined);
+  getError: (s: string) => (Array<CourseReq> | undefined);
 }
 
 function Term(props: TermProps) {

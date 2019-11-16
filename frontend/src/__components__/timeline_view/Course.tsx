@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import CourseInfoModal from "./CourseInfoModal"
+import { CourseReq } from '../../Api';
 
 interface DraggableProps {
   isDragging: boolean;
-  error?: string;
+  hasError: boolean;
 }
 
 
@@ -16,14 +17,14 @@ const Container = styled.div<DraggableProps>`
   margin-bottom: 8px;
   background-color: ${props => { 
     if (props.isDragging) return 'lightblue';
-    else if(props.error !== undefined) return 'red';
+    else if(props.hasError) return 'red';
     else return 'white';
   }};
 
   &:hover {
     background-color: ${props => { 
       if (props.isDragging) return 'lightblue';
-      else if(props.error !== undefined) return 'darkred';
+      else if(props.hasError) return 'darkred';
       else return 'grey';
     }};
   }
@@ -39,7 +40,7 @@ interface CourseProps {
   equivalents: string;
   exclusions: string;
   removeCourse: (s : string) => void;
-  error?: string;
+  error?: Array<CourseReq>;
 }
 
 function Course(props: CourseProps) {
@@ -54,7 +55,7 @@ function Course(props: CourseProps) {
             innerRef={provided.innerRef}
             isDragging={snapshot.isDragging}
             onClick={() => setModalShow(true)}
-            error={props.error}
+            hasError={props.error !== undefined}
           >
           {props.code}
           </Container>

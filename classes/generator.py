@@ -54,7 +54,7 @@ class Generator(object):
                 break
             courses.append(c)
             units += c.units
-     
+
     # Input: a program of study and a course
     # Return: an appropriate term in which to take given course
     def find_term(self, prog: 'program.Program', course: 'course.Course') -> Optional['term.Term']:
@@ -105,6 +105,7 @@ class Generator(object):
                     if term is not None:
                         prog.add_course(e, term)
                         courseIter.remove(c)
+                        break
 
             courses = courseIter.copy()
 

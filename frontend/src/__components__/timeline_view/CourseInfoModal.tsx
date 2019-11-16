@@ -1,6 +1,8 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { CourseReq } from '../../Api';
+import Requirements from "./Requirements"
 
 const year = '2020'
 const handbook = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}`
@@ -17,13 +19,13 @@ interface CourseInfoModalProps {
   coreqs: string;
   equivalents: string;
   exclusions: string;
-  error?: string;
+  error?: Array<CourseReq>;
 }
 
 function displayCourseReqs(reqs: string, req_type: string) {
 
   const noBullet = {
-    "list-style-type" : "none",
+    "listStyleType" : "none",
   } as React.CSSProperties;
   
   return (
@@ -65,7 +67,14 @@ function CourseInfoModal(props: CourseInfoModalProps) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {props.error !== undefined && <div> Errors highlighted in <span style={{color:"red"}}>red</span></div>}
+          {console.log(props.error)}
+          {props.error !== undefined && 
+            <span style={{color:"red"}}>
+              {console.log("props")}
+              <Requirements
+                title="Errors"
+                degree_reqs={props.error}/>
+            </span> }
           {displayCourseReqs(props.prereqs, "Prereqs")}
           {displayCourseReqs(props.coreqs, "Coreqs")}
           {displayCourseReqs(props.equivalents, "Equivalents")}

@@ -83,8 +83,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       // if any 'required terms' were missing from the end, add them on here
       for( ; cur_term < required_terms.length; ++cur_term) this.addTerm(cur_term + 1, year, year_index);
     })
-
-    console.log(this.state)
   }
 
     // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
@@ -255,9 +253,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   onDragEnd = (result: DropResult) => {
 
     const { destination, source, draggableId } = result
-    console.log(destination)
-    console.log(source)
-    console.log(draggableId)
 
     // if not dragged into a term, don't change state
     if(!destination) {

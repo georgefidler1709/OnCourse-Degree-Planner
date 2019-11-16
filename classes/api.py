@@ -34,11 +34,13 @@ class YearPlan(TypedDict):
     term_plans: List[TermPlan];
     year: int;
 
-class RemainReq(TypedDict):
-    units: int;
+class CourseReq(TypedDict):
     filter_type: str;
     # list of conditions / courses
     info: str;
+
+class RemainReq(CourseReq):
+    units: int;
 
 class Program(TypedDict):
     # Degree object
@@ -74,5 +76,5 @@ class GeneratorResponse(TypedDict):
 
 class CheckResponse(TypedDict):
     degree_reqs: List[RemainReq];
-    course_reqs: Dict[str, str];
+    course_reqs: Dict[str, List[CourseReq]];
 

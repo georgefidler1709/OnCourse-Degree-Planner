@@ -30,24 +30,25 @@ class YearReq(singleReq.SingleReq):
         return f"<YearReq year={self.year!r}>"
 
     def info(self, top_level: bool=False, exclusion: bool=False) -> str:
+        if self.year == -1:
+            return f"Final year in your degree"
         return f"Year {self.year} in your degree"
 
     @property
     def requirement_name(self) -> str:
         return "YearRequirement"
 
-    # Input: program.Program of study, term this course is to be taken
-    # Return: Whether this requirement is fulfilled
-    def fulfilled(self, program: 'program.Program', term: 'term.Term',
-            coreq: bool=False) -> bool:
+    # Input: a program and a term in which the required course is taken
+    # Return: any errors pertaining to this requirement
+    def check(self, program: 'program.Program', term: 'term.Term',
+        coreq: bool=False, excl: bool=False) -> List[str]:
+        errors = []
         if self.year < 0:
-            if term.year == program.final_year + self.year + 1:
-                return True
-            return False
-        elif term.year == program.intake_year + self.year - 1:
-            return True
-        return False
-
+            if term.year < program.final_year + self.year + 1:
+                errors.append(self.info())
+        elif term.year < program.intake_year + self.year - 1:
+            errors.append(self.info())
+        return errors
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database

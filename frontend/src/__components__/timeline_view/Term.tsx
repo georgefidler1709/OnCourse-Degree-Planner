@@ -64,6 +64,7 @@ function Term(props: TermProps) {
                 index={index} 
                 removeCourse={props.removeCourse}
                 error={props.getError(course_id)}
+                warn={props.getWarn(course_id)}
                 />
             }
             )}

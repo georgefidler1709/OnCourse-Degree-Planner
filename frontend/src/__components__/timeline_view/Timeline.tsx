@@ -241,6 +241,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     this.setState(newState)
     this.updateProgram(newState)
+    this.resetTermHighlights()
   }
 
   onDragEnd = (result: DropResult) => {

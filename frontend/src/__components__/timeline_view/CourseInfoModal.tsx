@@ -53,18 +53,20 @@ function addLinks(req: string) {
   })
 }
 
-function Requirements(props: {title: string, heading: (x: string) => string, degree_reqs: Array<CourseReq>}) {
+function Requirement(props: {filter_type: string, info: Array<string>}) {
+  return (
+    <div key={props.filter_type}>
+      <p>{props.filter_type}</p>
+    <ul>
+    {props.info.map(info => <li key={info}>{`${info}`}</li>)}
+    </ul>
+  </div>);
+}
+
+function Requirements(props: {title: string,  degree_reqs: Array<CourseReq>}) {
   return (<>
   <SubTitle>{props.title}</SubTitle>
-    {props.degree_reqs.map(req => { return (
-      <div key={req.filter_type}>
-        <p>{props.heading(req.filter_type)}</p>
-      <ul>
-        {req.info.map(info => <li key={info}>{`${info}`}</li>)}
-      </ul>
-    </div>
-    )
-    })}
+    {props.degree_reqs.map(req => { return (<Requirement info={req.info} filter_type={`${req.filter_type} violation(s)`}/>)})}
     </>);
 }
 
@@ -88,17 +90,13 @@ function CourseInfoModal(props: CourseInfoModalProps) {
             <span style={{color:"red"}}>
               <Requirements
                 title="Errors"
-                heading={(filter) => `${filter} violation(s)`}
                 degree_reqs={props.error}/>
             </span> }
           {props.warn !== undefined && 
-            <span style={{color:"yellow"}}>
-              <Requirements
-                title="Warnings"
-                degree_reqs={[{filter_type: "Warning(s)", info: props.warn}]}
-                heading={(x)=>x}
-              />
-            </span> }
+              <Requirement
+                filter_type="Warning(s)"
+                info={props.warn}
+              />}
           {displayCourseReqs(props.prereqs, "Prereqs")}
           {displayCourseReqs(props.coreqs, "Coreqs")}
           {displayCourseReqs(props.equivalents, "Equivalents")}

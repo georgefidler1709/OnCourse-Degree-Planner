@@ -154,7 +154,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     fetch(request)
     .then(response => response.json())
     .then((reqs: CheckResponse) => {
-      console.log(reqs);
       this.setState({reqs}); 
       this.addMissingTerms()
     })

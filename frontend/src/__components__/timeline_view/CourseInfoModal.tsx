@@ -24,7 +24,6 @@ interface CourseInfoModalProps {
 }
 
 function displayCourseReqs(reqs: string, req_type: string) {
-
   const noBullet = {
     "listStyleType" : "none",
   } as React.CSSProperties;
@@ -46,9 +45,10 @@ function displayCourseReqs(reqs: string, req_type: string) {
 }
 
 function addLinks(req: string) {
+  const re = new RegExp('^[A-Z]{4}[0-9]{4}$');
   req = req.replace(/[()]/g, '');
   return req.split(' ').map(word => {
-    if(word === "OR" || word === "AND" || word === "") return " " + word + " "
+    if(!word.match(re)) return " " + word + " "
     return (<a key={word} href={`${handbook}/${word}`}>{word}</a>)
   })
 }

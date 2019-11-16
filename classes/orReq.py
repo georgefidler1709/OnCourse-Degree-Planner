@@ -47,6 +47,13 @@ class OrReq(compositeReq.CompositeReq):
             errors.append(self.info())
         return errors
 
+    # Return: all necessary warnings for this course regarding min marks required for enrollment
+    def mark_warnings(self, program: 'program.Program', term: 'term.Term') -> List[str]:
+        warnings: List[str] = []
+        for req in self.reqs:
+            if req.fulfilled(program, term):
+                warnings = warnings + req.mark_warnings(program, term)
+        return warnings
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled

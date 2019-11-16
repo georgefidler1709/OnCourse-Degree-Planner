@@ -53,11 +53,16 @@ class CourseReq(ABC):
             coreq: bool=False) -> List[str]:
         pass
 
+    # Return: all necessary warnings for this course regarding min marks required for enrollment
+    @abstractmethod
+    def mark_warnings(self, program: 'program.Program', term: 'term.Term') -> List[str]:
+        pass
+
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     # coreq set to False, if true then terms allowed include input term
     # ex set to False, if true then this is an exclusion requirement
-    def fulfilled(self, program: program.Program, term: term.Term,
+    def fulfilled(self, program: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
         return len(self.check(program, term, coreq)) == 0
 

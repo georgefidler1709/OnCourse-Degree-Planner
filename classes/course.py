@@ -140,14 +140,15 @@ class Course(object):
         for exclusion in self.exclusions:
            # Make a subject requirement with this course, and if it succeeds then we know we've hit
            # an exclusion
-           exclusion_req = subjectReq.SubjectReq(exclusion)
+            exclusion_req = subjectReq.SubjectReq(exclusion)
 
-           if len(exclusion_req.check(program, term, coreq=True)) == 0:
+            if len(exclusion_req.check(program, term, coreq=True)) == 0:
                # The check to see if we've matched the excluded course didn't give any errors,
                # which means that we are doing the excluded course
                errors.append(exclusion.course_code)
 
         return errors
+
 
     # Input: a course
     # Return: whether it is an equivalent course
@@ -175,7 +176,12 @@ class Course(object):
         exclusion_errors = self.exclusion_errors(prog, term)
         if len(exclusion_errors) > 0:
             errors.append(("Exclusion:", exclusion_errors))
+
         # min mark warnings
+        if self.prereqs is not None:
+            mark_warnings = self.prereqs.mark_warnings(prog, term)
+            if len(mark_warnings) > 0:
+                errors.append(("Marks required:", mark_warnings))
 
         return errors
 

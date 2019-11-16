@@ -36,3 +36,8 @@ class CompositeReq(courseReq.CourseReq, ABC):
     def check(self, program: 'program.Program', term: 'term.Term',
         coreq: bool=False) -> List[str]:
         pass
+
+    # Return: all necessary warnings for this course regarding min marks required for enrollment
+    @abstractmethod
+    def mark_warnings(self, program: 'program.Program', term: 'term.Term') -> List[str]:
+        pass

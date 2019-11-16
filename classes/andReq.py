@@ -48,6 +48,13 @@ class AndReq(compositeReq.CompositeReq):
             errors = errors + req.check(program, term, coreq)
         return errors
 
+    # Return: all necessary warnings for this course regarding min marks required for enrollment
+    def mark_warnings(self, program: 'program.Program', term: 'term.Term') -> List[str]:
+        warnings: List[str] = []
+        for req in self.reqs:
+            warnings = warnings + req.mark_warnings(program, term)
+        return warnings
+
     # Saves the requirement in the database
     # Return: the id of the requirement in the database
     def save(self) -> int:

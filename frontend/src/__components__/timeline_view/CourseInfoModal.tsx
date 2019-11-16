@@ -55,7 +55,8 @@ function addLinks(req: string) {
 function CourseInfoModal(props: CourseInfoModalProps) {
     return (
       <Modal
-        {...props}
+        show={props.show}
+        onHide={props.onHide}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -67,10 +68,8 @@ function CourseInfoModal(props: CourseInfoModalProps) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {console.log(props.error)}
           {props.error !== undefined && 
             <span style={{color:"red"}}>
-              {console.log("props")}
               <Requirements
                 title="Errors"
                 degree_reqs={props.error}/>

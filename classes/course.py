@@ -140,14 +140,15 @@ class Course(object):
         for exclusion in self.exclusions:
            # Make a subject requirement with this course, and if it succeeds then we know we've hit
            # an exclusion
-           exclusion_req = subjectReq.SubjectReq(exclusion)
+            exclusion_req = subjectReq.SubjectReq(exclusion)
 
-           if len(exclusion_req.check(program, term, coreq=True)) == 0:
+            if len(exclusion_req.check(program, term, coreq=True)) == 0:
                # The check to see if we've matched the excluded course didn't give any errors,
                # which means that we are doing the excluded course
                errors.append(exclusion.course_code)
 
         return errors
+
 
     # Input: a course
     # Return: whether it is an equivalent course
@@ -162,19 +163,31 @@ class Course(object):
     def check_reqs(self, prog: 'program.Program', term: 'term.Term') -> List['api.CourseReq']:
         errors: List['api.CourseReq'] = []
         if self.prereqs is not None:
-            for error in self.prereqs.check(prog, term):
-                errors.append({"filter_type" : "Prerequisite", "info": error})
+            prereq_errors = self.prereqs.check(prog, term);
+            if len(prereq_errors) > 0:
+                errors.append({"filter_type" : "Prerequisite", "info": prereq_errors})
 
         if self.coreqs is not None:
-            for error in self.coreqs.check(prog, term, coreq=True):
-                errors.append({"filter_type" : "Corequisite", "info": error})
+            coreq_errors = self.coreqs.check(prog, term, coreq=True);
+            if len(coreq_errors) > 0:
+                errors.append({"filter_type" : "Corequisite", "info": coreq_errors})
 
         # handle exclusions
-        for error in self.exclusion_errors(prog, term):
-            errors.append({"filter_type" : "Exclusion", "info": error})
-        # min mark warnings
+        exclusion_errors = self.exclusion_errors(prog, term)
+        if len(exclusion_errors) > 0:
+            errors.append({"filter_type" : "Exclusion", "info": exclusion_errors})
 
         return errors
+
+    # Error message for any warnings relating to mark requirements
+    def check_warnings(self, prog: 'program.Program', term: 'term.Term') -> List[str]:
+        # min mark warnings
+        if self.prereqs is not None:
+            return self.prereqs.mark_warnings(prog, term)
+        else:
+            return []
+            
+
 
     # Saves the course in the database
     # Return: the id of the course

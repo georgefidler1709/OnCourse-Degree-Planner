@@ -41,17 +41,24 @@ class OrReq(compositeReq.CompositeReq):
     # Input: a program and a term in which the required course is taken
     # Return: any errors pertaining to this requirement
     def check(self, program: 'program.Program', term: 'term.Term',
-        coreq: bool=False, excl: bool=False) -> List[str]:
+        coreq: bool=False) -> List[str]:
         errors = []
         if not self.fulfilled(program, term, coreq):
             errors.append(self.info())
         return errors
 
+    # Return: all necessary warnings for this course regarding min marks required for enrollment
+    def mark_warnings(self, program: 'program.Program', term: 'term.Term') -> List[str]:
+        warnings: List[str] = []
+        for req in self.reqs:
+            if req.fulfilled(program, term):
+                warnings = warnings + req.mark_warnings(program, term)
+        return warnings
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: 'program.Program', term: 'term.Term',
-            coreq: bool=False, excl: bool=False) -> bool:
+            coreq: bool=False) -> bool:
         individual_fulfills = map(lambda x: x.fulfilled(program, term, coreq),
                 self.reqs)
 

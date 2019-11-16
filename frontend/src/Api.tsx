@@ -24,12 +24,9 @@ export interface YearPlan {
   year: number;
 }
 
-export interface CourseReq {
+export interface RemainReq {
   filter_type: string;
   info: string;
-}
-
-export interface RemainReq extends CourseReq {
   units: number;
 }
 
@@ -65,6 +62,11 @@ export type CourseList = Array<Course>;
 export interface GeneratorResponse {
   program: Program;
   courses: {[index: string]: Course};
+}
+
+export interface CourseReq {
+  filter_type: string;
+  info: Array<string>;
 }
 
 export interface CheckResponse{

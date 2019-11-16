@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { CourseReq } from '../../Api';
-import Requirements from "./Requirements"
+import { SubTitle } from '../../Types';
 
 const year = '2020'
 const handbook = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}`
@@ -50,6 +50,21 @@ function addLinks(req: string) {
     if(word === "OR" || word === "AND" || word === "") return " " + word + " "
     return (<a key={word} href={`${handbook}/${word}`}>{word}</a>)
   })
+}
+
+function Requirements(props: {title: string, degree_reqs: Array<CourseReq>}) {
+  return (<>
+  <SubTitle>{props.title}</SubTitle>
+    {props.degree_reqs.map(req => { return (
+      <div key={req.filter_type}>
+        <p>{`${req.filter_type} violation(s)`}</p>
+      <ul>
+        {req.info.map(info => <li key={info}>{`${info}`}</li>)}
+      </ul>
+    </div>
+    )
+    })}
+    </>);
 }
 
 function CourseInfoModal(props: CourseInfoModalProps) {

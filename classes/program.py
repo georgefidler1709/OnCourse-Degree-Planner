@@ -124,6 +124,14 @@ class Program(object):
                 errors[enrol.course.course_code] = course_errors;
         return errors
 
+    def check_course_warnings(self) -> List[Tuple[str, List[str]]]:
+        errors = []
+        for enrol in self.courses:
+            course_errors = enrol.course.check_warnings(self, enrol.term)
+            if len(course_errors) > 0:
+                errors.append((enrol.course.course_code, course_errors))
+        return errors
+
     def get_reqs_api(self) -> List['api.RemainReq']:
         outstanding_reqs = self.get_outstanding_reqs()
 

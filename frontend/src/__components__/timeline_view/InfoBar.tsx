@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import CourseDropBox from "./CourseDropBox"
-import Requirements from "./Requirements"
 import { SearchCourses } from "../degree_search/Search"
 import { RemainReq, Course } from "../../Api"
-import { SubTitle } from "../../Types"
+import { SubTitle } from '../../Types';
 
 const Container = styled.div`
   margin: 8px;
@@ -38,9 +37,16 @@ function InfoBar(props: InfoBarProps) {
         <Title>{props.degree_id.toString()}</Title>
       </header>
       <body>
-        <Requirements
-          title="Requirements"
-          degree_reqs={props.degree_reqs}/>
+        <SubTitle>Requirements</SubTitle>
+        {props.degree_reqs.map(req => { return (
+          <div key={req.info}>
+            <p>{`${req.filter_type}: ${req.units} UOC of`}</p>
+            <ul>
+              <li>{`${req.info}`}</li>
+            </ul>
+          </div>
+        )
+        })}
         <SubTitle>Add a Course</SubTitle>
         <p>Search for a course and click on it. Then drag the course into your timeline from the <b>Add</b> box.</p>
         <CourseDropBox type="Add" add_course={props.add_course} remove_course={props.remove_course}/>

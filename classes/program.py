@@ -124,6 +124,14 @@ class Program(object):
                 errors.append((enrol.course.course_code, course_errors))
         return errors
 
+    def check_course_warnings(self) -> List[Tuple[str, List[str]]]:
+        errors = []
+        for enrol in self.courses:
+            course_errors = enrol.course.check_warnings(self, enrol.term)
+            if len(course_errors) > 0:
+                errors.append((enrol.course.course_code, course_errors))
+        return errors
+
     def to_api(self) -> api.Program:
         # sort the enrolled courses by term then name
         enrollments_map: Dict[int, Dict[int, List[str]]]= {}

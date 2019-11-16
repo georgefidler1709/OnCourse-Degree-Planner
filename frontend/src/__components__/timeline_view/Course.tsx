@@ -7,6 +7,7 @@ import { CourseReq } from '../../Api';
 interface DraggableProps {
   isDragging: boolean;
   hasError: boolean;
+  hasWarning: boolean;
 }
 
 
@@ -17,6 +18,7 @@ const Container = styled.div<DraggableProps>`
   margin-bottom: 8px;
   background-color: ${props => { 
     if (props.isDragging) return 'lightblue';
+    else if(props.hasWarning) return 'yellow';
     else if(props.hasError) return 'red';
     else return 'white';
   }};
@@ -24,6 +26,7 @@ const Container = styled.div<DraggableProps>`
   &:hover {
     background-color: ${props => { 
       if (props.isDragging) return 'lightblue';
+      else if(props.hasWarning) return 'darkyellow';
       else if(props.hasError) return 'darkred';
       else return 'grey';
     }};
@@ -41,6 +44,7 @@ interface CourseProps {
   exclusions: string;
   removeCourse: (s : string) => void;
   error?: Array<CourseReq>;
+  warn?: Array<string>;
 }
 
 function Course(props: CourseProps) {
@@ -56,6 +60,7 @@ function Course(props: CourseProps) {
             isDragging={snapshot.isDragging}
             onClick={() => setModalShow(true)}
             hasError={props.error !== undefined}
+            hasWarning={props.warn !== undefined}
           >
           {props.code}
           </Container>

@@ -41,6 +41,7 @@ interface TermProps {
   highlight: boolean;
   removeCourse: (s: string) => void;
   getError: (s: string) => (Array<CourseReq> | undefined);
+  getWarn: (s: string) => (Array<string> | undefined);
 }
 
 function Term(props: TermProps) {

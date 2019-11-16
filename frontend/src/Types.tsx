@@ -1,4 +1,4 @@
-import { GeneratorResponse, Program, TermPlan, YearPlan, SimpleDegree, Course, CourseReq } from "./Api"
+import { GeneratorResponse, Program, TermPlan, YearPlan, SimpleDegree, Course } from "./Api"
 import styled from 'styled-components';
 
 export const SubTitle = styled.h5`
@@ -11,7 +11,6 @@ export type Position = "auto-start" | "auto" | "auto-end" | "top-start" | "top" 
 export interface TimelineState extends GeneratorResponse {
   program: ProgramState;
   add_course: Course; // course to add, usually undefined
-  course_reqs: {[index: string]: Array<CourseReq>};
 }
 
 export interface ProgramState extends Program {

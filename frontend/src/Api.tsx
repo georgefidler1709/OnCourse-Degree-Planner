@@ -37,8 +37,7 @@ export interface Program {
   year: number;
   duration: number; // in years
   url: string; // handbook entry for degree
-  reqs: Array<RemainReq>
-    enrollments: Array<YearPlan>;
+  enrollments: Array<YearPlan>;
 }
 
 export interface Term {
@@ -59,11 +58,6 @@ export interface Course {
 
 export type CourseList = Array<Course>;
 
-export interface GeneratorResponse {
-  program: Program;
-  courses: {[index: string]: Course};
-}
-
 export interface CourseReq {
   filter_type: string;
   info: Array<string>;
@@ -72,4 +66,12 @@ export interface CourseReq {
 export interface CheckResponse{
   degree_reqs: Array<RemainReq>;
   course_reqs: {[index: string]: Array<CourseReq>};
+  course_warn: {[index: string]: Array<string>};
 }
+
+export interface GeneratorResponse {
+  program: Program;
+  courses: {[index: string]: Course};
+  reqs: CheckResponse;
+}
+

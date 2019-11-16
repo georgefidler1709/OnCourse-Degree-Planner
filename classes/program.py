@@ -124,12 +124,12 @@ class Program(object):
                 errors[enrol.course.course_code] = course_errors;
         return errors
 
-    def check_course_warnings(self) -> List[Tuple[str, List[str]]]:
-        errors = []
+    def check_course_warnings(self) -> Dict[str, List[str]]:
+        errors = {} 
         for enrol in self.courses:
             course_errors = enrol.course.check_warnings(self, enrol.term)
             if len(course_errors) > 0:
-                errors.append((enrol.course.course_code, course_errors))
+                errors[enrol.course.course_code] = course_errors
         return errors
 
     def get_reqs_api(self) -> List['api.RemainReq']:
@@ -168,14 +168,15 @@ class Program(object):
                 'year': self.degree.year,
                 'duration': self.degree.duration,
                 'url': self.degree.get_url(),
-                'reqs': self.get_reqs_api(),
                 'enrollments': enrollments};
-
-    def get_generator_response_api(self) -> api.GeneratorResponse:
-        return {'program': self.to_api(),
-                'courses': {enrollment.course_code() : enrollment.course.to_api() for enrollment in self.courses}};
     
     def get_prereq_conflicts_api(self) -> api.CheckResponse:
         return {'degree_reqs': self.get_reqs_api(),
-                'course_reqs': self.check_course_reqs()}; #TODO: fill this
+                'course_reqs': self.check_course_reqs(),
+                'course_warn': self.check_course_warnings() }; 
+
+    def get_generator_response_api(self) -> api.GeneratorResponse:
+        return {'program': self.to_api(),
+                'courses': {enrollment.course_code() : enrollment.course.to_api() for enrollment in self.courses},
+                'reqs': self.get_prereq_conflicts_api() };
 

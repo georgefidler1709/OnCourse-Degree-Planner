@@ -47,7 +47,6 @@ class Program(TypedDict):
     year: int;
     duration: int; # in years
     url: str; # degree handbook url
-    reqs: List[RemainReq]; # list of requirements for nonspecific courses (gen eds, free elecs)
 
     # List of CourseEnrollments
     enrollments: List[YearPlan];
@@ -68,15 +67,17 @@ class Course(TypedDict):
 
 CourseList = List[Course]
 
-class GeneratorResponse(TypedDict):
-    program: Program;
-    courses: Dict[str, Course];
-
 class CourseReq(TypedDict):
     filter_type: str;
     info: List[str];
 
 class CheckResponse(TypedDict):
-    degree_reqs: List[RemainReq];
+    degree_reqs: List[RemainReq]; # list of requirements for nonspecific courses (gen eds, free elecs)
     course_reqs: Dict[str, List[CourseReq]];
+    course_warn: Dict[str, List[str]];
+
+class GeneratorResponse(TypedDict):
+    program: Program;
+    courses: Dict[str, Course];
+    reqs: CheckResponse;
 

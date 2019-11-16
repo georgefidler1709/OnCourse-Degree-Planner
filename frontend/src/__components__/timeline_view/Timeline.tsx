@@ -153,16 +153,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     fetch(request)
     .then(response => response.json())
-    .then((plan : CheckResponse) => {
-      this.setState(
-        (state, _) => {
-          return {
-            program: {
-              ...state.program,
-              req: plan.degree_reqs
-            }, 
-            course_reqs: plan.course_reqs};
-        }); 
+    .then((reqs: CheckResponse) => {
+      console.log(reqs);
+      this.setState({reqs}); 
       this.addMissingTerms()
     })
   }
@@ -490,7 +483,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                                           courses={courses} 
                                           highlight={term.highlight} 
                                           removeCourse={this.removeCourse.bind(this)}
-                                          getError={(s) => this.state.course_reqs[s]}/>;
+                                          getError={(s) => this.state.reqs.course_reqs[s]}
+                                          getWarn={(s) => this.state.reqs.course_warn[s]}/>;
                               })}
                             </Container>
                         </div>
@@ -501,7 +495,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                     <InfoBar 
                       degree_id={this.state.program.id}
                       degree_name={this.state.program.name}
-                      degree_reqs={this.state.program.reqs}
+                      degree_reqs={this.state.reqs.degree_reqs}
                       add_course={this.state.add_course}
                       add_event={this.addCourse.bind(this)}
                       remove_course={this.removeCourse.bind(this)}

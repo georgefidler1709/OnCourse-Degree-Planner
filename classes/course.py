@@ -177,13 +177,17 @@ class Course(object):
         if len(exclusion_errors) > 0:
             errors.append(("Exclusion:", exclusion_errors))
 
+        return errors
+
+    # Error message for any warnings relating to mark requirements
+    def check_warnings(self, prog: 'program.Program', term: 'term.Term') -> List[str]:
         # min mark warnings
         if self.prereqs is not None:
-            mark_warnings = self.prereqs.mark_warnings(prog, term)
-            if len(mark_warnings) > 0:
-                errors.append(("Marks required:", mark_warnings))
+            return self.prereqs.mark_warnings(prog, term)
+        else:
+            return []
+            
 
-        return errors
 
     # Saves the course in the database
     # Return: the id of the course

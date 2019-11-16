@@ -88,13 +88,13 @@ def test_check_reqs():
 
     prog.add_course(subj1001, t1)
     errors = subj1007.check_reqs(prog, t2)
-    assert len(errors) == 3
+    assert len(errors) == 2
     assert errors[0][0] == "Corequisite:"
     assert errors[0][1] == ["SUBJ1004"]
     assert errors[1][0] == "Exclusion:"
     assert errors[1][1] == ["SUBJ1005"]
-    assert errors[2][0] == "Marks required:"
-    assert errors[2][1] == ["A mark of 75 in SUBJ1001"]
+
+    assert subj1007.check_warnings(prog, t2) == ["A mark of 75 in SUBJ1001"]
 
     
 

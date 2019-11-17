@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, RefObject} from 'react';
 import '@atlaskit/css-reset';
 import styled from 'styled-components';
 import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
@@ -10,7 +10,7 @@ import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
 import html2canvas from 'html2canvas'
 import { saveAs } from 'file-saver'
-import { TimelineState, YearState, TermState } from '../../Types'
+import { TimelineState, YearState, TermState, CourseSearchResult } from '../../Types'
 
 const TimeLineContext = styled.div`
   display: flex;
@@ -76,13 +76,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     const program = this.state.program
     // fill in required years for the program duration
     let timeline: Array<number> = []
-    var year_max: number;
-    if (program.enrollments.length > 0) {
-      year_max = program.enrollments[0].year;
-    } else {
-      year_max = program.year;
-    }
-    
+    let year_max: number = program.enrollments[0].year
     for(let i = 0; i < program.duration; ++i) {
       timeline.push(year_max++)
     }
@@ -144,7 +138,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
   // sets this.state.add_course to be the Course passed in
-  addCourse(course: Course) {
+  addCourse(course: Course, searchRef: RefObject<HTMLInputElement>, searchResults: Array<CourseSearchResult>) {
     let newState = {
       ...this.state,
     }
@@ -156,6 +150,15 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       // can add this course
       newState.add_course = course
     }
+
+    // clear the search bar results via reference to object
+    if (searchRef.current) {
+      searchRef.current.value = "";
+      // searchRef.current.simulate('keypress', {key: 'Enter'})
+    }
+
+    // searchResults = []
+    searchResults.length = 0
 
     this.setState(newState)
 
@@ -239,33 +242,33 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     let startTerm = startYear.term_plans[startTermIdx]
 
     const newCourseIds = Array.from(startTerm.course_ids)
-    newCourseIds.splice(sourceIdx, 1)
+      newCourseIds.splice(sourceIdx, 1)
 
-    const newTerm = {
-      ...startTerm,
-      course_ids: newCourseIds
-    }
+      const newTerm = {
+        ...startTerm,
+        course_ids: newCourseIds
+      }
 
-    let newYear = {
-      ...startYear,
-    }
+      let newYear = {
+        ...startYear,
+      }
 
-    newYear.term_plans[startTermIdx] = newTerm
+      newYear.term_plans[startTermIdx] = newTerm
 
-    let newCourses = this.state.courses
-    delete newCourses[draggableId]
+      let newCourses = this.state.courses
+      delete newCourses[draggableId]
 
-    let newState = {
-      ...this.state,
-    }
+      let newState = {
+        ...this.state,
+      }
 
-    // make modifications to state
-    newState.courses = newCourses
-    newState.program.enrollments[startYearIdx] = newYear
+      // make modifications to state
+      newState.courses = newCourses
+      newState.program.enrollments[startYearIdx] = newYear
 
-    // set state, then update program in the new state
-    this.setState(newState)
-    this.updateProgram(newState)
+      // set state, then update program in the new state
+      this.setState(newState)
+      this.updateProgram(newState)
   }
 
   // this one gets one course at a time

@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, RefObject} from 'react';
 import styled from 'styled-components';
 import CourseDropBox from "./CourseDropBox"
 import { SearchCourses } from "../degree_search/Search"
 import { RemainReq, Course } from "../../Api"
+import { CourseSearchResult } from "../../Types"
 import Requirements from "./Requirements"
 import { Card, Collapse } from 'react-bootstrap'
 
@@ -64,7 +65,7 @@ interface InfoBarProps {
   degree_name: string;
   degree_reqs: Array<RemainReq>;
   add_course?: Course; // Course to add
-  add_event: (course: Course) => void;// function to call when you want to add a course
+  add_event: (course: Course, searchRef: RefObject<HTMLInputElement>, searchResults: Array<CourseSearchResult>) => void;// function to call when you want to add a course
   remove_course: (id: string) => void;
 }
 

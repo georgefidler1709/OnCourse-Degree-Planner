@@ -35,3 +35,9 @@ export interface CourseSearchResult {
 }
 
 export type addCallbackType = (course: Course) => void;
+
+export interface Req {
+  filter_type: string;
+  units: number;
+  info: string;
+}

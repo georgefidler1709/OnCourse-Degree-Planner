@@ -37,6 +37,10 @@ class FreeElectiveFilter(courseFilter.CourseFilter):
         return "FreeElectiveFilter"
 
     @property
+    def simple_name(self) -> str:
+        return "Free electives"
+
+    @property
     def info(self) -> str:
         return 'Any free elective'
 

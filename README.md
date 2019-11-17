@@ -3,6 +3,9 @@
 # Virtual Environment
 
 * `virtualenv --python=python3.7 venv` (`venv` is in `.gitignore`)
+  * on CSE, you have to do a user install of `virtualenv`
+  * `pip3 install --user virtualenv`, CSE python 3 is python 3.7
+  * `python3 -m venv venv`
 * `. venv/bin/activate`
 * `pip3 install -r requirements.txt`
 

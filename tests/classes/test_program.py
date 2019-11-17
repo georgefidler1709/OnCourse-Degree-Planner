@@ -1,5 +1,6 @@
 import pytest
 
+from classes.course import Course
 from classes.program import Program
 from classes.university import University
 from classes.query_db_offline import query_db
@@ -155,8 +156,8 @@ def test_remove_elec(plan):
 
     uni = University(query_db)
 
-    econ1202 = uni.find_course("ECON1202")
-
+    econ1202 = Course("ECON", 1202, "Quantitative analysis for business and economics", 6,
+            [Term(2021, 1)], "UNSW Business School")
     plan.add_course(econ1202, Term(2021, 1))
 
     assert len(reqs) == original_reqs_len

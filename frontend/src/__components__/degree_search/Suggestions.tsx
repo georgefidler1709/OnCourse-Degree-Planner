@@ -1,4 +1,4 @@
-import React, {MouseEvent, RefObject, Component} from "react";
+import React, {MouseEvent, RefObject} from "react";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
 import { Course } from '../../Api'

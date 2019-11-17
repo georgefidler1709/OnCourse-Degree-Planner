@@ -48,7 +48,10 @@ class OrFilter(courseFilter.CourseFilter):
         #     return self.filters[0].simple_name
         # else:
         #     return "Or"
-        return "Choose from these requirements"
+
+        # return "Choose from these requirements"
+
+        return "OrFilter"
 
     @property
     def info(self) -> str:

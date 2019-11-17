@@ -66,7 +66,12 @@ function Requirement(props: {filter_type: string, info: Array<string>}) {
 function Requirements(props: {title: string,  degree_reqs: Array<CourseReq>}) {
   return (<>
   <SubTitle>{props.title}</SubTitle>
-    {props.degree_reqs.map(req => { return (<Requirement info={req.info} filter_type={`${req.filter_type} violation(s)`}/>)})}
+    {props.degree_reqs.map(req => { return (
+      <Requirement 
+        key={req.filter_type} 
+        info={req.info} 
+        filter_type={`${req.filter_type} violation(s)`}/>
+    )})}
     </>);
 }
 

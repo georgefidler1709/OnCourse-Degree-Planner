@@ -9,6 +9,7 @@ interface DraggableProps {
 
 
 const Container = styled.div<DraggableProps>`
+  color: black;
   border: 2px solid lightgrey;
   border-radius: 6px;
   padding: 8px;
@@ -41,7 +42,7 @@ function Course(props: CourseProps) {
           <Container
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            innerRef={provided.innerRef}
+            ref={provided.innerRef}
             isDragging={snapshot.isDragging}
             onClick={() => setModalShow(true)}
           >

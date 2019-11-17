@@ -22,7 +22,7 @@ interface CourseInfoModalProps {
 function displayCourseReqs(reqs: string, req_type: string) {
 
   const noBullet = {
-    "list-style-type" : "none",
+    "listStyleType" : "none",
   } as React.CSSProperties;
   
   return (
@@ -52,7 +52,8 @@ function addLinks(req: string) {
 function CourseInfoModal(props: CourseInfoModalProps) {
     return (
       <Modal
-        {...props}
+        onHide={props.onHide}
+        show={props.show}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered

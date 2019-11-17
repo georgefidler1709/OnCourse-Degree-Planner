@@ -38,8 +38,20 @@ const NavButton = styled(Button)`
 `;
 
 const YearButton = styled(Button)`
-  width: 40px;
-  margin: 0px 4px;
+&& {
+  display: inline-block;
+  font-weight: 400;
+  font-size: 30px;
+  padding: .375rem .75rem;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+  min-width: 55px;
+  margin: 6px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0px;
 `
 
 class Timeline extends Component<RouteComponentProps<{degree: string}>, TimelineState> {
@@ -88,8 +100,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     for(let year_max = this.state.program.enrollments.length; year_max > timeline.length; --year_max) {
       this.removeYear()
     }
-
-    console.log(this.state)
   }
 
   isEnrolled(course: Course): boolean {
@@ -198,7 +208,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     fetch(request)
     .then(response => response.json())
     .then(plan => {
-      console.log(plan)
       this.setState(plan)
       this.addMissingTerms()
     })
@@ -512,11 +521,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     return (
       <div>
         <Navbar bg="dark" variant="dark" id="navbar">
-          <Navbar.Brand href="/">OnCourse</Navbar.Brand>
+          <Navbar.Brand href="/"><span role="img" aria-label="book">📖</span> OnCourse</Navbar.Brand>
           <Nav className="mr-auto">
           </Nav>
           <NavButton id="save" variant="outline-info" onClick={this.savePlan}><i className="fa fa-save"></i></NavButton>
-          <NavButton variant="outline-info"><i className="fa fa-cog"></i></NavButton>
         </Navbar>
         <TimeLineContext>
           <DragDropContext 
@@ -547,8 +555,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                       )
                     } 
                   </div>
-                  <YearButton onClick={() => this.updateDuration(1)}>++</YearButton>
-                  <YearButton onClick={() => this.updateDuration(-1)}>--</YearButton>
+                  <YearButton variant="info" onClick={() => this.updateDuration(1)}>+</YearButton>
+                  <YearButton variant="info" onClick={() => this.updateDuration(-1)}>-</YearButton>
                 </LColumn> 
                 <RColumn>
                   <InfoBar 

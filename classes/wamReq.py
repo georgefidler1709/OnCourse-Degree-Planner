@@ -32,7 +32,7 @@ class WAMReq(singleReq.SingleReq):
 
     @property
     def requirement_name(self) -> str:
-        return "CurrentDegreeRequirement"
+        return "WamRequirement"
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled

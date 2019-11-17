@@ -1,7 +1,6 @@
 import React, {MouseEvent} from "react";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
-import { Course } from '../../Api'
 import {Position, SearchResult, CourseSearchResult} from '../../Types'
 import styled from 'styled-components'
 
@@ -87,7 +86,7 @@ export { Suggestions };
 
 interface CourseSuggestionsProps {
   courses: Array<CourseSearchResult>;
-  add_event: (course: Course) => void;
+  add_event: (code: string) => void;
 }
 
 function CourseSuggestions(props: CourseSuggestionsProps) {
@@ -108,7 +107,7 @@ function CourseSuggestions(props: CourseSuggestionsProps) {
       <CourseSuggestion
         id={r.course.code}
         value={r.course.code}
-        onClick={() => props.add_event(r.course)}
+        onClick={() => props.add_event(r.course.code)}
       >
         <CourseCode>{r.code}</CourseCode>
         <CourseName>{r.text}</CourseName>

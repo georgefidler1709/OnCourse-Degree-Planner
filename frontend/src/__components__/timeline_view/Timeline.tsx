@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
-import { Course, CheckResponse } from '../../Api';
+import { CheckResponse } from '../../Api';
 import {API_ADDRESS} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
@@ -105,14 +105,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }
   }
 
-  isEnrolled(course: Course): boolean {
-    // checks if the current state has the given course in its enrollments
-    var found = this.state.program.enrollments.find(year =>
-      year.term_plans.find(term => 
-        term.course_ids.find(course_id => course_id === course.code)
-      )
-    )
-    return found !== undefined
+  isEnrolled(course: string): boolean {
+    return course in this.state.courses;
   }
 
   // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
@@ -138,21 +132,34 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
   // sets this.state.add_course to be the Course passed in
-  addCourse(course: Course) {
-    let newState = {
-      ...this.state,
-    }
-
+  async addCourse(code: string) {
     // if already have this course on timeline, then can't enroll in it
-    if (this.isEnrolled(course)) {
-      alert(`You already have ${course.code} on your timeline.`)
+    if (this.isEnrolled(code)) {
+      alert(`You already have ${code} on your timeline.`)
     } else {
+      // fetches information about this course's offerings
+      // and modifies the state's courses
+      var request = new Request(API_ADDRESS + `/${code}/course_info.json`, {
+        method: 'GET',
+        headers: new Headers()
+      })
+
+      // need to do this before isCourseOffered() is checked
+      let response = await fetch(request);
+      let course = await response.json();
       // can add this course
-      newState.add_course = course
+      // get offering info for this new course
+      this.setState(state => {
+        return {
+          add_course: course,
+          courses: {
+            ...state.courses,
+            [course.code]: course
+          }
+        };
+      })
+      console.log(course);
     }
-
-    this.setState(newState)
-
   }
 
 
@@ -261,30 +268,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       this.setState(newState)
       this.updateProgram(newState)
   }
-
-  // this one gets one course at a time
-  async getCourseInfo(draggableId: string): Promise<void> {
-    // fetches information about this course's offerings
-    // and modifies the state's courses
-    var request = new Request(API_ADDRESS + `/${draggableId}/course_info.json`, {
-      method: 'GET',
-      headers: new Headers()
-    })
-
-    // need to do this before isCourseOffered() is checked
-    let response = await fetch(request);
-    let course = await response.json();
-    
-    let newState = {
-      ...this.state,
-    }
-    newState.courses[draggableId] = course
-
-    await this.setState(newState)
-
-  }
-
-
 
   newCourse(draggableId: string, destYearIdx: number, destTermIdx: number, destIdx: number) {
     // when you drag something from "add" box to somewhere on a term
@@ -468,12 +451,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   }
 
   onDragStart = async (start: DragStart) => {
-    const { draggableId, source } = start
-
-    // get offering info for this new course
-    if (source.droppableId === "Add") {
-      await this.getCourseInfo(draggableId);
-    }
+    const { draggableId } = start
 
     let newEnrollments = this.state.program.enrollments.map(year => {
       let newYear = {

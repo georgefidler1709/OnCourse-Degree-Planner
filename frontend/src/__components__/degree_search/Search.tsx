@@ -51,7 +51,7 @@ interface SearchCourseState {
 }
 
 interface SearchCourseProps {
-  add_event: (course: Course) => void;
+  add_event: (code: string) => void;
 }
 
 class Search extends Component<{}, SearchState> {

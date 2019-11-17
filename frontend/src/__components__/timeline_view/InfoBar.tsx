@@ -70,7 +70,7 @@ interface InfoBarProps {
   degree_name: string;
   degree_reqs: Array<RemainReq>;
   add_course?: Course; // Course to add
-  add_event: (course: Course) => void;// function to call when you want to add a course
+  add_event: (code: string) => void;// function to call when you want to add a course
   remove_course: (id: string) => void;
 }
 

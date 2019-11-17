@@ -2,16 +2,18 @@ import React, {MouseEvent, RefObject} from "react";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
 import { Course } from '../../Api'
+import { Button } from 'react-bootstrap'
 import {Position, SearchResult, CourseSearchResult} from '../../Types'
 import styled from 'styled-components'
 
-const Suggestion = styled.button`
-  border: 1px solid #575756;
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 8px;
-  width: 220px;
-  background-color: #c2eced;
+const DegreeSuggestion = styled(Button)`
+  && {
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+  }
+  margin-bottom: 1% 
+  width: 70%;
+  background-color: white;
 `
 
 const Container = styled.div`
@@ -20,17 +22,21 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
 `
-const Code = styled.h1`
+const DegreeCode = styled.h1`
+  font-size: 40px;
   pointer-events: none;
 `
 
-const Name = styled.p`
+const DegreeName = styled.p`
+  font-size: 20px;
   pointer-events: none;
 `
 
-const CourseSuggestion = styled.button`
-  border: 1px solid #cccccc;
-  border-radius: 10px;
+const CourseSuggestion = styled(Button)`
+  && {
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+  }
   padding: 0px;
   margin-bottom: 5px;
   width: 95%;
@@ -64,17 +70,19 @@ function Suggestions(props: {degrees: Array<SearchResult>}) {
         <a href={handbook + r.degree.id}>More Info</a>
       }
       placement={placement}
-      delay={200}
+      delay={100}
       key={r.degree.id}
+      infoSize={{'fontSize': '25px'}}
     >
-      <Suggestion
+      <DegreeSuggestion
+        variant="light"
         id={r.degree.id}
         value={r.degree.id}
         onClick={handleClick}
       >
-        <Code>{r.degree.id}</Code>
-        <Name>{r.text}</Name>
-      </Suggestion>
+        <DegreeCode>{r.degree.id}</DegreeCode>
+        <DegreeName>{r.text}</DegreeName>
+      </DegreeSuggestion>
     </SuggestionInfoHover>
     
   ));
@@ -105,8 +113,10 @@ function CourseSuggestions(props: CourseSuggestionsProps) {
       placement={placement}
       delay={200}
       key={r.course.code}
+      infoSize={{'fontSize': '14px'}}
     >
       <CourseSuggestion
+        variant="light"
         id={r.course.code}
         value={r.course.code}
         onClick={() => props.add_event(r.course, props.searchRef, props.courses)}

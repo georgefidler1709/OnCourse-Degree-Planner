@@ -54,7 +54,7 @@ function Term(props: TermProps) {
       <Droppable droppableId={props.termId}>
         {(provided, snapshot) => (
           <CourseList 
-            innerRef={provided.innerRef} 
+            ref={provided.innerRef} 
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}
             highlight={props.highlight}

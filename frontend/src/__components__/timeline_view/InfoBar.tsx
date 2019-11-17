@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import CourseDropBox from "./CourseDropBox"
 import { SearchCourses } from "../degree_search/Search"
 import { Course } from "../../Api"
-import { Accordion, Card, Button } from 'react-bootstrap'
+import { Card, Collapse } from 'react-bootstrap'
+import "./sb-admin.css"
+
+
 const Container = styled.div`
-  padding: 8px 0px;
+  padding-top: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
   width: 350px;
@@ -13,7 +16,6 @@ const Container = styled.div`
   text-align: center;
   overflow-y: scroll;
   overflow: overlay;
-  font-family: Arial, Helvetica, sans-serif;
   background-color: #343a40;
   color: white;
 `;
@@ -28,8 +30,8 @@ const Title = styled.h3`
 
 const SubTitle = styled.h5`
   padding: 4px;
-  font-family: inhert;
-  color: inherit;
+  text-align: center;
+  width: 100%;
 `;
 
 const ReqContainer = styled.div`
@@ -41,11 +43,23 @@ const ReqContainer = styled.div`
 `;
 
 const Section = styled(Card)`
-  
 `
+
 const SectionHeader = styled(Card.Header)`
-  
+  transition: color 0.2s ease;
+  color: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center
+
+  &:hover {
+    color: rgba(255, 255, 255, 1)
+  };
+
 `
+const SectionIcon = styled.i`
+  float: left;
+`
+
 
 interface Req {
   filter_type: string;
@@ -63,6 +77,10 @@ interface InfoBarProps {
 }
 
 function InfoBar(props: InfoBarProps) {
+
+  const [openAdd, setOpenAdd] = useState(true);
+  const [openReqs, setOpenReqs] = useState(false);
+
   return (
     <Container>
         <Title>
@@ -70,26 +88,33 @@ function InfoBar(props: InfoBarProps) {
           <br/>
           {props.degree_id.toString()}
         </Title>
-
-    <Accordion defaultActiveKey="2">
-    <Section bg="dark" text="white">
-      <Accordion.Toggle as={SectionHeader} eventKey="1">
-      <SubTitle>Add a Course</SubTitle>
-      </Accordion.Toggle>
-    <Accordion.Collapse eventKey="1">
+        <Section bg="dark" text="white">
+        <SectionHeader
+        onClick={() => setOpenAdd(!openAdd)}
+        aria-controls="collapse-add-course"
+        aria-expanded={openAdd}
+      >
+        <SectionIcon className={openAdd ? "fa fa-chevron-down" : "fa fa-chevron-left"}/>
+        <SubTitle>Add a Course</SubTitle>
+      </SectionHeader>
+      <Collapse in={openAdd}>
       <Card.Body>
         <p>Search for a course and click on it. Then drag the course into your timeline from the <b>Add</b> box.</p>
         <CourseDropBox type="Add" add_course={props.add_course} remove_course={props.remove_course}/>
         <SearchCourses add_event={props.add_event}/></Card.Body>
-    </Accordion.Collapse>
-    </Section>
-  </Accordion>
-  <Accordion defaultActiveKey="2">
-  <Section bg="dark" text="white">
-      <Accordion.Toggle as={SectionHeader} variant="link" eventKey="0">
-      <SubTitle>Requirements</SubTitle>
-      </Accordion.Toggle>
-    <Accordion.Collapse eventKey="0">
+      </Collapse>
+      </Section>
+
+      <Section bg="dark" text="white">
+        <SectionHeader
+        onClick={() => setOpenReqs(!openReqs)}
+        aria-controls="collapse-requirements"
+        aria-expanded={openReqs}
+      >
+        <SectionIcon className={openReqs ? "fa fa-chevron-down" : "fa fa-chevron-left"}/>
+        <SubTitle>Requirements</SubTitle>
+      </SectionHeader>
+      <Collapse in={openReqs}>
       <Card.Body>
         <ReqContainer>
           {props.degree_reqs.map(req => { return (
@@ -102,11 +127,8 @@ function InfoBar(props: InfoBarProps) {
           )
           })}
         </ReqContainer></Card.Body>
-    </Accordion.Collapse>
-  </Section>
-
-</Accordion>
-        
+      </Collapse>
+      </Section>
     </Container>
   );
 }

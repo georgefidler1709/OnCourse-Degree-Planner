@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import CourseDropBox from "./CourseDropBox"
 import { SearchCourses } from "../degree_search/Search"
 import { RemainReq, Course } from "../../Api"
-import { Req } from "../../Types"
 import Requirements from "./Requirements"
 import { Card, Collapse } from 'react-bootstrap'
 

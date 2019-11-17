@@ -24,6 +24,10 @@ const CounterContainer = styled.div`
   justify-content: space-between;
 `
 
+const ReqTitle = styled.p`
+  font-weight: bold;
+`
+
 function Requirements(props: ReqProps) {
   // combine each requirement type into one heading
   var combo_reqs: Record<string, PrettyReq> = {};
@@ -53,7 +57,7 @@ function Requirements(props: ReqProps) {
     return(
       <React.Fragment key={k}>
         <CounterContainer>
-        <p>{`${k}`}</p>
+        <ReqTitle>{`${k}`}</ReqTitle>
         <p><span style={{color: '#17a2b8'}}><u>{`${combo_reqs[k].units} UOC`}</u>{' remaining'}</span></p>
         </CounterContainer>
         <ul>

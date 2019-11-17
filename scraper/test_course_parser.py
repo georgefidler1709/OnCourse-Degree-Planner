@@ -62,22 +62,12 @@ def test_split_by_conj_one_level_no_brackets_or():
     assert split[1] == "uoc 48 l 3 f COMP"
     assert conj == "or"
 
-def test_split_by_conj_one_level_brackets_and():
+def test_split_by_conj_surrounded_by_brackets():
     split, conj, success = parser.split_by_conj("(enrol 3778 and uoc 48)")
     assert success
-    assert len(split) == 2
-    assert split[0] == "enrol 3778"
-    assert split[1] == "uoc 48"
-    assert conj == "and"
-
-def test_split_by_conj_one_level_brackets_or():
-    split, conj, success = parser.split_by_conj("(enrol 3778 and uoc 48)")
-    split, conj, success = parser.split_by_conj("(COMP1521 or COMP1531)")
-    assert success
-    assert len(split) == 2
-    assert split[0] == "COMP1521"
-    assert split[1] == "COMP1531"
-    assert conj == "or"
+    assert len(split) == 1
+    assert split[0] == "enrol 3778 and uoc 48"
+    assert conj == "()"
 
 def test_split_by_conj_two_levels_and_or():
     split, conj, success = parser.split_by_conj("(COMP1521 and COMP1531) or (enrol 3778 and uoc 48)")

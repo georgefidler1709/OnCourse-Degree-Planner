@@ -283,13 +283,30 @@ def test_requirement_ordering():
     assert prog.term_taken(subj1002) == t3
     assert prog.term_taken(subj1003) == t4
 
+def test_prior_studies_simple():
+    prior = [subj1001, subj1002]
 
-'''
-test_single_course_requirements()
-test_simple_or_requirement()
-test_coreq()
-test_exclusion()
-test_equivalent()
-test_term_cap_enrollment()
-test_requirement_ordering()
-'''
+    # Make some degree requirements
+    # 1001 and 1002 and 1003
+    filter1001 = specificCourseFilter.SpecificCourseFilter(subj1001)
+    filter1002 = specificCourseFilter.SpecificCourseFilter(subj1002)
+    filter1003 = specificCourseFilter.SpecificCourseFilter(subj1003)
+    req1001 = minDegreeReq.MinDegreeReq(filter1001, 6)
+    req1002 = minDegreeReq.MinDegreeReq(filter1002, 6)
+    req1003 = minDegreeReq.MinDegreeReq(filter1003, 6)
+
+    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1002, req1003], 'BAT1')
+
+    gen = generator.Generator(degree1, uni, prior)
+    prog = gen.generate()
+
+    assert prog.enrolled(subj1001)
+    assert prog.enrolled(subj1002)
+    assert prog.enrolled(subj1003)
+
+    assert prog.term_taken(subj1003) == t1
+    assert prog.term_taken(subj1001) == None
+    assert prog.term_taken(subj1002) == None
+
+    assert prog.unit_count_total() == 18
+    assert degree1.complete(prog)

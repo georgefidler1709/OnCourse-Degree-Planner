@@ -31,13 +31,18 @@ from . import specificCourseFilter
 
 class Program(object):
 
-    def __init__(self, degree: 'degree.Degree', coursesTaken: List['courseEnrollment.CourseEnrollment']):
+    def __init__(self, degree: 'degree.Degree', courses_taken: List['courseEnrollment.CourseEnrollment'],
+            prior_studies: List['course.Course']):
         self.degree = degree # degree.Degree
-        self.courses = coursesTaken # <List>CourseEnrollments
+        self.courses = courses_taken # <List>CourseEnrollments
+        self.prior_studies = prior_studies
 
     # Input: a course
-    # Return: Whether there is already an enrollment for this course in this term
+    # Return: Whether there is already an enrollment for this course
     def enrolled(self, course: 'course.Course') -> bool:
+        for c in self.prior_studies:
+            if c == course:
+                return True
         for enrollment in self.courses:
             if enrollment.course == course:
                 return True
@@ -96,6 +101,9 @@ class Program(object):
     def unit_count_total(self, term: Optional['term.Term']=None,
                 courses: Optional[List['course.Course']]=None) -> int:
         units = 0
+        for c in self.prior_studies:
+            if courses is None or c in courses:
+                    units += c.units
         for enrollment in self.courses:
             if term is None or enrollment.term < term:
                 if courses is None or enrollment.course in courses:
@@ -105,6 +113,8 @@ class Program(object):
     # Return: a list of the courses taken in this program
     def course_list(self) -> List['course.Course']:
         courses = []
+        for c in self.prior_studies:
+            courses.append(c)
         for enrollment in self.courses:
             courses.append(enrollment.course)
         return courses

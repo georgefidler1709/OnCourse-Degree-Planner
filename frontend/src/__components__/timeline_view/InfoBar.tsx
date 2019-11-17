@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import CourseDropBox from "./CourseDropBox"
 import { SearchCourses } from "../degree_search/Search"
 import { Course } from "../../Api"
+import { Req } from "../../Types"
+import Requirements from "./Requirements"
 import { Accordion, Card, Button } from 'react-bootstrap'
 const Container = styled.div`
   padding: 8px 0px;
@@ -47,12 +49,6 @@ const SectionHeader = styled(Card.Header)`
   
 `
 
-interface Req {
-  filter_type: string;
-  units: number;
-  info: string;
-}
-
 interface InfoBarProps {
   degree_id: number;
   degree_name: string;
@@ -92,15 +88,7 @@ function InfoBar(props: InfoBarProps) {
     <Accordion.Collapse eventKey="0">
       <Card.Body>
         <ReqContainer>
-          {props.degree_reqs.map(req => { return (
-            <div key={req.info}>
-              <p>{`${req.filter_type}: ${req.units} UOC of`}</p>
-              <ul>
-                <li>{`${req.info}`}</li>
-              </ul>
-            </div>
-          )
-          })}
+          <Requirements degree_reqs={props.degree_reqs}/>
         </ReqContainer></Card.Body>
     </Accordion.Collapse>
   </Section>

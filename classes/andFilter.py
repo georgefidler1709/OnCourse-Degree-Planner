@@ -58,7 +58,7 @@ class AndFilter(courseFilter.CourseFilter):
         for f in self.filters:
             if res != '':
                 res += ' AND '
-            res += '(' + f.info + ')'
+            res += '[ ' + f.info + ' ]'
         
         return res
 

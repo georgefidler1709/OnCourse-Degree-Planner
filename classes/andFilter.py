@@ -47,7 +47,10 @@ class AndFilter(courseFilter.CourseFilter):
         #     return self.filters[0].simple_name
         # else:
         #     return "And"
-        return "Satisfy all of these requirements"
+
+        # return "Satisfy all of these requirements"
+
+        return "Courses with options"
 
     @property
     def info(self) -> str:
@@ -55,7 +58,7 @@ class AndFilter(courseFilter.CourseFilter):
         for f in self.filters:
             if res != '':
                 res += ' AND '
-            res += '(' + f.info + ')'
+            res += '[ ' + f.info + ' ]'
         
         return res
 

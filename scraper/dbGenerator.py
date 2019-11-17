@@ -30,7 +30,10 @@ from . import scrapedEnrollmentReq
 from . import scrapedSubjectReq
 
 def get_webpage(url: str) -> str:
-    response = requests.get(url)
+    # if you don't have verify=False,
+    # there will be a self signed certificate in certificate chain failure
+    # either keep verify=False or clone the repo on to UNSW servers
+    response = requests.get(url, verify=False)
     response.raise_for_status()
 
     return response.text

@@ -36,7 +36,9 @@
     "eject": "react-scripts eject"
   },
   "jest": {
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -56,6 +58,7 @@
   "devDependencies": {
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
-    "enzyme-to-json": "^3.4.3"
+    "enzyme-to-json": "^3.4.3",
+    "jest-styled-components": "^6.3.4"
   }
 }

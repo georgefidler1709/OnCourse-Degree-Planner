@@ -29,8 +29,8 @@ subj1001 = course.Course("SUBJ", 1001, "Subject1", 6, [t1], faculty)
 subj1002 = course.Course("SUBJ", 1002, "Subject1", 6, [t1], faculty)
 enrol1001 = courseEnrollment.CourseEnrollment(subj1001, t1)
 enrol1002 = courseEnrollment.CourseEnrollment(subj1002, t1)
-prog1 = program.Program(degree1, [enrol1001])
-prog2 = program.Program(degree1, [enrol1002])
+prog1 = program.Program(degree1, [enrol1001], [])
+prog2 = program.Program(degree1, [enrol1002], [])
 req = subjectReq.SubjectReq(subj1001)
 
 def test_fulfilled():

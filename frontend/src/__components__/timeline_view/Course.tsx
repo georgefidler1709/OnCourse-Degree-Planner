@@ -2,9 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import CourseInfoModal from "./CourseInfoModal"
+import { CourseReq } from '../../Api';
 
 interface DraggableProps {
   isDragging: boolean;
+  hasError: boolean;
+  hasWarning: boolean;
 }
 
 
@@ -14,10 +17,20 @@ const Container = styled.div<DraggableProps>`
   border-radius: 6px;
   padding: 8px;
   margin-bottom: 8px;
-  background-color: ${props => props.isDragging ? 'lightblue' : 'white'};
+  background-color: ${props => { 
+    if (props.isDragging) return 'lightblue';
+    else if(props.hasWarning) return 'yellow';
+    else if(props.hasError) return 'red';
+    else return 'white';
+  }};
 
   &:hover {
-    background-color: ${props => props.isDragging ? 'lightblue' : 'lightgrey'};
+    background-color: ${props => { 
+      if (props.isDragging) return 'lightblue';
+      else if(props.hasWarning) return 'darkyellow';
+      else if(props.hasError) return 'darkred';
+      else return 'grey';
+    }};
   }
 `;
 
@@ -31,6 +44,8 @@ interface CourseProps {
   equivalents: string;
   exclusions: string;
   removeCourse: (s : string) => void;
+  error?: Array<CourseReq>;
+  warn?: Array<string>;
 }
 
 function Course(props: CourseProps) {
@@ -45,6 +60,8 @@ function Course(props: CourseProps) {
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
             onClick={() => setModalShow(true)}
+            hasError={props.error !== undefined}
+            hasWarning={props.warn !== undefined}
           >
           {props.code}
           </Container>

@@ -169,7 +169,7 @@ class University(object):
             # TODO: as with degrees, determine if need_requirements is even a useful argument
             return self.courses[course_id]
 
-        response = self.query_db('''select letter_code, number_code, name, faculty, units, prereq, coreq, exclusion
+        response = self.query_db('''select letter_code, number_code, name, faculty, units, prereq, coreq
                                  from Courses
                                  where id = ?''', (course_id, ), one=True)
 
@@ -177,7 +177,7 @@ class University(object):
             # No matching course
             return None
 
-        subject, numeric_code, name, faculty, units, prereq_id, coreq_id, exclusion_id = response
+        subject, numeric_code, name, faculty, units, prereq_id, coreq_id = response
         # prereq, coreq, exclusion can each be null so we don't want to assert it
         self.assert_no_nulls(subject, numeric_code, name, faculty, units)
 
@@ -196,28 +196,48 @@ class University(object):
         if need_requirements:
             result_course.prereqs = self.load_course_requirement(prereq_id)
             result_course.coreqs = self.load_course_requirement(coreq_id)
-            result_course.exclusions = self.load_course_requirement(exclusion_id)
+
+            exclusion_ids = self.query_db('''select first_course, second_course
+                                             from ExcludedCourses
+                                             where first_course = ?
+                                             or second_course = ?''', (course_id, course_id))
+
+            exclusions = self.get_courses_from_relation(course_id, exclusion_ids)
+
+            for exclusion in exclusions:
+                result_course.add_exclusion(exclusion)
 
             equivalent_ids = self.query_db('''select first_course, second_course
                                             from EquivalentCourses
                                             where first_course = ?
                                             or second_course = ?''', (course_id, course_id))
 
-            for first_course_id, second_course_id in equivalent_ids:
-                self.assert_no_nulls(first_course_id, second_course_id)
-                if first_course_id != course_id:
-                    equivalent_id = first_course_id
-                else:
-                    equivalent_id = second_course_id
+            equivalents = self.get_courses_from_relation(course_id, equivalent_ids)
 
-                equivalent_course = self.load_course(equivalent_id)
-                if equivalent_course is None:
-                    print(f"ERROR: Equivalent course for id {equivalent_id} should not be None")
-                    continue
-
-                result_course.add_equivalent(equivalent_course)
+            for equivalent in equivalents:
+                result_course.add_equivalent(equivalent)
 
         return result_course
+
+    def get_courses_from_relation(self, course_id: int, other_ids: Row):
+        courses = []
+
+        for first_course_id, second_course_id in other_ids:
+            self.assert_no_nulls(first_course_id, second_course_id)
+            if first_course_id != course_id:
+                other_id = first_course_id
+            else:
+                other_id = second_course_id
+
+            other_course = self.load_course(other_id)
+            if other_course is None:
+                raise ValueError(f'No course with id {other_id}')
+
+            courses.append(other_course)
+
+        return courses
+
+
 
 
     # Input: A filter string [ITEMISE THESE HERE]

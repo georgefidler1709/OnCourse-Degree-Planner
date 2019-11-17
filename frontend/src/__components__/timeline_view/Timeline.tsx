@@ -90,6 +90,18 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     console.log(this.state)
   }
 
+  isEnrolled(course: Course): boolean {
+    // checks if the current state has the given course in its enrollments
+    var found = this.state.program.enrollments.find(year =>
+      year.term_plans.find(term => 
+        term.course_ids.find(course_id => course_id === course.code)
+      )
+    )
+    return found !== undefined
+  }
+
+  // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
+
   isYearEmpty(year: YearState) {
     return year.term_plans.findIndex(term => term.course_ids.length > 0) === -1;
   }
@@ -109,14 +121,20 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     this.setState(newState)
   }
 
-    // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
+  // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
   // sets this.state.add_course to be the Course passed in
   addCourse(course: Course) {
     let newState = {
       ...this.state,
     }
 
-    newState.add_course = course
+    // if already have this course on timeline, then can't enroll in it
+    if (this.isEnrolled(course)) {
+      alert(`You already have ${course.code} on your timeline.`)
+    } else {
+      // can add this course
+      newState.add_course = course
+    }
 
     this.setState(newState)
 

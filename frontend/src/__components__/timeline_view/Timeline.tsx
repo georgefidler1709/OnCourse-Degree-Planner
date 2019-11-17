@@ -57,6 +57,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   }
 
   addMissingTerms() {
+    console.log(this.state)
     const program = this.state.program
     // fill in required years for the program duration
     let timeline: Array<number> = []
@@ -197,7 +198,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     fetch(request)
     .then(response => response.json())
     .then(plan => {
+      console.log(plan)
       this.setState(plan)
+      this.addMissingTerms()
     })
   }
 
@@ -287,10 +290,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   onDragEnd = (result: DropResult) => {
 
     const { destination, source, draggableId } = result
-    console.log(destination)
-    console.log(source)
-    console.log(draggableId)
-
     // if not dragged into a term, don't change state
     if(!destination) {
       this.resetTermHighlights()
@@ -501,8 +500,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }
     newState.program.duration += updateVal
     this.setState(newState)
+    this.addMissingTerms()
 
-    console.log(this.state)
   }
 
   
@@ -510,7 +509,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     if(!this.state) return <div></div>
 
     const program = this.state.program
-    this.addMissingTerms()
     return (
       <div>
         <Navbar bg="dark" variant="dark" id="navbar">

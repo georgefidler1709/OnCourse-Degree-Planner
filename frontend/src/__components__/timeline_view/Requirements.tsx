@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Req } from "../../Types"
 
 interface ReqProps {
@@ -17,6 +18,11 @@ interface PrettyReq {
 // - 'GenEd'
 // - 'Level'
 // - 'SpecificCourse'
+
+const CounterContainer = styled.div`
+  display: fex;
+  justify-content: space-between;
+`
 
 function Requirements(props: ReqProps) {
   // combine each requirement type into one heading
@@ -46,7 +52,10 @@ function Requirements(props: ReqProps) {
   var res = keys.map(k => {
     return(
       <React.Fragment key={k}>
-        <p>{`${k}: `}<span style={{textAlign: "right"}}><span style={{color: '#17a2b8'}}><u>{`${combo_reqs[k].units} UOC`}</u>{' remaining'}</span></span></p>
+        <CounterContainer>
+        <p>{`${k}: `}</p>
+        <p><span style={{color: '#17a2b8'}}><u>{`${combo_reqs[k].units} UOC`}</u>{' remaining'}</span></p>
+        </CounterContainer>
         <ul>
           {
             combo_reqs[k].items.map(it => {

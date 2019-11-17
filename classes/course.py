@@ -138,13 +138,10 @@ class Course(object):
     def exclusion_errors(self, program: 'program.Program', term: term.Term) -> List[str]:
         errors = []
         for exclusion in self.exclusions:
-           # Make a subject requirement with this course, and if it succeeds then we know we've hit
-           # an exclusion
-            exclusion_req = subjectReq.SubjectReq(exclusion)
-
-            if exclusion_req.fulfilled(program, term, coreq=True):
-               # we are doing the excluded course
-               errors.append(exclusion.course_code)
+            for enrollment in program.courses:
+                if enrollment.course.course_code == exclusion.course_code:
+                    errors.append(exclusion.course_code)
+                    break
 
         return errors
 

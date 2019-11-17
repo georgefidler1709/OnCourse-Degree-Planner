@@ -50,25 +50,13 @@ def close_db(err : Exception = None) -> None:
     if db is not None:
         db.close()
 
-@click.command('scrape-handbook')
-@with_appcontext
-def scrape_handbook() -> None:
-    from scraper import dbGenerator
-
-    generator = dbGenerator.dbGenerator(query_db, store_db)
-
-    # TODO: Change later if we decide to include multiple years or different study levels
-    year = 2020
-    postgrad = False
-
-    generator.generate_db(year, postgrad)
-
 @click.command('init-db')
 @with_appcontext
 def init_db() -> None:
     '''
     Initialize db and populate it with information
     '''
+    from scraper import dbGenerator
     from server.db import input_data
     import pandas
 
@@ -88,18 +76,29 @@ def init_db() -> None:
     with current_app.open_resource('db/data.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
+    # Generate as much as we can from the handbook
+    generator = dbGenerator.dbGenerator(query_db, store_db)
+
+    # TODO: Change later if we decide to include multiple years or different study levels
+    year = 2020
+    postgrad = False
+
+    generator.generate_db(year, ["COMP", "MATH", "DPST", "BINF", "SENG"], postgrad, end_year=2025)
+
+    print("GENERATE DB SUCCESSFUL")
+
     # read courses from courses.csv
-    courses = pandas.read_csv("server/db/courses.csv")
-    courses.to_sql("Courses", db, if_exists="append", index=False)
+    #courses = pandas.read_csv("server/db/courses.csv")
+    #courses.to_sql("Courses", db, if_exists="append", index=False)
 
     # input Computer Science 3778 COMPA1 course requirements
-    input_data.compsci_course_reqs(db_path)
+    #input_data.compsci_course_reqs(db_path)
 
     # input Sessions for arbitrary range of years
-    input_data.insert_sessions(start=2019, end=2025, db=db_path)
+    #input_data.insert_sessions(start=2019, end=2025, db=db_path)
 
     # input CourseOfferings for 3778 COMPA1 courses
-    input_data.insert_course_offerings(start=2019, end=2025, db=db_path)
+    #input_data.insert_course_offerings(start=2019, end=2025, db=db_path)
 
     # input CourseFilters and DegreeOfferingRequirements for 3778 COMPA1
     input_data.insert_compsci_degree_requirements(db=db_path)

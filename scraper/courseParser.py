@@ -55,13 +55,15 @@ class CourseParser(object):
             elif string[i] == ')':
                 if len(brackets) == 1:
                     if i < length - 3:
-                        if string[i+2] == 'a':
+                        if string[i+2].lower() == 'a':
                             conj = 'and'
-                        elif string[i+2] == 'o':
+                        elif string[i+2].lower() == 'o':
                             conj = 'or'
                         else:
                             print("ERROR splitting requirements for course:")
                             print(string)
+                            # For now set the conj to nothing, because of the error splitting
+                            conj = ''
                     break_points.append(i+1)
                     brackets = []
                 else:

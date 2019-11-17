@@ -13,11 +13,21 @@ import requests
 from sqlite3 import Row
 from typing import Callable, Tuple, Optional, List
 
-from classes import university
-from classes import course
-from classes import courseReq
+from classes import (
+        university,
+        andReq,
+        compositeReq,
+        course,
+        courseReq,
+        uocReq,
+        wamReq,
+        yearReq
+)
+
 
 from . import scraper
+from . import scrapedEnrollmentReq
+from . import scrapedSubjectReq
 
 def get_webpage(url: str) -> str:
     response = requests.get(url)
@@ -34,8 +44,13 @@ class dbGenerator(object):
         self.scraper = scraper.Scraper(get_webpage)
 
 
-    def generate_db(self, year: int, postgrad: bool=False) -> None:
-        course_codes = self.scraper.get_course_codes(year, "", postgrad)
+    # Scrapes all of the information from the handbook for the given year and the given fields, and
+    # adds sessions for each of them up until the provided end year
+    def generate_db(self, year: int, fields: List[str]=[""], postgrad: bool=False, end_year:
+            int=year) -> None:
+        course_codes: List[str] = []
+        for field in fields:
+            course_codes += self.scraper.get_course_codes(year, field, postgrad)
 
 
         scraped_courses = list(map(lambda x: self.scraper.get_course(year, x, postgrad), course_codes))
@@ -45,7 +60,7 @@ class dbGenerator(object):
         # First insert all of them without their prerequisites
         for scraped_course in scraped_courses:
             course = scraped_course.to_course()
-            course_id = self.insert_course_without_requirements(course)
+            course_id = self.insert_course_without_requirements(course, start_year=year, end_year=end_year)
 
             scraped_courses_to_course_id[scraped_course] = course_id
 
@@ -60,10 +75,19 @@ class dbGenerator(object):
             else:
                 print(f"Course {course.course_code} could not be parsed properly")
 
-    def insert_course_without_requirements(self, course: 'course.Course') -> int:
+    def insert_course_without_requirements(self, course: 'course.Course', start_year: int,
+            end_year: int=start_year) -> int:
         result_id = self.store_db('''insert or replace into Courses(letter_code, number_code, level, name,
         faculty, units, finished) values (?, ?, ?, ?, ?, ?, 0)''', (course.subject, course.code,
             course.level, course.name, course.faculty, course.units))
+
+        for year in range(start_year, end_year+1):
+            for term in course.terms:
+                self.store_db('''insert or ignore into Sessions(year, term) values(?, ?)''',
+                        (year, term.term))
+
+                self.store_db('''insert into CourseOfferings(course_id, session_year, session_term)
+                values(?, ?, ?)''', (result_id, year, term.term))
 
         return result_id
 
@@ -80,51 +104,33 @@ class dbGenerator(object):
         else:
             coreq_id = self.store_course_requirement(coreqs)
 
-        self.store_db('''update Coures set prereq = ?, coreq = ?, finished = 1 where id = ?''', (prereq_id,
+        self.store_db('''update Courses set prereq = ?, coreq = ?, finished = 1 where id = ?''', (prereq_id,
             coreq_id, course_id))
 
         for exclusion in exclusions:
-            letter_code = exclusion[:4]
-            number_code = exclusion[4:]
-
-            result = self.query_db('''select id from Courses where letter_code = ? and
-            number_code = ?''', (letter_code, number_code), one=True)
-
-            if result is None:
-                raise ValueError(f"No course with code {exclusion} for exclusions")
-
-            (exclusion_id,) = result
-
+            exclusion_id = self.find_course(exclusion)
+            
             if exclusion_id < course_id:
                 first_id, second_id = exclusion_id, course_id
             else:
                 first_id, second_id = course_id, exclusion_id
 
-            self.store_db('''insert into ExcludedCourses(first_course, second_course) values (?, ?)''', (first_id, second_id))
+            self.store_db('''insert or ignore into ExcludedCourses(first_course, second_course) values (?, ?)''', (first_id, second_id))
 
         for equivalent in equivalents:
-            letter_code = equivalent[:4]
-            number_code = equivalent[4:]
-
-            result = self.query_db('''select id from Courses where letter_code = ? and
-            number_code = ?''', (letter_code, number_code), one=True)
-
-            if result is None:
-                raise ValueError(f"No course with code {equivalent} for equivalents")
-
-            (equivalent_id,) = result
+            equivalent_id = self.find_course(equivalent)
 
             if equivalent_id < course_id:
                 first_id, second_id = equivalent_id, course_id
             else:
                 first_id, second_id = course_id, equivalent_id
 
-            self.store_db('''insert into EquivalentCourses(first_course, second_course) values (?, ?)''', (first_id, second_id))
+            self.store_db('''insert or ignore into EquivalentCourses(first_course, second_course) values (?, ?)''', (first_id, second_id))
 
     def store_course_requirement(self, requirement: 'courseReq.CourseReq') -> int:
         # Deals with everything but the standard subjectReq and enrollmentReq, as a different
         # version is used for those
-        if isinstance(requirement, andReq.CompositeReq):
+        if isinstance(requirement, compositeReq.CompositeReq):
             # And and Or Requirements are stored the same way
             return self.store_composite_req(requirement)
         elif isinstance(requirement, uocReq.UOCReq):
@@ -142,7 +148,7 @@ class dbGenerator(object):
 
     def store_composite_req(self, requirement: 'compositeReq.CompositeReq') -> int:
         req_id = self.store_db('''insert into CourseRequirements(type_id) values(?)''',
-                (requirement.requirement_id))
+                (requirement.requirement_id,))
 
         for sub_requirement in requirement.reqs:
             sub_requirement_id = self.store_course_requirement(sub_requirement)
@@ -176,13 +182,35 @@ class dbGenerator(object):
         return req_id
 
     def store_enrollment_req(self, requirement: 'scrapedEnrollmentReq.ScrapedEnrollmentReq'):
-        pass
+        req_id = self.store_db('''insert into CourseRequirements(type_id, degree_id) values(?,
+                ?)''', (requirement.requirement_id, requirement.degree))
+
+        return req_id
 
     def store_subject_req(self, requirement: 'scrapedSubjectReq.ScrapedSubjectReq'):
-        pass
+        # First find the relevant course
+        course_id = self.find_course(requirement.course)
 
+        req_id = self.store_db('''insert into CourseRequirements(type_id, course_id, min_mark)
+        values(?, ?, ?)''', (requirement.requirement_id, course_id, requirement.min_mark))
 
+        return req_id
 
+    def find_course(self, course_code: str):
+        letter_code = course_code[:4]
+        number_code = course_code[4:]
 
+        result = self.query_db('''select id from Courses where letter_code = ? and
+        number_code = ?''', (letter_code, number_code), one=True)
+
+        if result is None:
+            print(f"Adding course {course_code} because it doesn't exist in the database/must be from earlier years")
+
+            course_id = self.store_db('''insert into Courses(letter_code, number_code, level, units,
+            finished) values(?, ?, ?, ?, ?)''', (letter_code, number_code, number_code[0], 6, 0))
+        else:
+            (course_id,) = result
+
+        return course_id
 
 

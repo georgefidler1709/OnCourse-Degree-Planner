@@ -15,14 +15,29 @@ class Helper:
                 <course> a string like "COMP1511"
 
                 Returns the id of the Course entry corresponding to this course
+
+                If the course does not exist, adds a dummy course (for the purpose of courses in
+                previous years)
                 '''
                 letter_code = course[:4]
                 number_code = course[4:]
 
                 # find the course id
-                self.cursor.execute("SELECT id FROM Courses where letter_code = ? and number_code = ?",
+                self.cursor.execute("select id from courses where letter_code = ? and number_code = ?",
                         (letter_code, number_code))
-                course_id = self.cursor.fetchone()[0]
+                result = self.cursor.fetchone()
+                if result is None:
+                    print(f"Adding course {course} because it doesn't exist in the database/must be from earlier years")
+
+                    course_id = self.cursor.execute('''insert into Courses(letter_code, number_code, level, units,
+            finished) values(?, ?, ?, ?, ?)''', (letter_code, number_code, number_code[0], 6, 0))
+                    # find the course id
+                    self.cursor.execute("select id from courses where letter_code = ? and number_code = ?",
+                        (letter_code, number_code))
+
+                    result = self.cursor.fetchone()
+
+                course_id = result[0]
 
                 return course_id
 

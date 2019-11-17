@@ -21,7 +21,7 @@ from . import program
 
 class AndReq(compositeReq.CompositeReq):
 
-    def __init__(self, reqs: List[courseReq.CourseReq]):
+    def __init__(self, reqs: List['courseReq.CourseReq']):
         super().__init__(reqs)
 
     def __repr__(self) -> str:
@@ -39,14 +39,21 @@ class AndReq(compositeReq.CompositeReq):
     def requirement_name(self) -> str:
         return "AndRequirement"
 
-   # Input: program.Program of study, term this course is to be taken
-    # Return: Whether this requirement is fulfilled
-    def fulfilled(self, program: program.Program, term: term.Term,
-            coreq: bool=False) -> bool:
-        individual_fulfills = map(lambda x: x.fulfilled(program, term, coreq), self.reqs)
+    # Input: a program and a term in which the required course is taken
+    # Return: any errors pertaining to this requirement
+    def check(self, program: 'program.Program', term: 'term.Term',
+        coreq: bool=False) -> List[str]:
+        errors: List[str] = []
+        for req in self.reqs:
+            errors = errors + req.check(program, term, coreq)
+        return errors
 
-        # Only accept if all of the requirements accepted
-        return all(individual_fulfills)
+    # Return: all necessary warnings for this course regarding min marks required for enrollment
+    def mark_warnings(self, program: 'program.Program', term: 'term.Term') -> List[str]:
+        warnings: List[str] = []
+        for req in self.reqs:
+            warnings = warnings + req.mark_warnings(program, term)
+        return warnings
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database

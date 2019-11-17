@@ -128,7 +128,6 @@ def test_empty_year():
     assert len(plan_2020['term_plans'][2]['course_ids']) == 0
 
 
-
 # tests University.get_full_course
 def test_get_full_course():
     uni = University(query_db)

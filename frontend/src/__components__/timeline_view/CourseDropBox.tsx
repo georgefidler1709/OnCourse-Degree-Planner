@@ -23,7 +23,6 @@ const CourseList = styled.div`
   padding: 8px;
   flex-grow: 1;
   min-height: 50px;
-  color: black;
 `;
 
 interface DropBoxProps {
@@ -41,13 +40,14 @@ function CourseDropBox(props: DropBoxProps) {
         <Title>{props.type}</Title>
         <Droppable droppableId={props.type}>
           {provided => (
-            <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
+            <CourseList ref={provided.innerRef} {...provided.droppableProps}>
               <Course
                 {...props.add_course!}
                 key={props.add_course!.code}
                 index={0}
                 removeCourse={props.remove_course}
               />
+              {provided.placeholder}
             </CourseList>
           )}
         </Droppable>
@@ -60,8 +60,8 @@ function CourseDropBox(props: DropBoxProps) {
         <Title>{props.type}</Title>
         <Droppable droppableId={props.type}>
           {provided => (
-            <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
-              {provided.placeholder}
+            <CourseList ref={provided.innerRef} {...provided.droppableProps}>
+            {provided.placeholder}
             </CourseList>
           )}
         </Droppable>

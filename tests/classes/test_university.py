@@ -61,17 +61,17 @@ class DbHelper:
 
     # Inserts a course into the database
     # Ignores the terms it runs in or any prereqs/coreqs/exclusions/equivalents
-    def insert_course(self, course, prereq=None, coreq=None, exclusion=None, equivalents=[]):
+    def insert_course(self, course, prereq=None, coreq=None, exclusion=[], equivalents=[]):
         return self.insert_course_from_fields(course.subject, course.code, course.level,
                 course.name, course.units, course.faculty, prereq, coreq, exclusion, equivalents)
 
     # Inserts a course from just the fields that make up the course
     def insert_course_from_fields(self, letter_code='COMP', number_code='1511', level=1,
-            name='Intro to computing', units=6, faculty="Engineering", prereq=None, coreq=None, exclusion=None,
-            equivalents=[]):
+            name='Intro to computing', units=6, faculty="Engineering", prereq=None, coreq=None,
+            exclusions=[], equivalents=[]):
         self.cursor.execute('''insert into Courses(letter_code, number_code, level, name, units,
-        faculty, prereq, coreq, exclusion) values (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-        (letter_code, number_code, level, name, units, faculty, prereq, coreq, exclusion))
+        faculty, prereq, coreq) values (?, ?, ?, ?, ?, ?, ?, ?)''',
+        (letter_code, number_code, level, name, units, faculty, prereq, coreq))
 
         id = self.cursor.lastrowid
 
@@ -83,6 +83,16 @@ class DbHelper:
                 first_course = equivalent_id
                 second_course = id
             self.cursor.execute('''insert or ignore into EquivalentCourses(first_course, second_course)
+            values(?, ?)''', (first_course, second_course))
+
+        for exclusion_id in exclusions:
+            if id < exclusion_id:
+                first_course = id
+                second_course = exclusion_id
+            else:
+                first_course = exclusion_id
+                second_course = id
+            self.cursor.execute('''insert or ignore into ExcludedCourses(first_course, second_course)
             values(?, ?)''', (first_course, second_course))
 
         return id
@@ -729,25 +739,14 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
 
         required_course_id = self.h.insert_course(required_course)
 
-
-        type_id = self.h.get_requirement_type_id('CompletedCourseRequirement')
-        min_mark = 50
-
-        self.cursor.execute('''insert into CourseRequirements(type_id, min_mark, course_id)
-        values(?, ?, ?)''', (type_id, min_mark, required_course_id))
-
-        requirement_id = self.cursor.lastrowid
-
-        self.h.insert_course(input_course, exclusion=requirement_id)
+        self.h.insert_course(input_course, exclusion=[required_course_id])
 
         course = self.university.find_course(input_course.course_code)
 
         assert course is not None
-        exclusion = course.exclusions
-        assert exclusion is not None
-        assert exclusion.requirement_name == 'CompletedCourseRequirement'
-        inner_course = exclusion.course
-        assert inner_course == required_course
+        assert len(course.exclusions) == 1
+        exclusion = course.exclusions[0]
+        assert exclusion == required_course.course_code
 
     def test_course_with_equivalents(self):
         input_course = self.first_course
@@ -763,7 +762,7 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         assert course is not None
         assert len(course.equivalents) == 1
         equivalent = course.equivalents[0]
-        assert equivalent == equivalent_course
+        assert equivalent == equivalent_course.course_code
 
     def test_course_with_prereq_and_coreq(self):
         input_course = self.first_course

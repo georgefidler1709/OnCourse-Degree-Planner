@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
-import { Course } from '../../Api';
+import { Course, CheckResponse } from '../../Api';
 import {API_ADDRESS} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
@@ -38,8 +38,20 @@ const NavButton = styled(Button)`
 `;
 
 const YearButton = styled(Button)`
-  width: 40px;
-  margin: 0px 4px;
+&& {
+  display: inline-block;
+  font-weight: 400;
+  font-size: 30px;
+  padding: .375rem .75rem;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+  min-width: 55px;
+  margin: 6px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0px;
 `
 
 class Timeline extends Component<RouteComponentProps<{degree: string}>, TimelineState> {
@@ -51,12 +63,16 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     fetch(API_ADDRESS + `/${code}/gen_program.json`)
     .then(response => response.json())
     .then(plan => {
-      this.setState(plan) 
+      this.setState({
+        ...plan, 
+        course_reqs: [],
+      }) 
       this.addMissingTerms()
     })
   }
 
   addMissingTerms() {
+    console.log(this.state)
     const program = this.state.program
     // fill in required years for the program duration
     let timeline: Array<number> = []
@@ -93,8 +109,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     for(let year_max = this.state.program.enrollments.length; year_max > timeline.length; --year_max) {
       this.removeYear()
     }
-
-    console.log(this.state)
   }
 
   isEnrolled(course: Course): boolean {
@@ -202,9 +216,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     fetch(request)
     .then(response => response.json())
-    .then(plan => {
-      this.setState(plan)
-      this.addMissingTerms()
+    .then((reqs: CheckResponse) => {
+      this.setState({reqs}); 
+      this.addMissingTerms();
     })
   }
 
@@ -289,15 +303,12 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     newState.add_course = undefined
     this.setState(newState)
     this.updateProgram(newState)
+    this.resetTermHighlights()
   }
 
   onDragEnd = (result: DropResult) => {
 
     const { destination, source, draggableId } = result
-    console.log(destination)
-    console.log(source)
-    console.log(draggableId)
-
     // if not dragged into a term, don't change state
     if(!destination) {
       this.resetTermHighlights()
@@ -425,6 +436,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       newState.program.enrollments[startYearIdx] = newYear;
     }
     this.setState(newState)
+    this.updateProgram(newState)
     this.resetTermHighlights()
   };
 
@@ -508,8 +520,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }
     newState.program.duration += updateVal
     this.setState(newState)
+    this.addMissingTerms()
 
-    console.log(this.state)
   }
 
   
@@ -517,15 +529,13 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     if(!this.state) return <div></div>
 
     const program = this.state.program
-    this.addMissingTerms()
     return (
       <div>
         <Navbar bg="dark" variant="dark" id="navbar">
-          <Navbar.Brand href="/">OnCourse</Navbar.Brand>
+          <Navbar.Brand href="/"><span role="img" aria-label="book">📖</span> OnCourse</Navbar.Brand>
           <Nav className="mr-auto">
           </Nav>
           <NavButton id="save" variant="outline-info" onClick={this.savePlan}><i className="fa fa-save"></i></NavButton>
-          <NavButton variant="outline-info"><i className="fa fa-cog"></i></NavButton>
         </Navbar>
         <TimeLineContext>
           <DragDropContext 
@@ -548,7 +558,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                                             termId={term_tag} 
                                             courses={courses} 
                                             highlight={term.highlight} 
-                                            removeCourse={this.removeCourse.bind(this)}/>;
+                                            removeCourse={this.removeCourse.bind(this)}
+                                            getError={(s) => this.state.reqs.course_reqs[s]}
+                                            getWarn={(s) => this.state.reqs.course_warn[s]}/>;
                                 })}
                               </Container>
                           </div>
@@ -556,14 +568,14 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                       )
                     } 
                   </div>
-                  <YearButton onClick={() => this.updateDuration(1)}>++</YearButton>
-                  <YearButton onClick={() => this.updateDuration(-1)}>--</YearButton>
+                  <YearButton variant="info" onClick={() => this.updateDuration(1)}>+</YearButton>
+                  <YearButton variant="info" onClick={() => this.updateDuration(-1)}>-</YearButton>
                 </LColumn> 
                 <RColumn>
                   <InfoBar 
                     degree_id={this.state.program.id}
                     degree_name={this.state.program.name}
-                    degree_reqs={this.state.program.reqs}
+                    degree_reqs={this.state.reqs.degree_reqs}
                     add_course={this.state.add_course}
                     add_event={this.addCourse.bind(this)}
                     remove_course={this.removeCourse.bind(this)}

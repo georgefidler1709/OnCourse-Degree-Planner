@@ -1,21 +1,27 @@
-import { GeneratorResponse, Program, TermPlan, YearPlan, SimpleDegree, Course} from "./Api"
+import { GeneratorResponse, Program, TermPlan, YearPlan, SimpleDegree, Course } from "./Api"
+import styled from 'styled-components';
+
+export const SubTitle = styled.h5`
+  padding: 4px;
+  font-family: Arial, Helvetica, sans-serif;
+`;
 
 export type Position = "auto-start" | "auto" | "auto-end" | "top-start" | "top" | "top-end" | "right-start" | "right" | "right-end" | "bottom-end" | "bottom" | "bottom-start" | "left-end" | "left" | "left-start"
 
 export interface TimelineState extends GeneratorResponse {
-    program: ProgramState;
-    add_course?: Course; // course to add, usually undefined
+  program: ProgramState;
+  add_course?: Course; // course to add, usually undefined
 }
 
 export interface ProgramState extends Program {
-    enrollments: Array<YearState>;
+  enrollments: Array<YearState>;
 }
 
 export interface YearState extends YearPlan {
-    term_plans: Array<TermState>
+  term_plans: Array<TermState>
 }
 export interface TermState extends TermPlan {
-    highlight: boolean;
+  highlight: boolean;
 }
 export interface SearchResult {
   degree: SimpleDegree 

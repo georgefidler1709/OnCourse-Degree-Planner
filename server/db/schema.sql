@@ -7,6 +7,7 @@ create table Degrees (
 
 create table DegreeOfferings (
     year integer,
+    finished integer required,
     degree_id integer references Degrees(id),
     primary key (year, degree_id)
 );
@@ -15,7 +16,7 @@ create table Courses (
     letter_code char(4),
     number_code char(4),
 
-    level integer required check (level > 0),
+    level integer required check (level >= 0),
 
     name varchar(100),
     faculty varchar(100),
@@ -23,7 +24,8 @@ create table Courses (
 
     prereq integer references CourseRequirements(id),
     coreq integer references CourseRequirements(id),
-    exclusion integer references CourseRequirements(id),
+
+    finished integer required,
 
     id integer primary key,
 
@@ -88,11 +90,17 @@ create table CourseRequirements (
     uoc_subject char(4),
     uoc_course_filter integer references CourseFilters,
 
+    -- wam requirement
+    wam integer,
+
     id integer primary key,
     -- And and Or requirements have relationships in CourseRequirementHierarchies
+
+
     unique(type_id, min_mark, course_id),
     unique(type_id, degree_id),
     unique(type_id, year),
+    unique(type_id, wam),
     unique(type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_filter)
 );
 
@@ -121,6 +129,15 @@ create table CourseOfferings (
 );
 
 create table EquivalentCourses (
+    first_course integer references Courses(id),
+    second_course integer references Courses(id),
+
+    check (first_course < second_course),
+
+    primary key (first_course, second_course)
+);
+
+create table ExcludedCourses (
     first_course integer references Courses(id),
     second_course integer references Courses(id),
 

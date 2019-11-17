@@ -12,13 +12,13 @@ Abstract class which collects the different types of single course requirement
 """
 
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Optional
 
 from . import course
 from . import courseReq
 from . import term
 from . import program
-
+from . import university
 
 class SingleReq(courseReq.CourseReq, ABC):
 
@@ -29,10 +29,16 @@ class SingleReq(courseReq.CourseReq, ABC):
     def __repr__(self) -> str:
         return f"<SingleReq>"
 
-    # Input: program.Program of study, term this course is to be taken
-    # Return: Whether this requirement is fulfilled
-    @abstractmethod
-    def fulfilled(self, program: 'program.Program', term: 'term.Term',
-            coreq: bool=False) -> bool:
+    def inflate(self, university: 'university.University') -> Optional['courseReq.CourseReq']:
         pass
 
+    # Input: a program and a term in which the required course is taken
+    # Return: any errors pertaining to this requirement
+    @abstractmethod
+    def check(self, program: program.Program, term: term.Term,
+        coreq: bool=False) -> List[str]:
+        pass
+
+    # Return: all necessary warnings for this course regarding min marks required for enrollment
+    def mark_warnings(self, program: 'program.Program', term: 'term.Term') -> List[str]:
+        return []

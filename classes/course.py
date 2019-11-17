@@ -13,13 +13,14 @@ concerning requirements.
 """
 
 from flask import g
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from . import courseReq
 from . import term
 from . import api
 from . import course
 from . import program
+from . import subjectReq
 
 class Course(object):
 
@@ -32,8 +33,9 @@ class Course(object):
             faculty: str,
             prereqs: Optional['courseReq.CourseReq']=None,
             coreqs: Optional['courseReq.CourseReq']=None,
-            exclusions: Optional['courseReq.CourseReq']=None,
-            equivalents: Optional[List['course.Course']]=None):
+            exclusions: Optional[List[str]]=None,
+            equivalents: Optional[List[str]]=None,
+            finished: bool=True):
         # figure out inputs - database or variables?
         # to be assigned:
         self.subject = subject
@@ -44,12 +46,19 @@ class Course(object):
         self.faculty = faculty
         self.prereqs = prereqs
         self.coreqs = coreqs
-        self.exclusions = exclusions
-        self.equivalents: List['course.Course']
+        self.exclusions: List[str]
+        if exclusions is None:
+            self.exclusions = []
+        else:
+            self.exclusions = exclusions
+
+        self.equivalents: List[str]
         if equivalents is None:
             self.equivalents = []
         else:
             self.equivalents = equivalents
+
+        self.finished = finished
 
     # WARNING getting hard to debug with this, restore later
     # def __repr__(self) -> str:
@@ -65,8 +74,9 @@ class Course(object):
                 "terms": [term.to_api() for term in self.terms],
                 "prereqs": self.prereqs.info(top_level=True) if self.prereqs else "",
                 "coreqs": self.coreqs.info(top_level=True) if self.coreqs else "",
-                "exclusions": self.exclusions.info(top_level=True, exclusion=True) if self.exclusions else "",
-                "equivalents": "\n".join(map(lambda x: x.course_code, self.equivalents))
+                "exclusions": "\n".join(self.exclusions),
+
+                "equivalents": "\n".join(self.equivalents)
                 }
 
     # returns the SUBJxxxx course code
@@ -89,8 +99,14 @@ class Course(object):
     def add_offering(self, term: term.Term) -> None:
         self.terms.append(term)
 
+    # Add an exclusion to this course
+    def add_exclusion(self, c: str):
+        if self.exclusions is None:
+            self.exclusions = []
+        self.exclusions.append(c)
+
     # Add an equivalent to this course
-    def add_equivalent(self, c):
+    def add_equivalent(self, c: str) -> None:
         if self.equivalents is None:
             self.equivalents = []
         self.equivalents.append(c)
@@ -118,59 +134,57 @@ class Course(object):
     # Input: The program of the student trying to take the course, the term they are taking it in
     # Return: whether any exclusion courses have been taken
     def excluded(self, program: 'program.Program', term: term.Term) -> bool:
-        if self.exclusions is None:
-            return False
-        else:
-            # Check with coreq=True as we don't want to take excluded courses in the same term
-            return self.exclusions.fulfilled(program, term, coreq=True)
+        return len(self.exclusion_errors(program, term)) != 0
+
+    # Input: The program of the student trying to take the course, the term they are taking it in
+    # Return: The list of exclusion courses that have been taken
+    def exclusion_errors(self, program: 'program.Program', term: term.Term) -> List[str]:
+        errors = []
+        for exclusion in self.exclusions:
+            for enrollment in program.courses:
+                if enrollment.course.course_code == exclusion:
+                    errors.append(exclusion)
+                    break
+
+        return errors
+
 
     # Input: a course
     # Return: whether it is an equivalent course
-    def equivalent(self, other: 'course. Course') -> bool:
+    def equivalent(self, other: 'course.Course') -> bool:
         if self.equivalents is None:
             return False
         for c in self.equivalents:
-            if c == other:
+            if c == other.course_code:
                 return True
         return False
 
-    # Saves the course in the database
-    # Return: the id of the course
-    def save(self) -> int:
-        if self.prereqs is None:
-            prereq_id = None
+    def check_reqs(self, prog: 'program.Program', term: 'term.Term') -> List['api.CourseReq']:
+        errors: List['api.CourseReq'] = []
+        if self.prereqs is not None:
+            prereq_errors = self.prereqs.check(prog, term);
+            if len(prereq_errors) > 0:
+                errors.append({"filter_type" : "Prerequisite", "info": prereq_errors})
+
+        if self.coreqs is not None:
+            coreq_errors = self.coreqs.check(prog, term, coreq=True);
+            if len(coreq_errors) > 0:
+                errors.append({"filter_type" : "Corequisite", "info": coreq_errors})
+
+        # handle exclusions
+        exclusion_errors = self.exclusion_errors(prog, term)
+        if len(exclusion_errors) > 0:
+            errors.append({"filter_type" : "Exclusion", "info": exclusion_errors})
+
+        return errors
+
+    # Error message for any warnings relating to mark requirements
+    def check_warnings(self, prog: 'program.Program', term: 'term.Term') -> List[str]:
+        # min mark warnings
+        if self.prereqs is not None:
+            return self.prereqs.mark_warnings(prog, term)
         else:
-            prereq_id = self.prereqs.save()
-
-        if self.coreqs is None:
-            coreq_id = None
-        else:
-            coreq_id = self.coreqs.save()
-
-        # TODO: commented out as it is definitely buggy and causing mypy failures
-        exclusions_id = None
-        #if self.exclusions is None:
-        #    exclusions_id = None
-        #else:
-        #    exclusions_id = self.exclusions.save()
-
-        # save the course itself
-
-        g.db.execute('''insert into Courses(letter_code, number_code, level, name, units, prereq,
-        coreq, exclusion) values (?, ?, ?, ?, ?, ?, ?)''',
-        self.subject, self.code, self.level, self.name, self.units, prereq_id, coreq_id,
-        exclusions_id)
-
-        course_id = g.db.lastrowid
-
-        # save the offerings of the course
-        for term in self.terms:
-            term.save()
-
-            g.db.execute('''insert into CourseOfferings(course_id, session_year, session_term)
-                    values(?, ?, ?)''', course_id, term.year, term.term)
-
-        return course_id
+            return []
 
     # Override comparison fucntions
     def __lt__(self, other) -> bool: # x < y

@@ -1,5 +1,6 @@
 import pytest
 
+from classes.course import Course
 from classes.program import Program
 from classes.university import University
 from classes.query_db_offline import query_db
@@ -150,14 +151,17 @@ def test_remove_core(plan):
 def test_remove_elec(plan):
     # add an elec and then remove it, make sure length of reqs is the same
     reqs = list((plan.get_outstanding_reqs()).items())
-    assert len(reqs) == 4
+    original_reqs_len = len(reqs)
 
 
     uni = University(query_db)
 
-    econ1202 = uni.find_course("ECON1202")
-
+    econ1202 = Course("ECON", 1202, "Quantitative analysis for business and economics", 6,
+            [Term(2021, 1)], "UNSW Business School")
     plan.add_course(econ1202, Term(2021, 1))
 
-    assert len(reqs) == 4
+    assert len(reqs) == original_reqs_len
 
+
+def test_check_reqs():
+    pass

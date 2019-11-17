@@ -37,7 +37,7 @@ class SubjectReq(singleReq.SingleReq):
         if self.min_mark == default_mark:
             return self.course.course_code
         else:
-            return "A mark of {self.min_mark} in {self.course.course_code}"
+            return f"A mark of {self.min_mark} in {self.course.course_code}"
 
      # The name of the requirement for the database
     @property
@@ -47,24 +47,23 @@ class SubjectReq(singleReq.SingleReq):
     # Input: a program and a term in which the required course is taken
     # Return: any errors pertaining to this requirement
     def check(self, program: 'program.Program', term: 'term.Term',
-        coreq: bool=False, excl: bool=False) -> List[str]:
-        errors = []
-        # First check if it's already covered by prior studies
+                coreq: bool=False) -> List[str]:
         for course in program.prior_studies:
             if course == self.course or course.equivalent(self.course):
-                if excl:
-                    errors.append(self.course.course_code)
-                return errors
+                return []
 
         for enrollment in program.courses:
             if enrollment.course == self.course or enrollment.course.equivalent(self.course):
                 if (coreq and enrollment.term <= term) or (enrollment.term < term):
-                    if excl:
-                        errors.append(self.course.course_code)
-                    return errors
-        if not excl:
-            errors.append(self.course.course_code)
-        return errors
+                    return []
+        return [self.course.course_code]
+
+    # Return: all necessary warnings for this course regarding min marks required for enrollment
+    def mark_warnings(self, program: 'program.Program', term: 'term.Term') -> List[str]:
+        if self.min_mark == default_mark:
+            return []
+        else:
+            return [self.info()]
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database

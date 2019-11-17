@@ -83,9 +83,6 @@ def test_program_to_api():
     # print("=====> TODO visually check enrollments are sorted")
     # print(enrollments)
 
-    print("=====> TODO visually check the reqs")
-    print(api['reqs'])
-
 # tests University.get_full_course
 def test_get_full_course():
     uni = University(query_db)

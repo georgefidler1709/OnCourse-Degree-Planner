@@ -37,13 +37,11 @@ class EnrollmentReq(singleReq.SingleReq):
     # Input: a program and a term in which the required course is taken
     # Return: any errors pertaining to this requirement
     def check(self, program: 'program.Program', term: 'term.Term',
-        coreq: bool=False, excl: bool=False) -> List[str]:
-        errors = []
-        if excl and program.degree == self.degree:
-            errors.append(self.info())
-        elif not excl and program.degree != self.degree:
-            errors.append(self.info())
-        return errors
+        coreq: bool=False) -> List[str]:
+        if program.degree != self.degree:
+            return[self.info()]
+        else:
+            return []
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database

@@ -126,13 +126,38 @@ class Program(object):
 
     # Return: a list of tuples containing a course code and a list of errors
     # pertaining to the requirements of that course
-    def check_course_reqs(self) -> List[Tuple[str, List[Tuple[str, List[str]]]]]:
-        errors = []
+    def check_course_reqs(self) -> Dict[str, List[api.CourseReq]]:
+        errors = {}
         for enrol in self.courses:
             course_errors = enrol.course.check_reqs(self, enrol.term)
             if len(course_errors) > 0:
-                errors.append((enrol.course.course_code, course_errors))
+                errors[enrol.course.course_code] = course_errors;
         return errors
+
+    def check_course_warnings(self) -> Dict[str, List[str]]:
+        errors = {} 
+        for enrol in self.courses:
+            course_errors = enrol.course.check_warnings(self, enrol.term)
+            if len(course_errors) > 0:
+                errors[enrol.course.course_code] = course_errors
+        return errors
+
+    def get_reqs_api(self) -> List['api.RemainReq']:
+        outstanding_reqs = self.get_outstanding_reqs()
+
+        reqs: List['api.RemainReq'] = []
+        for key, val in outstanding_reqs.items():
+
+            new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
+            if key.filter:
+                new = {'units': val, 
+                    'filter_type': key.filter.simple_name,
+                    'info': key.filter.info
+                }
+
+            reqs.append(new)                
+        return reqs;
+
 
     def to_api(self) -> api.Program:
         # sort the enrolled courses by term then name
@@ -148,29 +173,20 @@ class Program(object):
                     } for (term, courses) in term_plan.items() ]
                 } for (year, term_plan) in enrollments_map.items()];
         
-        outstanding_reqs = self.get_outstanding_reqs()
-
-        reqs: List['api.RemainReq'] = []
-        for key, val in outstanding_reqs.items():
-
-            new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
-            if key.filter:
-                new = {'units': val, 
-                    'filter_type': key.filter.simple_name,
-                    'info': key.filter.info
-                }
-
-            reqs.append(new)                
-        
-
         return {'id': self.degree.num_code, 
                 'name': self.degree.name,
                 'year': self.degree.year,
                 'duration': self.degree.duration,
                 'url': self.degree.get_url(),
-                'reqs': reqs,
                 'enrollments': enrollments};
+    
+    def get_prereq_conflicts_api(self) -> api.CheckResponse:
+        return {'degree_reqs': self.get_reqs_api(),
+                'course_reqs': self.check_course_reqs(),
+                'course_warn': self.check_course_warnings() }; 
 
     def get_generator_response_api(self) -> api.GeneratorResponse:
         return {'program': self.to_api(),
-                'courses': {enrollment.course_code() : enrollment.course.to_api() for enrollment in self.courses}};
+                'courses': {enrollment.course_code() : enrollment.course.to_api() for enrollment in self.courses},
+                'reqs': self.get_prereq_conflicts_api() };
+

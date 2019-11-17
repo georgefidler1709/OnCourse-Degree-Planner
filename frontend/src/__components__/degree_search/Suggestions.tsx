@@ -13,6 +13,7 @@ const Suggestion = styled.button`
   width: 220px;
   background-color: #c2eced;
 `
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -24,6 +25,24 @@ const Code = styled.h1`
 `
 
 const Name = styled.p`
+  pointer-events: none;
+`
+
+const CourseSuggestion = styled.button`
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  padding: 0px;
+  margin-bottom: 5px;
+  width: 95%;
+  background-color: white;
+`
+
+const CourseCode = styled.p`
+  margin: 3px;
+  pointer-events: none;
+`
+
+const CourseName = styled.small`
   pointer-events: none;
 `
 
@@ -86,14 +105,14 @@ function CourseSuggestions(props: CourseSuggestionsProps) {
       delay={200}
       key={r.course.code}
     >
-      <Suggestion
+      <CourseSuggestion
         id={r.course.code}
         value={r.course.code}
         onClick={() => props.add_event(r.course)}
       >
-        <Code>{r.code}</Code>
-        <Name>{r.text}</Name>
-      </Suggestion>
+        <CourseCode>{r.code}</CourseCode>
+        <CourseName>{r.text}</CourseName>
+      </CourseSuggestion>
     </SuggestionInfoHover>
     
   ));

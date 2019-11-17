@@ -1,7 +1,6 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme';
 import Suggestions from '../__components__/degree_search/Suggestions';
-import 'jest-styled-components'
 
 console.warn = jest.fn();
 

@@ -144,8 +144,10 @@ class Course(object):
             for enrollment in program.courses:
                 if enrollment.course.course_code == exclusion:
                     errors.append(exclusion)
+                    break
 
         return errors
+
 
     # Input: a course
     # Return: whether it is an equivalent course
@@ -157,25 +159,32 @@ class Course(object):
                 return True
         return False
 
-    def check_reqs(self, prog: 'program.Program', term: 'term.Term') -> List[Tuple[str, List[str]]]:
-        errors = []
+    def check_reqs(self, prog: 'program.Program', term: 'term.Term') -> List['api.CourseReq']:
+        errors: List['api.CourseReq'] = []
         if self.prereqs is not None:
-            prereq_errors = self.prereqs.check(prog, term)
+            prereq_errors = self.prereqs.check(prog, term);
             if len(prereq_errors) > 0:
-                errors.append(("Prerequisite:", prereq_errors))
+                errors.append({"filter_type" : "Prerequisite", "info": prereq_errors})
 
         if self.coreqs is not None:
-            coreq_errors = self.coreqs.check(prog, term, coreq=True)
+            coreq_errors = self.coreqs.check(prog, term, coreq=True);
             if len(coreq_errors) > 0:
-                errors.append(("Corequisite:", coreq_errors))
+                errors.append({"filter_type" : "Corequisite", "info": coreq_errors})
 
         # handle exclusions
         exclusion_errors = self.exclusion_errors(prog, term)
         if len(exclusion_errors) > 0:
-            errors.append(("Exclusion:", exclusion_errors))
-        # min mark warnings
+            errors.append({"filter_type" : "Exclusion", "info": exclusion_errors})
 
         return errors
+
+    # Error message for any warnings relating to mark requirements
+    def check_warnings(self, prog: 'program.Program', term: 'term.Term') -> List[str]:
+        # min mark warnings
+        if self.prereqs is not None:
+            return self.prereqs.mark_warnings(prog, term)
+        else:
+            return []
 
     # Override comparison fucntions
     def __lt__(self, other) -> bool: # x < y

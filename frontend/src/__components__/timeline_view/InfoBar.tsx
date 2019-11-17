@@ -9,9 +9,10 @@ const Container = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
   width: 350px;
-  height: 1000px;
+  height: 100%;
   text-align: center;
   overflow-y: scroll;
+  overflow: overlay;
   font-family: Arial, Helvetica, sans-serif;
   background-color: #343a40;
   color: white;

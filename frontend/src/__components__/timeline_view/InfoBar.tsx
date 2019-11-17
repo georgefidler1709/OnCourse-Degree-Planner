@@ -4,6 +4,7 @@ import CourseDropBox from "./CourseDropBox"
 import { SearchCourses } from "../degree_search/Search"
 import { Card, Collapse } from 'react-bootstrap'
 import { RemainReq, Course } from "../../Api"
+import { CourseSearchResult } from "../../Types"
 
 const Container = styled.div`
   padding-top: 8px;
@@ -70,7 +71,7 @@ interface InfoBarProps {
   degree_name: string;
   degree_reqs: Array<RemainReq>;
   add_course?: Course; // Course to add
-  add_event: (course: Course, searchRef: RefObject<HTMLInputElement>) => void;// function to call when you want to add a course
+  add_event: (course: Course, searchRef: RefObject<HTMLInputElement>, searchResults: Array<CourseSearchResult>) => void;// function to call when you want to add a course
   remove_course: (id: string) => void;
 }
 

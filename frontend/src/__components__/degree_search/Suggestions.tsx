@@ -87,7 +87,7 @@ export { Suggestions };
 
 interface CourseSuggestionsProps {
   courses: Array<CourseSearchResult>;
-  add_event: (course: Course, searchRef: RefObject<HTMLInputElement>) => void;
+  add_event: (course: Course, searchRef: RefObject<HTMLInputElement>, searchResults: Array<CourseSearchResult>) => void;
   searchRef: RefObject<HTMLInputElement>;
 }
 
@@ -109,7 +109,7 @@ function CourseSuggestions(props: CourseSuggestionsProps) {
       <CourseSuggestion
         id={r.course.code}
         value={r.course.code}
-        onClick={() => props.add_event(r.course, props.searchRef)}
+        onClick={() => props.add_event(r.course, props.searchRef, props.courses)}
       >
         <CourseCode>{r.code}</CourseCode>
         <CourseName>{r.text}</CourseName>

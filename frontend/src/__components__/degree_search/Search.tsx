@@ -51,7 +51,7 @@ interface SearchCourseState {
 }
 
 interface SearchCourseProps {
-  add_event: (course: Course, searchRef: RefObject<HTMLInputElement>) => void;
+  add_event: (course: Course, searchRef: RefObject<HTMLInputElement>, searchResults: Array<CourseSearchResult>) => void;
 }
 
 class Search extends Component<{}, SearchState> {
@@ -251,7 +251,11 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
         </form>
       {
         this.state.searchResults.length > 0 &&
-        <CourseSuggestions courses={this.state.searchResults} searchRef={this.searchBarRef} add_event={this.props.add_event}/>
+        <CourseSuggestions 
+          courses={this.state.searchResults} 
+          searchRef={this.searchBarRef} 
+          add_event={this.props.add_event}
+        />
         }
       </CoursesContainer>
       )

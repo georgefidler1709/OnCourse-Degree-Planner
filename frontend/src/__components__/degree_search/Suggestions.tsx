@@ -5,13 +5,12 @@ import { Course } from '../../Api'
 import {Position, SearchResult, CourseSearchResult} from '../../Types'
 import styled from 'styled-components'
 
-const Suggestion = styled.button`
-  border: 1px solid #575756;
+const DegreeSuggestion = styled.button`
+  border: 1px solid #cccccc;
   border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 8px;
-  width: 220px;
-  background-color: #c2eced;
+  margin-bottom: 1% 
+  width: 70%;
+  background-color: white;
 `
 
 const Container = styled.div`
@@ -20,11 +19,11 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
 `
-const Code = styled.h1`
+const DegreeCode = styled.h1`
   pointer-events: none;
 `
 
-const Name = styled.p`
+const DegreeName = styled.p`
   pointer-events: none;
 `
 
@@ -67,14 +66,14 @@ function Suggestions(props: {degrees: Array<SearchResult>}) {
       delay={200}
       key={r.degree.id}
     >
-      <Suggestion
+      <DegreeSuggestion
         id={r.degree.id}
         value={r.degree.id}
         onClick={handleClick}
       >
-        <Code>{r.degree.id}</Code>
-        <Name>{r.text}</Name>
-      </Suggestion>
+        <DegreeCode>{r.degree.id}</DegreeCode>
+        <DegreeName>{r.text}</DegreeName>
+      </DegreeSuggestion>
     </SuggestionInfoHover>
     
   ));

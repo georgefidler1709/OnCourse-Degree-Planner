@@ -5,37 +5,60 @@ import {SimpleDegrees, SimpleDegree, CourseList, Course} from '../../Api'
 import {SearchResult, CourseSearchResult} from '../../Types'
 import styled from 'styled-components';
 
-const Container = styled.div`
-  padding: 20px;
-  margin: 0;
+const Logo = styled.img`
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 10%;
+`
+
+const Title = styled.h1`
+  float: center;
   text-align: center;
+  font-weight: 800;
+  font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size: 100px;
+`
+
+const SearchContainer = styled.div`
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 20px;
 `
 
 const SearchBar = styled.input`
-  width: 50%;
-  padding: 12px 24px;
-  margin-bottom: 10px;
 
-  transition: background-colour .2s ease-in;
-  font-size: 14px;
-  line-height: 18px;
-
-  color: #575756;
-  background-color: transparent;
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-size: 18px 18px;
-  background-position: 95% center;
-  border-radius: 50px;
-  border: 1px solid #575756;
-
-  &:hover {
+  &:focus {
     outline: none;
   }
 
-  &:hover {
-    background-color: #f1;
-  }
+  box-shadow: 10px 10px grey;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  padding: 1% 4%;
+  margin-bottom: 2%;
+  transition: background-colour .2s ease-in;
+  font-size: 30px;
+  line-height: 18px;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  background-position: 95% center;
+
+  border-radius: 50px;
+  border: 1px solid #575756;
+
+`
+
+const SearchForm = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
 `
 
 interface SearchState {
@@ -111,19 +134,20 @@ class Search extends Component<{}, SearchState> {
 
   render() {
     return (
-      <Container>
-        <form>
+      <SearchContainer>
+        <Logo src={"/images/logo.png"} alt="logo"/>
+        <Title>OnCourse</Title>
+        <SearchForm>
           <SearchBar
             placeholder="Search for your degree..."
-            //value={this.state.query}
             onChange={this.handleInputChange}
           />
-        </form>
+        </SearchForm>
       {
         this.state.searchResults.length > 0 &&
         <Suggestions degrees={this.state.searchResults} />
         }
-      </Container>
+      </SearchContainer>
       )
   }
 }
@@ -137,6 +161,10 @@ const CoursesContainer = styled.div`
 `
 
 const CourseSearchBar = styled.input`
+
+&::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
   width: 95%;
   padding: 12px 24px;
   margin-bottom: 10px;

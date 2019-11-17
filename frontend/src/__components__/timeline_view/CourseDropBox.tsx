@@ -27,7 +27,7 @@ const CourseList = styled.div`
 
 interface DropBoxProps {
   type: string;
-  add_course: ApiCourse;
+  add_course?: ApiCourse;
   remove_course: (id: string) => void;
 }
 
@@ -42,8 +42,8 @@ function CourseDropBox(props: DropBoxProps) {
           {provided => (
             <CourseList innerRef={provided.innerRef} {...provided.droppableProps}>
               <Course
-                {...props.add_course}
-                key={props.add_course.code}
+                {...props.add_course!}
+                key={props.add_course!.code}
                 index={0}
                 removeCourse={props.remove_course}
               />

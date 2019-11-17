@@ -120,6 +120,6 @@ def check_program() -> str:
 
     enrollments = enrollments_api_to_classes(data, uni)
 
-    new = program.Program(deg, enrollments)
+    new = program.Program(deg, enrollments, [])
 
     return jsonify(new.get_prereq_conflicts_api())

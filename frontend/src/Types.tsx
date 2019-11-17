@@ -3,14 +3,14 @@ import styled from 'styled-components';
 
 export const SubTitle = styled.h5`
   padding: 4px;
+  font-family: Arial, Helvetica, sans-serif;
 `;
-
 
 export type Position = "auto-start" | "auto" | "auto-end" | "top-start" | "top" | "top-end" | "right-start" | "right" | "right-end" | "bottom-end" | "bottom" | "bottom-start" | "left-end" | "left" | "left-start"
 
 export interface TimelineState extends GeneratorResponse {
   program: ProgramState;
-  add_course: Course; // course to add, usually undefined
+  add_course?: Course; // course to add, usually undefined
 }
 
 export interface ProgramState extends Program {

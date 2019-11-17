@@ -12,8 +12,8 @@ interface DraggableProps {
 
 
 const Container = styled.div<DraggableProps>`
-  border: 1px solid lightgrey;
-  border-radius: 2px;
+  border: 2px solid lightgrey;
+  border-radius: 6px;
   padding: 8px;
   margin-bottom: 8px;
   background-color: ${props => { 

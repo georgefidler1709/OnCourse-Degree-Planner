@@ -23,11 +23,11 @@ faculty = "SubjFaculty"
 t1 = term.Term(2019, 1)
 degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 3, faculty, [], 'BAT1')
 degree2 = degree.Degree(2, "Bachelor of Testing2", 2019, 3, faculty, [], 'BAT2')
-prog1 = program.Program(degree1, [])
-prog2 = program.Program(degree2, [])
+prog1 = program.Program(degree1, [], [])
+prog2 = program.Program(degree2, [], [])
 req = enrollmentReq.EnrollmentReq(degree1)
 
-def test_fulfilled():    
+def test_fulfilled():
     assert req.fulfilled(prog1, t1)
 
 

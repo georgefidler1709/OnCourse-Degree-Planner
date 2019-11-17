@@ -21,6 +21,9 @@ const Container = styled.div`
 `;
 const Title = styled.h3`
   padding: 8px;
+  font-family: Arial, Helvetica, sans-serif;
+  border-bottom: 1px solid lightgrey;
+  margin: 0px;
 `;
 const CourseList = styled.div<DroppableProps>`
   padding: 8px;
@@ -30,7 +33,7 @@ const CourseList = styled.div<DroppableProps>`
   background-color: ${props => {
     if(props.highlight) {
       return props.isDraggingOver ? 'green' : 'lightgreen'
-    } else return props.isDraggingOver ? 'lightgrey' : 'white'
+    } else return props.isDraggingOver ? 'lightgrey' : '#ededed'
   }};
 `;
 

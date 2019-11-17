@@ -29,15 +29,16 @@ const Name = styled.p`
 `
 
 const CourseSuggestion = styled.button`
-  border: 1px solid #575756;
+  border: 1px solid #cccccc;
   border-radius: 10px;
-  padding: 5px;
-  margin-bottom: 8px;
+  padding: 0px;
+  margin-bottom: 5px;
   width: 95%;
-  background-color: #c2eced;
+  background-color: white;
 `
 
-const CourseCode = styled.h6`
+const CourseCode = styled.p`
+  margin: 3px;
   pointer-events: none;
 `
 

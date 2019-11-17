@@ -11,7 +11,7 @@ Test the functions defined in generator.py
 """
 
 import pytest
-from typing import List
+from typing import List, Optional
 
 from classes import courseReq
 from classes import subjectReq
@@ -41,6 +41,13 @@ class MockUniversity():
 
     def filter_courses(self, desired_filter: 'courseFilter.CourseFilter', degree: 'degree.Degree', eq: bool=True) -> List['course.Course']:
         return list(filter(lambda x: desired_filter.accepts_course(x, degree, eq), self.courses))
+
+    def find_course(self, code: str) -> Optional['course.Course']:
+        for course in self.courses:
+            if course.course_code == code:
+                return course
+
+        return None
 
 uni = MockUniversity()
 
@@ -160,7 +167,7 @@ def test_coreq():
 def test_exclusion():
     # make an exclusion subject
     subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t1, t3, t4, t6], faculty,
-            prereqs=prereq1001, exclusions=[subj1002])
+            prereqs=prereq1001, exclusions=["SUBJ1002"])
     uni.add_course(subj1005)
 
     # Make some degree requirements
@@ -188,8 +195,8 @@ def test_exclusion():
 
 def test_equivalent():
     # make an equivalent subject
-    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [], faculty, equivalents=[subj1001])
-    subj1001.add_equivalent(subj1005)
+    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [], faculty, equivalents=["SUBJ1001"])
+    subj1001.add_equivalent("SUBJ1005")
 
     subj1006 = course.Course("SUBJ", 1006, "Subject5", 6, [t2, t3, t5, t6], faculty)
 

@@ -249,7 +249,7 @@ class Helper:
                         # corequisite
                         msg += "coreq"
 
-                msg += " = ? WHERE id = ?"
+                msg += " = ?, finished = 1 WHERE id = ?"
 
                 # execute query here
                 self.cursor.execute(msg, (course_req_id, course_id))

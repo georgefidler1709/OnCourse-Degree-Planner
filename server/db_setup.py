@@ -6,6 +6,7 @@ https://flask.palletsprojects.com/en/1.1.x/tutorial/database/
 from typing import Tuple
 
 import os
+import shutil
 import sqlite3
 import click
 from flask import current_app, g, Flask
@@ -50,12 +51,43 @@ def close_db(err : Exception = None) -> None:
     if db is not None:
         db.close()
 
+@click.command('init-db-full')
+@with_appcontext
+def init_db_full() -> None:
+    '''
+    Initialize db and populate it with both information scraped from the handbook and extra
+    information
+    '''
+    do_init_db()
+    do_add_to_db()
+
+
+@click.command('add-to-db')
+@with_appcontext
+def add_to_db() -> None:
+    '''
+    Add extra manual information about courses
+    '''
+    do_add_to_db()
+
+def do_add_to_db() -> None:
+    from server.db import input_data
+
+    db_path = current_app.config['DATABASE']
+
+    # input Computer Science 3778 COMPA1 course requirements
+    # In case we missed requirements for some courses
+    input_data.compsci_course_reqs(db_path)
+
 @click.command('init-db')
 @with_appcontext
 def init_db() -> None:
     '''
-    Initialize db and populate it with information
+    Initialize db and populate it with information scraped with the handbook
     '''
+    do_init_db()
+
+def do_init_db() -> None:
     from scraper import dbGenerator
     from server.db import input_data
     import pandas
@@ -83,15 +115,14 @@ def init_db() -> None:
     year = 2020
     postgrad = False
 
-    generator.generate_db(year, ["COMP", "MATH", "DPST", "BINF", "SENG"], postgrad, end_year=2025)
-
-    print("GENERATE DB SUCCESSFUL")
+    generator.generate_db(year, ["COMP", "MATH"], postgrad, end_year=2025)
 
     # read courses from courses.csv
     #courses = pandas.read_csv("server/db/courses.csv")
     #courses.to_sql("Courses", db, if_exists="append", index=False)
 
     # input Computer Science 3778 COMPA1 course requirements
+    # In case we missed requirements for some courses
     #input_data.compsci_course_reqs(db_path)
 
     # input Sessions for arbitrary range of years
@@ -103,6 +134,10 @@ def init_db() -> None:
     # input CourseFilters and DegreeOfferingRequirements for 3778 COMPA1
     input_data.insert_compsci_degree_requirements(db=db_path)
 
+    shutil.copyfile(db_path, db_path + "_scraped")
+
+    print("GENERATE DB SUCCESSFUL")
+
 def init_app(app : Flask) -> None:
     '''
     Init database for given flask app
@@ -110,3 +145,5 @@ def init_app(app : Flask) -> None:
 
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db)
+    app.cli.add_command(add_to_db)
+    app.cli.add_command(init_db_full)

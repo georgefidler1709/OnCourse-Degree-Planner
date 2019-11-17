@@ -16,7 +16,7 @@ create table Courses (
     letter_code char(4),
     number_code char(4),
 
-    level integer required check (level > 0),
+    level integer required check (level >= 0),
 
     name varchar(100),
     faculty varchar(100),
@@ -95,6 +95,8 @@ create table CourseRequirements (
 
     id integer primary key,
     -- And and Or requirements have relationships in CourseRequirementHierarchies
+
+
     unique(type_id, min_mark, course_id),
     unique(type_id, degree_id),
     unique(type_id, year),

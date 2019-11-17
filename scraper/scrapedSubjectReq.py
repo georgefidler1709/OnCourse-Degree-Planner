@@ -26,7 +26,7 @@ class ScrapedSubjectReq(singleReq.SingleReq):
 
     def __init__(self, course: str, min_mark: int=None):
         super().__init__()
-        self.course = course
+        self.course = course.upper()
         if min_mark is None:
             self.min_mark = 50
         else:

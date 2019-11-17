@@ -177,44 +177,6 @@ class Course(object):
 
         return errors
 
-    # Saves the course in the database
-    # Return: the id of the course
-    def save(self) -> int:
-        if self.prereqs is None:
-            prereq_id = None
-        else:
-            prereq_id = self.prereqs.save()
-
-        if self.coreqs is None:
-            coreq_id = None
-        else:
-            coreq_id = self.coreqs.save()
-
-        # TODO: commented out as it is definitely buggy and causing mypy failures
-        exclusions_id = None
-        #if self.exclusions is None:
-        #    exclusions_id = None
-        #else:
-        #    exclusions_id = self.exclusions.save()
-
-        # save the course itself
-
-        g.db.execute('''insert into Courses(letter_code, number_code, level, name, units, prereq,
-        coreq, exclusion) values (?, ?, ?, ?, ?, ?, ?)''',
-        self.subject, self.code, self.level, self.name, self.units, prereq_id, coreq_id,
-        exclusions_id)
-
-        course_id = g.db.lastrowid
-
-        # save the offerings of the course
-        for term in self.terms:
-            term.save()
-
-            g.db.execute('''insert into CourseOfferings(course_id, session_year, session_term)
-                    values(?, ?, ?)''', course_id, term.year, term.term)
-
-        return course_id
-
     # Override comparison fucntions
     def __lt__(self, other) -> bool: # x < y
         self_str = self.subject + str(self.code)

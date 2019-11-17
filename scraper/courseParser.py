@@ -24,7 +24,7 @@ from classes import orReq
 class CourseParser(object):
 
     def __init__(self):
-        self.prereq_words = ["prereq:", "prerequisite:"]
+        self.prereq_words = ["prereq:", "prerequisite:", "pre-requisite:"]
         self.coreq_words = ["coreq:", "corequisite:", "prerequisite/corequisite:"]
 
     # Parse the string to return the list of term offerings
@@ -47,47 +47,68 @@ class CourseParser(object):
     def split_by_conj(self, string: str) -> Tuple[List[str], Optional[str], bool]:
         # find outer level conjunctions
         break_points: List[int] = []
-        brackets: List[str] = []
-        success = True
-
+        bracket_depth = 0
+        conj = None
         length = len(string)
+
         for i in range(0, length):
             if string[i] == '(':
-                brackets.append(string[i])
+                bracket_depth += 1
             elif string[i] == ')':
-                if len(brackets) == 1:
-                    if i < length - 3:
-                        if string.find('and', i+2) == i+2:
-                            conj = 'and'
-                        elif string.find('or', i+2) == i+2:
-                            conj = 'or'
-                        else:
-                            # error
-                            return ([string], None, False)
-                    break_points.append(i+1)
-                    brackets = []
-                elif len(brackets) == 0:
-                    # Error, we have too many close brackets and not enough open brackets
-                    return ([string], None, False)
+                if bracket_depth > 0:
+                    bracket_depth -= 1
                 else:
-                    brackets.pop()
+                    # Error, inconsistent bracketing
+                    print("INCONSISTENT BRACKETING")
+                    return ([string], None, False)
+
+            elif bracket_depth > 0:
+                # Don't need to bother checking if it's an and, because it will be inside brackets
+                continue
+            elif string[i] == ' ':
+                if string.find(' and ', i) == i:
+                    # This has ANDs on the outside
+                    if conj is None:
+                        conj = 'and'
+                    elif conj != 'and':
+                        # Already have ORs, so this is an error
+                        print("MIX AND WITH OR")
+                        return ([string], None, False)
+                        
+                    break_points.append(i)
+                elif string.find(' or ', i) == i:
+                    # This has ORs on the outside
+                    if conj is None:
+                        conj = 'or'
+                    elif conj != 'or':
+                        # Already have ANDs, so this is an error
+                        print("MIX OR WITH AND")
+                        return ([string], None, False)
+
+                    break_points.append(i)
 
         #should now have list of breakpoints corresponding to closing brackets
 
-        # remove brackets around a single compositeReq
-        if len(break_points) == 1:
+        # remove outer level brackets in the situation where the whole thing is in one set of
+        # brackets
+        if len(break_points) == 0 and string[0] == '(' and string[-1] == ')':
             string = string[1:-1]
+            return ([string], '()', True)
 
         # no brackets = split on conjunctions
-        if len(break_points) < 2:
+        if len(break_points) == 0:
             if string.find(' or ') > 0:
-                return (string.split(' or '), 'or', success)
+                return (string.split(' or '), 'or', True)
             elif string.find(' and ') > 0:
-                return (string.split(' and '), 'and', success)
+                return (string.split(' and '), 'and', True)
             else:
-                return ([string], None, success)
+                return ([string], None, True)
 
         # bracketed subphrases to consider
+        if conj is None:
+            # Error, if we have any subphrases then there should be a conj
+            print("SUBPHRASES WITH NO CONJ")
+            return ([string], None, False)
         strs: List[str] = []
 
         start = 0
@@ -97,7 +118,12 @@ class CourseParser(object):
             strs.append(split_string)
             start = end + len(conj) + 2
 
-        return (strs, conj, success)
+        final_part = string[start:]
+        final_part.strip()
+        strs.append(final_part)
+
+
+        return (strs, conj, True)
 
 
     # Parse standard form of uoc req filter spec and return appropriate filter
@@ -156,7 +182,9 @@ class CourseParser(object):
             if len(split) == 1:
                 return scrapedSubjectReq.ScrapedSubjectReq(split[0])
             elif len(split) == 2:
-                return scrapedSubjectReq.ScrapedSubjectReq(split[0], int(split[1]))
+                course, mark = split
+                if mark.isdigit():
+                    return scrapedSubjectReq.ScrapedSubjectReq(course, int(mark))
 
         # WAM requirements
         elif split[0] == "wam":
@@ -198,6 +226,10 @@ class CourseParser(object):
         if conj == None:
             return self.make_single_course_req(tokenised[0])
 
+        # The whole thing was in one set of brackets, start again without the brackets
+        if conj == '()':
+            return self.parse_course_req(tokenised[0])
+
         reqs = []
         for s in tokenised:
             r = self.parse_course_req(s)
@@ -227,10 +259,10 @@ class CourseParser(object):
         
     def replace_prereq_coreq(self, string: str) -> str:
         for word in self.prereq_words:
-            result = string.replace(word, "prereq")
+            string = string.replace(word, "prereq")
         for word in self.coreq_words:
-            result = result.replace(word, "coreq")
-        return result
+            string = string.replace(word, "coreq")
+        return string
 
     # Parse a string containing a course requirement
     def parse_reqs(self, req: str) -> Tuple[Optional['courseReq.CourseReq'], Optional['courseReq.CourseReq'], bool]:

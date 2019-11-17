@@ -71,11 +71,11 @@ class dbGenerator(object):
         # Now insert all of them with their prerequisites
         for scraped_course in scraped_courses:
             course_id = scraped_courses_to_course_id[scraped_course]
-            full_course = scraped_course.inflate(self.university)
+            full_course = scraped_course.to_course()
 
-            if course is not None and course.finished:
-                self.insert_requirements(course_id, course.prereqs, course.coreqs, course.exclusions,
-                        course.equivalents)
+            if full_course is not None and full_course.finished:
+                self.insert_requirements(course_id, full_course.prereqs, full_course.coreqs,
+                        full_course.exclusions, full_course.equivalents)
             else:
                 print(f"Course {course.course_code} could not be parsed properly")
 
@@ -100,6 +100,8 @@ class dbGenerator(object):
     def insert_requirements(self, course_id: int, prereqs: Optional['courseReq.CourseReq'], coreqs:
             Optional['courseReq.CourseReq'], exclusions: List[str], equivalents: List[str]) -> None:
 
+        print("Exclusions are: ", exclusions)
+
         if prereqs is None:
             prereq_id = None
         else:
@@ -115,7 +117,7 @@ class dbGenerator(object):
 
         for exclusion in exclusions:
             exclusion_id = self.find_course(exclusion)
-            
+
             if exclusion_id < course_id:
                 first_id, second_id = exclusion_id, course_id
             else:
@@ -154,7 +156,7 @@ class dbGenerator(object):
 
     def store_composite_req(self, requirement: 'compositeReq.CompositeReq') -> int:
         req_id = self.store_db('''insert into CourseRequirements(type_id) values(?)''',
-                (requirement.requirement_id,))
+                (self.get_req_type_id(requirement.requirement_name),))
 
         for sub_requirement in requirement.reqs:
             sub_requirement_id = self.store_course_requirement(sub_requirement)
@@ -169,27 +171,67 @@ class dbGenerator(object):
             raise NotImplementedError("Cannot deal with requirements with filters currently")
 
         filter_id = None
+
+        type_id = self.get_req_type_id(requirement.requirement_name)
+        uoc = requirement.uoc
+
+        result = self.query_db('''select id from CourseRequirements where type_id = ? and uoc = ?
+        and filter_id = ?''', (type_id, uoc, filter_id), one=True)
+
+        if result is not None:
+            (req_id, ) = result
+            return req_id
+
         req_id = self.store_db('''insert into CourseRequirements(type_id, uoc_amount_required,
-        uoc_course_filter) values(?, ?, ?)''', (requirement.requirement_id, requirement.uoc,
-            filter_id))
+        uoc_course_filter) values(?, ?, ?)''', (type_id, uoc, filter_id))
 
         return req_id
 
     def store_wam_req(self, requirement: 'wamReq.WAMReq'):
+        type_id = self.get_req_type_id(requirement.requirement_name)
+        wam = requirement.wam
+        
+        result = self.query_db('''select id from CourseRequirements where type_id = ? and wam =
+                ?''', (type_id, wam), one=True)
+
+        if result is not None:
+            (req_id, ) = result
+            return req_id
+
         req_id = self.store_db('''insert into CourseRequirements(type_id, wam) values(?, ?)''',
-                (requirement.requirement_id, requirement.wam))
+                (type_id, wam))
 
         return req_id
 
     def store_year_req(self, requirement: 'yearReq.YearReq'):
+        type_id = self.get_req_type_id(requirement.requirement_name) 
+        year = requirement.year
+
+        result = self.query_db('''select id from CourseRequirements where type_id = ? and year =
+        ?''', (type_id, year), one=True)
+
+        if result is not None:
+            (req_id, ) = result
+            return req_id
+
         req_id = self.store_db('''insert into CourseRequirements(type_id, year) values(?, ?)''',
-                (requirement.requirement_id, requirement.year))
+                (type_id, requirement.year))
 
         return req_id
 
     def store_enrollment_req(self, requirement: 'scrapedEnrollmentReq.ScrapedEnrollmentReq'):
+        type_id = self.get_req_type_id(requirement.requirement_name)
+        degree = requirement.degree
+
+        result = self.query_db('''select id from CourseRequirements where type_id = ? and degree =
+        ?''', (type_id, degree), one=True)
+
+        if result is not None:
+            (req_id, ) = result
+            return req_id
+
         req_id = self.store_db('''insert into CourseRequirements(type_id, degree_id) values(?,
-                ?)''', (requirement.requirement_id, requirement.degree))
+                ?)''', (type_id, degree))
 
         return req_id
 
@@ -197,8 +239,18 @@ class dbGenerator(object):
         # First find the relevant course
         course_id = self.find_course(requirement.course)
 
+        type_id = self.get_req_type_id(requirement.requirement_name)
+        min_mark = requirement.min_mark
+
+        result = self.query_db('''select id from CourseRequirements where type_id = ? and
+        course_id = ? and min_mark = ?''', (type_id, course_id, min_mark), one=True)
+        if result is not None:
+            # One of these already exists, just return it
+            (req_id, ) = result
+            return req_id
+
         req_id = self.store_db('''insert into CourseRequirements(type_id, course_id, min_mark)
-        values(?, ?, ?)''', (requirement.requirement_id, course_id, requirement.min_mark))
+        values(?, ?, ?)''', (self.get_req_type_id(requirement.requirement_name), course_id, requirement.min_mark))
 
         return req_id
 
@@ -208,6 +260,8 @@ class dbGenerator(object):
 
         result = self.query_db('''select id from Courses where letter_code = ? and
         number_code = ?''', (letter_code, number_code), one=True)
+
+        course_id = None
 
         if result is None:
             print(f"Adding course {course_code} because it doesn't exist in the database/must be from earlier years")
@@ -219,5 +273,18 @@ class dbGenerator(object):
             (course_id,) = result
 
         return course_id
+
+    # Gets the database id for a requirement type name
+    def get_req_type_id(self, requirement_name) -> int:
+        result = self.query_db('select id from CourseRequirementTypes where name = ?',
+                (requirement_name, ), one=True)
+
+        if result is None:
+            raise ValueError(f"No requirement type with name {requirement_name}")
+
+        (requirement_id,) = result
+        return requirement_id
+
+
 
 

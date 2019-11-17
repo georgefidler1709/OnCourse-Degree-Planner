@@ -38,12 +38,6 @@ class CourseReq(ABC):
     def requirement_name(self) -> str:
         return "GenericRequirement"
 
-    # The id of the requirement for the database
-    @property
-    def requirement_id(self) -> int:
-        return g.db.execute('select id from CourseRequirementTypes where name = ?',
-                self.requirement_name)
-
     @abstractmethod
     def inflate(self, university: 'university.University') -> Optional['CourseReq']:
         pass
@@ -65,16 +59,6 @@ class CourseReq(ABC):
             return len(self.check(program, term, coreq, excl)) == 0
         else:
             return len(self.check(program, term, coreq)) == 0
-
-    # Saves the requirement in the database
-    # Return: the id of the requirement in the database
-    # @abstractmethod
-    def save(self) -> int:
-        g.db.execute('''insert into CourseRequirements(type_id) values(?)''',
-                self.requirement_id)
-
-        return g.db.lastrowid
-
 
 # Imports that were causing circular dependency issues at the bottom
 from . import university

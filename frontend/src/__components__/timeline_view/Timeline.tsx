@@ -60,7 +60,13 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     const program = this.state.program
     // fill in required years for the program duration
     let timeline: Array<number> = []
-    let year_max: number = program.enrollments[0].year
+    var year_max: number;
+    if (program.enrollments.length > 0) {
+      year_max = program.enrollments[0].year;
+    } else {
+      year_max = program.year;
+    }
+    
     for(let i = 0; i < program.duration; ++i) {
       timeline.push(year_max++)
     }

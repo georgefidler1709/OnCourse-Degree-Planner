@@ -45,7 +45,7 @@ function Requirements(props: ReqProps) {
   var res = keys.map(k => {
     return(
       <React.Fragment key={k}>
-        <p>{`${k}: ${combo_reqs[k].units} UOC of`}</p>
+        <p>{`${combo_reqs[k].units} UOC of`}</p>
         <ul>
           {
             combo_reqs[k].items.map(it => {

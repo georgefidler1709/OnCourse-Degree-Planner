@@ -49,9 +49,9 @@ class OrFilter(courseFilter.CourseFilter):
         # else:
         #     return "Or"
 
-        # return "Choose from these requirements"
+        return "Choose from these requirements"
 
-        return "OrFilter"
+        # return "OrFilter"
 
     @property
     def info(self) -> str:

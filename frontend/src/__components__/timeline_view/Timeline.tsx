@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, RefObject} from 'react';
 import '@atlaskit/css-reset';
 import styled from 'styled-components';
 import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
@@ -138,7 +138,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
   // sets this.state.add_course to be the Course passed in
-  addCourse(course: Course) {
+  addCourse(course: Course, searchRef: RefObject<HTMLInputElement>) {
     let newState = {
       ...this.state,
     }
@@ -149,6 +149,11 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     } else {
       // can add this course
       newState.add_course = course
+    }
+
+    // clear the search bar results via reference to object
+    if (searchRef.current) {
+      searchRef.current.value = "";
     }
 
     this.setState(newState)

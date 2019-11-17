@@ -1,4 +1,4 @@
-import React, { Component, ChangeEvent } from 'react'
+import React, { Component, ChangeEvent, RefObject } from 'react'
 import {Suggestions, CourseSuggestions} from './Suggestions'
 import {API_ADDRESS} from '../../Constants'
 import {SimpleDegrees, SimpleDegree, CourseList, Course} from '../../Api'
@@ -51,10 +51,11 @@ interface SearchCourseState {
 }
 
 interface SearchCourseProps {
-  add_event: (course: Course) => void;
+  add_event: (course: Course, searchRef: RefObject<HTMLInputElement>) => void;
 }
 
 class Search extends Component<{}, SearchState> {
+
   constructor(props: {}) {
     super(props)
     this.state = {
@@ -166,8 +167,11 @@ const CourseSearchBar = styled.input`
 
 
 class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
+  private searchBarRef: RefObject<HTMLInputElement>
+
   constructor(props: SearchCourseProps) {
     super(props)
+    this.searchBarRef = React.createRef<HTMLInputElement>()
     this.state = {
       searchResults: [],
       courses: [],
@@ -239,6 +243,7 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
       <CoursesContainer>
         <form>
           <CourseSearchBar
+            ref={this.searchBarRef}
             placeholder="Search for a course..."
             //value={this.state.query}
             onChange={this.handleInputChange}
@@ -246,7 +251,7 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
         </form>
       {
         this.state.searchResults.length > 0 &&
-        <CourseSuggestions courses={this.state.searchResults} add_event={this.props.add_event}/>
+        <CourseSuggestions courses={this.state.searchResults} searchRef={this.searchBarRef} add_event={this.props.add_event}/>
         }
       </CoursesContainer>
       )

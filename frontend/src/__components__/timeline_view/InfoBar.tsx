@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import CourseDropBox from "./CourseDropBox"
 import { SearchCourses } from "../degree_search/Search"
-import { Card, Collapse } from 'react-bootstrap'
 import { RemainReq, Course } from "../../Api"
+import Requirements from "./Requirements"
+import { Card, Collapse } from 'react-bootstrap'
 
 const Container = styled.div`
   padding-top: 8px;
@@ -58,19 +59,12 @@ const SectionIcon = styled.i`
   float: left;
 `
 
-
-interface Req {
-  filter_type: string;
-  units: number;
-  info: string;
-}
-
 interface InfoBarProps {
   degree_id: number;
   degree_name: string;
   degree_reqs: Array<RemainReq>;
   add_course?: Course; // Course to add
-  add_event: (code: string) => void;// function to call when you want to add a course
+  add_event: (code: string) => Promise<boolean>;// function to call when you want to add a course
   remove_course: (id: string) => void;
 }
 
@@ -115,15 +109,7 @@ function InfoBar(props: InfoBarProps) {
       <Collapse in={openReqs}>
       <Card.Body>
         <ReqContainer>
-          {props.degree_reqs.map(req => { return (
-            <div key={req.info}>
-              <p>{`${req.filter_type}: ${req.units} UOC of`}</p>
-              <ul>
-                <li>{`${req.info}`}</li>
-              </ul>
-            </div>
-          )
-          })}
+          <Requirements degree_reqs={props.degree_reqs}/>
         </ReqContainer></Card.Body>
       </Collapse>
       </Section>

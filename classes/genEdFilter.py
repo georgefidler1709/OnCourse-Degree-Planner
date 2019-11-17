@@ -36,6 +36,10 @@ class GenEdFilter(courseFilter.CourseFilter):
         return "GenEdFilter"
 
     @property
+    def simple_name(self) -> str:
+        return "General education"
+
+    @property
     def info(self) -> str:
         # TODO can add the URL here or as a button on front-end
         return 'Any general education course'

@@ -10,7 +10,7 @@ import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
 import html2canvas from 'html2canvas'
 import { saveAs } from 'file-saver'
-import { TimelineState, YearState, TermState } from '../../Types'
+import { TimelineState, YearState, TermState} from '../../Types'
 
 const TimeLineContext = styled.div`
   display: flex;
@@ -136,6 +136,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     // if already have this course on timeline, then can't enroll in it
     if (this.isEnrolled(code)) {
       alert(`You already have ${code} on your timeline.`)
+      return false;
     } else {
       // fetches information about this course's offerings
       // and modifies the state's courses
@@ -158,7 +159,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
           }
         };
       })
-      console.log(course);
+      return true;
     }
   }
 

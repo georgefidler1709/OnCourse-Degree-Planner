@@ -41,6 +41,10 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
     def filter_name(self) -> str:
         return "SpecificCourseFilter"
 
+    @property
+    def simple_name(self) -> str:
+        return "Required courses"
+
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter
     def accepts_course(self, course: 'course.Course', degree: 'degree.Degree',

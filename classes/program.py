@@ -22,7 +22,7 @@ from . import api
 
 from . import andFilter
 from . import orFilter
-from . import fieldFilter 
+from . import fieldFilter
 from . import freeElectiveFilter
 from . import genEdFilter
 from . import levelFilter
@@ -162,8 +162,25 @@ class Program(object):
     def to_api(self) -> api.Program:
         # sort the enrolled courses by term then name
         enrollments_map: Dict[int, Dict[int, List[str]]]= {}
+
+        # initialize an empty enrollments map from start year to end year
+        # puts default values for all years and all terms (WARNING no summer term)
+        if len(self.courses) > 0:
+            start_year = min(self.courses, key=lambda x: x.term.year).term.year
+            end_year = max(self.courses, key=lambda x: x.term.year).term.year
+        else:
+            start_year = self.degree.year
+            end_year = start_year + (self.degree.duration - 1)
+
+        for year in range(start_year, end_year + 1):
+            term_dict: Dict[int, List[str]] = {}
+            for term in range(1, 3 + 1):
+                term_dict[term] = []
+            enrollments_map[year] = term_dict
+
+        # fill in data from course enrollments
         for x in self.courses:
-            enrollments_map.setdefault(x.term.year, {}).setdefault(x.term.term, []).append(x.course.course_code);
+            enrollments_map[x.term.year][x.term.term].append(x.course.course_code)
 
         enrollments: List["api.YearPlan"] = [ { 
                     "year": year, 

@@ -1,4 +1,4 @@
-import React, { Component, ChangeEvent } from 'react'
+import React, { Component, ChangeEvent, RefObject } from 'react'
 import {Suggestions, CourseSuggestions} from './Suggestions'
 import {API_ADDRESS} from '../../Constants'
 import {SimpleDegrees, SimpleDegree, CourseList, Course} from '../../Api'
@@ -51,10 +51,11 @@ interface SearchCourseState {
 }
 
 interface SearchCourseProps {
-  add_event: (code: string) => void;
+  add_event: (code: string) => Promise<boolean>;
 }
 
 class Search extends Component<{}, SearchState> {
+
   constructor(props: {}) {
     super(props)
     this.state = {
@@ -166,8 +167,11 @@ const CourseSearchBar = styled.input`
 
 
 class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
+  private searchBarRef: RefObject<HTMLInputElement>
+
   constructor(props: SearchCourseProps) {
     super(props)
+    this.searchBarRef = React.createRef<HTMLInputElement>()
     this.state = {
       searchResults: [],
       courses: [],
@@ -182,6 +186,7 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
       .catch((error) => console.error(error));
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.addCourse = this.addCourse.bind(this);
   }
 
   handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -234,11 +239,23 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
     this.setState({ searchResults, oldQuery: query });
   }
 
+  async addCourse(code: string) {
+    let success: boolean = await this.props.add_event(code);
+    if(success){ 
+      this.setState({ searchResults: [], oldQuery: ""});
+      // clear the search bar results via reference to object
+      if (this.searchBarRef.current) {
+        this.searchBarRef.current.value = "";
+      }
+    }
+  }
+
   render() {
     return (
       <CoursesContainer>
         <form>
           <CourseSearchBar
+            ref={this.searchBarRef}
             placeholder="Search for a course..."
             //value={this.state.query}
             onChange={this.handleInputChange}
@@ -246,7 +263,10 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
         </form>
       {
         this.state.searchResults.length > 0 &&
-        <CourseSuggestions courses={this.state.searchResults} add_event={this.props.add_event}/>
+        <CourseSuggestions 
+          courses={this.state.searchResults} 
+          add_event={this.addCourse}
+        />
         }
       </CoursesContainer>
       )

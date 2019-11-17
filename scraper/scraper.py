@@ -24,7 +24,11 @@ class Scraper(object):
         self.get_webpage = get_webpage
 
     def get_course_fields(self, year: int) -> List[str]:
-        page = BeautifulSoup(self.get_webpage(handbook_url), 'html.parser')
+        try:
+            page = BeautifulSoup(self.get_webpage(handbook_url), 'html.parser')
+        except requests.exceptions.HTTPError:
+            print("Could not get course fields")
+            return []
 
         fields = []
 
@@ -91,7 +95,10 @@ class Scraper(object):
 
         url = handbook_url + f'/{lowercase_study_level}/courses/{year}/{lowercase_code}'
 
-        page = BeautifulSoup(self.get_webpage(url), 'html.parser')
+        try:
+            page = BeautifulSoup(self.get_webpage(url), 'html.parser')
+        except requests.exceptions.HTTPError:
+            raise Exception(f"Could not scraped course {course_code}")
 
         # Get course name
         name_tag = page.find(attrs={'data-hbui':'module-title'})

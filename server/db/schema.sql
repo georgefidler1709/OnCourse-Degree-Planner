@@ -90,11 +90,15 @@ create table CourseRequirements (
     uoc_subject char(4),
     uoc_course_filter integer references CourseFilters,
 
+    -- wam requirement
+    wam integer,
+
     id integer primary key,
     -- And and Or requirements have relationships in CourseRequirementHierarchies
     unique(type_id, min_mark, course_id),
     unique(type_id, degree_id),
     unique(type_id, year),
+    unique(type_id, wam),
     unique(type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_filter)
 );
 

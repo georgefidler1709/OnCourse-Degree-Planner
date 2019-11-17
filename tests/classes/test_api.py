@@ -70,8 +70,8 @@ def test_program_to_api():
     assert isinstance(prog, Program)
 
     api = prog.to_api()
-    print("=======> api")
-    print(api)
+    # print("=======> api")
+    # print(api)
 
     assert api['id'] == 3778
     assert api['name'] == 'Computer Science'
@@ -87,6 +87,47 @@ def test_program_to_api():
 
     print("=====> TODO visually check the reqs")
     print(api['reqs'])
+
+def test_empty_year():
+    uni = University(query_db)
+
+    deg = uni.find_degree_number_code(3778)
+    assert deg is not None
+
+    prog = Generator(deg, uni).generate()
+
+    # remove COMP2511 and COMP3121, the only things in T2 2020
+    comp2511 = None
+    comp3121 = None
+    for enr in prog.courses:
+        if enr.course.course_code == "COMP2511":
+            comp2511 = enr
+        elif enr.course.course_code == "COMP3121":
+            comp3121 = enr
+
+    prog.remove_course(comp2511)
+    prog.remove_course(comp3121)
+
+    # get the api
+    api = prog.to_api()
+
+    assert api['id'] == 3778
+    assert api['name'] == 'Computer Science'
+    assert api['year'] == 2019
+    assert api['duration'] == 3
+    assert api['url'] == 'https://www.handbook.unsw.edu.au/undergraduate/programs/2019/3778'
+
+    enrollments = api['enrollments']
+
+    # you should still have empty information in API for T2 2020
+    plan_2020 = enrollments[1]
+    assert plan_2020['year'] == 2020
+    assert len(plan_2020['term_plans']) == 3
+    assert len(plan_2020['term_plans'][0]['course_ids']) == 0
+    assert len(plan_2020['term_plans'][1]['course_ids']) == 0
+    assert len(plan_2020['term_plans'][2]['course_ids']) == 0
+
+
 
 # tests University.get_full_course
 def test_get_full_course():

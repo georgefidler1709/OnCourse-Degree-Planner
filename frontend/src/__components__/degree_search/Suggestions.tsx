@@ -33,7 +33,7 @@ const CourseSuggestion = styled.button`
   border-radius: 10px;
   padding: 5px;
   margin-bottom: 8px;
-  width: 220px;
+  width: 95%;
   background-color: #c2eced;
 `
 
@@ -104,14 +104,14 @@ function CourseSuggestions(props: CourseSuggestionsProps) {
       delay={200}
       key={r.course.code}
     >
-      <Suggestion
+      <CourseSuggestion
         id={r.course.code}
         value={r.course.code}
         onClick={() => props.add_event(r.course)}
       >
         <CourseCode>{r.code}</CourseCode>
         <CourseName>{r.text}</CourseName>
-      </Suggestion>
+      </CourseSuggestion>
     </SuggestionInfoHover>
     
   ));

@@ -4,8 +4,6 @@ import CourseDropBox from "./CourseDropBox"
 import { SearchCourses } from "../degree_search/Search"
 import { Course } from "../../Api"
 import { Card, Collapse } from 'react-bootstrap'
-import "./sb-admin.css"
-
 
 const Container = styled.div`
   padding-top: 8px;

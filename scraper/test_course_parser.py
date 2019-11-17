@@ -40,55 +40,64 @@ def test_is_course_code():
 
 
 def test_split_by_conj_single_req():
-    split, conj = parser.split_by_conj("COMP1511")
+    split, conj, success = parser.split_by_conj("COMP1511")
+    assert success
     assert len(split) == 1
     assert split[0] == "COMP1511"
     assert conj is None
 
 def test_split_by_conj_one_level_no_brackets_and():
-    split, conj = parser.split_by_conj("COMP1511 and uoc 48")
+    split, conj, success = parser.split_by_conj("COMP1511 and uoc 48")
+    assert success
     assert len(split) == 2
     assert split[0] == "COMP1511"
     assert split[1] == "uoc 48"
     assert conj == "and"
 
 def test_split_by_conj_one_level_no_brackets_or():
-    split, conj = parser.split_by_conj("year 2 or uoc 48 l 3 f COMP")
+    split, conj, success = parser.split_by_conj("year 2 or uoc 48 l 3 f COMP")
+    assert success
     assert len(split) == 2
     assert split[0] == "year 2"
     assert split[1] == "uoc 48 l 3 f COMP"
     assert conj == "or"
 
 def test_split_by_conj_one_level_brackets_and():
-    split, conj = parser.split_by_conj("(enrol 3778 and uoc 48)")
+    split, conj, success = parser.split_by_conj("(enrol 3778 and uoc 48)")
+    assert success
     assert len(split) == 2
     assert split[0] == "enrol 3778"
     assert split[1] == "uoc 48"
     assert conj == "and"
 
 def test_split_by_conj_one_level_brackets_or():
-    split, conj = parser.split_by_conj("(COMP1521 or COMP1531)")
+    split, conj, success = parser.split_by_conj("(enrol 3778 and uoc 48)")
+    split, conj, success = parser.split_by_conj("(COMP1521 or COMP1531)")
+    assert success
     assert len(split) == 2
     assert split[0] == "COMP1521"
     assert split[1] == "COMP1531"
     assert conj == "or"
 
 def test_split_by_conj_two_levels_and_or():
-    split, conj = parser.split_by_conj("(COMP1521 and COMP1531) or (enrol 3778 and uoc 48)")
+    split, conj, success = parser.split_by_conj("(COMP1521 and COMP1531) or (enrol 3778 and uoc 48)")
+    assert success
     assert len(split) == 2
     assert split[0] == "(COMP1521 and COMP1531)"
     assert split[1] == "(enrol 3778 and uoc 48)"
     assert conj == "or"
 
 def test_split_by_conj_two_levels_or_and():
-    split, conj = parser.split_by_conj("(COMP1521 or COMP1531) and (enrol 3778 or uoc 48)")
+    split, conj, success = parser.split_by_conj("(COMP1521 or COMP1531) and (enrol 3778 or uoc 48)")
+    assert success
     assert len(split) == 2
     assert split[0] == "(COMP1521 or COMP1531)"
     assert split[1] == "(enrol 3778 or uoc 48)"
     assert conj == "and"
 
 def test_split_by_conj_complex():
-    split, conj = parser.split_by_conj("(COMP1521 or DPST1092 or COMP2121) and (COMP1927 or COMP2521) and (uoc 75)")
+    split, conj, success = parser.split_by_conj("(COMP1521 or DPST1092 or COMP2121) and (COMP1927 or COMP2521) and (uoc 75)")
+    assert success
     assert len(split) == 3
     assert split[0] == "(COMP1521 or DPST1092 or COMP2121)"
     assert split[1] == "(COMP1927 or COMP2521)"
@@ -206,3 +215,36 @@ def test_parse_reqs_prereqs_coreqs():
     assert isinstance(prereq, orReq.OrReq)
     assert isinstance(coreq, andReq.AndReq)
     assert status
+
+def test_actual_scraped_req_compound_prereq():
+    prereq, coreq, status = parser.parse_reqs("Prerequisite: COMP1511 or DPST1091 or COMP1917 or COMP1921")
+    assert isinstance(prereq, orReq.OrReq)
+    assert not coreq
+    assert status
+
+def test_actual_scraped_req_single_prereq():
+    prereq, coreq, status = parser.parse_reqs("Prerequisite: MATH1131")
+    assert isinstance(prereq, scrapedSubjectReq.ScrapedSubjectReq)
+    assert not coreq
+    assert status
+
+def test_actual_scraped_req_coreq():
+    prereq, coreq, status = parser.parse_reqs("Corequisite: MATH1131 or DPST1013 or MATH1141 or MATH1151")
+    assert isinstance(coreq, orReq.OrReq)
+    assert not prereq
+    assert status
+
+def test_actual_scraped_req_prereq_coreq():
+    prereq, coreq, status = parser.parse_reqs("Prerequisite: COMP1511 Corequisite: COMP2511")
+    assert isinstance(prereq, scrapedSubjectReq.ScrapedSubjectReq)
+    assert isinstance(coreq, scrapedSubjectReq.ScrapedSubjectReq)
+    assert status
+
+def test_actual_scraped_req_fail():
+    prereq, coreq, status = parser.parse_reqs("Prerequisite: COMP2511 or COMP2911, and in the final year of the BSc Computer Science or BE / BE (Hons) Bioinformatics Engineering or Computer Engineering. Software Engineering students enrol in SENG4920.")
+    assert not status
+
+def test_actual_scraped_req_fail_2():
+    prereq, coreq, status = parser.parse_reqs("Prerequisite: COMP1531, and COMP2521 or COMP1927, and enrolled in a BSc Computer Science major with completion of 102 uoc.")
+    assert not status
+

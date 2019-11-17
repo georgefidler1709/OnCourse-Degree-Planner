@@ -23,6 +23,7 @@ const CourseList = styled.div`
   padding: 8px;
   flex-grow: 1;
   min-height: 50px;
+  color: black;
 `;
 
 interface DropBoxProps {

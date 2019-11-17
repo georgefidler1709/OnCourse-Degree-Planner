@@ -68,7 +68,7 @@ class dbGenerator(object):
         return result_id
 
     def insert_requirements(self, course_id: int, prereqs: Optional['courseReq.CourseReq'], coreqs:
-            Optional['courseReq.CourseReq'], exclusions: List[str], equivalents: List[str]):
+            Optional['courseReq.CourseReq'], exclusions: List[str], equivalents: List[str]) -> None:
 
         if prereqs is None:
             prereq_id = None
@@ -121,6 +121,68 @@ class dbGenerator(object):
 
             self.store_db('''insert into EquivalentCourses(first_course, second_course) values (?, ?)''', (first_id, second_id))
 
-    def store_course_requirement(self, requirement: 'courseReq.CourseReq'):
-        raise NotImplementedError("Have not yet implemented store_course_requirement")
+    def store_course_requirement(self, requirement: 'courseReq.CourseReq') -> int:
+        # Deals with everything but the standard subjectReq and enrollmentReq, as a different
+        # version is used for those
+        if isinstance(requirement, andReq.CompositeReq):
+            # And and Or Requirements are stored the same way
+            return self.store_composite_req(requirement)
+        elif isinstance(requirement, uocReq.UOCReq):
+            return self.store_uoc_req(requirement)
+        elif isinstance(requirement, wamReq.WAMReq):
+            return self.store_wam_req(requirement)
+        elif isinstance(requirement, yearReq.YearReq):
+            return self.store_year_req(requirement)
+        elif isinstance(requirement, scrapedEnrollmentReq.ScrapedEnrollmentReq):
+            return self.store_enrollment_req(requirement)
+        elif isinstance(requirement, scrapedSubjectReq.ScrapedSubjectReq):
+            return self.store_subject_req(requirement)
+        else:
+            raise NotImplementedError("Cannot store course requirement type {}".format(type(requirement)))
+
+    def store_composite_req(self, requirement: 'compositeReq.CompositeReq') -> int:
+        req_id = self.store_db('''insert into CourseRequirements(type_id) values(?)''',
+                (requirement.requirement_id))
+
+        for sub_requirement in requirement.reqs:
+            sub_requirement_id = self.store_course_requirement(sub_requirement)
+
+            self.store_db('''insert into CourseRequirementHierarchies(parent_id, child_id) values(?,
+            ?)''', (req_id, sub_requirement_id))
+
+        return req_id
+
+    def store_uoc_req(self, requirement: 'uocReq.UOCReq'):
+        if requirement.filter is not None:
+            raise NotImplementedError("Cannot deal with requirements with filters currently")
+
+        filter_id = None
+        req_id = self.store_db('''insert into CourseRequirements(type_id, uoc_amount_required,
+        uoc_course_filter) values(?, ?, ?)''', (requirement.requirement_id, requirement.uoc,
+            filter_id))
+
+        return req_id
+
+    def store_wam_req(self, requirement: 'wamReq.WAMReq'):
+        req_id = self.store_db('''insert into CourseRequirements(type_id, wam) values(?, ?)''',
+                (requirement.requirement_id, requirement.wam))
+
+        return req_id
+
+    def store_year_req(self, requirement: 'yearReq.YearReq'):
+        req_id = self.store_db('''insert into CourseRequirements(type_id, year) values(?, ?)''',
+                (requirement.requirement_id, requirement.year))
+
+        return req_id
+
+    def store_enrollment_req(self, requirement: 'scrapedEnrollmentReq.ScrapedEnrollmentReq'):
+        pass
+
+    def store_subject_req(self, requirement: 'scrapedSubjectReq.ScrapedSubjectReq'):
+        pass
+
+
+
+
+
 

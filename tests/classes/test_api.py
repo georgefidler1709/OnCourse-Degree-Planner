@@ -70,6 +70,8 @@ def test_program_to_api():
     assert isinstance(prog, Program)
 
     api = prog.to_api()
+    print("=======> api")
+    print(api)
 
     assert api['id'] == 3778
     assert api['name'] == 'Computer Science'
@@ -80,8 +82,8 @@ def test_program_to_api():
     enrollments = api['enrollments']
 
     # visually check that enrollments are sorted
-    # print("=====> TODO visually check enrollments are sorted")
-    # print(enrollments)
+    print("=====> TODO visually check enrollments are sorted")
+    print(enrollments)
 
     print("=====> TODO visually check the reqs")
     print(api['reqs'])

@@ -120,6 +120,24 @@ def check_program() -> str:
 
     enrollments = enrollments_api_to_classes(data, uni)
 
+    print("==================== data['enrollments'] from frontend =======================")
+    print(data['enrollments'])
+    print("========================================================")
+    print("")
+    print("==================== enrollments =======================")
+    print(enrollments)
+    print("========================================================")
+
     new = program.Program(deg, enrollments, [])
+
+    print("")
+    print("==================== new =======================")
+    print(new)
+    print("========================================================")
+
+    print("")
+    print("==================== new.get_generator_response_api() =======================")
+    print(new.get_generator_response_api())
+    print("========================================================")
 
     return jsonify(new.get_generator_response_api())

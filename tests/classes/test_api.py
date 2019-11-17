@@ -85,9 +85,6 @@ def test_program_to_api():
     print("=====> TODO visually check enrollments are sorted")
     print(enrollments)
 
-    print("=====> TODO visually check the reqs")
-    print(api['reqs'])
-
 def test_empty_year():
     uni = University(query_db)
 

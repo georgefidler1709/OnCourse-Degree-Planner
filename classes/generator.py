@@ -115,11 +115,13 @@ class Generator(object):
                 if c.equivalents is None:
                     continue
                 for e in c.equivalents:
-                    term = self.find_term(prog, e)
-                    if term is not None:
-                        prog.add_course(e, term)
-                        courseIter.remove(c)
-                        break
+                    equivalent = self.university.find_course(e)
+                    if equivalent is not None:
+                        term = self.find_term(prog, equivalent)
+                        if term is not None:
+                            prog.add_course(equivalent, term)
+                            courseIter.remove(c)
+                            break
 
             courses = courseIter.copy()
 

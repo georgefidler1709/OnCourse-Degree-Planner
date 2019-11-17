@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, RefObject} from 'react';
 import '@atlaskit/css-reset';
 import styled from 'styled-components';
 import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
@@ -10,7 +10,7 @@ import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
 import html2canvas from 'html2canvas'
 import { saveAs } from 'file-saver'
-import { TimelineState, YearState, TermState } from '../../Types'
+import { TimelineState, YearState, TermState, CourseSearchResult } from '../../Types'
 
 const TimeLineContext = styled.div`
   display: flex;
@@ -144,7 +144,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
   // sets this.state.add_course to be the Course passed in
-  addCourse(course: Course) {
+  addCourse(course: Course, searchRef: RefObject<HTMLInputElement>, searchResults: Array<CourseSearchResult>) {
     let newState = {
       ...this.state,
     }
@@ -156,6 +156,15 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       // can add this course
       newState.add_course = course
     }
+
+    // clear the search bar results via reference to object
+    if (searchRef.current) {
+      searchRef.current.value = "";
+      // searchRef.current.simulate('keypress', {key: 'Enter'})
+    }
+
+    // searchResults = []
+    searchResults.length = 0
 
     this.setState(newState)
 

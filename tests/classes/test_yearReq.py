@@ -108,7 +108,7 @@ def test_check():
 
 	# subj1003, prereq subj1001 and 1002
 	subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, prereq1001)
-	
+
 	uni.reset_courses([subj1001, subj1002, subj1003])
 
 	filter1001 = specificCourseFilter.SpecificCourseFilter(subj1001)
@@ -123,7 +123,7 @@ def test_check():
 	enrol1002 = courseEnrollment.CourseEnrollment(subj1002, t2)
 	enrol1003 = courseEnrollment.CourseEnrollment(subj1003, t7)
 
-	prog = program.Program(degree1, [enrol1001, enrol1002, enrol1003])
+	prog = program.Program(degree1, [enrol1001, enrol1002, enrol1003], [])
 
 	req = yearReq.YearReq(2)
 	assert len(req.check(prog, t1)) == 1

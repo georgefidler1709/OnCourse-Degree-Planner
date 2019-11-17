@@ -33,8 +33,9 @@ class Course(object):
             faculty: str,
             prereqs: Optional['courseReq.CourseReq']=None,
             coreqs: Optional['courseReq.CourseReq']=None,
-            exclusions: Optional[List['course.Course']]=None,
-            equivalents: Optional[List['course.Course']]=None):
+            exclusions: Optional[List[str]]=None,
+            equivalents: Optional[List[str]]=None,
+            finished: bool=True):
         # figure out inputs - database or variables?
         # to be assigned:
         self.subject = subject
@@ -45,17 +46,19 @@ class Course(object):
         self.faculty = faculty
         self.prereqs = prereqs
         self.coreqs = coreqs
-        self.exclusions: List['course.Course']
+        self.exclusions: List[str]
         if exclusions is None:
             self.exclusions = []
         else:
             self.exclusions = exclusions
 
-        self.equivalents: List['course.Course']
+        self.equivalents: List[str]
         if equivalents is None:
             self.equivalents = []
         else:
             self.equivalents = equivalents
+
+        self.finished = finished
 
     # WARNING getting hard to debug with this, restore later
     # def __repr__(self) -> str:
@@ -71,9 +74,9 @@ class Course(object):
                 "terms": [term.to_api() for term in self.terms],
                 "prereqs": self.prereqs.info(top_level=True) if self.prereqs else "",
                 "coreqs": self.coreqs.info(top_level=True) if self.coreqs else "",
-                "exclusions": "\n".join(map(lambda x: x.course_code, self.exclusions)),
+                "exclusions": "\n".join(self.exclusions),
 
-                "equivalents": "\n".join(map(lambda x: x.course_code, self.equivalents))
+                "equivalents": "\n".join(self.equivalents)
                 }
 
     # returns the SUBJxxxx course code
@@ -97,13 +100,13 @@ class Course(object):
         self.terms.append(term)
 
     # Add an exclusion to this course
-    def add_exclusion(self, c):
+    def add_exclusion(self, c: str):
         if self.exclusions is None:
             self.exclusions = []
         self.exclusions.append(c)
 
     # Add an equivalent to this course
-    def add_equivalent(self, c):
+    def add_equivalent(self, c: str) -> None:
         if self.equivalents is None:
             self.equivalents = []
         self.equivalents.append(c)
@@ -139,8 +142,8 @@ class Course(object):
         errors = []
         for exclusion in self.exclusions:
             for enrollment in program.courses:
-                if enrollment.course.course_code == exclusion.course_code:
-                    errors.append(exclusion.course_code)
+                if enrollment.course.course_code == exclusion:
+                    errors.append(exclusion)
                     break
 
         return errors
@@ -148,11 +151,11 @@ class Course(object):
 
     # Input: a course
     # Return: whether it is an equivalent course
-    def equivalent(self, other: 'course. Course') -> bool:
+    def equivalent(self, other: 'course.Course') -> bool:
         if self.equivalents is None:
             return False
         for c in self.equivalents:
-            if c == other:
+            if c == other.course_code:
                 return True
         return False
 
@@ -182,46 +185,6 @@ class Course(object):
             return self.prereqs.mark_warnings(prog, term)
         else:
             return []
-            
-
-
-    # Saves the course in the database
-    # Return: the id of the course
-    def save(self) -> int:
-        if self.prereqs is None:
-            prereq_id = None
-        else:
-            prereq_id = self.prereqs.save()
-
-        if self.coreqs is None:
-            coreq_id = None
-        else:
-            coreq_id = self.coreqs.save()
-
-        # TODO: commented out as it is definitely buggy and causing mypy failures
-        exclusions_id = None
-        #if self.exclusions is None:
-        #    exclusions_id = None
-        #else:
-        #    exclusions_id = self.exclusions.save()
-
-        # save the course itself
-
-        g.db.execute('''insert into Courses(letter_code, number_code, level, name, units, prereq,
-        coreq, exclusion) values (?, ?, ?, ?, ?, ?, ?)''',
-        self.subject, self.code, self.level, self.name, self.units, prereq_id, coreq_id,
-        exclusions_id)
-
-        course_id = g.db.lastrowid
-
-        # save the offerings of the course
-        for term in self.terms:
-            term.save()
-
-            g.db.execute('''insert into CourseOfferings(course_id, session_year, session_term)
-                    values(?, ?, ?)''', course_id, term.year, term.term)
-
-        return course_id
 
     # Override comparison fucntions
     def __lt__(self, other) -> bool: # x < y

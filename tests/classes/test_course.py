@@ -67,41 +67,41 @@ def test_check_reqs():
     req1002_and = andReq.AndReq([req1002, req1003])
     prereq_or = orReq.OrReq([req1001, req1002_and])
 
-    ex = [subj1005, subj1006]
+    ex = ["SUBJ1005", "SUBJ1006"]
     subj1007 = course.Course("SUBJ", 1007, "Subject7", 6, [t1, t2], faculty,
                         prereqs=prereq_or, coreqs=req1004, exclusions=ex)
 
-    
+
     enrol1005 = courseEnrollment.CourseEnrollment(subj1005, t1)
 
-    prog = program.Program(degree1, [enrol1005])
+    prog = program.Program(degree1, [enrol1005], [])
 
     errors = subj1007.check_reqs(prog, t2)
 
     assert len(errors) == 3
-    assert errors[0][0] == "Prerequisite:"
-    assert errors[0][1] == ["(A mark of 75 in SUBJ1001 OR (SUBJ1002 AND SUBJ1003))"]
-    assert errors[1][0] == "Corequisite:"
-    assert errors[1][1] == ["SUBJ1004"]
-    assert errors[2][0] == "Exclusion:"
-    assert errors[2][1] == ["SUBJ1005"]
+    assert errors[0]['filter_type'] == "Prerequisite"
+    assert errors[0]['info'] == ["(A mark of 75 in SUBJ1001 OR (SUBJ1002 AND SUBJ1003))"]
+    assert errors[1]['filter_type'] == "Corequisite"
+    assert errors[1]['info'] == ["SUBJ1004"]
+    assert errors[2]['filter_type'] == "Exclusion"
+    assert errors[2]['info'] == ["SUBJ1005"]
 
     prog.add_course(subj1001, t1)
     errors = subj1007.check_reqs(prog, t2)
     assert len(errors) == 2
-    assert errors[0][0] == "Corequisite:"
-    assert errors[0][1] == ["SUBJ1004"]
-    assert errors[1][0] == "Exclusion:"
-    assert errors[1][1] == ["SUBJ1005"]
+    assert errors[0]['filter_type'] == "Corequisite"
+    assert errors[0]['info'] == ["SUBJ1004"]
+    assert errors[1]['filter_type'] == "Exclusion"
+    assert errors[1]['info'] == ["SUBJ1005"]
 
     assert subj1007.check_warnings(prog, t2) == ["A mark of 75 in SUBJ1001"]
 
 def test_exclusion_errors():
     subj1001 = course.Course("SUBJ", 1001, "Subject1", 6, [t1, t2], faculty)
     subj1002 = course.Course("SUBJ", 1002, "Subject2", 6, [t1, t2], faculty)
-    subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t2], faculty, exclusions=[subj1001, subj1002])
+    subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t2], faculty, exclusions=["SUBJ1001", "SUBJ1002"])
 
-    prog = program.Program(degree1, [])
+    prog = program.Program(degree1, [], [])
     prog.add_course(subj1001, t1)
     prog.add_course(subj1003, t2)
 

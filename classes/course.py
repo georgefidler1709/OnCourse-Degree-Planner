@@ -140,7 +140,7 @@ class Course(object):
         for exclusion in self.exclusions:
             for enrollment in program.courses:
                 if enrollment.course.course_code == exclusion.course_code:
-                    errors.append(exclusion.course_code]
+                    errors.append(exclusion.course_code)
                     break
 
         return errors

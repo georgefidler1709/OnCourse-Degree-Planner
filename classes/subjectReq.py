@@ -49,6 +49,13 @@ class SubjectReq(singleReq.SingleReq):
     def check(self, program: 'program.Program', term: 'term.Term',
         coreq: bool=False, excl: bool=False) -> List[str]:
         errors = []
+        # First check if it's already covered by prior studies
+        for course in program.prior_studies:
+            if course == self.course or course.equivalent(self.course):
+                if excl:
+                    errors.append(self.course.course_code)
+                return errors
+
         for enrollment in program.courses:
             if enrollment.course == self.course or enrollment.course.equivalent(self.course):
                 if (coreq and enrollment.term <= term) or (enrollment.term < term):

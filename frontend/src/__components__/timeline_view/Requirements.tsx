@@ -20,7 +20,7 @@ interface PrettyReq {
 // - 'SpecificCourse'
 
 const CounterContainer = styled.div`
-  display: fex;
+  display: flex;
   justify-content: space-between;
 `
 

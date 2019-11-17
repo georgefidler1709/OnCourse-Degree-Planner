@@ -10,6 +10,7 @@ from classes.university import University
 from classes.query_db_offline import query_db
 from classes.generator import Generator
 from classes.program import Program
+from classes.term import Term
 
 
 def test_CourseEnrollment_order():
@@ -93,17 +94,24 @@ def test_empty_year():
 
     prog = Generator(deg, uni).generate()
 
-    # remove COMP2511 and COMP3121, the only things in T2 2020
+    # remove COMP2511,  COMP3121, COMP4920, the only things in 2021
     comp2511 = None
     comp3121 = None
+    comp4920 = None
     for enr in prog.courses:
         if enr.course.course_code == "COMP2511":
             comp2511 = enr
         elif enr.course.course_code == "COMP3121":
             comp3121 = enr
+        elif enr.course.course_code == "COMP4920":
+            comp4920 = enr
 
     prog.remove_course(comp2511)
     prog.remove_course(comp3121)
+    prog.remove_course(comp4920)
+
+    # put COMP4920 in T3
+    prog.add_course(comp4920.course, Term(2022, 3))
 
     # get the api
     api = prog.to_api()
@@ -116,13 +124,18 @@ def test_empty_year():
 
     enrollments = api['enrollments']
 
-    # you should still have empty information in API for T2 2020
-    plan_2020 = enrollments[1]
-    assert plan_2020['year'] == 2020
-    assert len(plan_2020['term_plans']) == 3
-    assert len(plan_2020['term_plans'][0]['course_ids']) == 0
-    assert len(plan_2020['term_plans'][1]['course_ids']) == 0
-    assert len(plan_2020['term_plans'][2]['course_ids']) == 0
+    print("=========== enrollments ===========")
+    print(api)
+    print(enrollments)
+    print("--------------------")
+
+    # you should still have empty information in API for T2 2021
+    plan_2021 = enrollments[1]
+    assert plan_2021['year'] == 2021
+    assert len(plan_2021['term_plans']) == 3
+    assert len(plan_2021['term_plans'][0]['course_ids']) == 0
+    assert len(plan_2021['term_plans'][1]['course_ids']) == 0
+    assert len(plan_2021['term_plans'][2]['course_ids']) == 0
 
 
 # tests University.get_full_course

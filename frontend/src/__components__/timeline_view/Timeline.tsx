@@ -542,7 +542,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                     add_course={this.state.add_course}
                     add_event={this.addCourse.bind(this)}
                     remove_course={this.removeCourse.bind(this)}
-
                   />
                 </RColumn>
               </div>

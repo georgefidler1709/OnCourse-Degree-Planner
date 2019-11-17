@@ -2,10 +2,11 @@ import React, {MouseEvent} from "react";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
 import { Course } from '../../Api'
+import { Button } from 'react-bootstrap'
 import {Position, SearchResult, CourseSearchResult} from '../../Types'
 import styled from 'styled-components'
 
-const DegreeSuggestion = styled.button`
+const DegreeSuggestion = styled(Button)`
   border: 1px solid #cccccc;
   border-radius: 10px;
   margin-bottom: 1% 
@@ -20,10 +21,12 @@ const Container = styled.div`
   flex-direction: column;
 `
 const DegreeCode = styled.h1`
+  font-size: 40px;
   pointer-events: none;
 `
 
 const DegreeName = styled.p`
+  font-size: 20px;
   pointer-events: none;
 `
 
@@ -63,10 +66,11 @@ function Suggestions(props: {degrees: Array<SearchResult>}) {
         <a href={handbook + r.degree.id}>More Info</a>
       }
       placement={placement}
-      delay={200}
+      delay={100}
       key={r.degree.id}
     >
       <DegreeSuggestion
+        variant="light"
         id={r.degree.id}
         value={r.degree.id}
         onClick={handleClick}

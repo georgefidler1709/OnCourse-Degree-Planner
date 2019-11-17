@@ -100,7 +100,7 @@ class Course(object):
         self.terms.append(term)
 
     # Add an exclusion to this course
-    def add_exclusion(self, c):
+    def add_exclusion(self, c: str):
         if self.exclusions is None:
             self.exclusions = []
         self.exclusions.append(c)

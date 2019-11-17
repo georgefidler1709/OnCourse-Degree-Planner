@@ -66,6 +66,9 @@ class CourseParser(object):
                             return ([string], None, False)
                     break_points.append(i+1)
                     brackets = []
+                elif len(brackets) == 0:
+                    # Error, we have too many close brackets and not enough open brackets
+                    return ([string], None, False)
                 else:
                     brackets.pop()
 

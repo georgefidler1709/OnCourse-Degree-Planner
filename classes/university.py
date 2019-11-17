@@ -205,7 +205,7 @@ class University(object):
             exclusions = self.get_courses_from_relation(course_id, exclusion_ids)
 
             for exclusion in exclusions:
-                result_course.add_exclusion(exclusion)
+                result_course.add_exclusion(exclusion.course_code)
 
             equivalent_ids = self.query_db('''select first_course, second_course
                                             from EquivalentCourses
@@ -214,11 +214,11 @@ class University(object):
 
             equivalents = self.get_courses_from_relation(course_id, equivalent_ids)
             for equivalent in equivalents:
-                result_course.add_equivalent(equivalent)
+                result_course.add_equivalent(equivalent.course_code)
 
         return result_course
 
-    def get_courses_from_relation(self, course_id: int, other_ids: Row):
+    def get_courses_from_relation(self, course_id: int, other_ids: Row) -> List['course.Course']:
         courses = []
 
         for first_course_id, second_course_id in other_ids:

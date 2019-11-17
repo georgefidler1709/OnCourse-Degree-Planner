@@ -30,7 +30,8 @@ class Helper:
                     print(f"Adding course {course} because it doesn't exist in the database/must be from earlier years")
 
                     course_id = self.cursor.execute('''insert into Courses(letter_code, number_code, level, units,
-            finished) values(?, ?, ?, ?, ?)''', (letter_code, number_code, number_code[0], 6, 0))
+            finished, faculty, name) values(?, ?, ?, ?, ?, ?, ?)''', (letter_code, number_code,
+                number_code[0], 6, 0, "Unkown Faculty", "Unknown Course Name"))
                     # find the course id
                     self.cursor.execute("select id from courses where letter_code = ? and number_code = ?",
                         (letter_code, number_code))

@@ -746,7 +746,7 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         assert course is not None
         assert len(course.exclusions) == 1
         exclusion = course.exclusions[0]
-        assert exclusion == required_course
+        assert exclusion == required_course.course_code
 
     def test_course_with_equivalents(self):
         input_course = self.first_course
@@ -762,7 +762,7 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         assert course is not None
         assert len(course.equivalents) == 1
         equivalent = course.equivalents[0]
-        assert equivalent == equivalent_course
+        assert equivalent == equivalent_course.course_code
 
     def test_course_with_prereq_and_coreq(self):
         input_course = self.first_course

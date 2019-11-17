@@ -22,7 +22,7 @@ from . import api
 
 from . import andFilter
 from . import orFilter
-from . import fieldFilter 
+from . import fieldFilter
 from . import freeElectiveFilter
 from . import genEdFilter
 from . import levelFilter

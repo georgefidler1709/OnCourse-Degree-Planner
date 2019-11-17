@@ -152,7 +152,7 @@ class TestScraper_GetCourse(TestScraper):
         assert scraped_course.faculty == 'Faculty of Engineering'
         assert scraped_course.school == 'School of Computer Science and Engineering'
         assert scraped_course.study_level == 'Undergraduate'
-        assert scraped_course.terms == 'Term 1, Term 2, Term 3'
+        assert len(scraped_course.terms) == 3
         assert scraped_course.units == 6
 
     def test_get_math1231(self):
@@ -173,6 +173,6 @@ class TestScraper_GetCourse(TestScraper):
         assert scraped_course.faculty == 'Faculty of Science'
         assert scraped_course.school == 'School of Mathematics & Statistics'
         assert scraped_course.study_level == 'Undergraduate'
-        assert scraped_course.terms == 'Term 1, Term 2, Term 3'
+        assert len(scraped_course.terms) == 3
         assert scraped_course.units == 6
 

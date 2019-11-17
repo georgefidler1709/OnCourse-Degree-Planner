@@ -47,7 +47,11 @@ class dbGenerator(object):
     # Scrapes all of the information from the handbook for the given year and the given fields, and
     # adds sessions for each of them up until the provided end year
     def generate_db(self, year: int, fields: List[str]=[""], postgrad: bool=False, end_year:
-            int=year) -> None:
+            Optional[int]=None) -> None:
+
+        if end_year is None:
+            end_year = year
+
         course_codes: List[str] = []
         for field in fields:
             course_codes += self.scraper.get_course_codes(year, field, postgrad)
@@ -76,7 +80,9 @@ class dbGenerator(object):
                 print(f"Course {course.course_code} could not be parsed properly")
 
     def insert_course_without_requirements(self, course: 'course.Course', start_year: int,
-            end_year: int=start_year) -> int:
+            end_year: Optional[int]=None) -> int:
+        if end_year is None:
+            end_year = start_year
         result_id = self.store_db('''insert or replace into Courses(letter_code, number_code, level, name,
         faculty, units, finished) values (?, ?, ?, ?, ?, ?, 0)''', (course.subject, course.code,
             course.level, course.name, course.faculty, course.units))
@@ -207,7 +213,8 @@ class dbGenerator(object):
             print(f"Adding course {course_code} because it doesn't exist in the database/must be from earlier years")
 
             course_id = self.store_db('''insert into Courses(letter_code, number_code, level, units,
-            finished) values(?, ?, ?, ?, ?)''', (letter_code, number_code, number_code[0], 6, 0))
+            finished, faculty, name) values(?, ?, ?, ?, ?, ?, ?)''', (letter_code, number_code,
+                number_code[0], 6, 0, "Unknown Faculty", "Unknown Course Name"))
         else:
             (course_id,) = result
 

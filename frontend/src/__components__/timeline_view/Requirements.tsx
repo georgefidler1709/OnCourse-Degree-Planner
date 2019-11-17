@@ -42,10 +42,11 @@ function Requirements(props: ReqProps) {
 
   // each item in combo_reqs should be displayed as UOC
   // then a list of items. 
+  // <span style={{color: '#3F94B6'}}>
   var res = keys.map(k => {
     return(
       <React.Fragment key={k}>
-        <p>{`${combo_reqs[k].units} UOC of`}</p>
+        <p>{`${k}: `}<span style={{textAlign: "right"}}><span style={{color: '#17a2b8'}}><u>{`${combo_reqs[k].units} UOC`}</u>{' remaining'}</span></span></p>
         <ul>
           {
             combo_reqs[k].items.map(it => {

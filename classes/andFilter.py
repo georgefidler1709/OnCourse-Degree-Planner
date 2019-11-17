@@ -48,9 +48,9 @@ class AndFilter(courseFilter.CourseFilter):
         # else:
         #     return "And"
 
-        return "Satisfy all of these requirements"
+        # return "Satisfy all of these requirements"
 
-        # return "AndFilter"
+        return "Courses with options"
 
     @property
     def info(self) -> str:

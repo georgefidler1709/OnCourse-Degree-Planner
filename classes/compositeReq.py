@@ -30,9 +30,14 @@ class CompositeReq(courseReq.CourseReq, ABC):
     def __repr__(self) -> str:
         return f"<CompositeReq reqs={self.reqs!r}>"
 
-    # Input: program.Program of study, term this course is to be taken
-    # Return: Whether this requirement is fulfilled
+    # Input: a program and a term in which the required course is taken
+    # Return: any errors pertaining to this requirement
     @abstractmethod
-    def fulfilled(self, program: program.Program, term: term.Term,
-            coreq: bool=False) -> bool:
+    def check(self, program: 'program.Program', term: 'term.Term',
+        coreq: bool=False) -> List[str]:
+        pass
+
+    # Return: all necessary warnings for this course regarding min marks required for enrollment
+    @abstractmethod
+    def mark_warnings(self, program: 'program.Program', term: 'term.Term') -> List[str]:
         pass

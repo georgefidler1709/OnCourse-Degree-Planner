@@ -34,12 +34,14 @@ class EnrollmentReq(singleReq.SingleReq):
     def requirement_name(self) -> str:
         return "CurrentDegreeRequirement"
 
-
-    # Input: program.Program of study, term this course is to be taken
-    # Return: Whether this requirement is fulfilled
-    def fulfilled(self, program: program.Program, term: term.Term,
-            coreq: bool=False) -> bool:
-        return program.degree == self.degree
+    # Input: a program and a term in which the required course is taken
+    # Return: any errors pertaining to this requirement
+    def check(self, program: 'program.Program', term: 'term.Term',
+        coreq: bool=False) -> List[str]:
+        if program.degree != self.degree:
+            return[self.info()]
+        else:
+            return []
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database

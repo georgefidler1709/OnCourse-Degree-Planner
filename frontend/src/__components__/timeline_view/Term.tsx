@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
 import Course from './Course';
-import { Course as ApiCourse } from '../../Api';
+import { Course as ApiCourse, CourseReq } from '../../Api';
 
 interface DroppableProps {
   isDraggingOver: boolean;
@@ -43,6 +43,8 @@ interface TermProps {
   courses: Array<ApiCourse>;
   highlight: boolean;
   removeCourse: (s: string) => void;
+  getError: (s: string) => (Array<CourseReq> | undefined);
+  getWarn: (s: string) => (Array<string> | undefined);
 }
 
 function Term(props: TermProps) {
@@ -64,6 +66,8 @@ function Term(props: TermProps) {
                 key={course_id} 
                 index={index} 
                 removeCourse={props.removeCourse}
+                error={props.getError(course_id)}
+                warn={props.getWarn(course_id)}
                 />
             }
             )}

@@ -40,20 +40,27 @@ class UOCReq(singleReq.SingleReq):
     def requirement_name(self) -> str:
         return "UocRequirement"
 
-    # Input: program.Program of study, term this course is to be taken
-    # Return: Whether this requirement is fulfilled
-    def fulfilled(self, program: 'program.Program', term: 'term.Term',
-            coreq: bool=False) -> bool:
+    # Input: a program and a term in which the required course is taken
+    # Return: any errors pertaining to this requirement
+    def check(self, program: 'program.Program', term: 'term.Term',
+        coreq: bool=False) -> List[str]:
+        # Handle req with no filter
         if self.filter is None:
-            return program.unit_count_total(term) >= self.uoc
-
+            if program.unit_count_total(term) < self.uoc:
+                return [self.info()]
+            else:
+                return []
+        # Handle req with filter
         units = 0
         courses = program.course_list()
         for c in courses:
             if self.filter.accepts_course(c, program.degree):
                 if (coreq and program.term_taken(c) <= term) or (program.term_taken(c) < term):
                     units += c.units
-        return units >= self.uoc
+        if units < self.uoc:
+            return [self.info()]
+        else:
+            return []
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database

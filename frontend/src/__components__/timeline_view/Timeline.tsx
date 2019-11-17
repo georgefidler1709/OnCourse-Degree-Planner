@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
-import { Course } from '../../Api';
+import { Course, CheckResponse } from '../../Api';
 import {API_ADDRESS} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
@@ -50,7 +50,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     fetch(API_ADDRESS + `/${code}/gen_program.json`)
     .then(response => response.json())
     .then(plan => {
-      this.setState(plan) 
+      this.setState({
+        ...plan, 
+        course_reqs: [],
+      }) 
       this.addMissingTerms()
     })
   }
@@ -86,8 +89,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     for(let year_max = this.state.program.enrollments.length; year_max > timeline.length; --year_max) {
       this.removeYear()
     }
-
-    console.log(this.state)
   }
 
   isEnrolled(course: Course): boolean {
@@ -195,8 +196,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     fetch(request)
     .then(response => response.json())
-    .then(plan => {
-      this.setState(plan)
+    .then((reqs: CheckResponse) => {
+      this.setState({reqs}); 
     })
   }
 
@@ -281,14 +282,12 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     newState.add_course = undefined
     this.setState(newState)
     this.updateProgram(newState)
+    this.resetTermHighlights()
   }
 
   onDragEnd = (result: DropResult) => {
 
     const { destination, source, draggableId } = result
-    console.log(destination)
-    console.log(source)
-    console.log(draggableId)
 
     // if not dragged into a term, don't change state
     if(!destination) {
@@ -417,6 +416,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       newState.program.enrollments[startYearIdx] = newYear;
     }
     this.setState(newState)
+    this.updateProgram(newState)
     this.resetTermHighlights()
   };
 
@@ -541,7 +541,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                                             termId={term_tag} 
                                             courses={courses} 
                                             highlight={term.highlight} 
-                                            removeCourse={this.removeCourse.bind(this)}/>;
+                                            removeCourse={this.removeCourse.bind(this)}
+                                            getError={(s) => this.state.reqs.course_reqs[s]}
+                                            getWarn={(s) => this.state.reqs.course_warn[s]}/>;
                                 })}
                               </Container>
                           </div>
@@ -556,7 +558,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                   <InfoBar 
                     degree_id={this.state.program.id}
                     degree_name={this.state.program.name}
-                    degree_reqs={this.state.program.reqs}
+                    degree_reqs={this.state.reqs.degree_reqs}
                     add_course={this.state.add_course}
                     add_event={this.addCourse.bind(this)}
                     remove_course={this.removeCourse.bind(this)}

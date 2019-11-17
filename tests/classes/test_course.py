@@ -96,5 +96,25 @@ def test_check_reqs():
 
     assert subj1007.check_warnings(prog, t2) == ["A mark of 75 in SUBJ1001"]
 
+def test_exclusion_errors():
+    subj1001 = course.Course("SUBJ", 1001, "Subject1", 6, [t1, t2], faculty)
+    subj1002 = course.Course("SUBJ", 1002, "Subject2", 6, [t1, t2], faculty)
+    subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t2], faculty, exclusions=[subj1001, subj1002])
+
+    prog = program.Program(degree1, [])
+    prog.add_course(subj1001, t1)
+    prog.add_course(subj1003, t2)
+
+    errors = subj1003.exclusion_errors(prog, t2)
+    assert len(errors) == 1
+    assert errors[0] == "SUBJ1001"
+
+    prog.add_course(subj1002, t2)
+    errors = subj1003.exclusion_errors(prog, t2)
+    assert len(errors) == 2
+    assert errors[0] == "SUBJ1001"
+    assert errors[1] == "SUBJ1002"
+
+
     
 

@@ -142,9 +142,8 @@ class Course(object):
            # an exclusion
             exclusion_req = subjectReq.SubjectReq(exclusion)
 
-            if len(exclusion_req.check(program, term, coreq=True)) == 0:
-               # The check to see if we've matched the excluded course didn't give any errors,
-               # which means that we are doing the excluded course
+            if exclusion_req.fulfilled(program, term, coreq=True):
+               # we are doing the excluded course
                errors.append(exclusion.course_code)
 
         return errors

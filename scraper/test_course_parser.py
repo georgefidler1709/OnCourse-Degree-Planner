@@ -201,3 +201,8 @@ def test_parse_course_req():
     assert or_2.reqs[1].course == "COMP2521"
     assert req.reqs[2].wam == 75
 
+def test_parse_reqs_prereqs_coreqs():
+    prereq, coreq, status = parser.parse_reqs("prereq (COMP1511 or DPST1092 or COMP2121) coreq (COMP1927 or COMP2521) and (wam 75)")
+    assert isinstance(prereq, orReq.OrReq)
+    assert isinstance(coreq, andReq.AndReq)
+    assert status

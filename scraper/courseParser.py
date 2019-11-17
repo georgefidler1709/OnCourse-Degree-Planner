@@ -194,13 +194,10 @@ class CourseParser(object):
             r = self.parse_course_req(s)
             if r:
                 reqs.append(r)
+            else:
+                return None
 
-        # something has gone wrong
-        # notify somehow? Catalogue for manual checking?
         if len(reqs) < 2:
-            print("ERROR parsing course reqs:")
-            print(req_str)
-            print(reqs)
             return None
 
         # create the composite req
@@ -212,13 +209,22 @@ class CourseParser(object):
 
         return None
 
+    def strip_word_and_whitespace(self, string: str, word: str) -> str:
+
+        result = string.strip()
+        result = string.strip(word)
+
+        return result.strip()
+        
+
     # Parse a string containing a course requirement
-    def parse_reqs(self, req: str) -> Tuple[Optional['courseReq.CourseReq'], Optional['courseReq.CourseReq']]:
+    def parse_reqs(self, req: str) -> Tuple[Optional['courseReq.CourseReq'], Optional['courseReq.CourseReq'], bool]:
+        status: bool=True
         if req == None:
-            return (None, None)
+            return (None, None, status)
 
         if req == "":
-            return (None, None)
+            return (None, None, status)
 
         co = req.find('coreq')
         pre = req.find('prereq')
@@ -226,12 +232,22 @@ class CourseParser(object):
         if pre < 0:
             prereqs = None
         else:
-            prereqs = self.parse_course_req(req[:co])
+            prereq_str = req[:co]
+            prereq_str = self.strip_word_and_whitespace(prereq_str, 'prereq')
+            prereqs = self.parse_course_req(prereq_str)
+            if not prereqs:
+                status = False
 
         if co < 0:
             coreqs = None
             prereqs = self.parse_course_req(req)
+            if not prereqs:
+                status = False
         else:
-            coreqs = self.parse_course_req(req[co:])
+            coreq_str = req[co:]
+            coreq_str = self.strip_word_and_whitespace(coreq_str, 'coreq')
+            coreqs = self.parse_course_req(coreq_str)
+            if not coreqs:
+                status = False
 
-        return (prereqs, coreqs)
+        return (prereqs, coreqs, status)

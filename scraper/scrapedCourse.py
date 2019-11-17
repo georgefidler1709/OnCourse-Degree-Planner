@@ -47,9 +47,15 @@ class ScrapedCourse(object):
         parser = courseParser.CourseParser()
 
         # Type for requirements??
-        self.prereqs, self.coreqs = parser.parse_reqs(self.requirements)
+        # make sure these return none if can't parse
+        self.prereqs, self.coreqs, self.finished = parser.parse_reqs(self.requirements)
         self.terms = parser.parse_terms(terms, self.year)
 
+    # Parses requirements again (for use after updating requirements)
+    def reparse(self) -> None:
+        parser = courseParser.CourseParser()
+        self.prereqs, self.coreqs, self.finished = parser.parse_reqs(self.requirements)
+        
 
     # Given a university with database populated excluding requirements,
     def inflate(self, university: 'university.University') -> Optional['course.Course']:

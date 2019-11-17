@@ -7,8 +7,10 @@ import {Position, SearchResult, CourseSearchResult} from '../../Types'
 import styled from 'styled-components'
 
 const DegreeSuggestion = styled(Button)`
-  border: 1px solid #cccccc;
-  border-radius: 10px;
+  && {
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+  }
   margin-bottom: 1% 
   width: 70%;
   background-color: white;

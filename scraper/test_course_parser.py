@@ -247,4 +247,3 @@ def test_actual_scraped_req_fail():
 def test_actual_scraped_req_fail_2():
     prereq, coreq, status = parser.parse_reqs("Prerequisite: COMP1531, and COMP2521 or COMP1927, and enrolled in a BSc Computer Science major with completion of 102 uoc.")
     assert not status
-

@@ -53,7 +53,7 @@ function Requirements(props: ReqProps) {
     return(
       <React.Fragment key={k}>
         <CounterContainer>
-        <p>{`${k}: `}</p>
+        <p>{`${k}`}</p>
         <p><span style={{color: '#17a2b8'}}><u>{`${combo_reqs[k].units} UOC`}</u>{' remaining'}</span></p>
         </CounterContainer>
         <ul>

@@ -63,7 +63,7 @@ function Requirements(props: ReqProps) {
         <ul>
           {
             combo_reqs[k].items.map(it => {
-              return <li>{`${it}`}</li>;
+              return <li key={it}>{`${it}`}</li>;
             })
           }
         </ul>

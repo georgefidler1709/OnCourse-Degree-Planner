@@ -65,14 +65,13 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     .then(plan => {
       this.setState({
         ...plan, 
-        course_reqs: [],
+        add_course: [],
       }) 
       this.addMissingTerms()
     })
   }
 
   addMissingTerms() {
-    console.log(this.state)
     const program = this.state.program
     // fill in required years for the program duration
     let timeline: Array<number> = []
@@ -144,12 +143,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
         method: 'GET',
         headers: new Headers()
       })
-
-      // need to do this before isCourseOffered() is checked
       let response = await fetch(request);
       let course = await response.json();
-      // can add this course
-      // get offering info for this new course
+
       this.setState(state => {
         return {
           add_course: course,
@@ -270,15 +266,15 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       this.updateProgram(newState)
   }
 
-  newCourse(draggableId: string, destYearIdx: number, destTermIdx: number, destIdx: number) {
+  newCourse(draggableId: string, destYearIdx: number, destTermIdx: number, destIdx: number, sourceIdx: number) {
     // when you drag something from "add" box to somewhere on a term
     let newState = {
       ...this.state,
     }
 
     // push this course onto the right term plan (in the right idx)
+    newState.add_course.splice(sourceIdx, 1);
     newState.program.enrollments[destYearIdx].term_plans[destTermIdx].course_ids.splice(destIdx, 0, draggableId)
-    newState.add_course = undefined
     this.setState(newState)
     this.updateProgram(newState)
     this.resetTermHighlights()
@@ -311,7 +307,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     // see if you are adding a course to the TimeLineContext
     if (source.droppableId === "Add") {
-      this.newCourse(draggableId, destYearIdx, destTermIdx, destination.index)
+      this.newCourse(draggableId, destYearIdx, destTermIdx, destination.index, source.index)
       return
     }
 
@@ -528,7 +524,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                                   const term_tag = term.term.toString() + " " + year.year.toString()
                                   return <Term 
                                             key={term_tag} 
-                                            termId={term_tag} 
+                                            name={term_tag} 
                                             courses={courses} 
                                             highlight={term.highlight} 
                                             removeCourse={this.removeCourse.bind(this)}
@@ -549,7 +545,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                     degree_id={this.state.program.id}
                     degree_name={this.state.program.name}
                     degree_reqs={this.state.reqs.degree_reqs}
-                    add_course={this.state.add_course}
+                    standby_courses={this.state.add_course.map(course_id => this.state.courses[course_id]!)}
                     add_event={this.addCourse.bind(this)}
                     remove_course={this.removeCourse.bind(this)}
                   />

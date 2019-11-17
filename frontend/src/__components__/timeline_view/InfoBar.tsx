@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import CourseDropBox from "./CourseDropBox"
+import InfoBarDropBox from "./InfoBarDropBox"
 import { SearchCourses } from "../degree_search/Search"
 import { RemainReq, Course } from "../../Api"
 import Requirements from "./Requirements"
@@ -63,7 +63,7 @@ interface InfoBarProps {
   degree_id: number;
   degree_name: string;
   degree_reqs: Array<RemainReq>;
-  add_course?: Course; // Course to add
+  standby_courses: Array<Course>;
   add_event: (code: string) => Promise<boolean>;// function to call when you want to add a course
   remove_course: (id: string) => void;
 }
@@ -92,7 +92,12 @@ function InfoBar(props: InfoBarProps) {
       <Collapse in={openAdd}>
       <Card.Body>
         <p>Search for a course and click on it. Then drag the course into your timeline from the <b>Add</b> box.</p>
-        <CourseDropBox type="Add" add_course={props.add_course} remove_course={props.remove_course}/>
+        <InfoBarDropBox 
+          name="Tray" 
+          id="Add" 
+          courses={props.standby_courses} 
+          highlight={false}
+          removeCourse={props.remove_course}/>
         <SearchCourses add_event={props.add_event}/></Card.Body>
       </Collapse>
       </Section>

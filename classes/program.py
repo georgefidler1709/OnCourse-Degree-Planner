@@ -130,8 +130,12 @@ class Program(object):
 
         # initialize an empty enrollments map from start year to end year
         # puts default values for all years and all terms (WARNING no summer term)
-        start_year = min(self.courses, key=lambda x: x.term.year).term.year
-        end_year = max(self.courses, key=lambda x: x.term.year).term.year
+        if len(self.courses) > 0:
+            start_year = min(self.courses, key=lambda x: x.term.year).term.year
+            end_year = max(self.courses, key=lambda x: x.term.year).term.year
+        else:
+            start_year = self.degree.year
+            end_year = start_year + (self.degree.duration - 1)
 
         for year in range(start_year, end_year + 1):
             term_dict: Dict[int, List[str]] = {}

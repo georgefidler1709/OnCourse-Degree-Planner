@@ -32,9 +32,11 @@ const DegreeName = styled.p`
   pointer-events: none;
 `
 
-const CourseSuggestion = styled.button`
-  border: 1px solid #cccccc;
-  border-radius: 10px;
+const CourseSuggestion = styled(Button)`
+  && {
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+  }
   padding: 0px;
   margin-bottom: 5px;
   width: 95%;
@@ -70,6 +72,7 @@ function Suggestions(props: {degrees: Array<SearchResult>}) {
       placement={placement}
       delay={100}
       key={r.degree.id}
+      infoSize={{'fontSize': '25px'}}
     >
       <DegreeSuggestion
         variant="light"
@@ -109,8 +112,10 @@ function CourseSuggestions(props: CourseSuggestionsProps) {
       placement={placement}
       delay={200}
       key={r.course.code}
+      infoSize={{'fontSize': '14px'}}
     >
       <CourseSuggestion
+        variant="light"
         id={r.course.code}
         value={r.course.code}
         onClick={() => props.add_event(r.course)}

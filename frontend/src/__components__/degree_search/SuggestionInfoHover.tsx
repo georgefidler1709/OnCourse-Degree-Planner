@@ -15,17 +15,16 @@
 import React, {Component, RefObject} from 'react'
 import { Overlay, Popover } from 'react-bootstrap'
 import { Position } from '../../Types'
-import styled from 'styled-components'
+import CSS from 'csstype'
 
-const Info = styled(Popover.Content)`
-  font-size: 30px;
-`
+
 interface SuggestionInfoHoverProps { 
   content: JSX.Element
   placement?: Position
   delay: number
   children: JSX.Element
   key: string
+  infoSize: CSS.Properties 
 }
 
 class SuggestionInfoHover extends Component<SuggestionInfoHoverProps, {showPopover: boolean}> {
@@ -88,7 +87,7 @@ class SuggestionInfoHover extends Component<SuggestionInfoHoverProps, {showPopov
             onMouseLeave={this.handleMouseLeave}
             id='popover'
           >
-            <Info>{content}</Info>
+            <Popover.Content style={this.props.infoSize}>{content}</Popover.Content>
           </Popover>
         </Overlay>
       </React.Fragment>

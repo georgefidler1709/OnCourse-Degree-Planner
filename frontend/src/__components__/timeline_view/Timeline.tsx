@@ -147,8 +147,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       let course = await response.json();
 
       this.setState(state => {
+        state.add_course.push(course.code)
         return {
-          add_course: course,
+          add_course: state.add_course,
           courses: {
             ...state.courses,
             [course.code]: course

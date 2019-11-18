@@ -91,7 +91,7 @@ function InfoBar(props: InfoBarProps) {
       </SectionHeader>
       <Collapse in={openAdd}>
       <Card.Body>
-        <p>Search for a course and click on it. Then drag the course into your timeline from the <b>Add</b> box.</p>
+        <p>Search for a course and click on it. Then drag the course into your timeline from the <b>Tray</b>.</p>
         <InfoBarDropBox 
           name="Tray" 
           id="Add" 

@@ -146,7 +146,7 @@ class University(object):
 
     # Input: course code (eg. COMP1511)
     # Return: corresponding Course object from courses
-    def find_course(self, code: str) -> Optional['course.Course']:
+    def find_course(self, code: str, allow_unfinished: bool=False) -> Optional['course.Course']:
         subject = code[:4]
         numeric_code = code[4:]
 
@@ -159,17 +159,22 @@ class University(object):
         else:
             self.assert_no_nulls(*response)
             (course_id, ) = response
-            return self.load_course(course_id)
+            return self.load_course(course_id, allow_unfinished=allow_unfinished)
 
     # Input: course subject (eg. COMP), numeric code (eg. 1511) and whether we need the requirements
     # (same as for load_degree)
     # Return: corresponding Course object
-    def load_course(self, course_id: int, need_requirements: bool=True) -> Optional['course.Course']:
+    def load_course(self, course_id: int, allow_unfinished: bool, need_requirements: bool=True) -> Optional['course.Course']:
         if course_id in self.courses:
             # TODO: as with degrees, determine if need_requirements is even a useful argument
+            desired_course = self.courses[course_id]
+            if (not allow_unfinished) and (not desired_course.finished):
+                return None
+
             return self.courses[course_id]
 
-        response = self.query_db('''select letter_code, number_code, name, faculty, units, prereq, coreq
+        response = self.query_db('''select letter_code, number_code, name, faculty, units, prereq,
+        coreq, finished
                                  from Courses
                                  where id = ?''', (course_id, ), one=True)
 
@@ -177,9 +182,13 @@ class University(object):
             # No matching course
             return None
 
-        subject, numeric_code, name, faculty, units, prereq_id, coreq_id = response
+        subject, numeric_code, name, faculty, units, prereq_id, coreq_id, finished = response
         # prereq, coreq, exclusion can each be null so we don't want to assert it
-        self.assert_no_nulls(subject, numeric_code, name, faculty, units)
+        self.assert_no_nulls(subject, numeric_code, name, faculty, units, finished)
+
+        if (not allow_unfinished) and (not finished):
+            # Course was not properly parsed, don't return it
+            return None
 
         # Get the terms that the course runs in
         response = self.query_db('''select session_year, session_term
@@ -190,7 +199,8 @@ class University(object):
             self.assert_no_nulls(year, term_num)
             terms.append(term.Term(year, term_num))
 
-        result_course = course.Course(subject, int(numeric_code), name, units, terms, faculty)
+        result_course = course.Course(subject, int(numeric_code), name, units, terms, faculty,
+                finished=finished)
         self.courses[course_id] = result_course
 
         if need_requirements:
@@ -228,7 +238,7 @@ class University(object):
             else:
                 other_id = second_course_id
 
-            other_course = self.load_course(other_id)
+            other_course = self.load_course(other_id, allow_unfinished=True)
             if other_course is None:
                 raise ValueError(f'No course with id {other_id}')
 
@@ -244,12 +254,12 @@ class University(object):
     def filter_courses(self, course_filter: 'courseFilter.CourseFilter',
                 degree: 'degree.Degree', eq: bool=True) -> List['course.Course']:
         # TODO: Smart loading that only loads relevant courses from the database
-        response = self.query_db('''select id from Courses''')
+        response = self.query_db('''select id from Courses where finished = 1''')
         course_ids = list(map(lambda x: x[0], response))
 
         self.assert_no_nulls(*course_ids)
 
-        courses = list(map(lambda x: self.load_course(x), course_ids))
+        courses = list(map(lambda x: self.load_course(x, allow_unfinished=False), course_ids))
 
         self.assert_no_nulls(*courses)
         matching = list(filter(lambda x: x is not None and course_filter.accepts_course(x, degree, eq),
@@ -337,7 +347,7 @@ class University(object):
         min_mark = requirement_data['min_mark']
         course_id = requirement_data['course_id']
 
-        required_course = self.load_course(course_id)
+        required_course = self.load_course(course_id, allow_unfinished=True)
 
         if required_course is None:
             print('ERROR: failed to get course with id {}'.format(course_id))
@@ -470,7 +480,7 @@ class University(object):
         min_mark = filter_data['min_mark']
         course_id = filter_data['course_id']
 
-        allowed_course = self.load_course(course_id)
+        allowed_course = self.load_course(course_id, allow_unfinished=True)
 
         if allowed_course is None:
             print('ERROR: failed to get course with id {}'.format(course_id))
@@ -546,20 +556,22 @@ class University(object):
 
     def get_simple_courses(self) -> api.SimpleCourses:
         response = self.query_db('''select letter_code, number_code, name
-                                 from Courses''')
+                                 from Courses where finished = 1''')
         return [{'id': i['letter_code'] + i['number_code'], 'name': i['name']} for i in response];
 
     # get the course information with terms so you can display to user when courses are offered
     def get_full_courses(self) -> api.CourseList:
         # get the ids of all courses in database
-        responses = self.query_db('''select id from Courses''')
+        responses = self.query_db('''select id from Courses where finished = 1''')
 
         # now load the full course data using load_course logic
         res: api.CourseList = []
 
         for r in responses:
-            new = self.load_course(r['id'], need_requirements=False)
-            if new is None: continue
+            new = self.load_course(r['id'], allow_unfinished=True, need_requirements=True)
+            if new is None:
+                continue
+
             res.append(new.to_api())
 
         return res

@@ -8,14 +8,18 @@ import Requirements from "./Requirements"
 import { Card, Collapse } from 'react-bootstrap'
 
 const Container = styled.div`
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   padding-top: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
   width: 350px;
-  height: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: content-box;
   text-align: center;
-  overflow-y: scroll;
-  overflow: overlay;
   background-color: #343a40;
   color: white;
 `;

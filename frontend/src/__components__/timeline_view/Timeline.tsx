@@ -16,9 +16,12 @@ const TimeLineContext = styled.div`
   display: flex;
   justify-content: center;
   margin: 0px;
+  padding: 0px;
 `;
 const Container = styled.div`
   display: flex;
+  margin: 0px;
+  padding: 0px;
 `;
 
 const LColumn = styled.div`
@@ -30,7 +33,10 @@ const LColumn = styled.div`
 const RColumn = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin: 0px;
+  padding: 0px;
   width: 30%;
+  overflow: hidden;
 `;
 
 const Logo = styled.img`

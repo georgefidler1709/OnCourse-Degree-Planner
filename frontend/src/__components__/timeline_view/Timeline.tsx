@@ -78,7 +78,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   }
 
   addMissingTerms() {
-    console.log(this.state)
     const program = this.state.program
     // fill in required years for the program duration
     let timeline: Array<number> = []
@@ -562,6 +561,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                                 {year.term_plans.map(term => {
                                   const courses = term.course_ids.map(course_id => this.state.courses[course_id]!);
                                   const term_tag = term.term.toString() + " " + year.year.toString()
+
                                   return <Term 
                                             key={term_tag} 
                                             termId={term_tag} 

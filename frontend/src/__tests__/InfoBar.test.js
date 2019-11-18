@@ -3,6 +3,8 @@ import { shallow, mount } from 'enzyme';
 import Timeline from '../__components__/timeline_view/Timeline';
 import InfoBar from '../__components__/timeline_view/InfoBar';
 import CourseDropBox from '../__components__/timeline_view/CourseDropBox';
+import { Card, Collapse } from 'react-bootstrap'
+
 
 console.error = jest.fn();
 console.warn = jest.fn();
@@ -110,6 +112,14 @@ const mockCourse = {
   "units": 6
 }
 
+const mockRoute = {
+  params: {
+    degree: "3778",
+    reqs: undefined,
+  }
+} 
+
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -121,14 +131,14 @@ describe('Render degree planning timeline view', () => {
     />
   })
   it('renders correctly as part of timeline', async() => {
-    const wrapper = shallow(<Timeline match={{params: {degree: "degree"}}} />);
+    const wrapper = shallow(<Timeline match={mockRoute} />);
     await sleep(1000);
     wrapper.update();
     expect(wrapper).toMatchSnapshot();
   });
 
   it('displays missing course under requirements if a required course is missing', async() => {
-    const wrapper = mount(<Timeline match={{params: {degree: "degree"}}} />);
+    const wrapper = mount(<Timeline match={mockRoute} />);
     await sleep(1000);
     wrapper.update();
     wrapper.instance().removeCourse("COMP1511");
@@ -138,7 +148,7 @@ describe('Render degree planning timeline view', () => {
   });
 
   it('adds a course to the Add box after search', async() => {
-    const wrapper = mount(<Timeline match={{params: {degree: "degree"}}} />);
+    const wrapper = mount(<Timeline match={mockRoute} />);
     await sleep(100);
     wrapper.update();
     wrapper.instance().addCourse(mockCourse)
@@ -148,3 +158,28 @@ describe('Render degree planning timeline view', () => {
     expect(wrapper).toMatchSnapshot();
   });
 });
+
+describe('Has collapsable sections', () => {
+
+  it('can collapse a section', async() => {
+    const wrapper = mount(<Timeline match={mockRoute} />);
+    await sleep(1000);
+    wrapper.update();
+    wrapper.find(InfoBar).find(Card.Header).at(0).click()
+    await sleep(1000);
+    wrapper.update();
+    expect('aria-collapsed' in wrapper.find(InfoBar).find(Card.Header).at(0).props()).toBeTruthy()
+    expect(wrapper).toMatchSnapshot();
+  })
+
+  it('can expand a section', async() => {
+    const wrapper = mount(<Timeline match={mockRoute} />);
+    await sleep(1000);
+    wrapper.update();
+    wrapper.find(InfoBar).find(Card.Header).at(1).simulate('click')
+    await sleep(1000);
+    wrapper.update();
+    expect('aria-expanded' in wrapper.find(InfoBar).find(Card.Header).at(1).props()).toBeTruthy()
+    expect(wrapper).toMatchSnapshot();
+  })
+})

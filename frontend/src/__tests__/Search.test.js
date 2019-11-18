@@ -1,4 +1,3 @@
-import fetch, {Response} from 'node-fetch';
 import Button from "react-bootstrap/Button";
 import React from 'react'
 import { shallow } from 'enzyme';

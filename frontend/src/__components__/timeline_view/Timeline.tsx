@@ -312,7 +312,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     this.resetTermHighlights()
   }
 
-  onDragEnd(result: DropResult) {
+  onDragEnd = (result: DropResult) => {
 
     const { destination, source, draggableId } = result
     // if not dragged into a term, don't change state

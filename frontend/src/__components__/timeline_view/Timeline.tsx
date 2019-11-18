@@ -5,7 +5,7 @@ import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
 import { Course, CheckResponse } from '../../Api';
-import {API_ADDRESS} from '../../Constants'
+import {API_ADDRESS, DB_YEAR_MAX} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
 import html2canvas from 'html2canvas'
@@ -316,7 +316,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     const { destination, source, draggableId } = result
     // if not dragged into a term, don't change state
-    if(!destination) {
+    if(!destination || destination.droppableId === "Add") {
       this.resetTermHighlights()
       return;
     }
@@ -525,6 +525,12 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       ...this.state
     }
     newState.program.duration += updateVal
+    newState.program.duration = Math.max(1, newState.program.duration)
+    if(newState.program.year + newState.program.duration > DB_YEAR_MAX) {
+      newState.program.duration = DB_YEAR_MAX - newState.program.year
+      alert("Degree planning information is not accurate beyond 2025")
+    }
+    
     this.setState(newState)
     this.addMissingTerms()
 

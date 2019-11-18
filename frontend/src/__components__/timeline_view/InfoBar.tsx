@@ -87,7 +87,7 @@ function InfoBar(props: InfoBarProps) {
         aria-controls="collapse-add-course"
         aria-expanded={openAdd}
       >
-        <SectionIcon className={openAdd ? "fa fa-chevron-down" : "fa fa-chevron-left"}/>
+        <SectionIcon className={openAdd ? "fa fa-chevron-down" : "fa fa-chevron-right"}/>
         <SubTitle>Add a Course</SubTitle>
       </SectionHeader>
       <Collapse in={openAdd}>
@@ -104,7 +104,7 @@ function InfoBar(props: InfoBarProps) {
         aria-controls="collapse-requirements"
         aria-expanded={openReqs}
       >
-        <SectionIcon className={openReqs ? "fa fa-chevron-down" : "fa fa-chevron-left"}/>
+        <SectionIcon className={openReqs ? "fa fa-chevron-down" : "fa fa-chevron-right"}/>
         <SubTitle>Requirements</SubTitle>
       </SectionHeader>
       <Collapse in={openReqs}>

@@ -298,8 +298,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   }
 
-
-
   newCourse(draggableId: string, destYearIdx: number, destTermIdx: number, destIdx: number) {
     // when you drag something from "add" box to somewhere on a term
     let newState = {
@@ -314,7 +312,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     this.resetTermHighlights()
   }
 
-  onDragEnd = (result: DropResult) => {
+  onDragEnd(result: DropResult) {
 
     const { destination, source, draggableId } = result
     // if not dragged into a term, don't change state
@@ -532,7 +530,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   }
 
-  
   render() {
     if(!this.state) return <div></div>
 

@@ -63,15 +63,16 @@ class DbHelper:
     # Ignores the terms it runs in or any prereqs/coreqs/exclusions/equivalents
     def insert_course(self, course, prereq=None, coreq=None, exclusion=[], equivalents=[]):
         return self.insert_course_from_fields(course.subject, course.code, course.level,
-                course.name, course.units, course.faculty, prereq, coreq, exclusion, equivalents)
+                course.name, course.units, course.faculty, prereq, coreq, exclusion, equivalents,
+                course.finished)
 
     # Inserts a course from just the fields that make up the course
     def insert_course_from_fields(self, letter_code='COMP', number_code='1511', level=1,
             name='Intro to computing', units=6, faculty="Engineering", prereq=None, coreq=None,
-            exclusions=[], equivalents=[]):
+            exclusions=[], equivalents=[], finished=True):
         self.cursor.execute('''insert into Courses(letter_code, number_code, level, name, units,
-        faculty, prereq, coreq) values (?, ?, ?, ?, ?, ?, ?, ?)''',
-        (letter_code, number_code, level, name, units, faculty, prereq, coreq))
+        faculty, prereq, coreq, finished) values (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+        (letter_code, number_code, level, name, units, faculty, prereq, coreq, finished))
 
         id = self.cursor.lastrowid
 
@@ -119,8 +120,10 @@ class TestUniversityWithDb():
 
         self.university = university.University(self.h.query_db)
 
-        self.first_course = course.Course("TEST", 1000, "Test course 1", 6, [], "TestFaculty")
-        self.second_course = course.Course("COMP", 2521, "Test course 2", 3, [], "Engineering")
+        self.first_course = course.Course("TEST", 1000, "Test course 1", 6, [], "TestFaculty",
+                finished=True)
+        self.second_course = course.Course("COMP", 2521, "Test course 2", 3, [], "Engineering",
+                finished=True)
 
         # TODO: check different years
         self.first_degree = degree.Degree(1111, "Test degree", 2019, 3, "TestFaculty", [], "ABCDE")

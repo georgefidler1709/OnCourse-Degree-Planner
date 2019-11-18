@@ -68,16 +68,20 @@ class Course(object):
         return f"{self.subject}{self.code}"
 
     def to_api(self) -> api.Course:
-        return { "code": self.course_code,
-                "name": self.name,
-                "units": self.units,
-                "terms": [term.to_api() for term in self.terms],
-                "prereqs": self.prereqs.info(top_level=True) if self.prereqs else "",
-                "coreqs": self.coreqs.info(top_level=True) if self.coreqs else "",
-                "exclusions": "\n".join(self.exclusions),
+        try:
+            return { "code": self.course_code,
+                    "name": self.name,
+                    "units": self.units,
+                    "terms": [term.to_api() for term in self.terms],
+                    "prereqs": self.prereqs.info(top_level=True) if self.prereqs else "",
+                    "coreqs": self.coreqs.info(top_level=True) if self.coreqs else "",
+                    "exclusions": "\n".join(self.exclusions),
 
-                "equivalents": "\n".join(self.equivalents)
+                    "equivalents": "\n".join(self.equivalents)
                 }
+        except Exception as e:
+            print(self)
+            raise e
 
     # returns the SUBJxxxx course code
     @property

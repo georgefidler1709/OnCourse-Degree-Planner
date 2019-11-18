@@ -34,7 +34,7 @@ class ScrapedSubjectReq(singleReq.SingleReq):
 
     # create function to turn into proper subjectReq
     def inflate(self, university: 'university.University') -> Optional['subjectReq.SubjectReq']:
-        c = university.find_course(self.course)
+        c = university.find_course(self.course, allow_unfinished=True)
         if c is not None:
             return subjectReq.SubjectReq(c, self.min_mark)
         return None

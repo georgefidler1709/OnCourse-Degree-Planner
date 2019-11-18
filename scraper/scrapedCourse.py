@@ -61,11 +61,11 @@ class ScrapedCourse(object):
     def reparse(self) -> None:
         parser = courseParser.CourseParser()
         self.prereqs, self.coreqs, self.finished = parser.parse_reqs(self.requirements)
-        
+
 
     # Given a university with database populated excluding requirements,
     def inflate(self, university: 'university.University') -> Optional['course.Course']:
-        course = university.find_course(self.code)
+        course = university.find_course(self.code, allow_unfinished=True)
         if course is None:
             # ERROR
             return None

@@ -79,6 +79,14 @@ def do_add_to_db() -> None:
     # In case we missed requirements for some courses
     input_data.compsci_course_reqs(db_path)
 
+    # input CourseFilters and DegreeOfferingRequirements for 3778 COMPA1
+    input_data.insert_compsci_degree_requirements(db=db_path)
+
+    # insert requirements for SENGAH
+    input_data.insert_seng_degree_requirements(db=db_path)
+
+    print("DEGREE REQUIREMENTS INSERTED")
+
 @click.command('init-db')
 @with_appcontext
 def init_db() -> None:
@@ -115,6 +123,9 @@ def do_init_db() -> None:
     year = 2020
     postgrad = False
 
+    FIELDS_TO_SCRAPE = ["COMP", "MATH", "ENGG", "DESN", "SENG", "ELEC", "INFS", "TELE",
+        "ARTS"]
+
     generator.generate_db(year, ["COMP", "MATH"], postgrad, end_year=2025)
 
     # read courses from courses.csv
@@ -131,12 +142,9 @@ def do_init_db() -> None:
     # input CourseOfferings for 3778 COMPA1 courses
     #input_data.insert_course_offerings(start=2019, end=2025, db=db_path)
 
-    # input CourseFilters and DegreeOfferingRequirements for 3778 COMPA1
-    input_data.insert_compsci_degree_requirements(db=db_path)
-
     shutil.copyfile(db_path, db_path + "_scraped")
 
-    print("GENERATE DB SUCCESSFUL")
+    print("GENERATE DB + SCRAPE COURSES SUCCESSFUL")
 
 def init_app(app : Flask) -> None:
     '''

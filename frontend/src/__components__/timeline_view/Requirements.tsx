@@ -75,3 +75,24 @@ function Requirements(props: ReqProps) {
 }
 
 export default Requirements
+
+interface NoteProps {
+  notes: Array<string>;
+}
+
+// simple notes about the degree to display in a list
+// make the text small as it's verbose
+function Notes(props: NoteProps) {
+  if (props.notes.length > 0) {
+    var res = props.notes.map(note => {
+      return (
+        <li>{`${note}`}</li>;
+      )
+    })
+
+    return <div><p>Other requirements to note</p><ul>{res}</ul></div>;
+  } else {
+    return <div></div>;
+  }
+  
+}

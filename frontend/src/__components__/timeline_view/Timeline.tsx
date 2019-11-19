@@ -594,6 +594,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                     degree_id={this.state.program.id}
                     degree_name={this.state.program.name}
                     degree_reqs={this.state.reqs.degree_reqs}
+                    degree_notes={this.state.program.notes}
                     add_course={this.state.add_course}
                     add_event={this.addCourse.bind(this)}
                     remove_course={this.removeCourse.bind(this)}

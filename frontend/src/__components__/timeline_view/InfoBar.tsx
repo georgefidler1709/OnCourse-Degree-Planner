@@ -45,6 +45,7 @@ interface InfoBarProps {
   degree_id: number;
   degree_name: string;
   degree_reqs: Array<RemainReq>;
+  degree_notes: Array<string>;
   add_course?: Course; // Course to add
   add_event: (course: Course, searchRef: RefObject<HTMLInputElement>, searchResults: Array<CourseSearchResult>) => void;// function to call when you want to add a course
   remove_course: (id: string) => void;
@@ -83,6 +84,7 @@ function InfoBar(props: InfoBarProps) {
         <Card.Body>
           <ReqContainer>
             <Requirements degree_reqs={props.degree_reqs}/>
+            <Notes notes={props.degree_notes}/>
           </ReqContainer>
         </Card.Body>
       </InfoBarSection>

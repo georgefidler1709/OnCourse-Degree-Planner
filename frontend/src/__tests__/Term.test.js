@@ -8,7 +8,15 @@ console.warn = jest.fn();
 
 describe("Won't render correctly outside of a DragDropContext", () => {
     it('renders correctly', () => {
-      const wrapper = shallow(<Term key="test" termId="2 2019" courses={[]}/>);
+      const wrapper = shallow(<Term 
+                                  key="test" 
+                                  termId="2 2019" 
+                                  courses={[]}
+                                  highlight={false} 
+                                  removeCourse={(s) => {return}}
+                                  getError={(s) => undefined}
+                                  getWarn={(s) => undefined}
+                                />);
       expect(wrapper).toMatchSnapshot();
     });
 

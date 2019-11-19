@@ -12,7 +12,12 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
     <NavbarBrand
       href="/"
     >
-      OnCourse
+       
+      <styled.img
+        alt="logo"
+        src="/images/logo.png"
+      />
+       OnCourse
     </NavbarBrand>
     <Nav
       className="mr-auto"
@@ -28,15 +33,7 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
         className="fa fa-save"
       />
     </Styled(Button)>
-    <Styled(Button)
-      variant="outline-info"
-    >
-      <i
-        className="fa fa-cog"
-      />
-    </Styled(Button)>
   </Navbar>
-  <br />
   <styled.div>
     <DragDropContext
       onDragEnd={[Function]}
@@ -248,6 +245,8 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                       },
                     ]
                   }
+                  getError={[Function]}
+                  getWarn={[Function]}
                   key="1 2019"
                   removeCourse={[Function]}
                   termId="1 2019"
@@ -259,7 +258,13 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                         "code": "MATH1131",
                         "coreqs": "",
                         "equivalents": "DPST1013",
-                        "exclusions": "(DPST1013 AND ECON1202 AND ECON2291 AND MATH1011 AND MATH1031 AND MATH1141 AND MATH1151)",
+                        "exclusions": "DPST1013
+MATH1151
+MATH1031
+MATH1141
+ECON2291
+MATH1011
+ECON1202",
                         "name": "Mathematics 1A",
                         "prereqs": "",
                         "terms": Array [
@@ -421,7 +426,9 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                         "code": "MATH1231",
                         "coreqs": "",
                         "equivalents": "DPST1014",
-                        "exclusions": "(DPST1014 AND MATH1021 AND MATH1241 AND MATH1251)",
+                        "exclusions": "ECON1202
+MATH1241
+DPST1014",
                         "name": "Mathematics 1B",
                         "prereqs": "(DPST1013 OR MATH1131 OR MATH1141)",
                         "terms": Array [
@@ -514,12 +521,16 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                       },
                     ]
                   }
+                  getError={[Function]}
+                  getWarn={[Function]}
                   key="2 2019"
                   removeCourse={[Function]}
                   termId="2 2019"
                 />
                 <Term
                   courses={Array []}
+                  getError={[Function]}
+                  getWarn={[Function]}
                   highlight={false}
                   key="3 2019"
                   removeCourse={[Function]}
@@ -535,7 +546,8 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
               >
                 <Term
                   courses={Array []}
-                  highlight={false}
+                  getError={[Function]}
+                  getWarn={[Function]}
                   key="1 2020"
                   removeCourse={[Function]}
                   termId="1 2020"
@@ -589,7 +601,8 @@ COMP9101",
                         "code": "COMP2511",
                         "coreqs": "",
                         "equivalents": "",
-                        "exclusions": "(COMP2011 AND COMP2911)",
+                        "exclusions": "COMP2911
+COMP2011",
                         "name": "Object-Oriented Design & Programming",
                         "prereqs": "COMP1531
 (COMP1927 OR COMP2521)",
@@ -655,13 +668,16 @@ COMP9101",
                       },
                     ]
                   }
+                  getError={[Function]}
+                  getWarn={[Function]}
                   key="2 2020"
                   removeCourse={[Function]}
                   termId="2 2020"
                 />
                 <Term
                   courses={Array []}
-                  highlight={false}
+                  getError={[Function]}
+                  getWarn={[Function]}
                   key="3 2020"
                   removeCourse={[Function]}
                   termId="3 2020"
@@ -676,6 +692,8 @@ COMP9101",
               >
                 <Term
                   courses={Array []}
+                  getError={[Function]}
+                  getWarn={[Function]}
                   highlight={false}
                   key="1 2021"
                   removeCourse={[Function]}
@@ -683,6 +701,8 @@ COMP9101",
                 />
                 <Term
                   courses={Array []}
+                  getError={[Function]}
+                  getWarn={[Function]}
                   highlight={false}
                   key="2 2021"
                   removeCourse={[Function]}
@@ -690,6 +710,8 @@ COMP9101",
                 />
                 <Term
                   courses={Array []}
+                  getError={[Function]}
+                  getWarn={[Function]}
                   highlight={false}
                   key="3 2021"
                   removeCourse={[Function]}
@@ -700,13 +722,15 @@ COMP9101",
           </div>
           <Styled(Button)
             onClick={[Function]}
+            variant="info"
           >
-            ++
+            +
           </Styled(Button)>
           <Styled(Button)
             onClick={[Function]}
+            variant="info"
           >
-            --
+            -
           </Styled(Button)>
         </styled.div>
         <styled.div>
@@ -717,11 +741,23 @@ COMP9101",
             degree_reqs={
               Array [
                 Object {
-                  "filter_type": "GenEd",
+                  "filter_type": "Required courses",
+                  "info": "COMP3900",
+                  "units": 6,
+                },
+                Object {
+                  "filter_type": "Courses with options",
+                  "info": "[ Field 'COMP' ] AND [ (level 3) OR (level 4) OR (level 6) OR (level 9) ]",
+                  "units": 30,
+                },
+                Object {
+                  "filter_type": "General education",
+                  "info": "Any general education course",
                   "units": 12,
                 },
                 Object {
-                  "filter_type": "FreeElective",
+                  "filter_type": "Free electives",
+                  "info": "Any free elective",
                   "units": 36,
                 },
               ]

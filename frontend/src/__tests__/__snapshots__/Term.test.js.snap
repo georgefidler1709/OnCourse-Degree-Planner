@@ -45,28 +45,82 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
           termId="2 2019"
         >
           <styled.div>
-            <div
-              className="sc-bwzfXH itFJcJ"
+            <StyledComponent
+              forwardedComponent={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "sc-htpNat",
+                    "isStatic": false,
+                    "lastClassName": "dsUfca",
+                    "rules": Array [
+                      "
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  width: 400px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+",
+                    ],
+                  },
+                  "displayName": "styled.div",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "sc-htpNat",
+                  "target": "div",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                }
+              }
+              forwardedRef={null}
             >
-              <styled.h3>
-                <h3
-                  className="sc-htpNat jumdkD"
-                >
-                  T2 2019
-                </h3>
-              </styled.h3>
-              <ConnectFunction
-                direction="vertical"
-                droppableId="2 2019"
-                getContainerForClone={[Function]}
-                ignoreContainerClipping={false}
-                isCombineEnabled={false}
-                isDropDisabled={false}
-                mode="standard"
-                renderClone={null}
-                type="DEFAULT"
+              <div
+                className="sc-htpNat dsUfca"
               >
-                <Droppable
+                <styled.h3>
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "sc-bxivhb",
+                          "isStatic": false,
+                          "lastClassName": "AcyJd",
+                          "rules": Array [
+                            "
+  padding: 8px;
+  font-family: Arial, Helvetica, sans-serif;
+  border-bottom: 1px solid lightgrey;
+  margin: 0px;
+",
+                          ],
+                        },
+                        "displayName": "styled.h3",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "sc-bxivhb",
+                        "target": "h3",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                  >
+                    <h3
+                      className="sc-bxivhb AcyJd"
+                    >
+                      T2 2019
+                    </h3>
+                  </StyledComponent>
+                </styled.h3>
+                <ConnectFunction
                   direction="vertical"
                   droppableId="2 2019"
                   getContainerForClone={[Function]}
@@ -74,41 +128,89 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
                   isCombineEnabled={false}
                   isDropDisabled={false}
                   mode="standard"
-                  placeholder={null}
                   renderClone={null}
-                  shouldAnimatePlaceholder={false}
-                  snapshot={
-                    Object {
-                      "draggingFromThisWith": null,
-                      "draggingOverWith": null,
-                      "isDraggingOver": false,
-                      "isUsingPlaceholder": false,
-                    }
-                  }
                   type="DEFAULT"
-                  updateViewportMaxScroll={[Function]}
-                  useClone={null}
                 >
-                  <styled.div
-                    data-rbd-droppable-context-id="0"
-                    data-rbd-droppable-id="2 2019"
-                    innerRef={[Function]}
-                    isDraggingOver={false}
+                  <Droppable
+                    direction="vertical"
+                    droppableId="2 2019"
+                    getContainerForClone={[Function]}
+                    ignoreContainerClipping={false}
+                    isCombineEnabled={false}
+                    isDropDisabled={false}
+                    mode="standard"
+                    placeholder={null}
+                    renderClone={null}
+                    shouldAnimatePlaceholder={false}
+                    snapshot={
+                      Object {
+                        "draggingFromThisWith": null,
+                        "draggingOverWith": null,
+                        "isDraggingOver": false,
+                        "isUsingPlaceholder": false,
+                      }
+                    }
+                    type="DEFAULT"
+                    updateViewportMaxScroll={[Function]}
+                    useClone={null}
                   >
-                    <div
-                      className="sc-bxivhb hYJMoY"
+                    <styled.div
                       data-rbd-droppable-context-id="0"
                       data-rbd-droppable-id="2 2019"
+                      isDraggingOver={false}
                     >
-                      <AnimateInOut
-                        on={null}
-                        shouldAnimate={false}
-                      />
-                    </div>
-                  </styled.div>
-                </Droppable>
-              </ConnectFunction>
-            </div>
+                      <StyledComponent
+                        data-rbd-droppable-context-id="0"
+                        data-rbd-droppable-id="2 2019"
+                        forwardedComponent={
+                          Object {
+                            "$$typeof": Symbol(react.forward_ref),
+                            "attrs": Array [],
+                            "componentStyle": ComponentStyle {
+                              "componentId": "sc-ifAKCX",
+                              "isStatic": false,
+                              "lastClassName": "kIIFkF",
+                              "rules": Array [
+                                "
+  padding: 8px;
+  flex-grow: 1;
+  min-height: 100px;
+  transition: background-color 0.2s ease;
+  background-color: ",
+                                [Function],
+                                ";
+",
+                              ],
+                            },
+                            "displayName": "styled.div",
+                            "foldedComponentIds": Array [],
+                            "render": [Function],
+                            "styledComponentId": "sc-ifAKCX",
+                            "target": "div",
+                            "toString": [Function],
+                            "warnTooManyClasses": [Function],
+                            "withComponent": [Function],
+                          }
+                        }
+                        forwardedRef={[Function]}
+                        isDraggingOver={false}
+                      >
+                        <div
+                          className="sc-ifAKCX kIIFkF"
+                          data-rbd-droppable-context-id="0"
+                          data-rbd-droppable-id="2 2019"
+                        >
+                          <AnimateInOut
+                            on={null}
+                            shouldAnimate={false}
+                          />
+                        </div>
+                      </StyledComponent>
+                    </styled.div>
+                  </Droppable>
+                </ConnectFunction>
+              </div>
+            </StyledComponent>
           </styled.div>
         </Term>
       </Provider>

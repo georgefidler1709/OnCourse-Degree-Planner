@@ -160,7 +160,7 @@ class Search extends Component<{}, SearchState> {
           * Disclaimer: OnCourse is not
           <br/> affiliated with or endorsed by UNSW.
           <br/> This product is intended to aid degree planning.
-          <br/> However, it should not be the only tool you use
+          <br/> However, it should not be the only resourced used
           <br/> in planning your future at university,
           <br/> as it may be subject to error.
           </Disclaimer>

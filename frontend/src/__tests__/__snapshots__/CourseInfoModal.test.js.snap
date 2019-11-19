@@ -4,14 +4,7 @@ exports[`Rendering a course info popup renders correctly 1`] = `
 <Bootstrap(Modal)
   aria-labelledby="contained-modal-title-vcenter"
   centered={true}
-  code="COMP3121"
-  coreqs=""
-  equivalents="COMP3821, COMP9801, COMP3120, COMP9101"
-  exclusions=""
-  index={0}
-  name="Algorithms and Programming Techniques"
   onHide={[Function]}
-  prereqs="(COMP1927 OR COMP2521)"
   show={true}
   size="lg"
 >
@@ -35,7 +28,7 @@ exports[`Rendering a course info popup renders correctly 1`] = `
       </h5>
       <ul>
         <li
-          key="(COMP1927 OR COMP2521)"
+          key="0"
         >
           <a
             href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP1927"
@@ -62,7 +55,7 @@ exports[`Rendering a course info popup renders correctly 1`] = `
       <ul
         style={
           Object {
-            "list-style-type": "none",
+            "listStyleType": "none",
           }
         }
       >
@@ -79,26 +72,11 @@ exports[`Rendering a course info popup renders correctly 1`] = `
       </h5>
       <ul>
         <li
-          key="COMP3821, COMP9801, COMP3120, COMP9101"
+          key="0"
         >
-          <a
-            href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP3821,"
-            key="COMP3821,"
-          >
-            COMP3821,
-          </a>
-          <a
-            href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP9801,"
-            key="COMP9801,"
-          >
-            COMP9801,
-          </a>
-          <a
-            href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP3120,"
-            key="COMP3120,"
-          >
-            COMP3120,
-          </a>
+           COMP3821, 
+           COMP9801, 
+           COMP3120, 
           <a
             href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP9101"
             key="COMP9101"
@@ -117,7 +95,7 @@ exports[`Rendering a course info popup renders correctly 1`] = `
       <ul
         style={
           Object {
-            "list-style-type": "none",
+            "listStyleType": "none",
           }
         }
       >

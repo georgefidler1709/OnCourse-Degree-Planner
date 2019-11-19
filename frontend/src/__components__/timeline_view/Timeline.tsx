@@ -232,25 +232,28 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       ...this.state,
     }
 
-    if ((sourceIdx = newState.add_course.findIndex(id => id === draggableId)) !== -1) {
-      newState.add_course.splice(sourceIdx, 1);
-    }
-    else if ((sourceIdx = newState.program.done.findIndex(id => id === draggableId)) !== -1) {
-      newState.program.done.splice(sourceIdx, 1);
-    }
-    else {
-      startYearIdx = newState.program.enrollments.findIndex(year => {
-        startTermIdx = year.term_plans.findIndex(term => {
-          sourceIdx = term.course_ids.findIndex(id => id === draggableId)
-          return sourceIdx !== -1
+    let findArray = () => {
+      if ((sourceIdx = newState.add_course.findIndex(id => id === draggableId)) !== -1) {
+        return newState.add_course;
+      }
+      else if ((sourceIdx = newState.program.done.findIndex(id => id === draggableId)) !== -1) {
+        return newState.program.done;
+      }
+      else {
+        startYearIdx = newState.program.enrollments.findIndex(year => {
+          startTermIdx = year.term_plans.findIndex(term => {
+            sourceIdx = term.course_ids.findIndex(id => id === draggableId)
+            return sourceIdx !== -1
+          })
+          return startTermIdx !== -1
         })
-        return startTermIdx !== -1
-      })
 
-      delete newState.courses[draggableId];
-      newState.program.enrollments[startYearIdx].term_plans[startTermIdx].course_ids.splice(sourceIdx, 1)
+        return newState.program.enrollments[startYearIdx].term_plans[startTermIdx].course_ids;
+      }
     }
 
+    findArray().splice(sourceIdx, 1)
+    delete newState.courses[draggableId];
     // set state, then update program in the new state
     this.setState(newState)
     this.updateProgram(newState)

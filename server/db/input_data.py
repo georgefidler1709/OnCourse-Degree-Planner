@@ -413,7 +413,7 @@ def insert_seng_degree_requirements(db='university.db', start_year=2020, end_yea
         elec_disc = h.combine_course_filters("and", [elec, elec_levels])
 
         # ENGG3060, 3 UOC
-        maker = h.add_course_filter("spec", min_mark=50, "ENGG3060")
+        maker = h.add_course_filter("spec", min_mark=50, course="ENGG3060")
 
         # any level 3, 4 infosys
         infs = h.add_course_filter("field", field_code="INFS")

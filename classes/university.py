@@ -107,7 +107,7 @@ class University(object):
                                 from DegreeOfferingNotes
                                 where offering_degree_id = ?
                                 and offering_year_id = ?''',
-                                (numeric_code, year), one)
+                                (numeric_code, year))
         notes = []
         if response:
             for r in response:

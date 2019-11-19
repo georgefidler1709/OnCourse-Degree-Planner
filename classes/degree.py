@@ -28,7 +28,7 @@ class Degree(object):
 
     def __init__(self, num_code: int, name: str, year: int, duration: int, 
             faculty: str, requirements: Sequence['degreeReq.DegreeReq'], alpha_code: str,
-            notes: List[str]):
+            notes: List[str]=[]):
         self.num_code = num_code
         self.alpha_code = alpha_code
         self.name = name
@@ -82,10 +82,6 @@ class Degree(object):
                 remaining[req] = req.remaining(courses, degree)
 
         return remaining
-
-    @property
-    def notes(self):
-        return self.notes
 
     # Input: list of courses completed
     # Return: boolean indicating whether degree completed

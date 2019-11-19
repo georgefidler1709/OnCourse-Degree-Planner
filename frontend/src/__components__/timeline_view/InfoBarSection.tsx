@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { Card, Collapse } from 'react-bootstrap'
@@ -31,10 +31,9 @@ interface InfoBarSectionProps {
   open: boolean,
   setOpen: (open: boolean) => void,
   title: string,
-  children: JSX.Element[] | JSX.Element
 }
 
-function InfoBarSection (props: InfoBarSectionProps) {
+const InfoBarSection: FunctionComponent<InfoBarSectionProps> = (props) => {
   return (
     <Section bg="dark" text="white">
         <SectionHeader

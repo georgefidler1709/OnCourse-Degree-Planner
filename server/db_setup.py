@@ -126,7 +126,7 @@ def do_init_db() -> None:
     FIELDS_TO_SCRAPE = ["COMP", "MATH", "ENGG", "DESN", "SENG", "ELEC", "INFS", "TELE",
         "ARTS"]
 
-    generator.generate_db(year, ["COMP", "MATH"], postgrad, end_year=2025)
+    generator.generate_db(year, FIELDS_TO_SCRAPE, postgrad, end_year=2025)
 
     # read courses from courses.csv
     #courses = pandas.read_csv("server/db/courses.csv")

@@ -437,6 +437,31 @@ class Helper:
 
                 return inserted_id
 
+        def add_degree(self, name, faculty, degree_code):
+                '''
+                Inserts an entry into Degrees
+                '''
+                msg = "INSERT INTO Degrees(name, faculty, id) VALUES (?, ?, ?)"
+                vals = (name, faculty, degree_code)
+                uniques = (degree_code)
+                inserted_id = self.safe_insert(msg, vals, uniques)
+
+                return inserted_id
+
+        def add_degree_offering(self, year, degree_id):
+
+                exists, offer_id = self.check_exists("Degrees", (degree_id))
+
+                if not exists:
+                        raise Exception(f"Degrees doesn't contain id {degree_id}, so cannot insert DegreeOfferings")
+
+                msg = "INSERT INTO DegreeOfferings(year, degree_id) VALUES (?, ?)"
+                vals = (year, degree_id)
+                inserted_id = self.safe_insert(msg, vals, vals)
+
+                return inserted_id
+
+
         def close(self):
                 self.db.close()
 
@@ -707,7 +732,7 @@ def insert_course_offerings(start=2019, end=2025, db='university.db'):
 
         h.close()
 
-def insert_compsci_degree_requirements(db='university.db'):
+def insert_compsci_degree_requirements(db='university.db', start_year=2020, end_year=2025):
         '''
         Inserts CourseFilters for COMPA1 degree and combines them into 
         DegreeOfferingRequirements
@@ -715,6 +740,14 @@ def insert_compsci_degree_requirements(db='university.db'):
         print("==> Inserting Course Filters for COMPA1 Degree")
 
         h = Helper(dbaddr=db)
+
+        # TODO add the degree and degree offering
+        print("Inserting degree...")
+        h.add_degree("Computer Science", "Engineering", 3778)
+
+        print("Inserting degree offerings...")
+        for year in range(start_year, end_year + 1):
+                h.add_degree_offering(year, 3778)
 
         # specific course filters
         core_courses = ["COMP1511", "COMP1521", "COMP1531", "COMP2511",

@@ -37,8 +37,9 @@ from . import  (
     yearReq,
 )
 
+# TODO change me
 # Temporary: only allow 2019 results
-YEAR = 2019
+YEAR = 2020
 
 class University(object):
 

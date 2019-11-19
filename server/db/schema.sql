@@ -1,7 +1,6 @@
 create table Degrees (
     name varchar(100),
     faculty varchar(100),
-    code varchar(100) unique,
     id integer primary key
 );
 

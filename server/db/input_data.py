@@ -1,469 +1,7 @@
 '''
-Class to try and make populating the database
-less painful.
+Insertion statements to manually populate database
 '''
-import sqlite3
-
-class Helper:
-        def __init__(self, dbaddr='university.db'):
-                self.db = sqlite3.connect(dbaddr)
-                self.cursor = self.db.cursor()
-                self.cursor.row_factory = sqlite3.Row
-
-        def get_course_id(self, course):
-                '''
-                <course> a string like "COMP1511"
-
-                Returns the id of the Course entry corresponding to this course
-
-                If the course does not exist, adds a dummy course (for the purpose of courses in
-                previous years)
-                '''
-                letter_code = course[:4]
-                number_code = course[4:]
-
-                # find the course id
-                self.cursor.execute("select id from courses where letter_code = ? and number_code = ?",
-                        (letter_code, number_code))
-                result = self.cursor.fetchone()
-                if result is None:
-                    print(f"Adding course {course} because it doesn't exist in the database/must be from earlier years")
-
-                    course_id = self.cursor.execute('''insert into Courses(letter_code, number_code, level, units,
-            finished, faculty, name) values(?, ?, ?, ?, ?, ?, ?)''', (letter_code, number_code,
-                number_code[0], 6, 0, "Unkown Faculty", "Unknown Course Name"))
-                    # find the course id
-                    self.cursor.execute("select id from courses where letter_code = ? and number_code = ?",
-                        (letter_code, number_code))
-
-                    result = self.cursor.fetchone()
-
-                course_id = result[0]
-
-                return course_id
-
-        def has_entry(self, check_msg, values_tuple):
-                '''
-                Check if the given query returns results
-                True if entry exists in db, otherwise False
-                '''
-                self.cursor.execute(check_msg, values_tuple)
-                results = self.cursor.fetchall()
-
-                if len(results) == 0:
-                        return False, None
-                else:
-                        if 'id' in results[0].keys():
-                                item_id = results[0]['id']
-                        elif 'degree_id' in results[0].keys():
-                                # DegreeOfferings table only has 'degree_id' not 'id'
-                                item_id = results[0]['degree_id']
-                        else:
-                                # some tables don't have a separate id
-                                item_id = None
-                        return True, item_id
-
-        def safe_insert(self, msg, values, unique_values, type_id=None):
-                '''
-                Safely inserts an entry. Calls self.check_exists() first.
-                Then if not exists calls self.insert().
-                <msg> is the sql insert statement in form "INSERT INTO <table>(..."
-                <values> is the tuple of values corresponding to ? in <msg>
-                <unique_values> is a tuple of values needed to check this
-                <table> is either "req", "filters", or None for types of tables with type_id arguments
-                entry is unique for the given table. Requires knowledge of
-                unique() declaratoins in schema.sql.
-                '''
-                # parse out the table name from msg
-                table = (msg.split()[2]).split('(')[0]
-
-                # see if the data already exists in the table
-                # if so, grab the id of that element to return
-                exists, inserted_id = self.check_exists(table, unique_values, type_id)
-
-                if not exists:
-                        inserted_id = self.insert(msg, values)
-
-                return inserted_id
-
-        def check_exists(self, table, values, type_id=None):
-                '''
-                Checks if the entry exists in the given table name.
-                Values is a list of tuple values that should correspond
-                to the order of unique() statements in schema.sql. 
-
-                Can't really make it more extensible as knowledge about which
-                variables are needed for uniqueness is required. 
-
-                <type_id> is for CourseRequirements
-                '''
-                exists = False
-                item_id = None
-
-                if table == "Degrees":
-                        check = "SELECT id FROM Degrees where id = ?"
-                elif table == "DegreeOfferings":
-                        check = "SELECT year, degree_id FROM DegreeOfferings where year = ? and degree_id = ?"
-                elif table == "Courses":
-                        check = "SELECT letter_code, number_code, id FROM courses where letter_code = ? and number_code = ?"
-                elif table == "Sessions":
-                        check = "SELECT year, term FROM Sessions where year = ? and term = ?"
-                elif table == "CourseFilters":
-
-                        if type_id is None:
-                                raise Exception("You need to specify a type_id for CourseFilters check")
-
-                        if type_id == 1:
-                                # specific course filter
-                                check = "SELECT type_id, min_mark, course_id, id FROM CourseFilters where type_id = ? and min_mark = ? and course_id = ?"
-                        elif type_id == 2:
-                                # gened filter
-                                check = "SELECT type_id, id FROM CourseFilters where type_id = ?"
-                        elif type_id == 3:
-                                # field filter
-                                check = "SELECT type_id, field_code, id FROM CourseFilters where type_id = ? and field_code = ?"
-                        elif type_id == 4:
-                                # level filter
-                                check = "SELECT type_id, level, id FROM CourseFilters where type_id = ? and level = ?"
-                        elif type_id == 5:
-                                # free elective filter
-                                check = "SELECT type_id, id FROM CourseFilters where type_id = ?"
-                        # TODO not checking AND or OR requirements yet cuz complicated
-
-                elif table == "CourseFilterHierarchies":
-                        check = "SELECT parent_id, child_id from CourseFilterHierarchies where parent_id = ? and child_id = ?"
-                elif table == "CourseRequirements":
-
-                        if type_id is None:
-                                raise Exception("You need to specify a type_id for CourseRequirements check")
-
-                        if type_id == 1:
-                                # completed
-                                check = "SELECT type_id, min_mark, course_id, id from CourseRequirements WHERE type_id = ? and min_mark = ? and course_id = ?"
-                        elif type_id == 2:
-                                # current degree
-                                check = "SELECT type_id, degree_id, id from CourseRequirements WHERE type_id = ? and degree_id = ?"
-                        elif type_id == 3:
-                                # year requirement
-                                check = "SELECT type_id, year, id from CourseRequirements WHERE type_id = ? and year = ?"
-                        elif type_id == 4:
-                                # UOC requirement
-                                check = "SELECT type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_filter, id FROM CourseRequirements WHERE type_id = ? and uoc_amount_required = ? and uoc_min_level = ? and uoc_subject = ? and uoc_course_filter = ?"
-                        # elif type_id == 5:
-                        #       # and
-                        #       # TODO hard! have to go look for hierarchy tables
-                        # elif type_id == 6:
-                        #       # or
-                        else:
-                                raise Exception(f"type_id {type_id} not recognized")
-
-                elif table == "CourseRequirementHierarchies":
-                        check = "SELECT parent_id, child_id FROM CourseRequirementHierarchies where parent_id = ? and child_id = ?"
-                elif table == "DegreeOfferingRequirements":
-                        check = "SELECT offering_degree_id, offering_year_id, requirement_id, uoc_needed, id FROM DegreeOfferingRequirements WHERE offering_degree_id = ? and offering_year_id = ? and requirement_id = ? and uoc_needed = ?"
-                elif table == "CourseOfferings":
-                        check = "SELECT course_id, session_year, session_term FROM CourseOfferings WHERE course_id = ? and session_year = ? and session_term = ?"
-                elif table == "CourseRequirementTypes":
-                        check = "SELECT name, id from CourseRequirementTypes WHERE name = ?"
-                elif table == "CourseFilterTypes":
-                        check = "SELECT name, id FROM CourseFilterTypes WHERE name = ?"
-                else:
-                        raise Exception(f"Parsed table name {table} invalid")
-
-                exists, item_id = self.has_entry(check, values)
-
-                return exists, item_id
-
-
-        def insert(self, msg, values):
-                '''
-                Inserts using the given <msg> string with ? placeholders
-                And passes in <values>, the tuple of values for execute
-                Returns the id of this inserted item (using auto-increment)
-
-                Call self.check_exists() first. This function assumes entry DNE.
-                Or use self.safe_insert()
-
-                Assuming <msg> starts with "INSERT INTO table_name(...)", 
-                first parentheses is optional.
-                '''
-                self.cursor.execute(msg, values)
-                self.db.commit()
-
-                return self.cursor.lastrowid
-
-        def courses_equivalent_add(self, first_course, second_course):
-                '''
-                Adds an EquivalentCourses relation between the two courses
-                '''
-                first_course_id = self.get_course_id(first_course)
-                second_course_id = self.get_course_id(second_course)
-
-                if second_course_id < first_course_id:
-                    # ids must be in ascending order
-                    first_course_id, second_course_id = second_course_id, first_course_id
-
-                self.cursor.execute('''insert or ignore into EquivalentCourses(first_course, second_course)
-                    values(?, ?)''', (first_course_id, second_course_id))
-                self.db.commit()
-
-        def courses_exclusion_add(self, first_course, second_course):
-                '''
-                Adds an EquivalentCourses relation between the two courses
-                '''
-                first_course_id = self.get_course_id(first_course)
-                second_course_id = self.get_course_id(second_course)
-
-                if second_course_id < first_course_id:
-                    # ids must be in ascending order
-                    first_course_id, second_course_id = second_course_id, first_course_id
-
-                self.cursor.execute('''insert or ignore into ExcludedCourses(first_course, second_course)
-                    values(?, ?)''', (first_course_id, second_course_id))
-                self.db.commit()
-
-        def courses_req_add(self, course, field, course_req_id):
-                '''
-                Adds the CourseRequirements id <course_req_id> as a foreign key
-                for the Course entry with code <course> (i.e. "COMP1511")
-                to the given <field> in ["pre", "co"] for
-                prerequisite, corequisten
-
-                Get <course_req_id> from self.add_course_req
-                '''
-
-                course_id = self.get_course_id(course)
-
-                # validate field
-                field_options = ["pre", "co"]
-                if field not in field_options:
-                        raise Exception(f"field {field} must be in {field_options}")
-
-                # start update message
-                msg = "UPDATE Courses SET "
-
-                if field == field_options[0]:
-                        # prerequisite
-                        msg += "prereq"
-                elif field == field_options[1]:
-                        # corequisite
-                        msg += "coreq"
-
-                msg += " = ?, finished = 1 WHERE id = ?"
-
-                # execute query here
-                self.cursor.execute(msg, (course_req_id, course_id))
-                self.db.commit()
-
-        def combine_course_req(self, combo_type, reqs):
-                '''
-                Combines the ids of CourseRequirements in <reqs>
-                into an aggregate CourseRequirement ("AndRequirement" or "OrRequirement")
-
-                <combo_type> = ["and", "or"]
-                <reqs> = list of ids of CourseRequirements
-                '''
-                COMBO_ID_START = 5
-
-                valid_combos = ["and", "or"]
-                if combo_type not in valid_combos:
-                        raise Exception(f"combo type {combo_type} must be a combo CourseRequirementType: {valid_combos}")
-
-                combo_id = COMBO_ID_START + valid_combos.index(combo_type)
-
-                # make a CourseRequirement for this combo type
-                msg = "INSERT INTO CourseRequirements(type_id) VALUES (?)"
-
-                # TODO not safe inserting this yet because logic is complicated
-                last_id = self.insert(msg, (combo_id,))
-
-                # for each requirement id, add it to CourseFilterHierarchies table
-                msg = "INSERT INTO CourseRequirementHierarchies(parent_id, child_id) VALUES (?, ?)"
-                for r in reqs:
-                        self.safe_insert(msg, (last_id, r), (last_id, r))
-
-                return last_id
-
-        def make_course_req(self, ty, min_mark=None, course=None, degree_id=None,
-                year=None, uoc_amount_required=None, uoc_min_level=None, uoc_subject=None, 
-                uoc_course_filter=None):
-                '''
-                Add an entry to CourseRequirements. Base types only.
-                <ty> in ["completed", "current", "year", "uoc", parsed into type_id
-                <course> like "COMP1511"
-
-                If the type_id is a composite type, also adds the aggregated entries
-
-                Returns the id of the inserted item
-                '''
-
-                # figure out what type of requirement
-                valid_types = ["completed", "current", "year", "uoc"]
-                if ty not in valid_types:
-                        raise Exception(f"type {ty} must be a base CourseRequirementTypes: {valid_types}")
-                type_id = valid_types.index(ty) + 1     # ids start from 1 not 0
-
-                if ty == "completed":
-                        msg = "INSERT INTO CourseRequirements(type_id, min_mark, course_id) VALUES (?, ?, ?)"
-                        course_id = self.get_course_id(course)
-                        # no min mark specified, assume you just need to pass
-                        if min_mark is None:
-                                min_mark = 50
-                        val_tuple = (type_id, min_mark, course_id)
-                        last = self.safe_insert(msg, val_tuple, val_tuple, type_id)
-                elif ty == "current":
-                        msg = "INSERT INTO CourseRequirements(type_id, degree_id) VALUES (?, ?)"
-                        val_tuple = (type_id, degree_id)
-                        last = self.safe_insert(msg, val_tuple, val_tuple, type_id)
-                elif ty == "year":
-                        msg = "INSERT INTO CourseRequirements(type_id, year) VALUES (?, ?)"
-                        val_tuple = (type_id, year)
-                        last = self.safe_insert(msg, val_tuple, val_tuple, type_id)
-                elif ty == "uoc":
-                        msg = '''INSERT INTO CourseRequirements(type_id, uoc_amount_required, uoc_min_level, 
-                                uoc_subject, uoc_course_filter) VALUES (?, ?, ?, ?, ?)'''
-                        val_tuple = (type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_filter)
-                        last = self.safe_insert(msg, val_tuple, val_tuple, type_id)
-
-                return last
-
-        def add_sessions(self, start, end):
-                '''
-                Adds sessions for the uni from start year to end year
-                for all terms 0-3 (summer to T3)
-                '''
-                for year in range(start, end + 1):
-                        for term in range(3 + 1):
-                                msg = "INSERT INTO Sessions(year, term) VALUES (?, ?)"
-                                vals = (year, term)
-                                self.safe_insert(msg, vals, vals)
-
-        def add_course_offerings(self, course, years, terms):
-                '''
-                Adds to CourseOfferings for the given <course> in "COMP1511" format.
-                <years> is a list of years the offerings should be added for, i.e. [2019, 2020, 2021]
-                <terms> is a list of terms the course is offered per year, i.e. [0, 1] for summer and T1
-                - assuming that terms are the same every year. If different make 2 calls to function
-                '''
-                course_id = self.get_course_id(course)
-
-                for y in years:
-                        for t in terms:
-                                msg = '''INSERT INTO CourseOfferings(course_id, session_year, session_term)
-                                        VALUES (?, ?, ?)'''
-                                vals = (course_id, y, t)
-                                self.safe_insert(msg, vals, vals)
-
-        def combine_course_filters(self, combo_type, reqs):
-                '''
-                Combines the ids of CourseFilters entries in list reqs
-                into an aggregate CourseFilters "AndFilter" or "OrFilter"
-
-                Returns id of inserted CourseFilters entry
-                '''
-                COMBO_ID_START = 6
-                valid_combos = ["and", "or"]
-                if combo_type not in valid_combos:
-                        raise Exception(f"combo type {combo_type} must be a combo CourseFilterTypes: {valid_combos}")
-                combo_id = COMBO_ID_START + valid_combos.index(combo_type)
-
-                # make a CourseFilters for this combo type
-                msg = "INSERT INTO CourseFilters(type_id) VALUES (?)"
-                last_id = self.insert(msg, (combo_id,))
-
-                # for each requirement id, add it to the CourseFilterHierarchies table
-                msg = "INSERT INTO CourseFilterHierarchies(parent_id, child_id) VALUES (?, ?)"
-                for r in reqs:
-                        vals = (last_id, r)
-                        self.safe_insert(msg, vals, vals)
-
-                return last_id
-
-
-        def add_course_filter(self, ty, min_mark=None, course=None,
-                field_code=None, level=None, id=None):
-                '''
-                Inserts an entry into CourseFilters table
-                <ty> is the type of CourseFilters entry, must be in <valid_types> list
-                <course> is a string like "COMP1511" which will be converted to course id
-
-                Returns id of inserted CourseFilters entry
-                '''
-                valid_types = ["spec", "gen", "field", "level", "free"]
-                if ty not in valid_types:
-                        raise Exception(f"type {ty} must be a base CourseFilter: {valid_types}")
-                type_id = valid_types.index(ty) + 1
-
-                inserted_id = None
-
-                msg = "INSERT INTO CourseFilters(type_id"
-                if ty == "spec":
-                        msg += ", min_mark, course_id) VALUES (?, ?, ?)"
-                        course_id = self.get_course_id(course)
-                        vals = (type_id, min_mark, course_id)
-                elif ty == "field":
-                        msg += ", field_code) VALUES (?, ?)"
-                        vals = (type_id, field_code)
-                elif ty == "level":
-                        msg += ", level) VALUES (?, ?)"
-                        vals = (type_id, level)
-                elif ty == "gen" or ty == "free":
-                        msg += ") VALUES (?)"
-                        vals = (type_id,)
-
-                inserted_id = self.safe_insert(msg, vals, vals, type_id)
-
-                return inserted_id
-
-        def add_degree_reqs(self, degree_code, year, filter_id, uoc_needed):
-                '''
-                Inserts entry to DegreeOfferingRequirements table
-                <degree_code> is an id of Degrees table
-                <year> is a year that degree is offered, (<year>, <degree_code>) is entry in DegreeOfferings
-                <filter_id> is the id of a CourseFilters entry describing a requirement for this DegreeOffering
-                <uoc_needed> is the associated UOC needed for this requirement
-                '''
-
-                # get DegreeOffering id from degree_code, year
-                exists, offer_id = self.check_exists("DegreeOfferings", (year, degree_code))
-
-                if not exists:
-                        raise Exception(f"DegreeOffering for year = {year} and degree_id = {degree_code} DNE")
-
-                msg = '''INSERT INTO DegreeOfferingRequirements(offering_degree_id, offering_year_id, requirement_id, uoc_needed)
-                        VALUES (?, ?, ?, ?)'''
-                vals = (degree_code, year, filter_id, uoc_needed)
-                inserted_id = self.safe_insert(msg, vals, vals)         
-
-                return inserted_id
-
-        def add_degree(self, name, faculty, degree_code):
-                '''
-                Inserts an entry into Degrees
-                '''
-                msg = "INSERT INTO Degrees(name, faculty, id) VALUES (?, ?, ?)"
-                vals = (name, faculty, degree_code)
-                uniques = (degree_code)
-                inserted_id = self.safe_insert(msg, vals, uniques)
-
-                return inserted_id
-
-        def add_degree_offering(self, year, degree_id):
-
-                exists, offer_id = self.check_exists("Degrees", (degree_id))
-
-                if not exists:
-                        raise Exception(f"Degrees doesn't contain id {degree_id}, so cannot insert DegreeOfferings")
-
-                msg = "INSERT INTO DegreeOfferings(year, degree_id) VALUES (?, ?)"
-                vals = (year, degree_id)
-                inserted_id = self.safe_insert(msg, vals, vals)
-
-                return inserted_id
-
-
-        def close(self):
-                self.db.close()
+from .helper import Helper
 
 def compsci_course_reqs(db="university.db"):
         '''
@@ -732,7 +270,7 @@ def insert_course_offerings(start=2019, end=2025, db='university.db'):
 
         h.close()
 
-def insert_compsci_degree_requirements(db='university.db', start_year=2020, end_year=2025):
+def insert_compsci_degree_requirements(db='university.db', start_year=2020, end_year=2023):
         '''
         Inserts CourseFilters for COMPA1 degree and combines them into 
         DegreeOfferingRequirements
@@ -740,14 +278,6 @@ def insert_compsci_degree_requirements(db='university.db', start_year=2020, end_
         print("==> Inserting Course Filters for COMPA1 Degree")
 
         h = Helper(dbaddr=db)
-
-        # TODO add the degree and degree offering
-        print("Inserting degree...")
-        h.add_degree("Computer Science", "Engineering", 3778)
-
-        print("Inserting degree offerings...")
-        for year in range(start_year, end_year + 1):
-                h.add_degree_offering(year, 3778)
 
         # specific course filters
         core_courses = ["COMP1511", "COMP1521", "COMP1531", "COMP2511",
@@ -757,25 +287,17 @@ def insert_compsci_degree_requirements(db='university.db', start_year=2020, end_
         algos_opts = ["COMP3121", "COMP3821"]
 
         print("... core courses filters")
-        core_filters = []
-        for course in core_courses:
-                core_filters.append(h.add_course_filter("spec", min_mark=50, course=course))
+        core_filters = h.spec_courses_to_filters(core_courses)
 
         # core_combo = h.combine_course_filters("or", core_filters)
 
-        math1_filters = []
-        for course in math1_opts:
-                math1_filters.append(h.add_course_filter("spec", min_mark=50, course=course))
+        math1_filters = h.spec_courses_to_filters(math1_opts)
         math1_or = h.combine_course_filters("or", math1_filters)
 
-        math2_filters = []
-        for course in math2_opts:
-                math2_filters.append(h.add_course_filter("spec", min_mark=50, course=course))
+        math2_filters = h.spec_courses_to_filters(math2_opts)
         math2_or = h.combine_course_filters("or", math2_filters)
 
-        algos_filters = []
-        for course in algos_opts:
-                algos_filters.append(h.add_course_filter("spec", min_mark=50, course=course))
+        algos_filters = h.spec_courses_to_filters(algos_opts)
         algos_or = h.combine_course_filters("or", algos_filters)
 
         # comp elective filters, 30 UOC level 3, 4, 6, 9
@@ -802,28 +324,176 @@ def insert_compsci_degree_requirements(db='university.db', start_year=2020, end_
         COURSE_UOC = 6
         COMPSCI = 3778
 
-        for f in core_filters:
-                h.add_degree_reqs(COMPSCI, 2019, f, COURSE_UOC)
-        # h.add_degree_reqs(COMPSCI, 2019, core_combo, len(core_courses) * COURSE_UOC)
-        h.add_degree_reqs(COMPSCI, 2019, math1_or, COURSE_UOC)
-        h.add_degree_reqs(COMPSCI, 2019, math2_or, COURSE_UOC)
-        h.add_degree_reqs(COMPSCI, 2019, algos_or, COURSE_UOC)
+        print("Inserting degree...")
+        h.add_degree("Computer Science", "Engineering", 3, COMPSCI)
 
-        # 30 UOC comp electives
-        h.add_degree_reqs(COMPSCI, 2019, comp_elec, 30)
-        
-        # 12 UOC gen eds
-        h.add_degree_reqs(COMPSCI, 2019, gen_filter, 12)
+        print("Inserting degree offerings and requirements...")
+        for year in range(start_year, end_year + 1):
+                h.add_degree_offering(year, COMPSCI)
+                print(f"... year {year}")
 
-        # 36 UOC free electives
-        h.add_degree_reqs(COMPSCI, 2019, free_filter, 36)
+                # TODO would have to insert these in a loop to get all the degree offerings inserted
+                for f in core_filters:
+                        h.add_degree_reqs(COMPSCI, year, f, COURSE_UOC)
+                # h.add_degree_reqs(COMPSCI, 2019, core_combo, len(core_courses) * COURSE_UOC)
+                h.add_degree_reqs(COMPSCI, year, math1_or, COURSE_UOC)
+                h.add_degree_reqs(COMPSCI, year, math2_or, COURSE_UOC)
+                h.add_degree_reqs(COMPSCI, year, algos_or, COURSE_UOC)
 
-        # total UOC = 144
-        h.add_degree_reqs(COMPSCI, 2019, None, 144)
+                # 30 UOC comp electives
+                h.add_degree_reqs(COMPSCI, year, comp_elec, 30)
+                
+                # 12 UOC gen eds
+                h.add_degree_reqs(COMPSCI, year, gen_filter, 12)
+
+                # 36 UOC free electives
+                h.add_degree_reqs(COMPSCI, year, free_filter, 36)
+
+                # total UOC = 144
+                h.add_degree_reqs(COMPSCI, year, None, 144)
 
         h.close()
 
+def insert_seng_degree_requirements(db='university.db', start_year=2020, end_year=2023):
+        # WARNING current degree structure means this is the only "Engineering Hons" degree that can be represented
 
+        # https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3707
+        # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/SENGAH
+
+        print("==> Inserting Course Filters for SENGAH Degree")
+
+        # level 1 core courses
+        core_l1 = ["COMP1511", "COMP1521", "COMP1531", "ENGG100", "MATH1081"]
+        math1_opts = ["MATH1131", "MATH1141"]
+        math2_opts = ["MATH1231", "MATH1241"]
+
+        # level 2 core courses
+        core_l2 = ["COMP2041", "COMP2511", "COMP2521", "DESN2000", "SENG2011", "SENG2021"]
+        l2_3UOC = ["MATH2400", "MATH2859"]
+
+        # level 3 core courses 
+        core_l3 = ["COMP3141", "COMP3311", "COMP3331", "SENG3011"]
+
+        # level 4 core course
+        core_l4 = ["COMP4920"]
+        hons = ["COMP4951", "COMP4952", "COMP4953"] # 4 UOC each
+
+        # insert the specific course filters
+        core_l1_filters = h.spec_courses_to_filters(core_l1)
+
+        math1_filters = h.spec_courses_to_filters(math1_opts)
+        math1_or = h.combine_course_filters("or", math1_filters)
+
+        math2_filters = h.spec_courses_to_filters(math2_opts)
+        math2_or = h.combine_course_filters("or", math2_filters)
+
+        core_l2_filters = h.spec_courses_to_filters(core_l2)
+        l2_3UOC_filters = h.spec_courses_to_filters(l2_3UOC)
+
+        core_l3_filters = h.spec_courses_to_filters(core_l3)
+
+        core_l4_filters = h.spec_courses_to_filters(core_l4)
+        hons_filters = h.spec_courses_to_filters(hons)
+
+        # TODO insert the discipline electives filters, 36 UOC
+        # make sure this is the same as the one for general SENG
+        level3 = h.add_course_filter("level", level=3)
+        level4 = h.add_course_filter("level", level=4)
+        level6 = h.add_course_filter("level", level=6)
+        level9 = h.add_course_filter("level", level=9)
+
+        # any level 3, 4, 6, 9 computer science
+        comp = h.add_course_filter("field", field_code="COMP")
+        comp_levels = h.combine_course_filters("or", [level3, level4, level6, level9])
+        comp_disc = h.combine_course_filters("and", [comp, comp_levels])
+
+        # any level 3, 4 electrical engineering
+        elec = h.add_course_filter("field", field_code="ELEC")
+        elec_levels = h.combine_course_filters("or", [level3, level4])
+        elec_disc = h.combine_course_filters("and", [elec, elec_levels])
+
+        # ENGG3060, 3 UOC
+        maker = h.add_course_filter("spec", min_mark=50, "ENGG3060")
+
+        # any level 3, 4 infosys
+        infs = h.add_course_filter("field", field_code="INFS")
+        infs_levels = h.combine_course_filters("or", [level3, level4])
+        infs_disc = h.combine_course_filters("and", [infs, infs_levels])
+
+        # any level 3, 4, 6 MATH
+        math = h.add_course_filter("field", field_code="MATH")
+        math_levels = h.combine_course_filters("or", [level3, level4, level6])
+        math_disc = h.combine_course_filters("and", [math, math_levels])
+
+        # any level 3, 4 TELE
+        tele = h.add_course_filter("field", field_code = "TELE")
+        tele_levels = h.combine_course_filters("or", [level3, level4])
+        tele_disc = h.combine_course_filters("and", [tele, tele_levels])
+
+        # discipline elective filter
+        disc_filter = h.combine_course_filters("or", [comp_disc, elec_disc, maker, infs_disc, math_disc, tele_disc])
+
+        gen_filter = h.add_course_filter("gen")
+        free_filter = h.add_course_filter("free")
+
+        print("==> Inserting Degree Requirements for SENGAH Degree")
+
+        SENG = 3707
+
+        print("Inserting degree...")
+        h.add_degree("Engineering (Honours) (Software Engineering)", "Engineering", 4, SENG)
+
+        print("Inserting degree offerings and requirements...")
+        for year in range(start_year, end_year + 1):
+                print(f"... year {year}")
+                h.add_degree_offering(year, SENG)
+
+                # 168 UOC stream: SENGAH
+
+                # 6 UOC specific courses
+                uoc_6 = core_l1_filters + math1_or + math2_or + core_l2_filters + core_l3_filters + core_l4_filters
+                for f in uoc_6:
+                        h.add_degree_reqs(SENG, year, f, 6)
+
+                # 3 UOC specific courses
+                uoc_3 = l2_3UOC_filters
+                for f in uoc_3:
+                        h.add_degree_reqs(SENG, year, f, 3)
+
+                # 4 UOC specific courses
+                uoc_4 = hons_filters
+                for f in uoc_4:
+                        h.add_degree_reqs(SENG, year, f, 4)
+
+                # 36 UOC discipline electives
+                h.add_degree_reqs(SENG, year, disc_filter, 36)
+
+                # 6 UOC free electives
+                h.add_degree_reqs(SENG, year, free_filter, 6)
+
+                # level requirements, maturity requirements
+                # 30 UOC level 4 or higher COMP
+                h.add_degree_notes(SENG, year, "Students must complete a minimum of 30 UOC of the following courses: any level 4, 6, 9 Computer Science course, COMP4920, COMP4951, COMP4952, COMP4953.")
+
+                # level 3 maturity requirements
+                # students must coimplete 42 UOC before taking any level 3 course
+                h.add_degree_notes(SENG, year, "Students must have completed 42 UOC before taking any level 3 course.")
+
+                # level 4 maturity requirements
+                # students must complete 102 UOC before taking any level 4 course
+                h.add_degree_notes(SENG, year, "Students must have completed 102 UOC before taking any level 4 course.")
+
+                # 12 UOC General Education
+                h.add_degree_reqs(SENG, year, gen_filter, 12)
+
+                # 12 UOC Discipline Electives
+                h.add_degree_reqs(SENG, year, disc_filter, 12)
+
+                # 60 days of Industrial Training?
+                h.add_degree_notes(SENG, year, "Students must have completed a minimum of 60 days of Industrial Training to graduate. Industrial training must be undrtaken concurrently with enrolment in the program.")
+
+                # total UOC = 192
+                h.add_degree_reqs(SENG, year, None, 192)
 
 
 if __name__ == "__main__":
@@ -832,6 +502,7 @@ if __name__ == "__main__":
         # compsci_course_reqs()
         # insert_sessions()
         # insert_course_offerings()
-        insert_compsci_degree_requirements()
+        # insert_compsci_degree_requirements()
+        insert_seng_degree_requirements()
 
         pass

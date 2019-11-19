@@ -27,7 +27,8 @@ from . import minDegreeReq
 class Degree(object):
 
     def __init__(self, num_code: int, name: str, year: int, duration: int, 
-            faculty: str, requirements: Sequence['degreeReq.DegreeReq'], alpha_code: str):
+            faculty: str, requirements: Sequence['degreeReq.DegreeReq'], alpha_code: str,
+            notes: List[str]):
         self.num_code = num_code
         self.alpha_code = alpha_code
         self.name = name
@@ -35,6 +36,7 @@ class Degree(object):
         self.duration = duration
         self.faculty = faculty
         self.requirements = requirements
+        self.notes = notes
 
     def __repr__(self) -> str:
         return f"<Degree num_code={self.num_code!r}, name={self.name!r}, year={self.year!r}, duration={self.duration!r}, requirements={self.requirements!r}>"
@@ -80,6 +82,10 @@ class Degree(object):
                 remaining[req] = req.remaining(courses, degree)
 
         return remaining
+
+    @property
+    def notes(self):
+        return self.notes
 
     # Input: list of courses completed
     # Return: boolean indicating whether degree completed

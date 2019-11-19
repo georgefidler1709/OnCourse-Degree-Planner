@@ -10,20 +10,26 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
         More Info
       </a>
     }
-    delay={200}
+    delay={100}
+    infoSize={
+      Object {
+        "fontSize": "25px",
+      }
+    }
     key="3778"
     placement="right"
   >
-    <styled.button
+    <Styled(Button)
       id="3778"
       onClick={[Function]}
       value="3778"
+      variant="light"
     >
       <styled.h1>
         3778
       </styled.h1>
       <styled.p />
-    </styled.button>
+    </Styled(Button)>
   </SuggestionInfoHover>
   <SuggestionInfoHover
     content={
@@ -33,20 +39,26 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
         More Info
       </a>
     }
-    delay={200}
+    delay={100}
+    infoSize={
+      Object {
+        "fontSize": "25px",
+      }
+    }
     key="7001"
     placement="right"
   >
-    <styled.button
+    <Styled(Button)
       id="7001"
       onClick={[Function]}
       value="7001"
+      variant="light"
     >
       <styled.h1>
         7001
       </styled.h1>
       <styled.p />
-    </styled.button>
+    </Styled(Button)>
   </SuggestionInfoHover>
 </styled.div>
 `;

@@ -5,7 +5,7 @@ import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
 import { Course, CheckResponse } from '../../Api';
-import {API_ADDRESS} from '../../Constants'
+import {API_ADDRESS, DB_YEAR_MAX} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
 import html2canvas from 'html2canvas'
@@ -16,9 +16,12 @@ const TimeLineContext = styled.div`
   display: flex;
   justify-content: center;
   margin: 0px;
+  padding: 0px;
 `;
 const Container = styled.div`
   display: flex;
+  margin: 0px;
+  padding: 0px;
 `;
 
 const LColumn = styled.div`
@@ -30,7 +33,10 @@ const LColumn = styled.div`
 const RColumn = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin: 0px;
+  padding: 0px;
   width: 30%;
+  overflow: hidden;
 `;
 
 const Logo = styled.img`
@@ -78,7 +84,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   }
 
   addMissingTerms() {
-    console.log(this.state)
     const program = this.state.program
     // fill in required years for the program duration
     let timeline: Array<number> = []
@@ -299,8 +304,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   }
 
-
-
   newCourse(draggableId: string, destYearIdx: number, destTermIdx: number, destIdx: number) {
     // when you drag something from "add" box to somewhere on a term
     let newState = {
@@ -319,7 +322,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     const { destination, source, draggableId } = result
     // if not dragged into a term, don't change state
-    if(!destination) {
+    if(!destination || destination.droppableId === "Add") {
       this.resetTermHighlights()
       return;
     }
@@ -528,12 +531,17 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       ...this.state
     }
     newState.program.duration += updateVal
+    newState.program.duration = Math.max(1, newState.program.duration)
+    if(newState.program.year + newState.program.duration > DB_YEAR_MAX) {
+      newState.program.duration = DB_YEAR_MAX - newState.program.year
+      alert("Degree planning information is not accurate beyond 2025")
+    }
+    
     this.setState(newState)
     this.addMissingTerms()
 
   }
 
-  
   render() {
     if(!this.state) return <div></div>
 
@@ -562,6 +570,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                                 {year.term_plans.map(term => {
                                   const courses = term.course_ids.map(course_id => this.state.courses[course_id]!);
                                   const term_tag = term.term.toString() + " " + year.year.toString()
+
                                   return <Term 
                                             key={term_tag} 
                                             termId={term_tag} 

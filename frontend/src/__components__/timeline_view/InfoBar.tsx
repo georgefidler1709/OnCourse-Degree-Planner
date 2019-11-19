@@ -1,21 +1,26 @@
 import React, {useState, RefObject} from 'react';
 import styled from 'styled-components';
 import CourseDropBox from "./CourseDropBox"
+import InfoBarSection from "./InfoBarSection"
 import { SearchCourses } from "../degree_search/Search"
 import { RemainReq, Course } from "../../Api"
 import { CourseSearchResult } from "../../Types"
 import Requirements from "./Requirements"
-import { Card, Collapse } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 
 const Container = styled.div`
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   padding-top: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
   width: 350px;
-  height: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: content-box;
   text-align: center;
-  overflow-y: scroll;
-  overflow: overlay;
   background-color: #343a40;
   color: white;
 `;
@@ -28,12 +33,6 @@ const Title = styled.h3`
   color: inherit;
 `;
 
-const SubTitle = styled.h5`
-  padding: 4px;
-  text-align: center;
-  width: 100%;
-`;
-
 const ReqContainer = styled.div`
   padding: 4px;
   margin-bottom: 4px;
@@ -41,24 +40,6 @@ const ReqContainer = styled.div`
   text-align: left;
   color: inherit;
 `;
-
-const Section = styled(Card)`
-`
-
-const SectionHeader = styled(Card.Header)`
-  transition: color 0.2s ease;
-  color: rgba(255, 255, 255, 0.75);
-  display: flex;
-  align-items: center
-
-  &:hover {
-    color: rgba(255, 255, 255, 1)
-  };
-
-`
-const SectionIcon = styled.i`
-  float: left;
-`
 
 interface InfoBarProps {
   degree_id: number;
@@ -76,44 +57,35 @@ function InfoBar(props: InfoBarProps) {
 
   return (
     <Container>
-        <Title>
-          {props.degree_name}
-          <br/>
-          {props.degree_id.toString()}
-        </Title>
-        <Section bg="dark" text="white">
-        <SectionHeader
-        onClick={() => setOpenAdd(!openAdd)}
-        aria-controls="collapse-add-course"
-        aria-expanded={openAdd}
-      >
-        <SectionIcon className={openAdd ? "fa fa-chevron-down" : "fa fa-chevron-left"}/>
-        <SubTitle>Add a Course</SubTitle>
-      </SectionHeader>
-      <Collapse in={openAdd}>
-      <Card.Body>
-        <p>Search for a course and click on it. Then drag the course into your timeline from the <b>Add</b> box.</p>
-        <CourseDropBox type="Add" add_course={props.add_course} remove_course={props.remove_course}/>
-        <SearchCourses add_event={props.add_event}/></Card.Body>
-      </Collapse>
-      </Section>
+      <Title>
+        {props.degree_name}
+        <br/>
+        {props.degree_id.toString()}
+      </Title>
 
-      <Section bg="dark" text="white">
-        <SectionHeader
-        onClick={() => setOpenReqs(!openReqs)}
-        aria-controls="collapse-requirements"
-        aria-expanded={openReqs}
+      <InfoBarSection 
+        open={openAdd} 
+        setOpen={setOpenAdd}
+        title={"Add a Course"}
       >
-        <SectionIcon className={openReqs ? "fa fa-chevron-down" : "fa fa-chevron-left"}/>
-        <SubTitle>Requirements</SubTitle>
-      </SectionHeader>
-      <Collapse in={openReqs}>
-      <Card.Body>
-        <ReqContainer>
-          <Requirements degree_reqs={props.degree_reqs}/>
-        </ReqContainer></Card.Body>
-      </Collapse>
-      </Section>
+          <Card.Body>
+            <p>Search for a course and click on it. Then drag the course into your timeline from the <b>Add</b> box.</p>
+            <CourseDropBox type="Add" add_course={props.add_course} remove_course={props.remove_course}/>
+            <SearchCourses add_event={props.add_event}/>
+          </Card.Body>
+      </InfoBarSection>
+
+      <InfoBarSection 
+        open={openReqs} 
+        setOpen={setOpenReqs}
+        title={"Requirements"}
+      >
+        <Card.Body>
+          <ReqContainer>
+            <Requirements degree_reqs={props.degree_reqs}/>
+          </ReqContainer>
+        </Card.Body>
+      </InfoBarSection>
     </Container>
   );
 }

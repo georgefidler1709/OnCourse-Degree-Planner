@@ -52,7 +52,15 @@ describe('Rendering a course on the timeline', () => {
       const wrapper = mount(
       <DragDropContext>
       {
-       <Term key="test" termId="term" courses={[mockCourse]}/>
+       <Term 
+          key="test" 
+          termId="term" 
+          courses={[mockCourse]}
+          highlight={false} 
+          removeCourse={(s) => {return}}
+          getError={(s) => undefined}
+          getWarn={(s) => undefined}
+        />
       }
       </DragDropContext>
       );
@@ -65,7 +73,15 @@ describe('Rendering a course on the timeline', () => {
       const wrapper = mount(
       <DragDropContext>
       {
-       <Term key="test" termId="term" courses={[mockCourse]}/>
+        <Term 
+          key="test" 
+          termId="term" 
+          courses={[mockCourse]}
+          highlight={false} 
+          removeCourse={(s) => {return}}
+          getError={(s) => undefined}
+          getWarn={(s) => undefined}
+        />
       }
       </DragDropContext>
       );

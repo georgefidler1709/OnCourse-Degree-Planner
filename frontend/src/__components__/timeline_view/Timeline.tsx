@@ -302,7 +302,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       return;
     }
     
-    let [termId, yearId] = destination.droppableId.split(" ").map(s => parseInt(s))
+    let [termId, yearId] = destination.droppableId.split(" ").map(s => parseInt(s));
     if(termId && yearId && !this.isCourseOffered(draggableId, termId, yearId)) {
       this.resetTermHighlights()
       return;
@@ -310,6 +310,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     function getTarget(state: TimelineState, id: string): Array<string> {
       if(id === "Add") return state.add_course;
+      if(id === "Done") return state.program.done;
       let [termId, yearId] = id.split(" ").map(s => parseInt(s))
 
       let yearIdx = state.program.enrollments.findIndex(year => year.year === yearId);
@@ -471,6 +472,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                     degree_name={this.state.program.name}
                     degree_reqs={this.state.reqs.degree_reqs}
                     standby_courses={this.state.add_course.map(course_id => this.state.courses[course_id]!)}
+                    done_courses={this.state.program.done.map(course_id => this.state.courses[course_id]!)}
                     add_event={this.addCourse.bind(this)}
                     remove_course={this.removeCourse.bind(this)}
                   />

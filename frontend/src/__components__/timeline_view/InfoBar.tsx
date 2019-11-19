@@ -45,6 +45,7 @@ interface InfoBarProps {
   degree_name: string;
   degree_reqs: Array<RemainReq>;
   standby_courses: Array<Course>;
+  done_courses: Array<Course>;
   add_event: (code: string) => Promise<boolean>;// function to call when you want to add a course
   remove_course: (id: string) => void;
 }
@@ -52,6 +53,7 @@ interface InfoBarProps {
 function InfoBar(props: InfoBarProps) {
 
   const [openAdd, setOpenAdd] = useState(true);
+  const [openDone, setOpenDone] = useState(true);
   const [openReqs, setOpenReqs] = useState(false);
 
   return (
@@ -76,6 +78,22 @@ function InfoBar(props: InfoBarProps) {
               highlight={false}
               removeCourse={props.remove_course}/>
             <SearchCourses add_event={props.add_event}/>
+          </Card.Body>
+      </InfoBarSection>
+
+      <InfoBarSection 
+        open={openDone} 
+        setOpen={setOpenDone}
+        title={"Courses Already Done"}
+      >
+          <Card.Body>
+            <p>Drop the courses you have already done into the box below</p>
+            <InfoBarDropBox 
+              name="Already Done" 
+              id="Done" 
+              courses={props.done_courses} 
+              highlight={false}
+              removeCourse={props.remove_course}/>
           </Card.Body>
       </InfoBarSection>
 

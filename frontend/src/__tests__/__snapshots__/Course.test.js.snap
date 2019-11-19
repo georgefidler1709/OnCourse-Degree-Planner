@@ -59,18 +59,38 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
           removeCourse={[Function]}
           termId="term"
         >
-          <styled.div>
-            <StyledComponent
-              forwardedComponent={
+          <Component
+            courses={
+              Array [
                 Object {
-                  "$$typeof": Symbol(react.forward_ref),
-                  "attrs": Array [],
-                  "componentStyle": ComponentStyle {
-                    "componentId": "sc-htpNat",
-                    "isStatic": false,
-                    "lastClassName": "dsUfca",
-                    "rules": Array [
-                      "
+                  "code": "COMP1511",
+                  "coreqs": "",
+                  "equivalents": "",
+                  "exclusions": "DPST1091",
+                  "name": "Programming Fundamentals",
+                  "prereqs": "",
+                },
+              ]
+            }
+            getError={[Function]}
+            getWarn={[Function]}
+            highlight={false}
+            name="Tundefined"
+            removeCourse={[Function]}
+            termId="term"
+          >
+            <styled.div>
+              <StyledComponent
+                forwardedComponent={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "attrs": Array [],
+                    "componentStyle": ComponentStyle {
+                      "componentId": "sc-bxivhb",
+                      "isStatic": false,
+                      "lastClassName": "dJmCIm",
+                      "rules": Array [
+                        "
   margin-top: 8px;
   margin-bottom: 8px;
   border: 1px solid lightgrey;
@@ -80,168 +100,155 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
   display: flex;
   flex-direction: column;
 ",
-                    ],
-                  },
-                  "displayName": "styled.div",
-                  "foldedComponentIds": Array [],
-                  "render": [Function],
-                  "styledComponentId": "sc-htpNat",
-                  "target": "div",
-                  "toString": [Function],
-                  "warnTooManyClasses": [Function],
-                  "withComponent": [Function],
+                      ],
+                    },
+                    "displayName": "styled.div",
+                    "foldedComponentIds": Array [],
+                    "render": [Function],
+                    "styledComponentId": "sc-bxivhb",
+                    "target": "div",
+                    "toString": [Function],
+                    "warnTooManyClasses": [Function],
+                    "withComponent": [Function],
+                  }
                 }
-              }
-              forwardedRef={null}
-            >
-              <div
-                className="sc-htpNat dsUfca"
+                forwardedRef={null}
               >
-                <styled.h3>
-                  <StyledComponent
-                    forwardedComponent={
-                      Object {
-                        "$$typeof": Symbol(react.forward_ref),
-                        "attrs": Array [],
-                        "componentStyle": ComponentStyle {
-                          "componentId": "sc-bxivhb",
-                          "isStatic": false,
-                          "lastClassName": "AcyJd",
-                          "rules": Array [
-                            "
+                <div
+                  className="sc-bxivhb dJmCIm"
+                >
+                  <styled.h3>
+                    <StyledComponent
+                      forwardedComponent={
+                        Object {
+                          "$$typeof": Symbol(react.forward_ref),
+                          "attrs": Array [],
+                          "componentStyle": ComponentStyle {
+                            "componentId": "sc-ifAKCX",
+                            "isStatic": false,
+                            "lastClassName": "hMawfQ",
+                            "rules": Array [
+                              "
   padding: 8px;
   font-family: Arial, Helvetica, sans-serif;
   border-bottom: 1px solid lightgrey;
   margin: 0px;
 ",
-                          ],
-                        },
-                        "displayName": "styled.h3",
-                        "foldedComponentIds": Array [],
-                        "render": [Function],
-                        "styledComponentId": "sc-bxivhb",
-                        "target": "h3",
-                        "toString": [Function],
-                        "warnTooManyClasses": [Function],
-                        "withComponent": [Function],
+                            ],
+                          },
+                          "displayName": "styled.h3",
+                          "foldedComponentIds": Array [],
+                          "render": [Function],
+                          "styledComponentId": "sc-ifAKCX",
+                          "target": "h3",
+                          "toString": [Function],
+                          "warnTooManyClasses": [Function],
+                          "withComponent": [Function],
+                        }
                       }
-                    }
-                    forwardedRef={null}
-                  >
-                    <h3
-                      className="sc-bxivhb AcyJd"
+                      forwardedRef={null}
                     >
-                      Tterm
-                    </h3>
-                  </StyledComponent>
-                </styled.h3>
-                <ConnectFunction
-                  direction="vertical"
-                  droppableId="term"
-                  getContainerForClone={[Function]}
-                  ignoreContainerClipping={false}
-                  isCombineEnabled={false}
-                  isDropDisabled={false}
-                  mode="standard"
-                  renderClone={null}
-                  type="DEFAULT"
-                >
-                  <Droppable
+                      <h3
+                        className="sc-ifAKCX hMawfQ"
+                      >
+                        Tundefined
+                      </h3>
+                    </StyledComponent>
+                  </styled.h3>
+                  <ConnectFunction
                     direction="vertical"
-                    droppableId="term"
                     getContainerForClone={[Function]}
                     ignoreContainerClipping={false}
                     isCombineEnabled={false}
                     isDropDisabled={false}
                     mode="standard"
-                    placeholder={null}
                     renderClone={null}
-                    shouldAnimatePlaceholder={false}
-                    snapshot={
-                      Object {
-                        "draggingFromThisWith": null,
-                        "draggingOverWith": null,
-                        "isDraggingOver": false,
-                        "isUsingPlaceholder": false,
-                      }
-                    }
                     type="DEFAULT"
-                    updateViewportMaxScroll={[Function]}
-                    useClone={null}
                   >
-                    <styled.div
-                      data-rbd-droppable-context-id="1"
-                      data-rbd-droppable-id="term"
-                      highlight={false}
-                      isDraggingOver={false}
+                    <Droppable
+                      direction="vertical"
+                      getContainerForClone={[Function]}
+                      ignoreContainerClipping={false}
+                      isCombineEnabled={false}
+                      isDropDisabled={false}
+                      mode="standard"
+                      placeholder={null}
+                      renderClone={null}
+                      shouldAnimatePlaceholder={false}
+                      snapshot={
+                        Object {
+                          "draggingFromThisWith": null,
+                          "draggingOverWith": null,
+                          "isDraggingOver": false,
+                          "isUsingPlaceholder": false,
+                        }
+                      }
+                      type="DEFAULT"
+                      updateViewportMaxScroll={[Function]}
+                      useClone={null}
                     >
-                      <StyledComponent
+                      <styled.div
                         data-rbd-droppable-context-id="1"
-                        data-rbd-droppable-id="term"
-                        forwardedComponent={
-                          Object {
-                            "$$typeof": Symbol(react.forward_ref),
-                            "attrs": Array [],
-                            "componentStyle": ComponentStyle {
-                              "componentId": "sc-ifAKCX",
-                              "isStatic": false,
-                              "lastClassName": "kIIFkF",
-                              "rules": Array [
-                                "
+                        highlight={false}
+                        isDraggingOver={false}
+                      >
+                        <StyledComponent
+                          data-rbd-droppable-context-id="1"
+                          forwardedComponent={
+                            Object {
+                              "$$typeof": Symbol(react.forward_ref),
+                              "attrs": Array [],
+                              "componentStyle": ComponentStyle {
+                                "componentId": "sc-htpNat",
+                                "isStatic": false,
+                                "lastClassName": "jgdmCx",
+                                "rules": Array [
+                                  "
   padding: 8px;
   flex-grow: 1;
   min-height: 100px;
   transition: background-color 0.2s ease;
   background-color: ",
-                                [Function],
-                                ";
+                                  [Function],
+                                  ";
 ",
-                              ],
-                            },
-                            "displayName": "styled.div",
-                            "foldedComponentIds": Array [],
-                            "render": [Function],
-                            "styledComponentId": "sc-ifAKCX",
-                            "target": "div",
-                            "toString": [Function],
-                            "warnTooManyClasses": [Function],
-                            "withComponent": [Function],
+                                ],
+                              },
+                              "displayName": "styled.div",
+                              "foldedComponentIds": Array [],
+                              "render": [Function],
+                              "styledComponentId": "sc-htpNat",
+                              "target": "div",
+                              "toString": [Function],
+                              "warnTooManyClasses": [Function],
+                              "withComponent": [Function],
+                            }
                           }
-                        }
-                        forwardedRef={[Function]}
-                        highlight={false}
-                        isDraggingOver={false}
-                      >
-                        <div
-                          className="sc-ifAKCX kIIFkF"
-                          data-rbd-droppable-context-id="1"
-                          data-rbd-droppable-id="term"
+                          forwardedRef={[Function]}
+                          highlight={false}
+                          isDraggingOver={false}
                         >
-                          <Course
-                            code="COMP1511"
-                            coreqs=""
-                            equivalents=""
-                            exclusions="DPST1091"
-                            index={0}
-                            key="COMP1511"
-                            name="Programming Fundamentals"
-                            prereqs=""
-                            removeCourse={[Function]}
+                          <div
+                            className="sc-htpNat jgdmCx"
+                            data-rbd-droppable-context-id="1"
                           >
-                            <div>
-                              <PublicDraggable
-                                draggableId="COMP1511"
-                                index={0}
-                              >
-                                <PrivateDraggable
-                                  canDragInteractiveElements={false}
+                            <Course
+                              code="COMP1511"
+                              coreqs=""
+                              equivalents=""
+                              exclusions="DPST1091"
+                              index={0}
+                              key="COMP1511"
+                              name="Programming Fundamentals"
+                              prereqs=""
+                              removeCourse={[Function]}
+                            >
+                              <div>
+                                <PublicDraggable
                                   draggableId="COMP1511"
                                   index={0}
-                                  isClone={false}
-                                  isEnabled={true}
-                                  shouldRespectForcePress={false}
                                 >
-                                  <Connect(Draggable)
+                                  <PrivateDraggable
                                     canDragInteractiveElements={false}
                                     draggableId="COMP1511"
                                     index={0}
@@ -249,102 +256,51 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                                     isEnabled={true}
                                     shouldRespectForcePress={false}
                                   >
-                                    <Draggable
+                                    <Connect(Draggable)
                                       canDragInteractiveElements={false}
                                       draggableId="COMP1511"
-                                      dropAnimationFinished={[Function]}
                                       index={0}
                                       isClone={false}
                                       isEnabled={true}
-                                      mapped={
-                                        Object {
-                                          "combineTargetFor": null,
-                                          "offset": Object {
-                                            "x": 0,
-                                            "y": 0,
-                                          },
-                                          "shouldAnimateDisplacement": true,
-                                          "snapshot": Object {
-                                            "combineTargetFor": null,
-                                            "combineWith": null,
-                                            "draggingOver": null,
-                                            "dropAnimation": null,
-                                            "isClone": false,
-                                            "isDragging": false,
-                                            "isDropAnimating": false,
-                                            "mode": null,
-                                          },
-                                          "type": "SECONDARY",
-                                        }
-                                      }
                                       shouldRespectForcePress={false}
                                     >
-                                      <styled.div
-                                        aria-labelledby="rbd-lift-instruction-1"
-                                        data-rbd-drag-handle-context-id="1"
-                                        data-rbd-drag-handle-draggable-id="COMP1511"
-                                        data-rbd-draggable-context-id="1"
-                                        data-rbd-draggable-id="COMP1511"
-                                        draggable={false}
-                                        hasError={false}
-                                        hasWarning={false}
-                                        isDragging={false}
-                                        onClick={[Function]}
-                                        onDragStart={[Function]}
-                                        onTransitionEnd={null}
-                                        style={
+                                      <Draggable
+                                        canDragInteractiveElements={false}
+                                        draggableId="COMP1511"
+                                        dropAnimationFinished={[Function]}
+                                        index={0}
+                                        isClone={false}
+                                        isEnabled={true}
+                                        mapped={
                                           Object {
-                                            "transform": null,
-                                            "transition": null,
+                                            "combineTargetFor": null,
+                                            "offset": Object {
+                                              "x": 0,
+                                              "y": 0,
+                                            },
+                                            "shouldAnimateDisplacement": true,
+                                            "snapshot": Object {
+                                              "combineTargetFor": null,
+                                              "combineWith": null,
+                                              "draggingOver": null,
+                                              "dropAnimation": null,
+                                              "isClone": false,
+                                              "isDragging": false,
+                                              "isDropAnimating": false,
+                                              "mode": null,
+                                            },
+                                            "type": "SECONDARY",
                                           }
                                         }
-                                        tabIndex={0}
+                                        shouldRespectForcePress={false}
                                       >
-                                        <StyledComponent
+                                        <styled.div
                                           aria-labelledby="rbd-lift-instruction-1"
                                           data-rbd-drag-handle-context-id="1"
                                           data-rbd-drag-handle-draggable-id="COMP1511"
                                           data-rbd-draggable-context-id="1"
                                           data-rbd-draggable-id="COMP1511"
                                           draggable={false}
-                                          forwardedComponent={
-                                            Object {
-                                              "$$typeof": Symbol(react.forward_ref),
-                                              "attrs": Array [],
-                                              "componentStyle": ComponentStyle {
-                                                "componentId": "sc-bwzfXH",
-                                                "isStatic": false,
-                                                "lastClassName": "bBrTaZ",
-                                                "rules": Array [
-                                                  "
-  color: black;
-  border: 2px solid lightgrey;
-  border-radius: 6px;
-  padding: 8px;
-  margin-bottom: 8px;
-  background-color: ",
-                                                  [Function],
-                                                  ";
-
-  &:hover {
-    background-color: ",
-                                                  [Function],
-                                                  ";
-  }
-",
-                                                ],
-                                              },
-                                              "displayName": "styled.div",
-                                              "foldedComponentIds": Array [],
-                                              "render": [Function],
-                                              "styledComponentId": "sc-bwzfXH",
-                                              "target": "div",
-                                              "toString": [Function],
-                                              "warnTooManyClasses": [Function],
-                                              "withComponent": [Function],
-                                            }
-                                          }
-                                          forwardedRef={[Function]}
                                           hasError={false}
                                           hasWarning={false}
                                           isDragging={false}
@@ -359,14 +315,54 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                                           }
                                           tabIndex={0}
                                         >
-                                          <div
+                                          <StyledComponent
                                             aria-labelledby="rbd-lift-instruction-1"
-                                            className="sc-bwzfXH bBrTaZ"
                                             data-rbd-drag-handle-context-id="1"
                                             data-rbd-drag-handle-draggable-id="COMP1511"
                                             data-rbd-draggable-context-id="1"
                                             data-rbd-draggable-id="COMP1511"
                                             draggable={false}
+                                            forwardedComponent={
+                                              Object {
+                                                "$$typeof": Symbol(react.forward_ref),
+                                                "attrs": Array [],
+                                                "componentStyle": ComponentStyle {
+                                                  "componentId": "sc-bwzfXH",
+                                                  "isStatic": false,
+                                                  "lastClassName": "bBrTaZ",
+                                                  "rules": Array [
+                                                    "
+  color: black;
+  border: 2px solid lightgrey;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: ",
+                                                    [Function],
+                                                    ";
+
+  &:hover {
+    background-color: ",
+                                                    [Function],
+                                                    ";
+  }
+",
+                                                  ],
+                                                },
+                                                "displayName": "styled.div",
+                                                "foldedComponentIds": Array [],
+                                                "render": [Function],
+                                                "styledComponentId": "sc-bwzfXH",
+                                                "target": "div",
+                                                "toString": [Function],
+                                                "warnTooManyClasses": [Function],
+                                                "withComponent": [Function],
+                                              }
+                                            }
+                                            forwardedRef={[Function]}
+                                            hasError={false}
+                                            hasWarning={false}
+                                            isDragging={false}
                                             onClick={[Function]}
                                             onDragStart={[Function]}
                                             onTransitionEnd={null}
@@ -378,72 +374,66 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                                             }
                                             tabIndex={0}
                                           >
-                                            COMP1511
-                                          </div>
-                                        </StyledComponent>
-                                      </styled.div>
-                                    </Draggable>
-                                  </Connect(Draggable)>
-                                </PrivateDraggable>
-                              </PublicDraggable>
-                              <CourseInfoModal
-                                code="COMP1511"
-                                coreqs=""
-                                equivalents=""
-                                exclusions="DPST1091"
-                                index={0}
-                                name="Programming Fundamentals"
-                                onHide={[Function]}
-                                prereqs=""
-                                removeCourse={[Function]}
-                                show={false}
-                              >
-                                <Bootstrap(Modal)
-                                  aria-labelledby="contained-modal-title-vcenter"
-                                  centered={true}
+                                            <div
+                                              aria-labelledby="rbd-lift-instruction-1"
+                                              className="sc-bwzfXH bBrTaZ"
+                                              data-rbd-drag-handle-context-id="1"
+                                              data-rbd-drag-handle-draggable-id="COMP1511"
+                                              data-rbd-draggable-context-id="1"
+                                              data-rbd-draggable-id="COMP1511"
+                                              draggable={false}
+                                              onClick={[Function]}
+                                              onDragStart={[Function]}
+                                              onTransitionEnd={null}
+                                              style={
+                                                Object {
+                                                  "transform": null,
+                                                  "transition": null,
+                                                }
+                                              }
+                                              tabIndex={0}
+                                            >
+                                              COMP1511
+                                            </div>
+                                          </StyledComponent>
+                                        </styled.div>
+                                      </Draggable>
+                                    </Connect(Draggable)>
+                                  </PrivateDraggable>
+                                </PublicDraggable>
+                                <CourseInfoModal
+                                  code="COMP1511"
+                                  coreqs=""
+                                  equivalents=""
+                                  exclusions="DPST1091"
+                                  index={0}
+                                  name="Programming Fundamentals"
                                   onHide={[Function]}
+                                  prereqs=""
+                                  removeCourse={[Function]}
                                   show={false}
-                                  size="lg"
                                 >
-                                  <Modal
-                                    animation={true}
+                                  <Bootstrap(Modal)
                                     aria-labelledby="contained-modal-title-vcenter"
-                                    autoFocus={true}
-                                    backdrop={true}
-                                    bsPrefix="modal"
                                     centered={true}
-                                    dialogAs={
-                                      Object {
-                                        "$$typeof": Symbol(react.forward_ref),
-                                        "displayName": "ModalDialog",
-                                        "render": [Function],
-                                      }
-                                    }
-                                    enforceFocus={true}
-                                    keyboard={true}
-                                    manager={
-                                      BootstrapModalManager {
-                                        "adjustAndStore": [Function],
-                                        "containers": Array [],
-                                        "data": Array [],
-                                        "handleContainerOverflow": true,
-                                        "hideSiblingNodes": true,
-                                        "modals": Array [],
-                                        "restore": [Function],
-                                        "scrollbarSize": 0,
-                                      }
-                                    }
                                     onHide={[Function]}
-                                    restoreFocus={true}
                                     show={false}
                                     size="lg"
                                   >
                                     <Modal
+                                      animation={true}
+                                      aria-labelledby="contained-modal-title-vcenter"
                                       autoFocus={true}
                                       backdrop={true}
-                                      backdropTransition={[Function]}
-                                      className="modal"
-                                      containerClassName="modal-open"
+                                      bsPrefix="modal"
+                                      centered={true}
+                                      dialogAs={
+                                        Object {
+                                          "$$typeof": Symbol(react.forward_ref),
+                                          "displayName": "ModalDialog",
+                                          "render": [Function],
+                                        }
+                                      }
                                       enforceFocus={true}
                                       keyboard={true}
                                       manager={
@@ -458,36 +448,62 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                                           "scrollbarSize": 0,
                                         }
                                       }
-                                      onClick={[Function]}
-                                      onEnter={[Function]}
-                                      onEntering={[Function]}
-                                      onExited={[Function]}
                                       onHide={[Function]}
-                                      onMouseUp={[Function]}
-                                      renderBackdrop={[Function]}
                                       restoreFocus={true}
-                                      role="dialog"
                                       show={false}
-                                      style={Object {}}
-                                      transition={[Function]}
-                                    />
-                                  </Modal>
-                                </Bootstrap(Modal)>
-                              </CourseInfoModal>
-                            </div>
-                          </Course>
-                          <AnimateInOut
-                            on={null}
-                            shouldAnimate={false}
-                          />
-                        </div>
-                      </StyledComponent>
-                    </styled.div>
-                  </Droppable>
-                </ConnectFunction>
-              </div>
-            </StyledComponent>
-          </styled.div>
+                                      size="lg"
+                                    >
+                                      <Modal
+                                        autoFocus={true}
+                                        backdrop={true}
+                                        backdropTransition={[Function]}
+                                        className="modal"
+                                        containerClassName="modal-open"
+                                        enforceFocus={true}
+                                        keyboard={true}
+                                        manager={
+                                          BootstrapModalManager {
+                                            "adjustAndStore": [Function],
+                                            "containers": Array [],
+                                            "data": Array [],
+                                            "handleContainerOverflow": true,
+                                            "hideSiblingNodes": true,
+                                            "modals": Array [],
+                                            "restore": [Function],
+                                            "scrollbarSize": 0,
+                                          }
+                                        }
+                                        onClick={[Function]}
+                                        onEnter={[Function]}
+                                        onEntering={[Function]}
+                                        onExited={[Function]}
+                                        onHide={[Function]}
+                                        onMouseUp={[Function]}
+                                        renderBackdrop={[Function]}
+                                        restoreFocus={true}
+                                        role="dialog"
+                                        show={false}
+                                        style={Object {}}
+                                        transition={[Function]}
+                                      />
+                                    </Modal>
+                                  </Bootstrap(Modal)>
+                                </CourseInfoModal>
+                              </div>
+                            </Course>
+                            <AnimateInOut
+                              on={null}
+                              shouldAnimate={false}
+                            />
+                          </div>
+                        </StyledComponent>
+                      </styled.div>
+                    </Droppable>
+                  </ConnectFunction>
+                </div>
+              </StyledComponent>
+            </styled.div>
+          </Component>
         </Term>
       </Provider>
     </App>

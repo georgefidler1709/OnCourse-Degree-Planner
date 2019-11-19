@@ -145,11 +145,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     } else {
       // fetches information about this course's offerings
       // and modifies the state's courses
-      var request = new Request(API_ADDRESS + `/${code}/course_info.json`, {
-        method: 'GET',
-        headers: new Headers()
-      })
-      let response = await fetch(request);
+      let response = await fetch(API_ADDRESS + `/${code}/course_info.json`);
       let course = await response.json();
 
       this.setState(state => {
@@ -232,45 +228,32 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     let startTermIdx = -1
     let startYearIdx = -1
 
-    startYearIdx = this.state.program.enrollments.findIndex(year => {
-      startTermIdx = year.term_plans.findIndex(term => {
-        sourceIdx = term.course_ids.findIndex(id => id === draggableId)
-        return sourceIdx !== -1
+    let newState = {
+      ...this.state,
+    }
+
+    if ((sourceIdx = newState.add_course.findIndex(id => id === draggableId)) !== -1) {
+      newState.add_course.splice(sourceIdx, 1);
+    }
+    else if ((sourceIdx = newState.program.done.findIndex(id => id === draggableId)) !== -1) {
+      newState.program.done.splice(sourceIdx, 1);
+    }
+    else {
+      startYearIdx = newState.program.enrollments.findIndex(year => {
+        startTermIdx = year.term_plans.findIndex(term => {
+          sourceIdx = term.course_ids.findIndex(id => id === draggableId)
+          return sourceIdx !== -1
+        })
+        return startTermIdx !== -1
       })
-      return startTermIdx !== -1
-    })
 
-    let startYear = this.state.program.enrollments[startYearIdx]
-    let startTerm = startYear.term_plans[startTermIdx]
+      delete newState.courses[draggableId];
+      newState.program.enrollments[startYearIdx].term_plans[startTermIdx].course_ids.splice(sourceIdx, 1)
+    }
 
-    const newCourseIds = Array.from(startTerm.course_ids)
-      newCourseIds.splice(sourceIdx, 1)
-
-      const newTerm = {
-        ...startTerm,
-        course_ids: newCourseIds
-      }
-
-      let newYear = {
-        ...startYear,
-      }
-
-      newYear.term_plans[startTermIdx] = newTerm
-
-      let newCourses = this.state.courses
-      delete newCourses[draggableId]
-
-      let newState = {
-        ...this.state,
-      }
-
-      // make modifications to state
-      newState.courses = newCourses
-      newState.program.enrollments[startYearIdx] = newYear
-
-      // set state, then update program in the new state
-      this.setState(newState)
-      this.updateProgram(newState)
+    // set state, then update program in the new state
+    this.setState(newState)
+    this.updateProgram(newState)
   }
 
   newCourse(draggableId: string, destYearIdx: number, destTermIdx: number, destIdx: number, sourceIdx: number) {

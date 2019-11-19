@@ -12,11 +12,12 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
     <NavbarBrand
       href="/"
     >
-       
-      <styled.img
-        alt="logo"
-        src="/images/logo.png"
-      />
+      <span
+        aria-label="book"
+        role="img"
+      >
+        📖
+      </span>
        OnCourse
     </NavbarBrand>
     <Nav
@@ -53,6 +54,101 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                 <Term
                   courses={
                     Array [
+                      Object {
+                        "code": "COMP1511",
+                        "coreqs": "",
+                        "equivalents": "",
+                        "exclusions": "DPST1091",
+                        "name": "Programming Fundamentals",
+                        "prereqs": "",
+                        "terms": Array [
+                          Object {
+                            "term": 1,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2025,
+                          },
+                        ],
+                        "units": 6,
+                      },
                       Object {
                         "code": "MATH1081",
                         "coreqs": "(DPST1013 OR MATH1131 OR MATH1141 OR MATH1151)",
@@ -248,113 +344,12 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                   getError={[Function]}
                   getWarn={[Function]}
                   key="1 2019"
+                  name="1 2019"
                   removeCourse={[Function]}
-                  termId="1 2019"
                 />
                 <Term
                   courses={
                     Array [
-                      Object {
-                        "code": "MATH1131",
-                        "coreqs": "",
-                        "equivalents": "DPST1013",
-                        "exclusions": "DPST1013
-MATH1151
-MATH1031
-MATH1141
-ECON2291
-MATH1011
-ECON1202",
-                        "name": "Mathematics 1A",
-                        "prereqs": "",
-                        "terms": Array [
-                          Object {
-                            "term": 1,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2020,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2020,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2020,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2021,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2021,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2021,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2022,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2022,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2022,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2023,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2023,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2023,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2024,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2024,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2024,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2025,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2025,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2025,
-                          },
-                        ],
-                        "units": 6,
-                      },
                       Object {
                         "code": "COMP1521",
                         "coreqs": "",
@@ -524,8 +519,8 @@ DPST1014",
                   getError={[Function]}
                   getWarn={[Function]}
                   key="2 2019"
+                  name="2 2019"
                   removeCourse={[Function]}
-                  termId="2 2019"
                 />
                 <Term
                   courses={Array []}
@@ -533,8 +528,8 @@ DPST1014",
                   getWarn={[Function]}
                   highlight={false}
                   key="3 2019"
+                  name="3 2019"
                   removeCourse={[Function]}
-                  termId="3 2019"
                 />
               </styled.div>
             </div>
@@ -549,8 +544,8 @@ DPST1014",
                   getError={[Function]}
                   getWarn={[Function]}
                   key="1 2020"
+                  name="1 2020"
                   removeCourse={[Function]}
-                  termId="1 2020"
                 />
                 <Term
                   courses={
@@ -671,16 +666,16 @@ COMP2011",
                   getError={[Function]}
                   getWarn={[Function]}
                   key="2 2020"
+                  name="2 2020"
                   removeCourse={[Function]}
-                  termId="2 2020"
                 />
                 <Term
                   courses={Array []}
                   getError={[Function]}
                   getWarn={[Function]}
                   key="3 2020"
+                  name="3 2020"
                   removeCourse={[Function]}
-                  termId="3 2020"
                 />
               </styled.div>
             </div>
@@ -696,8 +691,8 @@ COMP2011",
                   getWarn={[Function]}
                   highlight={false}
                   key="1 2021"
+                  name="1 2021"
                   removeCourse={[Function]}
-                  termId="1 2021"
                 />
                 <Term
                   courses={Array []}
@@ -705,8 +700,8 @@ COMP2011",
                   getWarn={[Function]}
                   highlight={false}
                   key="2 2021"
+                  name="2 2021"
                   removeCourse={[Function]}
-                  termId="2 2021"
                 />
                 <Term
                   courses={Array []}
@@ -714,8 +709,8 @@ COMP2011",
                   getWarn={[Function]}
                   highlight={false}
                   key="3 2021"
+                  name="3 2021"
                   removeCourse={[Function]}
-                  termId="3 2021"
                 />
               </styled.div>
             </div>
@@ -762,7 +757,9 @@ COMP2011",
                 },
               ]
             }
+            done_courses={Array []}
             remove_course={[Function]}
+            standby_courses={Array []}
           />
         </styled.div>
       </div>

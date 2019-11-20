@@ -54,19 +54,19 @@ def course_info(course: str) -> str:
     return jsonify(course_info.to_api())
 
 
-@degrees_bp.route('/<code>/gen_program.json')
-def generate_program(code: int) -> str:
+@degrees_bp.route('/<code>/<year>/gen_program.json')
+def generate_program(code: int, year: int) -> str:
     '''
     Generates a program plan for the given degree code, 
     '''
     uni = University(query_db)
 
-    deg = uni.load_degree(code)
+    deg = uni.load_degree(code, year)
 
     if deg is None:
         # given code is not valid
         # TODO see if there's a more elegant way of doing this
-        raise Exception(f"Degree code {code} is not in the database.")
+        raise Exception(f"Degree code {code} is not in the database for year {year}.")
 
     gen = Generator(deg, uni)
 
@@ -113,7 +113,7 @@ def check_program() -> str:
     uni = University(query_db)
 
     # create the degree with requirements
-    deg = uni.load_degree(data['id']) # TODO when we have more than one year we need to search by id and year
+    deg = uni.load_degree(data['id'], data['year']) # TODO when we have more than one year we need to search by id and year
     assert deg is not None
     # TODO reflect any changes in frontend if you change degree.year
     deg.duration = data['duration']

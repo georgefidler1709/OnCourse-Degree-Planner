@@ -39,6 +39,7 @@ export interface Program {
   url: string; // handbook entry for degree
   notes: Array<string>;
   enrollments: Array<YearPlan>;
+  done: Array<string>;
 }
 
 export interface Term {

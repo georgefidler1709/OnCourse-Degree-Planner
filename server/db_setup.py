@@ -27,11 +27,15 @@ def query_db(query : str, args: Tuple = (), one = False) -> sqlite3.Row:
 def store_db(command: str, args: Tuple = ()) -> int:
     # Store information in the database
 
-    cur = get_db().cursor()
-    cur.execute(command, args)
+    try:
+        cur = get_db().cursor()
+        cur.execute(command, args)
 
-    insert_id = cur.lastrowid
-    get_db().commit()
+        insert_id = cur.lastrowid
+        get_db().commit()
+    except sqlite3.IntegrityError as e:
+        print(f"Failed integrity error with command '{command}' and args '{args}'")
+        raise e
 
     return insert_id
 

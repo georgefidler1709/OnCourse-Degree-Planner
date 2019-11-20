@@ -84,7 +84,7 @@ class Scraper(object):
     # Scrape the given course for the given year and return it as a ScrapedCourse
     # (a course with all of the information unparsed in string form)
     def get_course(self, year: int, course_code: str,
-            postgrad: bool=False) -> scrapedCourse.ScrapedCourse:
+            postgrad: bool=False) -> Optional[scrapedCourse.ScrapedCourse]:
         if postgrad:
             study_level = 'Postgraduate'
         else:
@@ -98,7 +98,8 @@ class Scraper(object):
         try:
             page = BeautifulSoup(self.get_webpage(url), 'html.parser')
         except requests.exceptions.HTTPError:
-            raise Exception(f"Could not scraped course {course_code}")
+            print(f"(Could not get scraped course {course_code})")
+            return None
 
         # Get course name
         name_tag = page.find(attrs={'data-hbui':'module-title'})
@@ -177,12 +178,18 @@ class Scraper(object):
             courses = list(map(lambda x: x.find('span'), course_sections))
             return list(map(lambda x: x.string, courses))
 
-    def scrape_all_courses(self, year: int, postgrad: bool = False) -> List[scrapedCourse.ScrapedCourse]:
-        course_codes = self.get_course_codes(year, '', postgrad)
+    def scrape_all_courses(self, year: int, field: str="", postgrad: bool = False) -> List[scrapedCourse.ScrapedCourse]:
+        course_codes = self.get_course_codes(year, field, postgrad)
 
         courses = list(map(lambda x: self.get_course(year, x, postgrad), course_codes))
 
-        return courses
+        courses_no_nulls: List[scrapedCourse.ScrapedCourse] = []
+
+        for course in courses:
+            if course is not None:
+                courses_no_nulls.append(course)
+
+        return courses_no_nulls
 
 
 

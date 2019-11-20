@@ -96,3 +96,5 @@ function Notes(props: NoteProps) {
   }
   
 }
+
+export { NoteProps };

@@ -11,6 +11,7 @@ A class to generate the database based on scraping information from the handbook
 from mypy_extensions import DefaultArg
 import requests
 from sqlite3 import Row
+import time
 from typing import Callable, Tuple, Optional, List
 
 from classes import (
@@ -25,16 +26,30 @@ from classes import (
 )
 
 
-from . import scraper
+from . import scrapedCourse
 from . import scrapedEnrollmentReq
 from . import scrapedSubjectReq
+from . import scraper
 
 def get_webpage(url: str) -> str:
+    # We might get a 403, that I suspect is rate limiting, so allow 3 retries
+    return get_webpage_with_retries(url, 3)
+
+def get_webpage_with_retries(url: str, num_retries: int) -> str:
     # if you don't have verify=False,
     # there will be a self signed certificate in certificate chain failure
     # either keep verify=False or clone the repo on to UNSW servers
-    response = requests.get(url, verify=False)
-    response.raise_for_status()
+
+    try:
+        response = requests.get(url, verify=False)
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        if num_retries > 0:
+            print(f"Got error when trying to load page {url}, will try {num_retries - 1} more times after waiting 5 secs")
+            time.sleep(5)
+            return get_webpage_with_retries(url, num_retries - 1)
+        else:
+            raise e
 
     return response.text
 
@@ -55,12 +70,9 @@ class dbGenerator(object):
         if end_year is None:
             end_year = year
 
-        course_codes: List[str] = []
+        scraped_courses: List[scrapedCourse.ScrapedCourse] = []
         for field in fields:
-            course_codes += self.scraper.get_course_codes(year, field, postgrad)
-
-
-        scraped_courses = list(map(lambda x: self.scraper.get_course(year, x, postgrad), course_codes))
+            scraped_courses += self.scraper.scrape_all_courses(year, field, postgrad)
 
         scraped_courses_to_course_id = {}
 

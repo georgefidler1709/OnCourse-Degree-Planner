@@ -196,7 +196,6 @@ class Program(object):
                 'duration': self.degree.duration,
                 'url': self.degree.get_url(),
                 'notes': self.degree.notes, # TODO add this to front end
-                'enrollments': enrollments
                 'enrollments': enrollments,
                 'done': []}
     

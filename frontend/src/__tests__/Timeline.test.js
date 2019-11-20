@@ -75,13 +75,6 @@ describe('onDragEnd method', () => {
     expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids).toHaveLength(source_length - 1)
     expect(wrapper.state().program.enrollments[0].term_plans[1].course_ids[0]).toBe(source_course)
     expect(wrapper.state().program.enrollments[0].term_plans[1].course_ids).toHaveLength(dest_length + 1)
-
-    // reverse operation
-    wrapper.instance().onDragEnd({
-      destination: {index: 0, droppableId: "1 2019"},
-      source: {index: 0, droppableId: "2 2019"},
-      draggableId: "COMP1511",
-    })
   });
 });
 
@@ -192,6 +185,7 @@ describe('removeCourse method', () => {
     await sleep(100);
     wrapper.update();
     wrapper.instance().removeCourse("COMP1511")
+
     expect(wrapper.state().courses["COMP1511"]).toBeUndefined()
   });
 });

@@ -50,6 +50,7 @@ class Program(TypedDict):
 
     # List of CourseEnrollments
     enrollments: List[YearPlan];
+    done: List[str];
 
 class Term(TypedDict):
     year: int

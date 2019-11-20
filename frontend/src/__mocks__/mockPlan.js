@@ -800,7 +800,8 @@ export const mockPlan = {
     "id": "3778", 
     "name": "Computer Science", 
     "url": "https://www.handbook.unsw.edu.au/undergraduate/programs/2019/3778", 
-    "year": 2019
+    "year": 2019,
+    "done": [],
   }, 
   "reqs": {
     "course_reqs": {}, 

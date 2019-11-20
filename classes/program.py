@@ -195,7 +195,8 @@ class Program(object):
                 'year': self.degree.year,
                 'duration': self.degree.duration,
                 'url': self.degree.get_url(),
-                'enrollments': enrollments};
+                'enrollments': enrollments,
+                'done': []};
     
     def get_prereq_conflicts_api(self) -> api.CheckResponse:
         return {'degree_reqs': self.get_reqs_api(),

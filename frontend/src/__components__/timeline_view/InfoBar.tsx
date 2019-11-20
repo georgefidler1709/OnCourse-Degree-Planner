@@ -53,7 +53,7 @@ interface InfoBarProps {
 function InfoBar(props: InfoBarProps) {
 
   const [openAdd, setOpenAdd] = useState(true);
-  const [openDone, setOpenDone] = useState(true);
+  const [openDone, setOpenDone] = useState(false);
   const [openReqs, setOpenReqs] = useState(false);
 
   return (

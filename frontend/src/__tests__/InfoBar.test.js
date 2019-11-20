@@ -74,7 +74,7 @@ describe('Render degree planning timeline view', () => {
     wrapper.instance().addCourse("COMP1511")
     await sleep(100);
     wrapper.update();
-    expect(wrapper.find(InfoBar).find(InfoBarDropBox).first().props().courses).toContain(mockCourse)
+    expect(wrapper.find(InfoBar).find(InfoBarDropBox).first().props().courses[0].code).toBe("COMP1511")
     expect(wrapper).toMatchSnapshot();
 
     wrapper.unmount();

@@ -55,101 +55,6 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                   courses={
                     Array [
                       Object {
-                        "code": "COMP1511",
-                        "coreqs": "",
-                        "equivalents": "",
-                        "exclusions": "DPST1091",
-                        "name": "Programming Fundamentals",
-                        "prereqs": "",
-                        "terms": Array [
-                          Object {
-                            "term": 1,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2020,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2020,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2020,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2021,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2021,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2021,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2022,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2022,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2022,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2023,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2023,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2023,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2024,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2024,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2024,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2025,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2025,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2025,
-                          },
-                        ],
-                        "units": 6,
-                      },
-                      Object {
                         "code": "MATH1081",
                         "coreqs": "(DPST1013 OR MATH1131 OR MATH1141 OR MATH1151)",
                         "equivalents": "",
@@ -350,6 +255,107 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                 <Term
                   courses={
                     Array [
+                      Object {
+                        "code": "MATH1131",
+                        "coreqs": "",
+                        "equivalents": "DPST1013",
+                        "exclusions": "DPST1013
+MATH1151
+MATH1031
+MATH1141
+ECON2291
+MATH1011
+ECON1202",
+                        "name": "Mathematics 1A",
+                        "prereqs": "",
+                        "terms": Array [
+                          Object {
+                            "term": 1,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2019,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2020,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2021,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2022,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2023,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2024,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 2,
+                            "year": 2025,
+                          },
+                          Object {
+                            "term": 3,
+                            "year": 2025,
+                          },
+                        ],
+                        "units": 6,
+                      },
                       Object {
                         "code": "COMP1521",
                         "coreqs": "",

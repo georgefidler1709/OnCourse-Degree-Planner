@@ -7,6 +7,7 @@ export default function fetch(type) {
     return {...mockPlan}
   }})
   if(type === API_ADDRESS + `/COMP1511/course_info.json`) return Promise.resolve({json: () => {
+    console.log(mockCourse)
     return mockCourse;
   }})
   else if(type === API_ADDRESS + `/full_courses.json`) return Promise.resolve({json: () => {

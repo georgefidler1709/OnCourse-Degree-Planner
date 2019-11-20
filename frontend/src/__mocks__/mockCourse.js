@@ -1,4 +1,4 @@
-const mockCourse = {
+export const mockCourse = {
   code: "COMP1511", 
   coreqs: "", 
   equivalents: "", 
@@ -93,4 +93,3 @@ const mockCourse = {
   ], 
   units: 6
 }
-export default mockCourse;

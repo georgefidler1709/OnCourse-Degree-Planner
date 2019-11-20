@@ -707,7 +707,7 @@ def insert_course_offerings(start=2019, end=2025, db='university.db'):
 
         h.close()
 
-def insert_compsci_degree_requirements(db='university.db'):
+def insert_compsci_degree_requirements(db='university.db', year=2020):
         '''
         Inserts CourseFilters for COMPA1 degree and combines them into 
         DegreeOfferingRequirements
@@ -778,7 +778,7 @@ def insert_compsci_degree_requirements(db='university.db'):
 
         # 30 UOC comp electives
         h.add_degree_reqs(COMPSCI, 2020, comp_elec, 30)
-        
+
         # 12 UOC gen eds
         h.add_degree_reqs(COMPSCI, 2020, gen_filter, 12)
 

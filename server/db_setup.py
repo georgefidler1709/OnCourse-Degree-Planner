@@ -136,7 +136,8 @@ def do_init_db() -> None:
     #input_data.insert_course_offerings(start=2019, end=2025, db=db_path)
 
     # input CourseFilters and DegreeOfferingRequirements for 3778 COMPA1
-    input_data.insert_compsci_degree_requirements(db=db_path)
+    input_data.insert_compsci_degree_requirements(db=db_path, year=2020)
+    input_data.insert_compsci_degree_requirements(db=db_path, year=2021)
 
     shutil.copyfile(db_path, db_path + "_scraped")
 

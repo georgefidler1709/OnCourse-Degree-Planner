@@ -551,9 +551,11 @@ class University(object):
 
     # Return: Jsonifiable dict that contains minimal data to display to the user in a menu
     def get_simple_degrees(self) -> api.SimpleDegrees:
-        response = self.query_db('''select id, name
-                                 from Degrees''')
-        return [{'id': str(i['id']), 'name': i['name']} for i in response];
+        response = self.query_db('''select degree.id, degree.name, offering.year
+                                 from DegreeOfferings as offering
+                                 join Degrees as degree
+                                 on degree.id = offering.degree_id''')
+        return [{'id': str(i['id']), 'year': i['year'], 'name': i['name']} for i in response];
 
     def get_simple_courses(self) -> api.SimpleCourses:
         response = self.query_db('''select letter_code, number_code, name

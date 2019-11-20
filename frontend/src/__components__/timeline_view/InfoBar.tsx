@@ -100,7 +100,7 @@ function InfoBar(props: InfoBarProps) {
       <InfoBarSection 
         open={openReqs} 
         setOpen={setOpenReqs}
-        title={"Requirements"}
+        title={"Remaining Requirements"}
       >
         <Card.Body>
           <ReqContainer>

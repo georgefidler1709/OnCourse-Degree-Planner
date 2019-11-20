@@ -113,7 +113,6 @@ class University(object):
 
         # create a degree without requirements, then add requirements later
         # This is done so that we can cache the degree, to avoid circular loading
-
         result_degree = degree.Degree(numeric_code, name, year, duration, faculty, [], alpha_code)
 
         self.degrees[(numeric_code, year)] = result_degree

@@ -61,6 +61,9 @@ def generate_program(code: int, year: int) -> str:
     '''
     uni = University(query_db)
 
+    code = int(code)
+    year = int(year)
+
     deg = uni.load_degree(code, year)
 
     if deg is None:

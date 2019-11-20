@@ -809,7 +809,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                   </Styled(Card)>
                 </InfoBarSection>
                 <InfoBarSection
-                  open={true}
+                  open={false}
                   setOpen={[Function]}
                   title="Courses Already Done"
                 >
@@ -975,12 +975,12 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                         >
                           <Styled(CardHeader)
                             aria-controls="collapse-add-course"
-                            aria-expanded={true}
+                            aria-expanded={false}
                             onClick={[Function]}
                           >
                             <StyledComponent
                               aria-controls="collapse-add-course"
-                              aria-expanded={true}
+                              aria-expanded={false}
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -1023,21 +1023,21 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                             >
                               <CardHeader
                                 aria-controls="collapse-add-course"
-                                aria-expanded={true}
+                                aria-expanded={false}
                                 className="sc-dnqmqq fftazU"
                                 onClick={[Function]}
                               >
                                 <div
                                   aria-controls="collapse-add-course"
-                                  aria-expanded={true}
+                                  aria-expanded={false}
                                   className="sc-dnqmqq fftazU card-header"
                                   onClick={[Function]}
                                 >
                                   <styled.i
-                                    className="fa fa-chevron-down"
+                                    className="fa fa-chevron-right"
                                   >
                                     <StyledComponent
-                                      className="fa fa-chevron-down"
+                                      className="fa fa-chevron-right"
                                       forwardedComponent={
                                         Object {
                                           "$$typeof": Symbol(react.forward_ref),
@@ -1065,7 +1065,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                       forwardedRef={null}
                                     >
                                       <i
-                                        className="sc-iwsKbI LdBUN fa fa-chevron-down"
+                                        className="sc-iwsKbI LdBUN fa fa-chevron-right"
                                       />
                                     </StyledComponent>
                                   </styled.i>
@@ -1114,7 +1114,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                             appear={false}
                             dimension="height"
                             getDimensionValue={[Function]}
-                            in={true}
+                            in={false}
                             mountOnEnter={false}
                             timeout={300}
                             unmountOnExit={false}
@@ -1125,7 +1125,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                               aria-expanded={null}
                               enter={true}
                               exit={true}
-                              in={true}
+                              in={false}
                               mountOnEnter={false}
                               onEnter={[Function]}
                               onEntered={[Function]}
@@ -1138,11 +1138,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                             >
                               <CardBody
                                 aria-expanded={null}
-                                className="collapse show"
+                                className="collapse"
                               >
                                 <div
                                   aria-expanded={null}
-                                  className="collapse show card-body"
+                                  className="collapse card-body"
                                 >
                                   <p>
                                     Drop the courses you have already done into the box below
@@ -2731,7 +2731,7 @@ exports[`Has collapsable sections can expand a section 1`] = `
                   </Styled(Card)>
                 </InfoBarSection>
                 <InfoBarSection
-                  open={true}
+                  open={false}
                   setOpen={[Function]}
                   title="Courses Already Done"
                 >
@@ -2897,12 +2897,12 @@ exports[`Has collapsable sections can expand a section 1`] = `
                         >
                           <Styled(CardHeader)
                             aria-controls="collapse-add-course"
-                            aria-expanded={true}
+                            aria-expanded={false}
                             onClick={[Function]}
                           >
                             <StyledComponent
                               aria-controls="collapse-add-course"
-                              aria-expanded={true}
+                              aria-expanded={false}
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -2945,21 +2945,21 @@ exports[`Has collapsable sections can expand a section 1`] = `
                             >
                               <CardHeader
                                 aria-controls="collapse-add-course"
-                                aria-expanded={true}
+                                aria-expanded={false}
                                 className="sc-dnqmqq fftazU"
                                 onClick={[Function]}
                               >
                                 <div
                                   aria-controls="collapse-add-course"
-                                  aria-expanded={true}
+                                  aria-expanded={false}
                                   className="sc-dnqmqq fftazU card-header"
                                   onClick={[Function]}
                                 >
                                   <styled.i
-                                    className="fa fa-chevron-down"
+                                    className="fa fa-chevron-right"
                                   >
                                     <StyledComponent
-                                      className="fa fa-chevron-down"
+                                      className="fa fa-chevron-right"
                                       forwardedComponent={
                                         Object {
                                           "$$typeof": Symbol(react.forward_ref),
@@ -2987,7 +2987,7 @@ exports[`Has collapsable sections can expand a section 1`] = `
                                       forwardedRef={null}
                                     >
                                       <i
-                                        className="sc-iwsKbI LdBUN fa fa-chevron-down"
+                                        className="sc-iwsKbI LdBUN fa fa-chevron-right"
                                       />
                                     </StyledComponent>
                                   </styled.i>
@@ -3036,7 +3036,7 @@ exports[`Has collapsable sections can expand a section 1`] = `
                             appear={false}
                             dimension="height"
                             getDimensionValue={[Function]}
-                            in={true}
+                            in={false}
                             mountOnEnter={false}
                             timeout={300}
                             unmountOnExit={false}
@@ -3047,7 +3047,7 @@ exports[`Has collapsable sections can expand a section 1`] = `
                               aria-expanded={null}
                               enter={true}
                               exit={true}
-                              in={true}
+                              in={false}
                               mountOnEnter={false}
                               onEnter={[Function]}
                               onEntered={[Function]}
@@ -3060,11 +3060,11 @@ exports[`Has collapsable sections can expand a section 1`] = `
                             >
                               <CardBody
                                 aria-expanded={null}
-                                className="collapse show"
+                                className="collapse"
                               >
                                 <div
                                   aria-expanded={null}
-                                  className="collapse show card-body"
+                                  className="collapse card-body"
                                 >
                                   <p>
                                     Drop the courses you have already done into the box below
@@ -12344,7 +12344,7 @@ Final year in your degree
                                     </Styled(Card)>
                                   </InfoBarSection>
                                   <InfoBarSection
-                                    open={true}
+                                    open={false}
                                     setOpen={[Function]}
                                     title="Courses Already Done"
                                   >
@@ -12510,12 +12510,12 @@ Final year in your degree
                                           >
                                             <Styled(CardHeader)
                                               aria-controls="collapse-add-course"
-                                              aria-expanded={true}
+                                              aria-expanded={false}
                                               onClick={[Function]}
                                             >
                                               <StyledComponent
                                                 aria-controls="collapse-add-course"
-                                                aria-expanded={true}
+                                                aria-expanded={false}
                                                 forwardedComponent={
                                                   Object {
                                                     "$$typeof": Symbol(react.forward_ref),
@@ -12558,21 +12558,21 @@ Final year in your degree
                                               >
                                                 <CardHeader
                                                   aria-controls="collapse-add-course"
-                                                  aria-expanded={true}
+                                                  aria-expanded={false}
                                                   className="sc-dnqmqq fftazU"
                                                   onClick={[Function]}
                                                 >
                                                   <div
                                                     aria-controls="collapse-add-course"
-                                                    aria-expanded={true}
+                                                    aria-expanded={false}
                                                     className="sc-dnqmqq fftazU card-header"
                                                     onClick={[Function]}
                                                   >
                                                     <styled.i
-                                                      className="fa fa-chevron-down"
+                                                      className="fa fa-chevron-right"
                                                     >
                                                       <StyledComponent
-                                                        className="fa fa-chevron-down"
+                                                        className="fa fa-chevron-right"
                                                         forwardedComponent={
                                                           Object {
                                                             "$$typeof": Symbol(react.forward_ref),
@@ -12600,7 +12600,7 @@ Final year in your degree
                                                         forwardedRef={null}
                                                       >
                                                         <i
-                                                          className="sc-iwsKbI LdBUN fa fa-chevron-down"
+                                                          className="sc-iwsKbI LdBUN fa fa-chevron-right"
                                                         />
                                                       </StyledComponent>
                                                     </styled.i>
@@ -12649,7 +12649,7 @@ Final year in your degree
                                               appear={false}
                                               dimension="height"
                                               getDimensionValue={[Function]}
-                                              in={true}
+                                              in={false}
                                               mountOnEnter={false}
                                               timeout={300}
                                               unmountOnExit={false}
@@ -12660,7 +12660,7 @@ Final year in your degree
                                                 aria-expanded={null}
                                                 enter={true}
                                                 exit={true}
-                                                in={true}
+                                                in={false}
                                                 mountOnEnter={false}
                                                 onEnter={[Function]}
                                                 onEntered={[Function]}
@@ -12673,11 +12673,11 @@ Final year in your degree
                                               >
                                                 <CardBody
                                                   aria-expanded={null}
-                                                  className="collapse show"
+                                                  className="collapse"
                                                 >
                                                   <div
                                                     aria-expanded={null}
-                                                    className="collapse show card-body"
+                                                    className="collapse card-body"
                                                   >
                                                     <p>
                                                       Drop the courses you have already done into the box below
@@ -22158,7 +22158,7 @@ Final year in your degree
                                     </Styled(Card)>
                                   </InfoBarSection>
                                   <InfoBarSection
-                                    open={true}
+                                    open={false}
                                     setOpen={[Function]}
                                     title="Courses Already Done"
                                   >
@@ -22324,12 +22324,12 @@ Final year in your degree
                                           >
                                             <Styled(CardHeader)
                                               aria-controls="collapse-add-course"
-                                              aria-expanded={true}
+                                              aria-expanded={false}
                                               onClick={[Function]}
                                             >
                                               <StyledComponent
                                                 aria-controls="collapse-add-course"
-                                                aria-expanded={true}
+                                                aria-expanded={false}
                                                 forwardedComponent={
                                                   Object {
                                                     "$$typeof": Symbol(react.forward_ref),
@@ -22372,21 +22372,21 @@ Final year in your degree
                                               >
                                                 <CardHeader
                                                   aria-controls="collapse-add-course"
-                                                  aria-expanded={true}
+                                                  aria-expanded={false}
                                                   className="sc-dnqmqq fftazU"
                                                   onClick={[Function]}
                                                 >
                                                   <div
                                                     aria-controls="collapse-add-course"
-                                                    aria-expanded={true}
+                                                    aria-expanded={false}
                                                     className="sc-dnqmqq fftazU card-header"
                                                     onClick={[Function]}
                                                   >
                                                     <styled.i
-                                                      className="fa fa-chevron-down"
+                                                      className="fa fa-chevron-right"
                                                     >
                                                       <StyledComponent
-                                                        className="fa fa-chevron-down"
+                                                        className="fa fa-chevron-right"
                                                         forwardedComponent={
                                                           Object {
                                                             "$$typeof": Symbol(react.forward_ref),
@@ -22414,7 +22414,7 @@ Final year in your degree
                                                         forwardedRef={null}
                                                       >
                                                         <i
-                                                          className="sc-iwsKbI LdBUN fa fa-chevron-down"
+                                                          className="sc-iwsKbI LdBUN fa fa-chevron-right"
                                                         />
                                                       </StyledComponent>
                                                     </styled.i>
@@ -22463,7 +22463,7 @@ Final year in your degree
                                               appear={false}
                                               dimension="height"
                                               getDimensionValue={[Function]}
-                                              in={true}
+                                              in={false}
                                               mountOnEnter={false}
                                               timeout={300}
                                               unmountOnExit={false}
@@ -22474,7 +22474,7 @@ Final year in your degree
                                                 aria-expanded={null}
                                                 enter={true}
                                                 exit={true}
-                                                in={true}
+                                                in={false}
                                                 mountOnEnter={false}
                                                 onEnter={[Function]}
                                                 onEntered={[Function]}
@@ -22487,11 +22487,11 @@ Final year in your degree
                                               >
                                                 <CardBody
                                                   aria-expanded={null}
-                                                  className="collapse show"
+                                                  className="collapse"
                                                 >
                                                   <div
                                                     aria-expanded={null}
-                                                    className="collapse show card-body"
+                                                    className="collapse card-body"
                                                   >
                                                     <p>
                                                       Drop the courses you have already done into the box below
@@ -24281,7 +24281,7 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                   </Styled(Card)>
                 </InfoBarSection>
                 <InfoBarSection
-                  open={true}
+                  open={false}
                   setOpen={[Function]}
                   title="Courses Already Done"
                 >
@@ -24447,12 +24447,12 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                         >
                           <Styled(CardHeader)
                             aria-controls="collapse-add-course"
-                            aria-expanded={true}
+                            aria-expanded={false}
                             onClick={[Function]}
                           >
                             <StyledComponent
                               aria-controls="collapse-add-course"
-                              aria-expanded={true}
+                              aria-expanded={false}
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -24495,21 +24495,21 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                             >
                               <CardHeader
                                 aria-controls="collapse-add-course"
-                                aria-expanded={true}
+                                aria-expanded={false}
                                 className="sc-dnqmqq fftazU"
                                 onClick={[Function]}
                               >
                                 <div
                                   aria-controls="collapse-add-course"
-                                  aria-expanded={true}
+                                  aria-expanded={false}
                                   className="sc-dnqmqq fftazU card-header"
                                   onClick={[Function]}
                                 >
                                   <styled.i
-                                    className="fa fa-chevron-down"
+                                    className="fa fa-chevron-right"
                                   >
                                     <StyledComponent
-                                      className="fa fa-chevron-down"
+                                      className="fa fa-chevron-right"
                                       forwardedComponent={
                                         Object {
                                           "$$typeof": Symbol(react.forward_ref),
@@ -24537,7 +24537,7 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                                       forwardedRef={null}
                                     >
                                       <i
-                                        className="sc-iwsKbI LdBUN fa fa-chevron-down"
+                                        className="sc-iwsKbI LdBUN fa fa-chevron-right"
                                       />
                                     </StyledComponent>
                                   </styled.i>
@@ -24586,7 +24586,7 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                             appear={false}
                             dimension="height"
                             getDimensionValue={[Function]}
-                            in={true}
+                            in={false}
                             mountOnEnter={false}
                             timeout={300}
                             unmountOnExit={false}
@@ -24597,7 +24597,7 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                               aria-expanded={null}
                               enter={true}
                               exit={true}
-                              in={true}
+                              in={false}
                               mountOnEnter={false}
                               onEnter={[Function]}
                               onEntered={[Function]}
@@ -24610,11 +24610,11 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                             >
                               <CardBody
                                 aria-expanded={null}
-                                className="collapse show"
+                                className="collapse"
                               >
                                 <div
                                   aria-expanded={null}
-                                  className="collapse show card-body"
+                                  className="collapse card-body"
                                 >
                                   <p>
                                     Drop the courses you have already done into the box below

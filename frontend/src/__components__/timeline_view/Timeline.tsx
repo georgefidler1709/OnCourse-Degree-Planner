@@ -37,6 +37,9 @@ const RColumn = styled.div`
   padding: 0px;
   width: 30%;
   overflow: hidden;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 `;
 
 const Logo = styled.img`

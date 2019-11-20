@@ -38,6 +38,7 @@ export interface Program {
   duration: number; // in years
   url: string; // handbook entry for degree
   enrollments: Array<YearPlan>;
+  done: Array<string>;
 }
 
 export interface Term {

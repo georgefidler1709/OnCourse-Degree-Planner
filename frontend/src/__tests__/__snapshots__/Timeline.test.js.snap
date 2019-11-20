@@ -12,11 +12,12 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
     <NavbarBrand
       href="/"
     >
-       
-      <styled.img
-        alt="logo"
-        src="/images/logo.png"
-      />
+      <span
+        aria-label="book"
+        role="img"
+      >
+        📖
+      </span>
        OnCourse
     </NavbarBrand>
     <Nav
@@ -248,8 +249,8 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                   getError={[Function]}
                   getWarn={[Function]}
                   key="1 2019"
+                  name="1 2019"
                   removeCourse={[Function]}
-                  termId="1 2019"
                 />
                 <Term
                   courses={
@@ -524,8 +525,8 @@ DPST1014",
                   getError={[Function]}
                   getWarn={[Function]}
                   key="2 2019"
+                  name="2 2019"
                   removeCourse={[Function]}
-                  termId="2 2019"
                 />
                 <Term
                   courses={Array []}
@@ -533,8 +534,8 @@ DPST1014",
                   getWarn={[Function]}
                   highlight={false}
                   key="3 2019"
+                  name="3 2019"
                   removeCourse={[Function]}
-                  termId="3 2019"
                 />
               </styled.div>
             </div>
@@ -549,8 +550,8 @@ DPST1014",
                   getError={[Function]}
                   getWarn={[Function]}
                   key="1 2020"
+                  name="1 2020"
                   removeCourse={[Function]}
-                  termId="1 2020"
                 />
                 <Term
                   courses={
@@ -671,16 +672,16 @@ COMP2011",
                   getError={[Function]}
                   getWarn={[Function]}
                   key="2 2020"
+                  name="2 2020"
                   removeCourse={[Function]}
-                  termId="2 2020"
                 />
                 <Term
                   courses={Array []}
                   getError={[Function]}
                   getWarn={[Function]}
                   key="3 2020"
+                  name="3 2020"
                   removeCourse={[Function]}
-                  termId="3 2020"
                 />
               </styled.div>
             </div>
@@ -696,8 +697,8 @@ COMP2011",
                   getWarn={[Function]}
                   highlight={false}
                   key="1 2021"
+                  name="1 2021"
                   removeCourse={[Function]}
-                  termId="1 2021"
                 />
                 <Term
                   courses={Array []}
@@ -705,8 +706,8 @@ COMP2011",
                   getWarn={[Function]}
                   highlight={false}
                   key="2 2021"
+                  name="2 2021"
                   removeCourse={[Function]}
-                  termId="2 2021"
                 />
                 <Term
                   courses={Array []}
@@ -714,8 +715,8 @@ COMP2011",
                   getWarn={[Function]}
                   highlight={false}
                   key="3 2021"
+                  name="3 2021"
                   removeCourse={[Function]}
-                  termId="3 2021"
                 />
               </styled.div>
             </div>
@@ -762,7 +763,9 @@ COMP2011",
                 },
               ]
             }
+            done_courses={Array []}
             remove_course={[Function]}
+            standby_courses={Array []}
           />
         </styled.div>
       </div>

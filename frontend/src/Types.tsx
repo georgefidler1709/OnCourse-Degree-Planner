@@ -10,7 +10,7 @@ export type Position = "auto-start" | "auto" | "auto-end" | "top-start" | "top" 
 
 export interface TimelineState extends GeneratorResponse {
   program: ProgramState;
-  add_course?: Course; // course to add, usually undefined
+  add_course: Array<string>; // course to add, usually undefined
 }
 
 export interface ProgramState extends Program {

@@ -364,7 +364,7 @@ def insert_seng_degree_requirements(db='university.db', start_year=2020, end_yea
         h = Helper(dbaddr=db)
 
         # level 1 core courses
-        core_l1 = ["COMP1511", "COMP1521", "COMP1531", "ENGG100", "MATH1081"]
+        core_l1 = ["COMP1511", "COMP1521", "COMP1531", "ENGG1000", "MATH1081"]
         math1_opts = ["MATH1131", "MATH1141"]
         math2_opts = ["MATH1231", "MATH1241"]
 

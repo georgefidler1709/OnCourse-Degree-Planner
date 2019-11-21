@@ -87,7 +87,7 @@ class University(object):
             # requirements, decide whether we even want the need_requirements option anymore
             return self.degrees[numeric_code]
 
-        response = self.query_db('''select name, code, faculty, duration
+        response = self.query_db('''select name, faculty, duration
                                  from Degrees
                                  where id = ?''', (numeric_code,), one=True)
 
@@ -95,7 +95,7 @@ class University(object):
             # No degree with that code, so return nothing
             return None
 
-        name, alpha_code, faculty, duration = response
+        name, faculty, duration = response
         # Alpha code might be null
         self.assert_no_nulls(name, faculty)
 

@@ -4,7 +4,7 @@ import InfoBarDropBox from "./InfoBarDropBox"
 import InfoBarSection from "./InfoBarSection"
 import { SearchCourses } from "../degree_search/Search"
 import { RemainReq, Course } from "../../Api"
-import Requirements from "./Requirements"
+import { Requirements, Notes } from "./Requirements"
 import { Card } from 'react-bootstrap'
 
 const Container = styled.div`

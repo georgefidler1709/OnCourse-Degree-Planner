@@ -13,7 +13,7 @@ filter of courses.
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from . import courseFilter
 from . import program
 from . import course
@@ -46,7 +46,7 @@ class DegreeReq(ABC):
     # Note: Deletes matching courses from list!
     @abstractmethod
     def remaining(self, courses: Optional[List['course.Course']],
-            degree: Optional['degree.Degree']) -> int:
+            degree: Optional['degree.Degree']) -> Tuple[int, List['course.Course']]:
         pass
 
     # Return whether this filter is an overall requirement (e.g. must have completed 144 UoC total)

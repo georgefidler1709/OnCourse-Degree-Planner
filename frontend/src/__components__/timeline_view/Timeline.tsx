@@ -5,7 +5,7 @@ import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
 import { CheckResponse } from '../../Api';
-import {API_ADDRESS, DB_YEAR_MAX, CURRENT_YEAR} from '../../Constants'
+import {API_ADDRESS, DB_YEAR_MAX } from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
 import html2canvas from 'html2canvas'
@@ -73,9 +73,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   constructor(props: RouteComponentProps<{degree: string}>) {
     super(props)
-
-    let code = props.match.params["degree"]
-    fetch(API_ADDRESS + `/${code}/${CURRENT_YEAR}/gen_program.json`)
+    console.log("hello")
+    let code = props.location.pathname;
+    console.log(code)
+    fetch(API_ADDRESS + `${code}/gen_program.json`)
     .then(response => response.json())
     .then(plan => {
       this.setState({

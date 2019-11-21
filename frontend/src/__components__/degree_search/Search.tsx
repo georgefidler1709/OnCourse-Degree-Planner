@@ -202,7 +202,10 @@ class Search extends Component<{}, SearchState> {
         </SearchForm>
         {
           this.state.searchResults.length > 0 &&
-          <Suggestions degrees={this.state.searchResults} />
+          <Suggestions 
+            degrees={this.state.searchResults}
+            year={this.state.year}
+          />
         }
         <Disclaimer>
           * Disclaimer: OnCourse is not

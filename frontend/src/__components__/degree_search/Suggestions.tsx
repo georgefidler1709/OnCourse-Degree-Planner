@@ -53,13 +53,15 @@ const CourseName = styled.small`
 `
 
 
-function Suggestions(props: {degrees: Array<SearchResult>}) {
+function Suggestions(props: {degrees: Array<SearchResult>, year: number}) {
 
   const placement : Position = "right"
   let history = useHistory();
 
-  function handleClick(event: MouseEvent<HTMLButtonElement>) {
-    history.push("/" + event.currentTarget.id.toString())
+
+  function handleClick(event: MouseEvent<HTMLButtonElement>, year: number) {
+    // LOGIC TO THROW AN ERROR IF THE DEGREE DOESN'T EXIST GOES HERE
+    history.push("/" + event.currentTarget.id.toString() + "/" + year)
   }
   
   const options = props.degrees.map((r,i) => (
@@ -81,7 +83,7 @@ function Suggestions(props: {degrees: Array<SearchResult>}) {
         variant="light"
         id={r.degree.id}
         value={r.degree.id}
-        onClick={handleClick}
+        onClick={(e: MouseEvent<HTMLButtonElement>) => handleClick(e, props.year)}
       >
         <DegreeCode>{r.degree.id}</DegreeCode>
         <DegreeName>{r.text}</DegreeName>

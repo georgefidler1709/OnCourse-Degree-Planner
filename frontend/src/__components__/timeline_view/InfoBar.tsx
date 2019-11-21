@@ -5,7 +5,7 @@ import InfoBarSection from "./InfoBarSection"
 import { SearchCourses } from "../degree_search/Search"
 import { RemainReq, Course } from "../../Api"
 import Requirements from "./Requirements"
-import { Card, Dropdown } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 
 const Container = styled.div`
   &::-webkit-scrollbar {

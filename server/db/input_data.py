@@ -270,7 +270,7 @@ def insert_course_offerings(start=2019, end=2025, db='university.db'):
 
         h.close()
 
-def insert_compsci_degree_requirements(db='university.db', start_year=2020, end_year=2023):
+def insert_compsci_degree_requirements(db='university.db', start_year=2020, end_year=2021):
         '''
         Inserts CourseFilters for COMPA1 degree and combines them into 
         DegreeOfferingRequirements
@@ -354,7 +354,7 @@ def insert_compsci_degree_requirements(db='university.db', start_year=2020, end_
 
         h.close()
 
-def insert_seng_degree_requirements(db='university.db', start_year=2020, end_year=2023):
+def insert_seng_degree_requirements(db='university.db', start_year=2020, end_year=2021):
         # WARNING current degree structure means this is the only "Engineering Hons" degree that can be represented
 
         # https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3707

@@ -466,8 +466,11 @@ def insert_seng_degree_requirements(db='university.db', start_year=2020, end_yea
                 for f in uoc_4:
                         h.add_degree_reqs(SENG, year, f, 4)
 
-                # 36 UOC discipline electives
-                h.add_degree_reqs(SENG, year, disc_filter, 36, "Discipline Electives")
+                # 36 UOC discipline electives + 12 UOC discipline electives for ENGG degree
+                h.add_degree_reqs(SENG, year, disc_filter, 36 + 12, "Discipline Electives")
+
+                # 12 UOC Discipline Electives
+                # h.add_degree_reqs(SENG, year, disc_filter, 12, "Discipline Electives")
 
                 # 6 UOC free electives
                 h.add_degree_reqs(SENG, year, free_filter, 6)
@@ -489,9 +492,7 @@ def insert_seng_degree_requirements(db='university.db', start_year=2020, end_yea
 
                 # 12 UOC General Education
                 h.add_degree_reqs(SENG, year, gen_filter, 12)
-
-                # 12 UOC Discipline Electives
-                h.add_degree_reqs(SENG, year, disc_filter, 12)
+                
 
                 # 60 days of Industrial Training?
                 h.add_degree_notes(SENG, year, "Students must have completed a minimum of 60 days of Industrial Training to graduate. Industrial training must be undrtaken concurrently with enrolment in the program.")

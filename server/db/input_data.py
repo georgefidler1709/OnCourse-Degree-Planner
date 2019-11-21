@@ -376,7 +376,7 @@ def insert_seng_degree_requirements(db='university.db', start_year=2020, end_yea
         core_l3 = ["COMP3141", "COMP3311", "COMP3331", "SENG3011"]
 
         # level 4 core course
-        core_l4 = ["COMP4920"]
+        core_l4 = ["SENG4920"]
         hons = ["COMP4951", "COMP4952", "COMP4953"] # 4 UOC each
 
         # insert the specific course filters

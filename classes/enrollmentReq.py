@@ -20,15 +20,16 @@ from . import singleReq
 
 class EnrollmentReq(singleReq.SingleReq):
 
-    def __init__(self, degree: degree.Degree):
+    def __init__(self, degree_id: int, degree_name: str):
         super().__init__()
-        self.degree = degree
+        self.degree_id = degree_id
+        self.degree_name = degree_name
 
     def __repr__(self) -> str:
-        return f"<EnrollmentReq degree={self.degree!r}>"
+        return f"<EnrollmentReq degree_id={self.degree_id!r}, degree_name={self.degree_name!r}>"
 
     def info(self, top_leve: bool=False, exclusion: bool=False) -> str:
-        return f"Enrollment in {self.degree.name} ({self.degree.num_code})"
+        return f"Enrollment in {self.degree_name} ({self.degree_id})"
 
     @property
     def requirement_name(self) -> str:
@@ -38,7 +39,7 @@ class EnrollmentReq(singleReq.SingleReq):
     # Return: any errors pertaining to this requirement
     def check(self, program: 'program.Program', term: 'term.Term',
         coreq: bool=False) -> List[str]:
-        if program.degree != self.degree:
+        if program.degree.num_code != self.degree_id:
             return[self.info()]
         else:
             return []

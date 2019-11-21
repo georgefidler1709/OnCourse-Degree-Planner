@@ -18,7 +18,6 @@ def test_CourseEnrollment_order():
 
     comp1511 = uni.find_course("COMP1511")
     comp2521 = uni.find_course("COMP2521")
-    seng1020 = uni.find_course("SENG1020")
     math1141 = uni.find_course("MATH1141")
     math1151 = uni.find_course("MATH1151")
 
@@ -28,11 +27,8 @@ def test_CourseEnrollment_order():
     assert (comp1511 > comp2521) == False
     assert (comp2521 > comp1511) == True
 
-    assert (comp1511 < seng1020) == True
     assert (comp1511 < math1151) == True
-    assert (comp1511 > seng1020) == False
     assert (comp1511 > math1151) == False
-    assert (seng1020 > comp1511) == True
     assert (math1151 > comp1511) == True
 
     # less than equal to (by extension greater than equal to)
@@ -48,13 +44,10 @@ def test_CourseEnrollment_order():
 
     # equality
     assert (comp1511 == comp1511) == True
-    assert (seng1020 == seng1020) == True
 
     # not equals
     assert (comp2521 != comp1511) == True
-    assert (seng1020 != math1141) == True
     assert (comp1511 != comp2521) == True
-    assert (math1141 != seng1020) == True
 
     assert (comp2521 != comp2521) == False
     assert (math1141 != math1141) == False
@@ -64,7 +57,7 @@ def test_CourseEnrollment_order():
 def test_program_to_api():
     uni = University(query_db)
 
-    deg = uni.find_degree_number_code(3778)
+    deg = uni.find_degree_number_code(3778, 2020)
     assert deg is not None
 
     prog = Generator(deg, uni).generate()
@@ -76,9 +69,9 @@ def test_program_to_api():
 
     assert api['id'] == 3778
     assert api['name'] == 'Computer Science'
-    assert api['year'] == 2019
+    assert api['year'] == 2020
     assert api['duration'] == 3
-    assert api['url'] == 'https://www.handbook.unsw.edu.au/undergraduate/programs/2019/3778'
+    assert api['url'] == 'https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3778'
 
     enrollments = api['enrollments']
 
@@ -89,7 +82,7 @@ def test_program_to_api():
 def test_empty_year():
     uni = University(query_db)
 
-    deg = uni.find_degree_number_code(3778)
+    deg = uni.find_degree_number_code(3778, 2020)
     assert deg is not None
 
     prog = Generator(deg, uni).generate()
@@ -118,9 +111,9 @@ def test_empty_year():
 
     assert api['id'] == 3778
     assert api['name'] == 'Computer Science'
-    assert api['year'] == 2019
+    assert api['year'] == 2020
     assert api['duration'] == 3
-    assert api['url'] == 'https://www.handbook.unsw.edu.au/undergraduate/programs/2019/3778'
+    assert api['url'] == 'https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3778'
 
     enrollments = api['enrollments']
 

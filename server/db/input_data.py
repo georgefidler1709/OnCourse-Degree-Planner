@@ -433,7 +433,7 @@ class Helper:
                 msg = '''INSERT INTO DegreeOfferingRequirements(offering_degree_id, offering_year_id, requirement_id, uoc_needed)
                         VALUES (?, ?, ?, ?)'''
                 vals = (degree_code, year, filter_id, uoc_needed)
-                inserted_id = self.safe_insert(msg, vals, vals)         
+                inserted_id = self.safe_insert(msg, vals, vals)
 
                 return inserted_id
 
@@ -707,7 +707,7 @@ def insert_course_offerings(start=2019, end=2025, db='university.db'):
 
         h.close()
 
-def insert_compsci_degree_requirements(db='university.db'):
+def insert_compsci_degree_requirements(db='university.db', year=2020):
         '''
         Inserts CourseFilters for COMPA1 degree and combines them into 
         DegreeOfferingRequirements
@@ -770,23 +770,23 @@ def insert_compsci_degree_requirements(db='university.db'):
         COMPSCI = 3778
 
         for f in core_filters:
-                h.add_degree_reqs(COMPSCI, 2019, f, COURSE_UOC)
-        # h.add_degree_reqs(COMPSCI, 2019, core_combo, len(core_courses) * COURSE_UOC)
-        h.add_degree_reqs(COMPSCI, 2019, math1_or, COURSE_UOC)
-        h.add_degree_reqs(COMPSCI, 2019, math2_or, COURSE_UOC)
-        h.add_degree_reqs(COMPSCI, 2019, algos_or, COURSE_UOC)
+                h.add_degree_reqs(COMPSCI, year, f, COURSE_UOC)
+        # h.add_degree_reqs(COMPSCI, year, core_combo, len(core_courses) * COURSE_UOC)
+        h.add_degree_reqs(COMPSCI, year, math1_or, COURSE_UOC)
+        h.add_degree_reqs(COMPSCI, year, math2_or, COURSE_UOC)
+        h.add_degree_reqs(COMPSCI, year, algos_or, COURSE_UOC)
 
         # 30 UOC comp electives
-        h.add_degree_reqs(COMPSCI, 2019, comp_elec, 30)
-        
+        h.add_degree_reqs(COMPSCI, year, comp_elec, 30)
+
         # 12 UOC gen eds
-        h.add_degree_reqs(COMPSCI, 2019, gen_filter, 12)
+        h.add_degree_reqs(COMPSCI, year, gen_filter, 12)
 
         # 36 UOC free electives
-        h.add_degree_reqs(COMPSCI, 2019, free_filter, 36)
+        h.add_degree_reqs(COMPSCI, year, free_filter, 36)
 
         # total UOC = 144
-        h.add_degree_reqs(COMPSCI, 2019, None, 144)
+        h.add_degree_reqs(COMPSCI, year, None, 144)
 
         h.close()
 
@@ -794,7 +794,6 @@ def insert_compsci_degree_requirements(db='university.db'):
 
 
 if __name__ == "__main__":
-        
         # Computer Science (3778) (COMPA1) courses
         # compsci_course_reqs()
         # insert_sessions()

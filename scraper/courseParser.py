@@ -256,7 +256,7 @@ class CourseParser(object):
         result = string.strip(word)
 
         return result.strip()
-        
+
     def replace_prereq_coreq(self, string: str) -> str:
         for word in self.prereq_words:
             string = string.replace(word, "prereq")
@@ -316,5 +316,5 @@ class CourseParser(object):
             prereqs = self.parse_course_req(prereq_str)
             if not prereqs:
                 status = False
-            
+
         return (prereqs, coreqs, status)

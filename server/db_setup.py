@@ -27,11 +27,15 @@ def query_db(query : str, args: Tuple = (), one = False) -> sqlite3.Row:
 def store_db(command: str, args: Tuple = ()) -> int:
     # Store information in the database
 
-    cur = get_db().cursor()
-    cur.execute(command, args)
+    try:
+        cur = get_db().cursor()
+        cur.execute(command, args)
 
-    insert_id = cur.lastrowid
-    get_db().commit()
+        insert_id = cur.lastrowid
+        get_db().commit()
+    except sqlite3.IntegrityError as e:
+        print(f"Failed integrity error with command '{command}' and args '{args}'")
+        raise e
 
     return insert_id
 
@@ -115,7 +119,7 @@ def do_init_db() -> None:
     year = 2020
     postgrad = False
 
-    generator.generate_db(year, ["COMP", "MATH"], postgrad, end_year=2025)
+    generator.generate_db(year, ["COMP", "MATH", "SENG", "BINF", "ENGG", "ARTS", "DPST"], postgrad, end_year=2025)
 
     # read courses from courses.csv
     #courses = pandas.read_csv("server/db/courses.csv")
@@ -132,7 +136,8 @@ def do_init_db() -> None:
     #input_data.insert_course_offerings(start=2019, end=2025, db=db_path)
 
     # input CourseFilters and DegreeOfferingRequirements for 3778 COMPA1
-    input_data.insert_compsci_degree_requirements(db=db_path)
+    input_data.insert_compsci_degree_requirements(db=db_path, year=2020)
+    input_data.insert_compsci_degree_requirements(db=db_path, year=2021)
 
     shutil.copyfile(db_path, db_path + "_scraped")
 

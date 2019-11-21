@@ -37,9 +37,6 @@ from . import  (
     yearReq,
 )
 
-# Temporary: only allow 2019 results
-YEAR = 2019
-
 class University(object):
 
     def __init__(self, query_db: Callable[[str, DefaultArg(Tuple), DefaultArg(bool, 'one')], Row]):
@@ -53,11 +50,11 @@ class University(object):
         self.courses: Dict[int, 'course.Course'] = {}
         # cache of degrees loaded from the db for this session, indexed by numeric code (which is
         # also db id)
-        self.degrees: Dict[int, 'degree.Degree'] = {}
+        self.degrees: Dict[Tuple[int, int], 'degree.Degree'] = {}
 
     # Input: degree letter code (eg. COMPA1)
     # Return: corresponding degree.Degree object
-    def find_degree_alpha_code(self, letter_code: str) -> Optional['degree.Degree']:
+    def find_degree_alpha_code(self, letter_code: str, year: int) -> Optional['degree.Degree']:
         response = self.query_db('''select id
                                  from Degrees
                                  where code = ?''', (letter_code,), one=True)
@@ -68,25 +65,24 @@ class University(object):
             numeric_code = response[0]
             self.assert_no_nulls(numeric_code)
 
-            return self.find_degree_number_code(numeric_code)
+            return self.find_degree_number_code(numeric_code, year)
 
     # Input: degree numerical code (eg. 3778)
     # Return: corresponding Degree object
-    def find_degree_number_code(self, numeric_code: int) -> Optional['degree.Degree']:
-        return self.load_degree(numeric_code, need_requirements = True)
+    def find_degree_number_code(self, numeric_code: int, year: int) -> Optional['degree.Degree']:
+        return self.load_degree(numeric_code, year, need_requirements = True)
 
     # Input: degree numerical code (eg. 3778), whether we need the requirements for the degree
     # (eg. if we're just loading the degree as part of a course requirement we don't need the
     # requirements)
     # Return: corresponding Degree object
-    def load_degree(self, numeric_code: int, need_requirements: bool=True) -> Optional['degree.Degree']:
-        if numeric_code in self.degrees:
+    def load_degree(self, numeric_code: int, year: int, need_requirements: bool=True) -> Optional['degree.Degree']:
+        if (numeric_code, year) in self.degrees:
             # TODO: Might not work if we first load without requirements then call this with
             # requirements, decide whether we even want the need_requirements option anymore
-            return self.degrees[numeric_code]
+            return self.degrees[(numeric_code, year)]
 
-        year = YEAR
-        response = self.query_db('''select name, code, faculty
+        response = self.query_db('''select name, code, faculty, duration
                                  from Degrees
                                  where id = ?''', (numeric_code,), one=True)
 
@@ -94,9 +90,19 @@ class University(object):
             # No degree with that code, so return nothing
             return None
 
-        name, alpha_code, faculty = response
+        name, alpha_code, faculty, duration = response
         # Alpha code might be null
-        self.assert_no_nulls(name, faculty)
+        self.assert_no_nulls(name, faculty, duration)
+
+        # Check that there is actually an offering for that degree
+        response = self.query_db('''select *
+                                    from DegreeOfferings
+                                    where degree_id = ?
+                                    and year = ?''', (numeric_code, year), one=True)
+
+        if response is None:
+            # No offering for that year
+            return None
 
         # Get all of the requirements for the degree
         response = self.query_db('''select uoc_needed, requirement_id
@@ -105,21 +111,11 @@ class University(object):
                                  and offering_year_id = ?''', (numeric_code, year))
 
 
-        # print("Response is")
-        # print(response)
-        # print("\n\n\n")
-
-        # TODO: put duration in database
-        duration = 3
-        # TODO: alpha code in db (although we prob want to split into major)
-        alpha_code = "AlphaCode"
-
         # create a degree without requirements, then add requirements later
         # This is done so that we can cache the degree, to avoid circular loading
-
         result_degree = degree.Degree(numeric_code, name, year, duration, faculty, [], alpha_code)
 
-        self.degrees[numeric_code] = result_degree
+        self.degrees[(numeric_code, year)] = result_degree
 
         requirements = []
 
@@ -360,13 +356,18 @@ class University(object):
     def load_current_degree_requirement(self, requirement_data: Row) -> Optional['courseReq.CourseReq']:
         degree_id = requirement_data['degree_id']
 
-        required_degree = self.load_degree(degree_id)
+        response = self.query_db('''select name
+                                    from Degrees
+                                    where id = ?''', (degree_id, ), one=True)
 
-        if required_degree is None:
-            print('ERROR: No degree with id {}', degree_id)
+        if response is None:
+            # No degree with that id
+            print("ERROR: failed to get degree with id {}".format(degree_id))
             return None
 
-        return enrollmentReq.EnrollmentReq(required_degree)
+        (degree_name, ) = response
+
+        return enrollmentReq.EnrollmentReq(degree_id, degree_name)
 
     # Input: row from the CourseRequirements table in the db for a year requirement
     # Return: The relevant requirement
@@ -550,9 +551,11 @@ class University(object):
 
     # Return: Jsonifiable dict that contains minimal data to display to the user in a menu
     def get_simple_degrees(self) -> api.SimpleDegrees:
-        response = self.query_db('''select id, name
-                                 from Degrees''')
-        return [{'id': str(i['id']), 'name': i['name']} for i in response];
+        response = self.query_db('''select degree.id, degree.name, offering.year
+                                 from DegreeOfferings as offering
+                                 join Degrees as degree
+                                 on degree.id = offering.degree_id''')
+        return [{'id': str(i['id']), 'year': i['year'], 'name': i['name']} for i in response];
 
     def get_simple_courses(self) -> api.SimpleCourses:
         response = self.query_db('''select letter_code, number_code, name

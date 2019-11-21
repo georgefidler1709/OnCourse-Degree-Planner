@@ -1,6 +1,7 @@
 create table Degrees (
     name varchar(100),
     faculty varchar(100),
+    duration integer required,
     code varchar(100) unique,
     id integer primary key
 );
@@ -20,7 +21,7 @@ create table Courses (
 
     name varchar(100),
     faculty varchar(100),
-    units integer required check(units > 0),
+    units integer required check(units >= 0),
 
     prereq integer references CourseRequirements(id),
     coreq integer references CourseRequirements(id),

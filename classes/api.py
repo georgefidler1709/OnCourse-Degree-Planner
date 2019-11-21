@@ -16,6 +16,7 @@ from mypy_extensions import TypedDict
 
 class SimpleDegree(TypedDict):
     id: str;
+    year: str;
     name: str;
 
 SimpleDegrees = List[SimpleDegree]

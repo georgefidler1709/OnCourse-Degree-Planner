@@ -33,6 +33,7 @@ from . import  (
     specificCourseFilter,
     subjectReq,
     term,
+    unparsedReq,
     uocReq,
     yearReq,
 )
@@ -337,6 +338,8 @@ class University(object):
             return self.load_and_requirement(requirement_data)
         elif type_name == 'OrRequirement':
             return self.load_or_requirement(requirement_data)
+        elif type_name == 'UnparsedRequirement':
+            return self.load_unparsed_requirement(requirement_data)
         else:
             print('ERROR: No course requirement "{}"'.format(type_name))
             return None
@@ -432,6 +435,11 @@ class University(object):
                 children.append(child)
 
         return orReq.OrReq(children)
+
+    def load_unparsed_requirement(self, requirement_data: Row) -> 'unparsedReq.UnparsedReq':
+        requirement_string = requirement_data['requirement_string']
+
+        return unparsedReq.UnparsedReq(requirement_string)
 
     # Input: the id of the course filter
     # Return: The course filter in question

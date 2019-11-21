@@ -34,7 +34,7 @@ const CongratsMessage = styled.h4`
 `
 
 function allRequirementsMet(degree_reqs: Array<Req>) {
-  return degree_reqs.length == 0
+  return degree_reqs.length === 0
 }
 
 function Requirements(props: ReqProps) {

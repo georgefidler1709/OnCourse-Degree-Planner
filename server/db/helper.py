@@ -470,14 +470,14 @@ class Helper:
                 '''
                 msg = "INSERT INTO Degrees(name, faculty, duration, id) VALUES (?, ?, ?, ?)"
                 vals = (name, faculty, duration, degree_code)
-                uniques = (degree_code)
+                uniques = (degree_code,)
                 inserted_id = self.safe_insert(msg, vals, uniques)
 
                 return inserted_id
 
         def add_degree_offering(self, year, degree_id):
 
-                exists, offer_id = self.check_exists("Degrees", (degree_id))
+                exists, offer_id = self.check_exists("Degrees", (degree_id,))
 
                 if not exists:
                         raise Exception(f"Degrees doesn't contain id {degree_id}, so cannot insert DegreeOfferings")

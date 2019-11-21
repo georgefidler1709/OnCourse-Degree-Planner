@@ -361,6 +361,7 @@ def insert_seng_degree_requirements(db='university.db', start_year=2020, end_yea
         # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/SENGAH
 
         print("==> Inserting Course Filters for SENGAH Degree")
+        h = Helper(dbaddr=db)
 
         # level 1 core courses
         core_l1 = ["COMP1511", "COMP1521", "COMP1531", "ENGG100", "MATH1081"]
@@ -451,7 +452,7 @@ def insert_seng_degree_requirements(db='university.db', start_year=2020, end_yea
                 # 168 UOC stream: SENGAH
 
                 # 6 UOC specific courses
-                uoc_6 = core_l1_filters + math1_or + math2_or + core_l2_filters + core_l3_filters + core_l4_filters
+                uoc_6 = core_l1_filters + [math1_or] + [math2_or] + core_l2_filters + core_l3_filters + core_l4_filters
                 for f in uoc_6:
                         h.add_degree_reqs(SENG, year, f, 6)
 

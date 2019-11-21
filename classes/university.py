@@ -124,16 +124,16 @@ class University(object):
 
         if need_requirements:
             # Get all of the requirements for the degree
-            response = self.query_db('''select uoc_needed, requirement_id
+            response = self.query_db('''select uoc_needed, requirement_id, alt_text
                                      from DegreeOfferingRequirements
                                      where offering_degree_id = ?
                                      and offering_year_id = ?''', (numeric_code, year))
             for offering_requirement in response:
-                uoc, filter_id = offering_requirement
+                uoc, filter_id, alt_text = offering_requirement
                 self.assert_no_nulls(uoc)
 
                 if filter_id is None:
-                    requirement = minDegreeReq.MinDegreeReq(None, uoc)
+                    requirement = minDegreeReq.MinDegreeReq(None, uoc, alt_text)
                 else:
                     filter = self.load_course_filter(filter_id)
                     self.assert_no_nulls(filter)
@@ -141,7 +141,7 @@ class University(object):
                     # mypy doesn't recognise that assert_no_nulls makes sure that filter is not none
                     assert filter is not None
 
-                    requirement = minDegreeReq.MinDegreeReq(filter, uoc)
+                    requirement = minDegreeReq.MinDegreeReq(filter, uoc, alt_text)
                 requirements.append(requirement)
 
         result_degree.requirements = requirements

@@ -467,10 +467,13 @@ def insert_seng_degree_requirements(db='university.db', start_year=2020, end_yea
                         h.add_degree_reqs(SENG, year, f, 4)
 
                 # 36 UOC discipline electives
-                h.add_degree_reqs(SENG, year, disc_filter, 36)
+                h.add_degree_reqs(SENG, year, disc_filter, 36, "Discipline Electives")
 
                 # 6 UOC free electives
                 h.add_degree_reqs(SENG, year, free_filter, 6)
+
+                # discipline electives notes
+                h.add_degree_notes(SENG, year, "Discipline Electives include: any level 3, 4, 6, 9 Computer Science course, any level 3, 4 Electrical Engineering Course, ENGG3060, any level 3, 4, Information Systems course, any level 3, 4, 6 Mathematics course, any level 3, 4, Telecommunications course")
 
                 # level requirements, maturity requirements
                 # 30 UOC level 4 or higher COMP

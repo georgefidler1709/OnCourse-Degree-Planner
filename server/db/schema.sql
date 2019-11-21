@@ -117,6 +117,7 @@ create table DegreeOfferingRequirements (
     offering_year_id integer required references DegreeOfferings(year),
     requirement_id integer required references CourseFilters(id),
     uoc_needed integer required check(uoc_needed > 0),
+    alt_text text,
     id integer primary key
 );
 

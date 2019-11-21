@@ -149,7 +149,12 @@ class Program(object):
         for key, val in outstanding_reqs.items():
 
             new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
-            if key.filter:
+            if key.alttext:
+                new = {'units': val,
+                    'filter_type': 'Special requirement',
+                    'info': key.alttext,
+                }
+            elif key.filter:
                 new = {'units': val, 
                     'filter_type': key.filter.simple_name,
                     'info': key.filter.info

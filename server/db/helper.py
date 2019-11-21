@@ -160,7 +160,7 @@ class Helper:
                 elif table == "CourseRequirementHierarchies":
                         check = "SELECT parent_id, child_id FROM CourseRequirementHierarchies where parent_id = ? and child_id = ?"
                 elif table == "DegreeOfferingRequirements":
-                        check = "SELECT offering_degree_id, offering_year_id, requirement_id, uoc_needed, id FROM DegreeOfferingRequirements WHERE offering_degree_id = ? and offering_year_id = ? and requirement_id = ? and uoc_needed = ?"
+                        check = "SELECT offering_degree_id, offering_year_id, requirement_id, uoc_needed, alt_text, id FROM DegreeOfferingRequirements WHERE offering_degree_id = ? and offering_year_id = ? and requirement_id = ? and uoc_needed = ? and alt_text = ?"
                 elif table == "DegreeOfferingNotes":
                         check = "SELECT offering_degree_id, offering_year_id, note, id FROM DegreeOfferingNotes WHERE offering_degree_id = ? and offering_year_id = ? and note = ?"
                 elif table == "CourseOfferings":
@@ -430,7 +430,7 @@ class Helper:
 
                 return filters
 
-        def add_degree_reqs(self, degree_code, year, filter_id, uoc_needed):
+        def add_degree_reqs(self, degree_code, year, filter_id, uoc_needed, alt_text=None):
                 '''
                 Inserts entry to DegreeOfferingRequirements table
                 <degree_code> is an id of Degrees table
@@ -445,9 +445,9 @@ class Helper:
                 if not exists:
                         raise Exception(f"DegreeOffering for year = {year} and degree_id = {degree_code} DNE")
 
-                msg = '''INSERT INTO DegreeOfferingRequirements(offering_degree_id, offering_year_id, requirement_id, uoc_needed)
-                        VALUES (?, ?, ?, ?)'''
-                vals = (degree_code, year, filter_id, uoc_needed)
+                msg = '''INSERT INTO DegreeOfferingRequirements(offering_degree_id, offering_year_id, requirement_id, uoc_needed, alt_text)
+                        VALUES (?, ?, ?, ?, ?)'''
+                vals = (degree_code, year, filter_id, uoc_needed, alt_text)
                 inserted_id = self.safe_insert(msg, vals, vals)         
 
                 return inserted_id

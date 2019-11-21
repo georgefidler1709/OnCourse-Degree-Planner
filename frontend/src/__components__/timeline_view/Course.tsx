@@ -39,6 +39,7 @@ interface CourseProps {
   index: number;
   code: string;
   name: string;
+  units: number;
   prereqs: string;
   coreqs: string;
   equivalents: string;

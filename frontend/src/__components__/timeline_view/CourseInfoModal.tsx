@@ -3,10 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { CourseReq } from '../../Api';
 import { SubTitle } from '../../Types';
-
-const year = '2020'
-const handbook = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}`
-
+import { COURSE_HANDBOOK_PREFIX } from '../../Constants'
 
 interface CourseInfoModalProps {
   index: number;
@@ -49,7 +46,13 @@ function addLinks(req: string) {
   req = req.replace(/[()]/g, '');
   return req.split(' ').map(word => {
     if(!word.match(re)) return " " + word + " "
-    return (<a key={word} href={`${handbook}/${word}`}>{word}</a>)
+    return (<a 
+              href={`${COURSE_HANDBOOK_PREFIX}${word}`}
+              target="_blank"
+              rel="noopener noreferrer" 
+              >{word}
+            </a>
+            )
   })
 }
 
@@ -107,7 +110,7 @@ function CourseInfoModal(props: CourseInfoModalProps) {
           {displayCourseReqs(props.equivalents, "Equivalents")}
           {displayCourseReqs(props.exclusions, "Exclusions")}
           <hr/>
-          <a href={`${handbook}/${props.code}`}>More Info</a>
+          <a href={`${COURSE_HANDBOOK_PREFIX}${props.code}`}>More Info</a>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>

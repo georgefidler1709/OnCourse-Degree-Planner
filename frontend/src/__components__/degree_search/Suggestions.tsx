@@ -3,6 +3,7 @@ import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
 import { Button } from 'react-bootstrap'
 import {Position, SearchResult, CourseSearchResult} from '../../Types'
+import { DEGREE_HANDBOOK_PREFIX, COURSE_HANDBOOK_PREFIX } from '../../Constants'
 import styled from 'styled-components'
 
 const DegreeSuggestion = styled(Button)`
@@ -54,8 +55,6 @@ const CourseName = styled.small`
 
 function Suggestions(props: {degrees: Array<SearchResult>}) {
 
-  const year : string = "2020"
-  const handbook : string = `https://www.handbook.unsw.edu.au/undergraduate/programs/${year}/`
   const placement : Position = "right"
   let history = useHistory();
 
@@ -66,7 +65,12 @@ function Suggestions(props: {degrees: Array<SearchResult>}) {
   const options = props.degrees.map((r,i) => (
     <SuggestionInfoHover
       content={
-        <a href={handbook + r.degree.id}>More Info</a>
+        <a 
+          href={DEGREE_HANDBOOK_PREFIX + r.degree.id}
+          target="_blank"
+          rel="noopener noreferrer" 
+        >More Info
+        </a>
       }
       placement={placement}
       delay={100}
@@ -99,14 +103,17 @@ interface CourseSuggestionsProps {
 
 function CourseSuggestions(props: CourseSuggestionsProps) {
 
-  const year : string = "2020"
-  const handbook : string = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}/`
   const placement : Position = "right"
   
   const options = props.courses.map((r,i) => (
     <SuggestionInfoHover
       content={
-        <a href={handbook + r.course.code}>More Info</a>
+        <a 
+          href={COURSE_HANDBOOK_PREFIX + r.course.code}
+          target="_blank"
+          rel="noopener noreferrer" 
+        >More Info
+        </a>
       }
       placement={placement}
       delay={200}

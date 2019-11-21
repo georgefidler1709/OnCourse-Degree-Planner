@@ -1,9 +1,10 @@
 import React, { Component, ChangeEvent, RefObject } from 'react'
 import {Suggestions, CourseSuggestions} from './Suggestions'
-import {API_ADDRESS} from '../../Constants'
+import {API_ADDRESS, CURRENT_YEAR} from '../../Constants'
 import {SimpleDegrees, SimpleDegree, CourseList, Course} from '../../Api'
 import {SearchResult, CourseSearchResult} from '../../Types'
 import styled from 'styled-components';
+import {Dropdown} from 'react-bootstrap'
 
 const Logo = styled.img`
   display: block;
@@ -27,6 +28,39 @@ const SearchContainer = styled.div`
   padding: 20px;
 `
 
+const SearchBarContainer = styled.div`
+  box-shadow: 10px 10px grey;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  height: 100%
+  margin-bottom: 2%;
+
+  border-radius: 50px;
+  border: 1px solid #575756;
+`
+
+const YearSelectContainer = styled(Dropdown)`
+`
+const YearSelect = styled(Dropdown.Toggle)`
+  height: 100%;
+  width: 100%;
+  border-radius: 50px 0px 0px 50px !important;
+  border-right: 1px solid #575756 !important;
+
+  &:focus {
+    box-shadow:none !important;
+    outline:0px !important;
+  }
+  &:active{
+    box-shadow:none !important;
+    outline:0px !important;
+  }
+    
+}
+`
+
 const SearchBar = styled.input`
 
   &:focus {
@@ -35,13 +69,11 @@ const SearchBar = styled.input`
       color: transparent;
     }
   }
-  box-shadow: 10px 10px grey;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 60%;
+  width: 100%;
+  height: 100%;
   padding: 1% 4%;
-  margin-bottom: 2%;
+  border-radius: 50px;
+  border: none;
   transition: background-colour .2s ease-in;
   font-size: 30px;
   line-height: 18px;
@@ -50,13 +82,11 @@ const SearchBar = styled.input`
   background-repeat: no-repeat;
   background-size: 40px 40px;
   background-position: 95% center;
-
-  border-radius: 50px;
-  border: 1px solid #575756;
 `
 
 const SearchForm = styled.form`
   width: 100%;
+  height: 11%;
   display: flex;
   flex-direction: column;
 `
@@ -73,6 +103,7 @@ interface SearchState {
   searchResults : Array<SearchResult>;
   degrees: SimpleDegrees
   oldQuery: string
+  year: number
 }
 
 interface SearchCourseState {
@@ -93,6 +124,7 @@ class Search extends Component<{}, SearchState> {
       searchResults: [],
       degrees: [],
       oldQuery: '',
+      year: CURRENT_YEAR
     }
 
     fetch(API_ADDRESS + '/degrees.json')
@@ -142,15 +174,31 @@ class Search extends Component<{}, SearchState> {
   }
 
   render() {
+    let arr = [2020, 2021];
     return (
       <SearchContainer>
         <Logo src={"/images/logo.png"} alt="logo"/>
         <Title>OnCourse</Title>
         <SearchForm>
-          <SearchBar
-            placeholder="Search for your degree..."
-            onChange={this.handleInputChange}
-          />
+          <SearchBarContainer>
+          <YearSelectContainer>
+  <YearSelect variant="light" id="dropdown-basic">
+    Start Year
+  </YearSelect>
+
+  <Dropdown.Menu>
+    {
+      arr.map(year => 
+        <Dropdown.Item active={year === this.state.year} onClick={() => this.setState({year: year})}>{year}</Dropdown.Item>
+      )
+    }
+  </Dropdown.Menu>
+</YearSelectContainer>
+            <SearchBar
+              placeholder="Search for your degree..."
+              onChange={this.handleInputChange}
+            />
+          </SearchBarContainer>
         </SearchForm>
         {
           this.state.searchResults.length > 0 &&

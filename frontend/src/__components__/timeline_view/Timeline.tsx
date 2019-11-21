@@ -5,7 +5,7 @@ import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
 import { CheckResponse } from '../../Api';
-import {API_ADDRESS, DB_YEAR_MAX} from '../../Constants'
+import {API_ADDRESS, DB_YEAR_MAX, CURRENT_YEAR} from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
 import html2canvas from 'html2canvas'
@@ -75,7 +75,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     super(props)
 
     let code = props.match.params["degree"]
-    fetch(API_ADDRESS + `/${code}/gen_program.json`)
+    fetch(API_ADDRESS + `/${code}/${CURRENT_YEAR}/gen_program.json`)
     .then(response => response.json())
     .then(plan => {
       this.setState({
@@ -466,6 +466,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                     degree_id={this.state.program.id}
                     degree_name={this.state.program.name}
                     degree_reqs={this.state.reqs.degree_reqs}
+                    year={this.state.program.year}
                     standby_courses={this.state.add_course.map(course_id => this.state.courses[course_id]!)}
                     done_courses={this.state.program.done.map(course_id => this.state.courses[course_id]!)}
                     add_event={this.addCourse.bind(this)}

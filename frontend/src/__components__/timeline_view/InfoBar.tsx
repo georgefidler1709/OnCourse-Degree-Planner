@@ -5,7 +5,7 @@ import InfoBarSection from "./InfoBarSection"
 import { SearchCourses } from "../degree_search/Search"
 import { RemainReq, Course } from "../../Api"
 import Requirements from "./Requirements"
-import { Card } from 'react-bootstrap'
+import { Card, Dropdown } from 'react-bootstrap'
 
 const Container = styled.div`
   &::-webkit-scrollbar {
@@ -46,6 +46,7 @@ interface InfoBarProps {
   degree_reqs: Array<RemainReq>;
   standby_courses: Array<Course>;
   done_courses: Array<Course>;
+  year: number;
   add_event: (code: string) => Promise<boolean>;// function to call when you want to add a course
   remove_course: (id: string) => void;
 }
@@ -54,6 +55,7 @@ function InfoBar(props: InfoBarProps) {
 
   const [openAdd, setOpenAdd] = useState(true);
   const [openDone, setOpenDone] = useState(true);
+  const [openStartYear, setOpenStartYear] = useState(false);
   const [openReqs, setOpenReqs] = useState(false);
 
   return (
@@ -95,6 +97,17 @@ function InfoBar(props: InfoBarProps) {
               highlight={false}
               removeCourse={props.remove_course}/>
           </Card.Body>
+      </InfoBarSection>
+
+      <InfoBarSection 
+        open={openStartYear} 
+        setOpen={setOpenStartYear}
+        title={"Set Start Year"}
+      >
+        <Card.Body>
+          <Dropdown.Item eventKey="1" >2020</Dropdown.Item>
+          <Dropdown.Item eventKey="2" >2021</Dropdown.Item>
+        </Card.Body>
       </InfoBarSection>
 
       <InfoBarSection 

@@ -37,7 +37,16 @@ const RColumn = styled.div`
   padding: 0px;
   width: 30%;
   overflow: hidden;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 `;
+
+const Logo = styled.img`
+  width: 5%;
+  height: 5%;
+  margin: 1%;
+`
 
 const NavButton = styled(Button)`
   margin: 0px 8px;
@@ -218,6 +227,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     fetch(request)
     .then(response => response.json())
     .then((reqs: CheckResponse) => {
+      console.log(reqs)
       this.setState({reqs}); 
       this.addMissingTerms();
     }).catch(error => console.error(error));
@@ -412,7 +422,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     return (
       <div>
         <Navbar bg="dark" variant="dark" id="navbar">
-          <Navbar.Brand href="/"><span role="img" aria-label="book">📖</span> OnCourse</Navbar.Brand>
+          <Navbar.Brand href="/"><Logo src={"/images/logo.png"} alt="logo"/> OnCourse</Navbar.Brand>
           <Nav className="mr-auto">
           </Nav>
           <NavButton id="save" variant="outline-info" onClick={this.savePlan}><i className="fa fa-save"></i></NavButton>

@@ -28,50 +28,67 @@ const ReqTitle = styled.p`
   font-weight: bold;
 `
 
+const CongratsMessage = styled.h4`
+  font-weight: bold;
+  color: #3ae05c;
+`
+
+function allRequirementsMet(degree_reqs: Array<Req>) {
+  return degree_reqs.length === 0
+}
+
 function Requirements(props: ReqProps) {
-  // combine each requirement type into one heading
-  var combo_reqs: Record<string, PrettyReq> = {};
 
-  var keys: Array<string> = [];
+  if(allRequirementsMet(props.degree_reqs)) {
+    return <CongratsMessage>Good to Graduate!</CongratsMessage>
+  } 
+  else {
+     // combine each requirement type into one heading
+    var combo_reqs: Record<string, PrettyReq> = {};
 
-  props.degree_reqs.forEach(req => {
-    if (req.filter_type in combo_reqs) {
-      // add to units and items
-      combo_reqs[req.filter_type].units += req.units;
-      combo_reqs[req.filter_type].items.push(req.info);
-    } else {
-      // set to units and items
-      combo_reqs[req.filter_type] = {
-        units: req.units,
-        items: [req.info]
-      };
+    var keys: Array<string> = [];
 
-      keys.push(req.filter_type);
-    }
-  })
+    props.degree_reqs.forEach(req => {
+      if (req.filter_type in combo_reqs) {
+        // add to units and items
+        combo_reqs[req.filter_type].units += req.units;
+        combo_reqs[req.filter_type].items.push(req.info);
+      } else {
+        // set to units and items
+        combo_reqs[req.filter_type] = {
+          units: req.units,
+          items: [req.info]
+        };
 
-  // each item in combo_reqs should be displayed as UOC
-  // then a list of items. 
-  // <span style={{color: '#3F94B6'}}>
-  var res = keys.map(k => {
-    return(
-      <React.Fragment key={k}>
-        <CounterContainer>
-        <ReqTitle>{`${k}`}</ReqTitle>
-        <p><span style={{color: '#17a2b8'}}><u>{`${combo_reqs[k].units} UOC`}</u>{' remaining'}</span></p>
-        </CounterContainer>
-        <ul>
-          {
-            combo_reqs[k].items.map(it => {
-              return <li key={it}>{`${it}`}</li>;
-            })
-          }
-        </ul>
-      </React.Fragment>
-    )
-  })
+        keys.push(req.filter_type);
+      }
+    })
 
-  return <div>{res}</div>;
+    // each item in combo_reqs should be displayed as UOC
+    // then a list of items. 
+    // <span style={{color: '#3F94B6'}}>
+    var res = keys.map(k => {
+      return(
+        <React.Fragment key={k}>
+          <CounterContainer>
+          <ReqTitle>{`${k}`}</ReqTitle>
+          <p><span style={{color: '#17a2b8'}}><u>{`${combo_reqs[k].units} UOC`}</u>{' remaining'}</span></p>
+          </CounterContainer>
+          <ul>
+            {
+              combo_reqs[k].items.map(it => {
+                return <li key={it}>{`${it}`}</li>;
+              })
+            }
+          </ul>
+        </React.Fragment>
+      )
+    })
+
+    return <div>{res}</div>;
+  }
+ 
+ 
 }
 
 export default Requirements

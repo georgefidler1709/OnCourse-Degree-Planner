@@ -53,9 +53,8 @@ interface InfoBarProps {
 
 function InfoBar(props: InfoBarProps) {
 
-  const [openAdd, setOpenAdd] = useState(true);
-  const [openDone, setOpenDone] = useState(true);
-  const [openStartYear, setOpenStartYear] = useState(false);
+  const [openAdd, setOpenAdd] = useState(false);
+  const [openDone, setOpenDone] = useState(false);
   const [openReqs, setOpenReqs] = useState(false);
 
   return (
@@ -97,17 +96,6 @@ function InfoBar(props: InfoBarProps) {
               highlight={false}
               removeCourse={props.remove_course}/>
           </Card.Body>
-      </InfoBarSection>
-
-      <InfoBarSection 
-        open={openStartYear} 
-        setOpen={setOpenStartYear}
-        title={"Set Start Year"}
-      >
-        <Card.Body>
-          <Dropdown.Item eventKey="1" >2020</Dropdown.Item>
-          <Dropdown.Item eventKey="2" >2021</Dropdown.Item>
-        </Card.Body>
       </InfoBarSection>
 
       <InfoBarSection 

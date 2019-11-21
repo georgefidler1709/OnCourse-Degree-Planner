@@ -53,8 +53,6 @@ class ScrapedCourse(object):
         if not self.finished:
             print(f"Could not parse requirements for {self.code}")
 
-        if self.code == "COMP2511":
-            print(f"Prereqs for COMP2511 is {self.prereqs} and finished is {self.finished}")
         self.terms = parser.parse_terms(terms, self.year)
 
     # Parses requirements again (for use after updating requirements)
@@ -92,6 +90,7 @@ class ScrapedCourse(object):
         # store in dict
         #STORE IN DB
         return course.Course(subject, code, name, units, terms, faculty, prereqs=self.prereqs,
-                coreqs=self.coreqs, exclusions=self.exclusions, equivalents=self.equivalents)
+                coreqs=self.coreqs, exclusions=self.exclusions, equivalents=self.equivalents,
+                finished=self.finished)
 
 

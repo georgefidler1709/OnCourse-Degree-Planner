@@ -83,7 +83,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
         add_course: [],
       }) 
       this.addMissingTerms()
-    })
+    }).catch(error => console.error(error));
   }
 
   addMissingTerms() {
@@ -230,7 +230,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       console.log(reqs)
       this.setState({reqs}); 
       this.addMissingTerms();
-    })
+    }).catch(error => console.error(error));
   }
 
   removeCourse(draggableId: string) {

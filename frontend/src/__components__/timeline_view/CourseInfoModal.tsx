@@ -3,9 +3,14 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { CourseReq } from '../../Api';
 import { SubTitle } from '../../Types';
+import styled from 'styled-components';
 
 const year = '2020'
 const handbook = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}`
+
+const UOC = styled.h5`
+  margin-bottom: 16px;
+`
 
 
 interface CourseInfoModalProps {
@@ -15,6 +20,7 @@ interface CourseInfoModalProps {
   show: boolean;
   code: string;
   name: string;
+  units: number;
   prereqs: string;
   coreqs: string;
   equivalents: string;
@@ -102,6 +108,7 @@ function CourseInfoModal(props: CourseInfoModalProps) {
                 filter_type="Warning(s)"
                 info={props.warn}
               />}
+          <UOC>UOC: {props.units}</UOC>
           {displayCourseReqs(props.prereqs, "Prereqs")}
           {displayCourseReqs(props.coreqs, "Coreqs")}
           {displayCourseReqs(props.equivalents, "Equivalents")}

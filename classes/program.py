@@ -135,7 +135,7 @@ class Program(object):
         return errors
 
     def check_course_warnings(self) -> Dict[str, List[str]]:
-        errors = {} 
+        errors = {}
         for enrol in self.courses:
             course_errors = enrol.course.check_warnings(self, enrol.term)
             if len(course_errors) > 0:

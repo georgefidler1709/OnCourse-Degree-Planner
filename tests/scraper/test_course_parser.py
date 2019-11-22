@@ -8,9 +8,9 @@ test file for CourseParser class
 """
 
 import pytest
-from . import courseParser
-from . import scrapedSubjectReq
-from . import scrapedEnrollmentReq
+from scraper import courseParser
+from scraper import scrapedSubjectReq
+from scraper import scrapedEnrollmentReq
 from classes import courseReq
 from classes import uocReq
 from classes import yearReq

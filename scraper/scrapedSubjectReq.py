@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -9,7 +9,7 @@ The course requirement to have taken a specific course prior to completing this 
 Skeleton class to be filled out later
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import List, Optional
 
@@ -40,7 +40,7 @@ class ScrapedSubjectReq(singleReq.SingleReq):
         return None
 
     def __repr__(self) -> str:
-        return f"<SubjectReq course={self.course!r} min_mark={self.min_mark!r}>"
+        return f'<SubjectReq course={self.course!r} min_mark={self.min_mark!r}>'
 
     def info(self, top_level: bool=False, exclusion: bool=False) -> str:
         pass
@@ -49,7 +49,7 @@ class ScrapedSubjectReq(singleReq.SingleReq):
      # The name of the requirement for the database
     @property
     def requirement_name(self) -> str:
-        return "CompletedCourseRequirement"
+        return 'CompletedCourseRequirement'
 
     def check(self, program: 'program.Program', term: 'term.Term',
             coreq: bool=False, excl: bool=False) -> List[str]:

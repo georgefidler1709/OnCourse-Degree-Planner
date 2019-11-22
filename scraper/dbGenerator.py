@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -6,7 +6,7 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 
 dbGenerator.py
 A class to generate the database based on scraping information from the handbook
-"""
+'''
 
 from mypy_extensions import DefaultArg
 import requests
@@ -46,7 +46,7 @@ def get_webpage_with_retries(url: str, num_retries: int) -> str:
         response.raise_for_status()
     except requests.exceptions.HTTPError as e:
         if num_retries > 0:
-            print(f"Got error when trying to load page {url}, will try {num_retries - 1} more times after waiting 5 secs")
+            print(f'Got error when trying to load page {url}, will try {num_retries - 1} more times after waiting 5 secs')
             time.sleep(5)
             return get_webpage_with_retries(url, num_retries - 1)
         else:
@@ -65,7 +65,7 @@ class dbGenerator(object):
 
     # Scrapes all of the information from the handbook for the given year and the given fields, and
     # adds sessions for each of them up until the provided end year
-    def generate_db(self, year: int, fields: List[str]=[""], postgrad: bool=False, end_year:
+    def generate_db(self, year: int, fields: List[str]=[''], postgrad: bool=False, end_year:
             Optional[int]=None) -> None:
 
         if end_year is None:
@@ -90,7 +90,7 @@ class dbGenerator(object):
             course = scraped_course.to_course()
 
             if not course.finished:
-                print(f"Course {course.course_code} could not be parsed properly, inserting anyway")
+                print(f'Course {course.course_code} could not be parsed properly, inserting anyway')
 
             self.insert_requirements(course_id, course.prereqs, course.coreqs,
                         course.exclusions, course.equivalents)
@@ -116,7 +116,7 @@ class dbGenerator(object):
     def insert_requirements(self, course_id: int, prereqs: Optional['courseReq.CourseReq'], coreqs:
             Optional['courseReq.CourseReq'], exclusions: List[str], equivalents: List[str]) -> None:
 
-        print("Exclusions are: ", exclusions)
+        print('Exclusions are: ', exclusions)
 
         if prereqs is None:
             prereq_id = None
@@ -170,7 +170,7 @@ class dbGenerator(object):
         elif isinstance(requirement, unparsedReq.UnparsedReq):
             return self.store_unparsed_req(requirement)
         else:
-            raise NotImplementedError("Cannot store course requirement type {}".format(type(requirement)))
+            raise NotImplementedError('Cannot store course requirement type {}'.format(type(requirement)))
 
     def store_composite_req(self, requirement: 'compositeReq.CompositeReq') -> int:
         req_id = self.store_db('''insert into CourseRequirements(type_id) values(?)''',
@@ -186,7 +186,7 @@ class dbGenerator(object):
 
     def store_uoc_req(self, requirement: 'uocReq.UOCReq'):
         if requirement.filter is not None:
-            raise NotImplementedError("Cannot deal with requirements with filters currently")
+            raise NotImplementedError('Cannot deal with requirements with filters currently')
 
         filter_id = None
 
@@ -302,11 +302,11 @@ class dbGenerator(object):
         course_id = None
 
         if result is None:
-            print(f"Adding course {course_code} because it doesn't exist in the database/must be from earlier years")
+            print(f'Adding course {course_code} because it doesn\'t exist in the database/must be from earlier years')
 
             course_id = self.store_db('''insert into Courses(letter_code, number_code, level, units,
             finished, faculty, name) values(?, ?, ?, ?, ?, ?, ?)''', (letter_code, number_code,
-                number_code[0], 6, 0, "Unknown Faculty", "Unknown Course Name"))
+                number_code[0], 6, 0, 'Unknown Faculty', 'Unknown Course Name'))
         else:
             (course_id,) = result
 
@@ -318,7 +318,7 @@ class dbGenerator(object):
                 (requirement_name, ), one=True)
 
         if result is None:
-            raise ValueError(f"No requirement type with name {requirement_name}")
+            raise ValueError(f'No requirement type with name {requirement_name}')
 
         (requirement_id,) = result
         return requirement_id

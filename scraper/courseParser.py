@@ -24,8 +24,8 @@ from classes import orReq
 class CourseParser(object):
 
     def __init__(self):
-        self.prereq_words = ["prereq:", "prerequisite:", "pre-requisite:"]
-        self.coreq_words = ["coreq:", "corequisite:", "prerequisite/corequisite:"]
+        self.prereq_words = ['prereq:', 'prerequisite:', 'pre-requisite:']
+        self.coreq_words = ['coreq:', 'corequisite:', 'prerequisite/corequisite:']
 
     # Parse the string to return the list of term offerings
     def parse_terms(self, string: str, year: int) -> List['term.Term']:
@@ -59,7 +59,7 @@ class CourseParser(object):
                     bracket_depth -= 1
                 else:
                     # Error, inconsistent bracketing
-                    print("INCONSISTENT BRACKETING")
+                    print('INCONSISTENT BRACKETING')
                     return ([string], None, False)
 
             elif bracket_depth > 0:
@@ -72,7 +72,7 @@ class CourseParser(object):
                         conj = 'and'
                     elif conj != 'and':
                         # Already have ORs, so this is an error
-                        print("MIX AND WITH OR")
+                        print('MIX AND WITH OR')
                         return ([string], None, False)
                         
                     break_points.append(i)
@@ -82,7 +82,7 @@ class CourseParser(object):
                         conj = 'or'
                     elif conj != 'or':
                         # Already have ANDs, so this is an error
-                        print("MIX OR WITH AND")
+                        print('MIX OR WITH AND')
                         return ([string], None, False)
 
                     break_points.append(i)
@@ -107,7 +107,7 @@ class CourseParser(object):
         # bracketed subphrases to consider
         if conj is None:
             # Error, if we have any subphrases then there should be a conj
-            print("SUBPHRASES WITH NO CONJ")
+            print('SUBPHRASES WITH NO CONJ')
             return ([string], None, False)
         strs: List[str] = []
 
@@ -133,10 +133,10 @@ class CourseParser(object):
         f: bool = False
         l: bool = False
         for word in req[2:]:
-            if word == "f":
+            if word == 'f':
                 f = True
                 l = False
-            elif word == "l":
+            elif word == 'l':
                 f = False
                 l = True
             elif f:
@@ -187,15 +187,15 @@ class CourseParser(object):
                     return scrapedSubjectReq.ScrapedSubjectReq(course, int(mark))
 
         # WAM requirements
-        elif split[0] == "wam":
+        elif split[0] == 'wam':
             return wamReq.WAMReq(int(split[1]))
 
         # year requirements
-        elif split[0] == "year":
+        elif split[0] == 'year':
             return yearReq.YearReq(int(split[1]))
 
         # UOC requirements
-        elif split[0] == "uoc":
+        elif split[0] == 'uoc':
             units = int(split[1])
             if len(split) > 2:
                 filter = self.parse_uoc_req_filter(split)
@@ -204,12 +204,12 @@ class CourseParser(object):
                 return uocReq.UOCReq(units)
 
         # enrollment requirements
-        elif split[0] == "enrol":
+        elif split[0] == 'enrol':
             degree = int(split[1])
             return scrapedEnrollmentReq.ScrapedEnrollmentReq(degree)
 
         # something has gone wrong
-        print("ERROR: could not parse course req")
+        print('ERROR: could not parse course req')
         print(string)
         return None
 
@@ -259,9 +259,9 @@ class CourseParser(object):
 
     def replace_prereq_coreq(self, string: str) -> str:
         for word in self.prereq_words:
-            string = string.replace(word, "prereq")
+            string = string.replace(word, 'prereq')
         for word in self.coreq_words:
-            string = string.replace(word, "coreq")
+            string = string.replace(word, 'coreq')
         return string
 
     # Parse a string containing a course requirement
@@ -270,7 +270,7 @@ class CourseParser(object):
         if req == None:
             return (None, None, status)
 
-        if req == "":
+        if req == '':
             return (None, None, status)
 
         # convert to lower case

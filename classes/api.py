@@ -85,4 +85,5 @@ class GeneratorResponse(TypedDict):
     program: Program;
     courses: Dict[str, Course];
     reqs: CheckResponse;
+    full_reqs: List[RemainReq];
 

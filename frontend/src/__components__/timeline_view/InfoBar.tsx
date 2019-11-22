@@ -44,6 +44,7 @@ interface InfoBarProps {
   degree_id: number;
   degree_name: string;
   degree_reqs: Array<RemainReq>;
+  full_reqs: Array<RemainReq>;
   degree_notes: Array<string>;
   standby_courses: Array<Course>;
   done_courses: Array<Course>;
@@ -57,6 +58,7 @@ function InfoBar(props: InfoBarProps) {
   const [openAdd, setOpenAdd] = useState(true);
   const [openDone, setOpenDone] = useState(false);
   const [openReqs, setOpenReqs] = useState(false);
+  const [openFullReqs, setOpenFullReqs] = useState(false);
 
   return (
     <Container>
@@ -106,7 +108,19 @@ function InfoBar(props: InfoBarProps) {
       >
         <Card.Body>
           <ReqContainer>
-            <Requirements degree_reqs={props.degree_reqs}/>
+            <Requirements degree_reqs={props.degree_reqs} say_remain={true}/>
+          </ReqContainer>
+        </Card.Body>
+      </InfoBarSection>
+
+      <InfoBarSection 
+        open={openFullReqs} 
+        setOpen={setOpenFullReqs}
+        title={"Full Degree Requirements"}
+      >
+        <Card.Body>
+          <ReqContainer>
+            <Requirements degree_reqs={props.full_reqs} say_remain={false}/>
             <Notes notes={props.degree_notes}/>
           </ReqContainer>
         </Card.Body>

@@ -4,6 +4,7 @@ import { Req } from "../../Types"
 
 interface ReqProps {
   degree_reqs: Array<Req>;
+  say_remain: boolean;
 }
 
 interface PrettyReq {
@@ -72,7 +73,7 @@ function Requirements(props: ReqProps) {
         <React.Fragment key={k}>
           <CounterContainer>
           <ReqTitle>{`${k}`}</ReqTitle>
-          <p><span style={{color: '#17a2b8'}}><u>{`${combo_reqs[k].units} UOC`}</u>{' remaining'}</span></p>
+          <p><span style={{color: '#17a2b8'}}><u>{`${combo_reqs[k].units} UOC`}</u>{props.say_remain && ' remaining'}</span></p>
           </CounterContainer>
           <ul>
             {

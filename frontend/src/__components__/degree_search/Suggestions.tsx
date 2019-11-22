@@ -59,8 +59,11 @@ function Suggestions(props: {degrees: Array<SearchResult>, year: number}) {
   let history = useHistory();
 
 
-  function handleClick(event: MouseEvent<HTMLButtonElement>, year: number) {
-    // LOGIC TO THROW AN ERROR IF THE DEGREE DOESN'T EXIST GOES HERE
+  function handleClick(event: MouseEvent<HTMLButtonElement>, degree: string, year: number, years: Array<number>) {
+    if(years.findIndex(y => y === year) === -1) {
+      alert(`${degree} was not available in starting year: ${year}`)
+      return
+    }
     history.push("/" + event.currentTarget.id.toString() + "/" + year)
   }
   
@@ -83,7 +86,7 @@ function Suggestions(props: {degrees: Array<SearchResult>, year: number}) {
         variant="light"
         id={r.degree.id}
         value={r.degree.id}
-        onClick={(e: MouseEvent<HTMLButtonElement>) => handleClick(e, props.year)}
+        onClick={(e: MouseEvent<HTMLButtonElement>) => handleClick(e, r.degree.id, props.year, r.degree.years)}
       >
         <DegreeCode>{r.degree.id}</DegreeCode>
         <DegreeName>{r.text}</DegreeName>

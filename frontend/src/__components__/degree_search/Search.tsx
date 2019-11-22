@@ -44,6 +44,8 @@ const SearchBarContainer = styled.div`
 const YearSelectContainer = styled(Dropdown)`
 `
 const YearSelect = styled(Dropdown.Toggle)`
+  font-weight: bold !important;
+  background-color: #00cc99 !important;
   height: 100%;
   width: 100%;
   border-radius: 50px 0px 0px 50px !important;
@@ -100,9 +102,10 @@ const Disclaimer = styled.p`
 `
 
 interface SearchState {
-  searchResults : Array<SearchResult>;
+  searchResults : Array<SearchResult>
   degrees: SimpleDegrees
   oldQuery: string
+  years: Array<number>,
   year: number
 }
 
@@ -124,13 +127,14 @@ class Search extends Component<{}, SearchState> {
       searchResults: [],
       degrees: [],
       oldQuery: '',
+      years: [],
       year: CURRENT_YEAR
     }
 
     fetch(API_ADDRESS + '/degrees.json')
       .then(response => response.json())
-      .then(degrees => {
-        this.setState({ degrees })
+      .then(response => {
+        this.setState({...response})
       })
       .catch((error) => console.error(error));
 
@@ -141,7 +145,6 @@ class Search extends Component<{}, SearchState> {
     let query = event.target.value.toLowerCase();
     let searchResults: Array<SearchResult> = [];
 
-    console.log(this.state.degrees);
     function processDegree(degree: SimpleDegree) {
       let index = degree.name.toLowerCase().indexOf(query);
       if (index !== -1) {
@@ -158,7 +161,7 @@ class Search extends Component<{}, SearchState> {
       }
     }
 
-    if (query.length !== 0) {
+    if(query.length !== 0) {
       if (this.state.oldQuery.length !== 0 && (query.startsWith(this.state.oldQuery) || query.endsWith(this.state.oldQuery))) {
         for (let result of this.state.searchResults) {
           processDegree(result.degree);
@@ -174,49 +177,47 @@ class Search extends Component<{}, SearchState> {
   }
 
   render() {
-    let arr = [2020, 2021];
     return (
       <SearchContainer>
         <Logo src={"/images/logo.png"} alt="logo"/>
         <Title>OnCourse</Title>
         <SearchForm>
           <SearchBarContainer>
-          <YearSelectContainer>
-  <YearSelect variant="light" id="dropdown-basic">
-    Start Year
-  </YearSelect>
-
-  <Dropdown.Menu>
-    {
-      arr.map(year => 
-        <Dropdown.Item active={year === this.state.year} onClick={() => this.setState({year: year})}>{year}</Dropdown.Item>
-      )
-    }
-  </Dropdown.Menu>
-</YearSelectContainer>
-            <SearchBar
-              placeholder="Search for your degree..."
-              onChange={this.handleInputChange}
-            />
-          </SearchBarContainer>
-        </SearchForm>
-        {
-          this.state.searchResults.length > 0 &&
-          <Suggestions 
-            degrees={this.state.searchResults}
-            year={this.state.year}
+            <YearSelectContainer>
+              <YearSelect variant="light" id="dropdown-basic">
+                Start Year: {this.state.year}
+              </YearSelect>
+              <Dropdown.Menu>
+                {
+                  this.state.years.map(year => 
+                    <Dropdown.Item active={year === this.state.year} onClick={() => this.setState({year: year})}>{year}</Dropdown.Item>
+                  )
+                }
+              </Dropdown.Menu>
+            </YearSelectContainer>
+          <SearchBar
+            placeholder="Search for your degree..."
+            onChange={this.handleInputChange}
           />
-        }
-        <Disclaimer>
-          * Disclaimer: OnCourse is not
-          <br/> affiliated with or endorsed by UNSW.
-          <br/> This product is intended to aid degree planning.
-          <br/> However, it should not be the only resourced used
-          <br/> in planning your future at university,
-          <br/> as it may be subject to error.
-          </Disclaimer>
-      </SearchContainer>
-      )
+        </SearchBarContainer>
+      </SearchForm>
+      {
+        this.state.searchResults.length > 0 &&
+        <Suggestions 
+          degrees={this.state.searchResults}
+          year={this.state.year}
+        />
+      }
+      <Disclaimer>
+        * Disclaimer: OnCourse is not
+        <br/> affiliated with or endorsed by UNSW.
+        <br/> This product is intended to aid degree planning.
+        <br/> However, it should not be the only resourced used
+        <br/> in planning your future at university,
+        <br/> as it may be subject to error.
+      </Disclaimer>
+    </SearchContainer>
+    )
   }
 }
 

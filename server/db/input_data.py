@@ -322,7 +322,7 @@ def insert_compsci_degree_requirements(db='university.db', start_year=2020, end_
         # ====== insert degree requirements =====
         print('===> Inserting Degree Requirements for COMPA1 Degree')
         COURSE_UOC = 6
-        COMPSCI = 3778
+        COMPSCI = '3778 COMPA1'
 
         print('Inserting degree...')
         h.add_degree('Computer Science', 'Faculty of Engineering', 3, COMPSCI)
@@ -439,7 +439,7 @@ def insert_seng_degree_requirements(db='university.db', start_year=2020, end_yea
 
         print('==> Inserting Degree Requirements for SENGAH Degree')
 
-        SENG = 3707
+        SENG = '3707 SENGAH'
 
         print('Inserting degree...')
         h.add_degree('Engineering (Honours) (Software Engineering)', 'Faculty of Engineering', 4, SENG)

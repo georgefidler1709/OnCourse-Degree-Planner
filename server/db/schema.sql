@@ -2,12 +2,12 @@ create table Degrees (
     name varchar(100),
     faculty varchar(100),
     duration integer required,
-    id integer primary key
+    id varchar(50) primary key
 );
 
 create table DegreeOfferings (
     year integer,
-    degree_id integer references Degrees(id),
+    degree_id varchar(50) references Degrees(id),
     primary key (year, degree_id)
 );
 
@@ -117,7 +117,7 @@ create table CourseRequirementHierarchies (
 
 create table DegreeOfferingRequirements (
 
-    offering_degree_id integer required references DegreeOfferings(degree_id),
+    offering_degree_id varchar(50) required references DegreeOfferings(degree_id),
     offering_year_id integer required references DegreeOfferings(year),
     requirement_id integer required references CourseFilters(id),
     uoc_needed integer required check(uoc_needed > 0),
@@ -129,7 +129,7 @@ create table DegreeOfferingRequirements (
 -- i.e. "60 days of Industrial Training" or 
 -- "courses chosen must have at least 30 UOC level 4+ COMP courses"
 create table DegreeOfferingNotes (
-    offering_degree_id integer required references DegreeOfferings(degree_id),
+    offering_degree_id varchar(50) required references DegreeOfferings(degree_id),
     offering_year_id integer required references DegreeOfferings(year),
     note text required,
     id integer primary key

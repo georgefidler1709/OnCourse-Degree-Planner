@@ -79,6 +79,9 @@ def do_add_to_db() -> None:
 
     db_path = current_app.config['DATABASE']
 
+    START_YEAR = 2020
+    END_YEAR = 2021
+
     input_data.insert_degrees_with_no_offerings(db=db_path)
 
     # input Computer Science 3778 COMPA1 course requirements
@@ -86,10 +89,10 @@ def do_add_to_db() -> None:
     input_data.compsci_course_reqs(db_path)
 
     # input CourseFilters and DegreeOfferingRequirements for 3778 COMPA1
-    input_data.insert_compsci_degree_requirements(db=db_path)
+    input_data.insert_compsci_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
 
     # insert requirements for SENGAH
-    input_data.insert_seng_degree_requirements(db=db_path)
+    input_data.insert_seng_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
 
     print('DEGREE REQUIREMENTS INSERTED')
 

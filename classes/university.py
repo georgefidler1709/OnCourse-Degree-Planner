@@ -10,7 +10,7 @@ Implementation of the University class which is a database of courses and progra
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import Dict, List, Optional, Callable, Tuple
+from typing import Callable, Dict, List, Optional, Set, Tuple
 from mypy_extensions import DefaultArg
 from sqlite3 import Row, Connection
 
@@ -574,8 +574,40 @@ class University(object):
         response = self.query_db('''select degree.id, degree.name, offering.year
                                  from DegreeOfferings as offering
                                  join Degrees as degree
-                                 on degree.id = offering.degree_id''')
-        return [{'id': str(i['id']), 'year': i['year'], 'name': i['name']} for i in response];
+                                 on degree.id = offering.degree_id
+                                 order by degree.id, offering.year''')
+
+        degrees: List[api.SimpleDegree] = []
+        years: Set[str] = set()
+
+        current_id: str = ''
+        current_name: str = ''
+        current_years: List[str] = []
+
+        for offering in response:
+            degree_id, name, year = offering
+            degree_id = str(degree_id)
+
+            if current_id != degree_id:
+                # Don't add if the current degree is just the empty data for the first run through
+                if current_id != '':
+                    degrees.append({'id': current_id, 'years': current_years, 'name': current_name})
+
+                current_id = degree_id
+                current_name = name
+                current_years = []
+
+            current_years.append(year)
+
+            years.add(year)
+
+        if current_id != '':
+            # Add the final degree
+            degrees.append({'id': current_id, 'years': current_years, 'name': current_name})
+
+        years_list = list(sorted(years))
+
+        return {'degrees': degrees, 'years': years_list}
 
     def get_simple_courses(self) -> api.SimpleCourses:
         response = self.query_db('''select letter_code, number_code, name

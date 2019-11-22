@@ -1,6 +1,6 @@
 import json;
 
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -12,7 +12,7 @@ offered by the university, and contains information about the degree completion
 requirements.
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from flask import g
 from typing import Dict, Optional, Sequence, List
@@ -38,7 +38,7 @@ class Degree(object):
         self.notes = notes
 
     def __repr__(self) -> str:
-        return f"<Degree num_code={self.num_code!r}, name={self.name!r}, year={self.year!r}, duration={self.duration!r}, requirements={self.requirements!r}>"
+        return f'<Degree num_code={self.num_code!r}, name={self.name!r}, year={self.year!r}, duration={self.duration!r}, requirements={self.requirements!r}>'
 
     # Input: either nothing or a list of completed courses (<List>CourseEnrollment)
     # Return: list of requirements remaining for completion
@@ -96,8 +96,8 @@ class Degree(object):
     # depend on `self.num_code` and `self.year`
     def get_url(self) -> str:
         # for extensibility to postgraduate
-        study_level = "undergraduate"
-        url = f"https://www.handbook.unsw.edu.au/{study_level}/programs/{self.year}/{self.num_code}"
+        study_level = 'undergraduate'
+        url = f'https://www.handbook.unsw.edu.au/{study_level}/programs/{self.year}/{self.num_code}'
         return url
 
     # Defines what it means for two degrees to be equal

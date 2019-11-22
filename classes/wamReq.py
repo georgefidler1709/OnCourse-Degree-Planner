@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ wamReq.py
 The course requirement to have a particular WAM
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import List
 
@@ -25,14 +25,14 @@ class WAMReq(singleReq.SingleReq):
         self.wam = wam
 
     def __repr__(self) -> str:
-        return f"<WAMReq WAM>={self.wam!r}>"
+        return f'<WAMReq WAM>={self.wam!r}>'
 
     def info(self, top_level: bool=False, exclusion: bool=False) -> str:
-        return f"Required WAM of {self.wam!r} or more"
+        return f'Required WAM of {self.wam!r} or more'
 
     @property
     def requirement_name(self) -> str:
-        return "WamRequirement"
+        return 'WamRequirement'
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled

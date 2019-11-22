@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,15 +8,15 @@ test_term.py
 Test the functions defined in term.py
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 import pytest
 from classes.term import Term
 
 
-"""
+'''
 testing - will write formally later
-"""
+'''
 def test_term():
     term12020 = Term(2020, 1)
     term22020 = Term(2020, 2)

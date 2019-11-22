@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ university.py
 Implementation of the University class which is a database of courses and programs
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import Callable, Dict, List, Optional, Set, Tuple
 from mypy_extensions import DefaultArg
@@ -95,7 +95,7 @@ class University(object):
         name, faculty, duration = response
         self.assert_no_nulls(name, faculty, duration)
 
-        alpha_code = "ALPHA_CODE"
+        alpha_code = 'ALPHA_CODE'
 
         # Check that there is actually an offering for that degree
         response = self.query_db('''select *
@@ -324,7 +324,7 @@ class University(object):
 
         if response is None:
             # Failed to load course requirement
-            print("ERROR: No course requirement {}".format(requirement_id))
+            print('ERROR: No course requirement {}'.format(requirement_id))
             return None
 
         requirement_data = response
@@ -349,7 +349,7 @@ class University(object):
         elif type_name == 'UnparsedRequirement':
             return self.load_unparsed_requirement(requirement_data)
         else:
-            print('ERROR: No course requirement "{}"'.format(type_name))
+            print('ERROR: No course requirement \'{}\''.format(type_name))
             return None
 
     # Input: row from the CourseRequirements table in the db for a completed course requirement
@@ -377,7 +377,7 @@ class University(object):
 
         if response is None:
             # No degree with that id
-            print("ERROR: failed to get degree with id {}".format(degree_id))
+            print('ERROR: failed to get degree with id {}'.format(degree_id))
             return None
 
         (degree_name, ) = response
@@ -463,7 +463,7 @@ class University(object):
 
         if response is None:
             # Failed to load course filter
-            raise ValueError(f"ERROR: No course filter {filter_id}")
+            raise ValueError(f'ERROR: No course filter {filter_id}')
 
         filter_data = response
         type_id = filter_data['type_id']
@@ -473,7 +473,7 @@ class University(object):
 
         if type_name is None:
             # Invalid course filter type
-            print("ERROR: invalid course filter type {}".format(type_id))
+            print('ERROR: invalid course filter type {}'.format(type_id))
             return None
 
         # Determine which filter type it is from the name
@@ -492,7 +492,7 @@ class University(object):
         elif type_name == 'OrFilter':
             return self.load_or_filter(filter_data)
         else:
-            print('ERROR: No course filter "{}"'.format(type_name))
+            print('ERROR: No course filter \'{}\''.format(type_name))
             return None
 
     # Input: row from the CourseFilters table in the db for a specific course filter
@@ -636,4 +636,4 @@ class University(object):
     def assert_no_nulls(self, *args):
         for i, arg in enumerate(args):
             if arg is None:
-                raise ValueError(f"ERROR: argument #{i} is None in arguments {args}")
+                raise ValueError(f'ERROR: argument #{i} is None in arguments {args}')

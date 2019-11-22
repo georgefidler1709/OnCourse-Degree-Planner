@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On Coursee
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -9,7 +9,7 @@ Implementation of the Program class, which represents a specific program of
 study.
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import List, Optional, Dict, Tuple
 
@@ -86,7 +86,7 @@ class Program(object):
 
 
     def __repr__(self) -> str:
-        return f"<Program degree={self.degree!r}, courses={self.courses!r}>"
+        return f'<Program degree={self.degree!r}, courses={self.courses!r}>'
 
     # Input: a course and a term of study
     # Create a course enrollment for that term and add to courses
@@ -202,11 +202,11 @@ class Program(object):
         for x in self.courses:
             enrollments_map[x.term.year][x.term.term].append(x.course.course_code)
 
-        enrollments: List["api.YearPlan"] = [ { 
-                    "year": year,
-                    "term_plans": [ {
-                        "term": term,
-                        "course_ids": courses,
+        enrollments: List['api.YearPlan'] = [ { 
+                    'year': year,
+                    'term_plans': [ {
+                        'term': term,
+                        'course_ids': courses,
                     } for (term, courses) in term_plan.items() ]
                 } for (year, term_plan) in enrollments_map.items()];
 

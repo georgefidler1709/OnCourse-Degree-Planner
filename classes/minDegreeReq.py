@@ -1,4 +1,4 @@
-""" 
+''' 
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -9,7 +9,7 @@ Requirement to fulfill a minimum of a particular count of uoc from a filtered
 list of courses.
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import List, Optional, Tuple
 from . import degreeReq, courseFilter, program, course, degree

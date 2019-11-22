@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -9,7 +9,7 @@ The course requirement to have completed a certain number of units of credit pri
 to enrolling, sometimes from a specific list of subjects
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import List, Optional
 
@@ -28,17 +28,17 @@ class UOCReq(singleReq.SingleReq):
         self.filter = filter
 
     def __repr__(self) -> str:
-        return f"<UOCReq uoc={self.uoc!r}, filter={self.filter!r}>"
+        return f'<UOCReq uoc={self.uoc!r}, filter={self.filter!r}>'
 
     def info(self, top_level: bool=False, exclusion: bool=False) -> str:
         if self.filter is None:
-            return f"{self.uoc} UoC"
+            return f'{self.uoc} UoC'
         else:
-            return f"{self.uoc} UoC fulfilling [{self.filter.info}]"
+            return f'{self.uoc} UoC fulfilling [{self.filter.info}]'
 
     @property
     def requirement_name(self) -> str:
-        return "UocRequirement"
+        return 'UocRequirement'
 
     # Input: a program and a term in which the required course is taken
     # Return: any errors pertaining to this requirement

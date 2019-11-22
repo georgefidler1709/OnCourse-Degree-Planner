@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ test_yearReq.py
 Test the functions defined in yearReq.py
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 import pytest
 from typing import List
@@ -54,25 +54,25 @@ t7 = term.Term(2021, 1)
 t8 = term.Term(2021, 2)
 t9 = term.Term(2021, 3)
 
-faculty = "SubjFaculty"
+faculty = 'SubjFaculty'
 
 def test_one():
 	# Make some courses
 	# subj1001
-	subj1001 = course.Course("SUBJ", '1001', "Subject1", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty)
+	subj1001 = course.Course('SUBJ', '1001', 'Subject1', 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty)
 
 	# subj1002, prereq subj1001
 	prereq1001 = subjectReq.SubjectReq(subj1001)
 	prereq_year2 = yearReq.YearReq(year=2)
 	assert prereq_year2.year == 2
 	req1001_and_year2 = andReq.AndReq([prereq1001, prereq_year2])
-	subj1002 = course.Course("SUBJ", '1002', "Subject2", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, req1001_and_year2)
+	subj1002 = course.Course('SUBJ', '1002', 'Subject2', 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, req1001_and_year2)
 
 	# subj1003, prereq subj1001 and 1002
 	prereq_final = yearReq.YearReq(year=-1)
 	assert prereq_final.year == -1
 	req1001_and_final = andReq.AndReq([prereq1001, prereq_final])
-	subj1003 = course.Course("SUBJ", '1003', "Subject3", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, req1001_and_final)
+	subj1003 = course.Course('SUBJ', '1003', 'Subject3', 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, req1001_and_final)
 
 	uni.reset_courses([subj1001, subj1002, subj1003])
 
@@ -84,7 +84,7 @@ def test_one():
 	req1002 = minDegreeReq.MinDegreeReq(filter1002, 6)
 	req1003 = minDegreeReq.MinDegreeReq(filter1003, 6)
 
-	degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 3, faculty, [req1001, req1002, req1003], 'BAT1')
+	degree1 = degree.Degree(1, 'Bachelor of Testing', 2019, 3, faculty, [req1001, req1002, req1003], 'BAT1')
 
 	gen = generator.Generator(degree1, uni)
 	prog = gen.generate()
@@ -100,14 +100,14 @@ def test_one():
 def test_check():
 	# Make some courses
 	# subj1001
-	subj1001 = course.Course("SUBJ", '1001', "Subject1", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty)
+	subj1001 = course.Course('SUBJ', '1001', 'Subject1', 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty)
 
 	# subj1002, prereq subj1001
 	prereq1001 = subjectReq.SubjectReq(subj1001)
-	subj1002 = course.Course("SUBJ", '1002', "Subject2", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, prereq1001)
+	subj1002 = course.Course('SUBJ', '1002', 'Subject2', 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, prereq1001)
 
 	# subj1003, prereq subj1001 and 1002
-	subj1003 = course.Course("SUBJ", '1003', "Subject3", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, prereq1001)
+	subj1003 = course.Course('SUBJ', '1003', 'Subject3', 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, prereq1001)
 
 	uni.reset_courses([subj1001, subj1002, subj1003])
 
@@ -117,7 +117,7 @@ def test_check():
 	req1001 = minDegreeReq.MinDegreeReq(filter1001, 6)
 	req1002 = minDegreeReq.MinDegreeReq(filter1002, 6)
 	req1003 = minDegreeReq.MinDegreeReq(filter1003, 6)
-	degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1002, req1003], 'BAT1')
+	degree1 = degree.Degree(1, 'Bachelor of Testing', 2019, 2, faculty, [req1001, req1002, req1003], 'BAT1')
 
 	enrol1001 = courseEnrollment.CourseEnrollment(subj1001, t1)
 	enrol1002 = courseEnrollment.CourseEnrollment(subj1002, t2)
@@ -135,7 +135,7 @@ def test_check():
 	assert len(req.check(prog, t7)) == 0
 	assert len(req.check(prog, t8)) == 0
 	assert len(req.check(prog, t9)) == 0
-	assert req.check(prog, t3)[0] == "Year 2 in your degree"
+	assert req.check(prog, t3)[0] == 'Year 2 in your degree'
 
 	req = yearReq.YearReq(-1)
 	assert len(req.check(prog, t1)) == 1
@@ -147,5 +147,5 @@ def test_check():
 	assert len(req.check(prog, t7)) == 0
 	assert len(req.check(prog, t8)) == 0
 	assert len(req.check(prog, t9)) == 0
-	assert req.check(prog, t3)[0] == "Final year in your degree"
+	assert req.check(prog, t3)[0] == 'Final year in your degree'
 

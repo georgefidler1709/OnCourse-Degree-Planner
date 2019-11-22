@@ -16,10 +16,10 @@ from classes.term import Term
 def test_CourseEnrollment_order():
     uni = University(query_db)
 
-    comp1511 = uni.find_course("COMP1511")
-    comp2521 = uni.find_course("COMP2521")
-    math1141 = uni.find_course("MATH1141")
-    math1151 = uni.find_course("MATH1151")
+    comp1511 = uni.find_course('COMP1511')
+    comp2521 = uni.find_course('COMP2521')
+    math1141 = uni.find_course('MATH1141')
+    math1151 = uni.find_course('MATH1151')
 
     # less than (by extension greater than)
     # same subject, different subjects
@@ -64,7 +64,7 @@ def test_program_to_api():
     assert isinstance(prog, Program)
 
     api = prog.to_api()
-    # print("=======> api")
+    # print('=======> api')
     # print(api)
 
     assert api['id'] == 3778
@@ -76,7 +76,7 @@ def test_program_to_api():
     enrollments = api['enrollments']
 
     # visually check that enrollments are sorted
-    print("=====> TODO visually check enrollments are sorted")
+    print('=====> TODO visually check enrollments are sorted')
     print(enrollments)
 
 def test_empty_year():
@@ -92,11 +92,11 @@ def test_empty_year():
     comp3121 = None
     comp4920 = None
     for enr in prog.courses:
-        if enr.course.course_code == "COMP2511":
+        if enr.course.course_code == 'COMP2511':
             comp2511 = enr
-        elif enr.course.course_code == "COMP3121":
+        elif enr.course.course_code == 'COMP3121':
             comp3121 = enr
-        elif enr.course.course_code == "COMP4920":
+        elif enr.course.course_code == 'COMP4920':
             comp4920 = enr
 
     prog.remove_course(comp2511)
@@ -117,10 +117,10 @@ def test_empty_year():
 
     enrollments = api['enrollments']
 
-    print("=========== enrollments ===========")
+    print('=========== enrollments ===========')
     print(api)
     print(enrollments)
-    print("--------------------")
+    print('--------------------')
 
     # you should still have empty information in API for T2 2021
     plan_2021 = enrollments[1]
@@ -136,6 +136,6 @@ def test_get_full_course():
     uni = University(query_db)
 
     courses = uni.get_full_courses()
-    print("====> TODO visually check a few CourseList entries")
+    print('====> TODO visually check a few CourseList entries')
     print(courses[:3])
-    print("==========================================")
+    print('==========================================')

@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -7,7 +7,7 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 test_scraper.py
 Test the functions defined in scraper.py
 
-"""
+'''
 
 import os
 import pytest
@@ -17,7 +17,7 @@ from typing import Dict
 
 from scraper import scraper
 
-handbook_url = "https://www.handbook.unsw.edu.au"
+handbook_url = 'https://www.handbook.unsw.edu.au'
 
 # This just contains a mapping of urls to pages, for testing the scraper
 class MockRequests:
@@ -32,8 +32,8 @@ class MockRequests:
         if url in self.pages:
             return self.pages[url]
         else:
-            print("Invalid url \n{}, urls are \n{}".format(url, '\n'.join(self.pages.keys())))
-            raise requests.exceptions.HTTPError("404")
+            print('Invalid url \n{}, urls are \n{}'.format(url, '\n'.join(self.pages.keys())))
+            raise requests.exceptions.HTTPError('404')
         return self.pages.get(url, None)
 
 class TestScraper():
@@ -46,7 +46,7 @@ class TestScraper_GetCourseFields(TestScraper):
     def test_failed_request(self):
         try:
             self.scraper.get_course_fields(2020)
-            assert "Should not have raised exception" == 1
+            assert 'Should not have raised exception' == 1
         except:
             pass
 
@@ -98,7 +98,7 @@ class TestScraper_GetCourseCodes(TestScraper):
     def test_failed_request(self):
         try:
             self.scraper.get_course_codes(2020, field='fake_field', postgrad=False)
-            assert "Should not have raised exception" == 1
+            assert 'Should not have raised exception' == 1
         except:
             pass
 

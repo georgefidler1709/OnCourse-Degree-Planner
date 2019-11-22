@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ genEdFilter.py
 A filter that matches only general education courses
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from . import course
 from . import courseFilter
@@ -20,7 +20,7 @@ class GenEdFilter(courseFilter.CourseFilter):
         super().__init__()
 
     def __repr__(self):
-        return f"<GenEdFilter>"
+        return f'<GenEdFilter>'
 
     @property
     def core(self) -> bool:
@@ -33,11 +33,11 @@ class GenEdFilter(courseFilter.CourseFilter):
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
-        return "GenEdFilter"
+        return 'GenEdFilter'
 
     @property
     def simple_name(self) -> str:
-        return "General education"
+        return 'General education'
 
     @property
     def info(self) -> str:

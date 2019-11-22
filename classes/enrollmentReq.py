@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ enrollmentReq.py
 The course requirement to be enrolled in a specific degree program
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import List
 
@@ -26,14 +26,14 @@ class EnrollmentReq(singleReq.SingleReq):
         self.degree_name = degree_name
 
     def __repr__(self) -> str:
-        return f"<EnrollmentReq degree_id={self.degree_id!r}, degree_name={self.degree_name!r}>"
+        return f'<EnrollmentReq degree_id={self.degree_id!r}, degree_name={self.degree_name!r}>'
 
     def info(self, top_leve: bool=False, exclusion: bool=False) -> str:
-        return f"Enrollment in {self.degree_name} ({self.degree_id})"
+        return f'Enrollment in {self.degree_name} ({self.degree_id})'
 
     @property
     def requirement_name(self) -> str:
-        return "CurrentDegreeRequirement"
+        return 'CurrentDegreeRequirement'
 
     # Input: a program and a term in which the required course is taken
     # Return: any errors pertaining to this requirement

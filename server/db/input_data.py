@@ -474,7 +474,7 @@ def insert_seng_degree_requirements(db='university.db', start_year=2020, end_yea
                 h.add_degree_reqs(SENG, year, free_filter, 6)
 
                 # discipline electives notes
-                h.add_degree_notes(SENG, year, 'Discipline Electives include: any level 3, 4, 6, 9 Computer Science course, any level 3, 4 Electrical Engineering Course, ENGG3060, any level 3, 4, Information Systems course, any level 3, 4, 6 Mathematics course, any level 3, 4, Telecommunications course')
+                h.add_degree_notes(SENG, year, 'Discipline Electives include: any level 3, 4, 6, 9 COMP course; any level 3, 4 ELEC Course; ENGG3060; any level 3, 4, INFS course; any level 3, 4, 6 MATH course; any level 3, 4, TELE course')
 
                 # level requirements, maturity requirements
                 # 30 UOC level 4 or higher COMP
@@ -493,7 +493,7 @@ def insert_seng_degree_requirements(db='university.db', start_year=2020, end_yea
                 
 
                 # 60 days of Industrial Training?
-                h.add_degree_notes(SENG, year, 'Students must have completed a minimum of 60 days of Industrial Training to graduate. Industrial training must be undrtaken concurrently with enrolment in the program.')
+                h.add_degree_notes(SENG, year, 'Students must have completed a minimum of 60 days of Industrial Training to graduate. Industrial training must be undertaken concurrently with enrolment in the program.')
 
                 # total UOC = 192
                 h.add_degree_reqs(SENG, year, None, 192)
@@ -511,6 +511,77 @@ def insert_binf_degree_requirements(db='university.db', start_year=2020, end_yea
     # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/BINFAH
     h = Helper(dbaddr=db)
 
+    # ===> start filters needed
+
+    # level 1 spec
+    core_l1_filters = h.spec_courses_to_filters(['BABS1201', 'COMP1511', 'COMP1521', 'COMP1531',
+        'ENGG1000', 'MATH1081'])
+    
+    chem_filters = h.spec_courses_to_filters(['CHEM1011', 'CHEM1031'])
+    chem_or = h.combine_course_filters('or', chem_filters)
+
+    phys_filters = h.spec_courses_to_filters(['PHYS1111', 'PHYS1121', 'PHYS1131'])
+    phys_or = h.combine_course_filters('or', phys_filters)
+
+    math1_filters = h.spec_courses_to_filters(['MATH1131, MATH1141'])    
+    math1_or = h.combine_course_filters('or', math1_filters)
+
+    math2_filters = h.spec_courses_to_filters(['MATH1231, MATH1241'])
+    math2_or = h.combine_course_filters('or', math2_filters)
+
+    # level 2 spec
+    core_l2_filters = h.spec_courses_to_filters(['BINF2010, BIOC2201, COMP2041, COMP2511, COMP2521, DESN200'])
+
+    mathl2_filters = h.spec_courses_to_filters(['MATH2801', 'MATH2901'])
+    mathl2_or = h.combine_course_filters('or', mathl2_filters)
+
+    sci2_filters = h.spec_courses_to_filters(['BABS2202', 'BABS2204', 'BABS2264', 'BIOC2101', 'MICR2011'])
+    sci2_or = h.combine_course_filters('or', sci2_filters)
+
+    # level 3 spec
+    core_l3_filters = h.spec_courses_to_filters(['BABS3121', 'BINF3010', 'COMP3121', 'COMP3311'])
+
+    # level 4 spec
+    core_l4_filters = h.spec_courses_to_filters(['BINF6112', 'COMP4920'])
+
+    # 4 uoc ones
+    hons_filters = h.spec_courses_to_filters(['COMP4951', 'COMP4952', 'COMP4953'])
+
+    # general education
+    gen_filter = h.add_course_filter('gen')
+
+    # discipline electives
+    level3 = h.add_course_filter('level', level=3)
+    level4 = h.add_course_filter('level', level=4)
+    level6 = h.add_course_filter('level', level=6)
+    level9 = h.add_course_filter('level', level=9)
+
+    # any level 3, 4, 6, 9 computer science
+    comp = h.add_course_filter('field', field_code='COMP')
+    comp_levels = h.combine_course_filters('or', [level3, level4, level6, level9])
+    comp_disc = h.combine_course_filters('and', [comp, comp_levels])
+
+    # any level 3 BABS
+    babs = h.add_course_filter('field', field_code='BABS')
+    babs_disc = h.combine_course_filters('and', [babs, level3])
+
+    # any level 3 BIOC
+    bioc = h.add_course_filter('field', field_code='BIOC')
+    bioc_disc = h.combine_course_filters('and', [bioc, level3])
+
+    # any level 3 MICR
+    micr = h.add_course_filter('field', field_code='MICR')
+    micr_disc = h.combine_course_filters('and', [micr, level3])
+
+    # ENGG3060
+    maker = h.add_course_filter('spec', min_mark=50, course='ENGG3060')
+
+    disc_filter = h.combine_course_filters('or', [comp_disc, babs_disc, bioc_disc, micr_disc, maker])
+
+
+    # ===> end filters needed
+
+
     print('==> Inserting Degree Requirements for BINFAH Degree')
 
     BINF = '3707 BINFAH'
@@ -518,6 +589,199 @@ def insert_binf_degree_requirements(db='university.db', start_year=2020, end_yea
     print('Inserting degree...')
     h.add_degree('Engineering (Honours) (Bioinformatics)', 'Faculty of Engineering', 4, BINF)
 
+    print('Inserting degree offerings and requirements...')
+    for year in range(start_year, end_year + 1):
+        print(f'... year {year}')
+        h.add_degree_offering(year, BINF)
+
+        # 168 UOC stream
+
+        uoc_6 = core_l1_filters + [chem_or] + [phys_or] + [math1_or] + [math2_or] + core_l2_filters + [mathl2_or] + [sci2_or] + core_l3_filters + core_l4_filters
+        for f in uoc_6:
+            h.add_degree_reqs(BINF, year, f, 6)
+
+        uoc_4 = hons_filters
+        for f in uoc_4:
+            h.add_degree_reqs(BINF, year, f, 4)
+
+        h.add_degree_reqs(BINF, year, disc_filter, 12 + 12, 'Discipline Electives')
+
+        # 12 UOC General Education
+        h.add_degree_reqs(BINF, year, gen_filter, 12)
+
+        # 12 UOC Electives (Foundational Disciplinary or Disciplinary Knowledge Courses)
+        # "Discipline Elective List"
+        h.add_degree_notes(BINF, year, 'Discipline Electives include: any level 3, 4, 6, 9 COMP course; any level 3 BABS course; any level 3 BIOC course; any level 3 MICR course; ENGG3060')
+
+        # level 3 maturity requirements
+        # students must complete 42 UOC before taking any level 3 course
+        h.add_degree_notes(BINF, year, 'Students must have completed 42 UOC before taking any level 3 course.')
+
+        # level 4 maturity requirements
+        # students must complete 102 UOC before taking any level 4 course
+        h.add_degree_notes(BINF, year, 'Students must have completed 102 UOC before taking any level 4 course.')
+
+        # 60 days of Industrial Training 
+        h.add_degree_notes(BINF, year, 'Students must have completed a minimum of 60 days of Industrial Training to graduate. Industrial training must be undertaken concurrently with enrolment in the program.')       
+
+        # total_UOC = 192
+        h.add_degree_reqs(BINF, year, None, 192)
+
+def insert_compeng_degree_requirements(db='university.db', start_year=2020, end_year=2021):
+    # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/COMPBH
+    h = Helper(dbaddr=db)
+
+    # ===> start filters needed
+
+    # level 1
+    core_l1_filters = h.spec_courses_to_filters(['COMP1511', 'COMP1521', 'COMP1531', 'ELEC1111', 'ENGG1000'])
+
+    math1_filters = h.spec_courses_to_filters(['MATH1131', 'MATH1141'])
+    math1_or = h.combine_course_filters('or', math1_filters)
+
+    math2_filters = h.spec_courses_to_filters(['MATH1231', 'MATH1241'])
+    math2_or = h.combine_course_filters('or', math2_filters)
+
+    phys1_filters = h.spec_courses_to_filters(['PHYS1121', 'PHYS1131'])
+    phys1_or = h.combine_course_filters('or', phys1_filters)
+
+    phys2_filters = h.spec_courses_to_filters(['PHYS1221', 'PHYS1231'])
+    phys2_or = h.combine_course_filters('or', phys2_filters)
+
+    # level 2
+    core_l2_filters = h.spec_courses_to_filters(['COMP2511', 'COMP2521', 'DESN2000', 'ELEC2133',
+        'ELEC2134', 'MATH2069', 'MATH2099'])
+
+    # level 3
+    core_l3_filters = h.spec_courses_to_filters(['COMP3211', 'COMP3222', 'COMP3231', 'COMP3601'])
+
+    # level 4
+    core_l4_filters = h.spec_courses_to_filters(['COMP4601', 'COMP4920'])
+
+    # 4 UOC
+    hons = h.spec_courses_to_filters(['COMP4951', 'COMP4952', 'COMP4953'])
+
+    # discipline electives
+
+
+    gen_filter = h.add_course_filter('gen')
+    # ===> end filters needed
+    level3 = h.add_course_filter('level', level=3)
+    level4 = h.add_course_filter('level', level=4)
+    level6 = h.add_course_filter('level', level=6)
+    level9 = h.add_course_filter('level', level=9)
+
+    # any level 3, 4, 6, 9 computer science
+    comp = h.add_course_filter('field', field_code='COMP')
+    comp_levels = h.combine_course_filters('or', [level3, level4, level6, level9])
+    comp_disc = h.combine_course_filters('and', [comp, comp_levels])
+
+    # ENGG3060, 3 UOC
+    maker = h.add_course_filter('spec', min_mark=50, course='ENGG3060') 
+
+    disc_filter = h.combine_course_filters('or', [comp_disc, maker])
+
+    print('==> Inserting Degree Requirements for COMPBH Degree')
+
+    COMP = '3707 COMPBH'
+
+    print('Inserting degree...')
+    h.add_degree('Engineering (Honours) (Computer)', 'Faculty of Engineering', 4, COMP)
+
+    print('Inserting degree offerings and requirements...')
+    for year in range(start_year, end_year + 1):
+        print(f'... year {year}')
+        h.add_degree_offering(year, COMP)
+
+        # 168 UOC stream
+        uoc_6 = core_l1_filters + [math1_or] + [math2_or] + [phys1_or] + [phys2_or] + core_l2_filters + core_l3_filters + core_l4_filters
+        for f in uoc_6:
+            h.add_degree_reqs(COMP, year, f, 6)
+
+        uoc_4 = hons 
+        for f in uoc_4:
+            h.add_degree_reqs(COMP, year, f, 4)
+
+        h.add_degree_reqs(COMP, year, disc_filter, 24 + 12, 'Discipline Electives')
+
+        # 12 UOC General Education
+        h.add_degree_reqs(COMP, year, gen_filter, 12)
+
+        # 12 UOC Electives (Foundational Disciplinary or Disciplinary Knowledge Courses)
+        # "Discipline Elective List"
+        h.add_degree_notes(COMP, year, 'Discipline Electives include: any level 3, 4, 6, 9 COMP course; ENGG3060')
+
+        # level 3 maturity requirements
+        # students must complete 42 UOC before taking any level 3 course
+        h.add_degree_notes(COMP, year, 'Students must have completed 42 UOC before taking any level 3 course.')
+
+        # level 4 maturity requirements
+        # students must complete 102 UOC before taking any level 4 course
+        h.add_degree_notes(COMP, year, 'Students must have completed 102 UOC before taking any level 4 course.')
+
+        # level 4 UOC minimum
+        h.add_degree_notes(COMP, year, 'Students must complete a minimum of 36 UOC of level 4 courses, including core courses, and at least 12 UOC of level 4 Discipline Electives')
+
+        # 60 days of Industrial Training 
+        h.add_degree_notes(COMP, year, 'Students must have completed a minimum of 60 days of Industrial Training to graduate. Industrial training must be undertaken concurrently with enrolment in the program.')       
+
+        # total_UOC = 192
+        h.add_degree_reqs(COMP, year, None, 192)
+
+# def insert_fins_degree_requirements(db='university.db', start_year=2020, end_year=2021):
+#     # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/FINSA1
+#     h = Helper(dbaddr=db)
+
+#     # ===> start filters needed
+
+#     gen_filter = h.add_course_filter('gen')
+#     # ===> end filters needed
+ 
+#     print('==> Inserting Degree Requirements for FINSA1 Degree')
+
+#     FINS = '3502 FINSA1'
+
+#     print('Inserting degree...')
+#     h.add_degree('Commerce (Finance)', 'Faculty of Business', 3, FINS)
+
+#     print('Inserting degree offerings and requirements...')
+#     for year in range(start_year, end_year + 1):
+#         print(f'... year {year}')
+#         h.add_degree_offering(year, FINS)
+
+#         # 12 UOC General Education
+#         h.add_degree_reqs(FINS, year, gen_filter, 12)
+
+#         # total_UOC = 144
+#         h.add_degree_reqs(FINS, year, None, 144)
+
+
+# def insert_fins_degree_requirements(db='university.db', start_year=2020, end_year=2021):
+#     # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/FINSA1
+#     h = Helper(dbaddr=db)
+
+#     # ===> start filters needed
+
+#     gen_filter = h.add_course_filter('gen')
+#     # ===> end filters needed
+ 
+#     print('==> Inserting Degree Requirements for FINSA1 Degree')
+
+#     FINS = '3502 FINSA1'
+
+#     print('Inserting degree...')
+#     h.add_degree('Commerce (Finance)', 'Faculty of Business', 3, FINS)
+
+#     print('Inserting degree offerings and requirements...')
+#     for year in range(start_year, end_year + 1):
+#         print(f'... year {year}')
+#         h.add_degree_offering(year, FINS)
+
+#         # 12 UOC General Education
+#         h.add_degree_reqs(FINS, year, gen_filter, 12)
+
+#         # total_UOC = 192
+#         h.add_degree_reqs(FINS, year, None, 192)
 
 
 if __name__ == '__main__':

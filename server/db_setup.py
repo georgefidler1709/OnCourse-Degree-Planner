@@ -94,6 +94,12 @@ def do_add_to_db() -> None:
     # insert requirements for SENGAH
     input_data.insert_seng_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
 
+    # bioinformatics
+    input_data.insert_binf_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+
+    # computer engineering
+    input_data.insert_compeng_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+
     print('DEGREE REQUIREMENTS INSERTED')
 
 @click.command('init-db')
@@ -133,7 +139,7 @@ def do_init_db() -> None:
     postgrad = False
 
     FIELDS_TO_SCRAPE = ['COMP', 'MATH', 'ENGG', 'DESN', 'SENG', 'ELEC', 'INFS', 'TELE',
-        'ARTS']
+        'BABS', 'BIOC', 'MICR', 'CHEM', 'PHYS', 'BINF', 'ARTS']
 
     generator.generate_db(year, FIELDS_TO_SCRAPE, postgrad, end_year=2025)
 

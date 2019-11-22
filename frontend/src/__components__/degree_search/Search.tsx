@@ -45,22 +45,34 @@ const YearSelectContainer = styled(Dropdown)`
 `
 const YearSelect = styled(Dropdown.Toggle)`
   font-weight: bold !important;
-  background-color: #00cc99 !important;
+  background-color: #00e6ae !important;
   height: 100%;
   width: 100%;
   border-radius: 50px 0px 0px 50px !important;
-  border-right: 1px solid #575756 !important;
+  border: 1px solid #575756 !important;
 
   &:focus {
     box-shadow:none !important;
     outline:0px !important;
   }
-  &:active{
+  &:active {
     box-shadow:none !important;
     outline:0px !important;
-  }
-    
+  }  
 }
+`
+const YearItem = styled(Dropdown.Item)`
+  background-color: ${
+  props => props.active ?
+      "#00e6ae": "white"
+  } !important; 
+
+  &:hover {
+    background-color: ${
+      props => props.active ?
+      "#38ab8f": "#e3e3e3"
+      } !important; 
+  } 
 `
 
 const SearchBar = styled.input`
@@ -190,7 +202,7 @@ class Search extends Component<{}, SearchState> {
               <Dropdown.Menu>
                 {
                   this.state.years.map(year => 
-                    <Dropdown.Item active={year === this.state.year} onClick={() => this.setState({year: year})}>{year}</Dropdown.Item>
+                    <YearItem active={year === this.state.year} onClick={() => this.setState({year: year})}>{year}</YearItem>
                   )
                 }
               </Dropdown.Menu>

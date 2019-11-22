@@ -342,7 +342,7 @@ def insert_compsci_degree_requirements(db='university.db', start_year=2020, end_
 
                 # 30 UOC comp electives
                 h.add_degree_reqs(COMPSCI, year, comp_elec, 30)
-                
+
                 # 12 UOC gen eds
                 h.add_degree_reqs(COMPSCI, year, gen_filter, 12)
 
@@ -512,7 +512,6 @@ def insert_degrees_with_no_offerings(db='university.db'):
 
 
 if __name__ == '__main__':
-        
         # Computer Science (3778) (COMPA1) courses
         # compsci_course_reqs()
         # insert_sessions()

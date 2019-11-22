@@ -25,8 +25,7 @@ from . import freeElectiveFilter
 from . import minDegreeReq
 
 class Degree(object):
-
-    def __init__(self, num_code: int, name: str, year: int, duration: int, 
+    def __init__(self, num_code: int, name: str, year: int, duration: int,
             faculty: str, requirements: Sequence['degreeReq.DegreeReq'], alpha_code: str,
             notes: List[str]=[]):
         self.num_code = num_code
@@ -50,7 +49,7 @@ class Degree(object):
         courses: List['course.Course'] = []
         if program:
             courses = program.course_list()
-            
+
         # split the requirements into types
         core_reqs = [ x for x in self.requirements if x.core_requirement() ]
         subj_reqs = [ x for x in self.requirements if x.subj_requirement() ]

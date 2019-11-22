@@ -48,6 +48,7 @@ interface InfoBarProps {
   degree_notes: Array<string>;
   standby_courses: Array<Course>;
   done_courses: Array<Course>;
+  year: number;
   add_event: (code: string) => Promise<boolean>;// function to call when you want to add a course
   remove_course: (id: string) => void;
 }

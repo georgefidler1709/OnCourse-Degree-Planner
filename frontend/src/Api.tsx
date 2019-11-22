@@ -3,6 +3,7 @@
 export interface SimpleDegree {
   id: string; 
   name: string;
+  years: Array<number>;
 }
 
 export type SimpleDegrees = Array<SimpleDegree>;

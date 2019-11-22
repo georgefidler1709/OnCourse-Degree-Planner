@@ -48,14 +48,17 @@ class DbHelper:
     # Ignores requirements
     def insert_degree(self, degree):
         self.insert_degree_from_fields(degree.name, degree.alpha_code, degree.num_code, degree.year,
-                degree.faculty, degree.requirements)
+                degree.duration, degree.faculty, degree.requirements)
+
+    def insert_degree_offering(self, degree, year):
+        self.cursor.execute('insert into DegreeOfferings(year, degree_id) values(?, ?)', (year,
+            degree.num_code))
 
     # Inserts a degree into the database from the fields that make it up
     # Ignores requirements
     def insert_degree_from_fields(self, name='TestDegree', code='TestCode', id=42, year=2019,
-            faculty="TestFaculty", requirements=[]):
-        self.cursor.execute('insert into Degrees(name, code, faculty, id) values(?, ?, ?, ?)', (name,
-            code, faculty, id))
+            duration=3, faculty="TestFaculty", requirements=[]):
+        self.cursor.execute('insert into Degrees(name, faculty, duration, id) values(?, ?, ?, ?)', (name, faculty, duration, id))
 
         self.cursor.execute('insert into DegreeOfferings(year, degree_id) values(?, ?)', (year, id))
 
@@ -135,7 +138,7 @@ class TestUniversityWithDb():
 
 class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
     def test_no_degrees(self):
-        degree = self.university.find_degree_number_code(1)
+        degree = self.university.find_degree_number_code(1, 2019)
 
         assert degree is None
 
@@ -143,7 +146,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         input_degree = self.first_degree
 
         self.h.insert_degree(input_degree)
-        degree = self.university.find_degree_number_code(input_degree.num_code)
+        degree = self.university.find_degree_number_code(input_degree.num_code, input_degree.year)
 
         assert degree is not None
         assert len(degree.requirements) == 0
@@ -151,13 +154,23 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         assert degree.year == input_degree.year
         assert degree.faculty == input_degree.faculty
 
-    def test_single_degree_no_match(self):
+    def test_single_degree_wrong_id(self):
         input_degree = self.first_degree
 
         incorrect_id = input_degree.num_code + 1
         self.h.insert_degree(input_degree)
 
-        degree = self.university.find_degree_number_code(incorrect_id)
+        degree = self.university.find_degree_number_code(incorrect_id, input_degree.year)
+
+        assert degree is None
+
+    def test_single_degree_wrong_year(self):
+        input_degree = self.first_degree
+
+        incorrect_year = input_degree.year + 1
+        self.h.insert_degree(input_degree)
+
+        degree = self.university.find_degree_number_code(input_degree.num_code, incorrect_year)
 
         assert degree is None
 
@@ -169,7 +182,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
 
         second_degree = self.second_degree
         self.h.insert_degree(second_degree)
-        degree = self.university.find_degree_number_code(first_degree.num_code)
+        degree = self.university.find_degree_number_code(first_degree.num_code, first_degree.year)
 
         assert degree is not None
         assert degree.name == first_degree.name
@@ -197,7 +210,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
 
         self.h.insert_degree_requirement(input_degree, filter_id, uoc_needed)
 
-        degree = self.university.find_degree_number_code(input_degree.num_code)
+        degree = self.university.find_degree_number_code(input_degree.num_code, input_degree.year)
 
         assert degree is not None
         assert len(degree.requirements) == 1
@@ -238,7 +251,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
 
         self.h.insert_degree_requirement(input_degree, filter_id, uoc_needed)
 
-        degree = self.university.find_degree_number_code(input_degree.num_code)
+        degree = self.university.find_degree_number_code(input_degree.num_code, input_degree.year)
 
         assert degree is not None
         assert len(degree.requirements) == 1
@@ -268,7 +281,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
 
         self.h.insert_degree_requirement(input_degree, filter_id, uoc_needed)
 
-        degree = self.university.find_degree_number_code(input_degree.num_code)
+        degree = self.university.find_degree_number_code(input_degree.num_code, input_degree.year)
 
         assert degree is not None
         assert len(degree.requirements) == 1
@@ -294,7 +307,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
 
         self.h.insert_degree_requirement(input_degree, filter_id, uoc_needed)
 
-        degree = self.university.find_degree_number_code(input_degree.num_code)
+        degree = self.university.find_degree_number_code(input_degree.num_code, input_degree.year)
 
         assert degree is not None
         assert len(degree.requirements) == 1
@@ -321,7 +334,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
 
         self.h.insert_degree_requirement(input_degree, filter_id, uoc_needed)
 
-        degree = self.university.find_degree_number_code(input_degree.num_code)
+        degree = self.university.find_degree_number_code(input_degree.num_code, input_degree.year)
 
         assert degree is not None
         assert len(degree.requirements) == 1
@@ -348,7 +361,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
 
         self.h.insert_degree_requirement(input_degree, filter_id, uoc_needed)
 
-        degree = self.university.find_degree_number_code(input_degree.num_code)
+        degree = self.university.find_degree_number_code(input_degree.num_code, input_degree.year)
 
         assert degree is not None
         assert len(degree.requirements) == 1
@@ -383,7 +396,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
 
         self.h.insert_degree_requirement(input_degree, filter_id, uoc_needed)
 
-        degree = self.university.find_degree_number_code(input_degree.num_code)
+        degree = self.university.find_degree_number_code(input_degree.num_code, input_degree.year)
 
         assert degree is not None
         assert len(degree.requirements) == 1
@@ -421,7 +434,7 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
 
         self.h.insert_degree_requirement(input_degree, filter_id, uoc_needed)
 
-        degree = self.university.find_degree_number_code(input_degree.num_code)
+        degree = self.university.find_degree_number_code(input_degree.num_code, input_degree.year)
 
         assert degree is not None
         assert len(degree.requirements) == 1
@@ -576,10 +589,8 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         prereq = course.prereqs
         assert prereq is not None
         assert prereq.requirement_name == 'CurrentDegreeRequirement'
-        required_degree = prereq.degree
-        assert required_degree is not None
-        assert required_degree.num_code == input_degree.num_code
-        assert required_degree.name == input_degree.name
+        assert prereq.degree_id == input_degree.num_code
+        assert prereq.degree_name == input_degree.name
 
     def test_course_with_year_prereq(self):
         input_course = self.first_course
@@ -949,7 +960,8 @@ class TestUniversity_GetSimpleDegrees(TestUniversityWithDb):
     def test_no_degrees(self):
         degrees = self.university.get_simple_degrees()
 
-        assert len(degrees) == 0
+        assert len(degrees['degrees']) == 0
+        assert len(degrees['years']) == 0
 
     def test_single_degree(self):
         input_degree = self.first_degree
@@ -957,10 +969,14 @@ class TestUniversity_GetSimpleDegrees(TestUniversityWithDb):
         self.h.insert_degree(input_degree)
 
         degrees = self.university.get_simple_degrees()
-        assert len(degrees) == 1
-        degree = degrees[0]
+        assert len(degrees['degrees']) == 1
+        degree = degrees['degrees'][0]
         assert degree['id'] == str(input_degree.num_code)
         assert degree['name'] == input_degree.name
+        assert degree['years'] == [input_degree.year]
+
+        assert len(degrees['years']) == 1
+        assert degrees['years'][0] == input_degree.year
 
     def test_multiple_degrees(self):
         first_degree = self.first_degree
@@ -971,14 +987,42 @@ class TestUniversity_GetSimpleDegrees(TestUniversityWithDb):
         self.h.insert_degree(second_degree)
 
         degrees = self.university.get_simple_degrees()
-        assert len(degrees) == 2
-        degrees.sort(key=lambda x: x['id'])
-        first_result_degree, second_result_degree = degrees
+        degrees_list = degrees['degrees']
+        assert len(degrees_list) == 2
+        degrees_list.sort(key=lambda x: x['id'])
+        first_result_degree, second_result_degree = degrees_list
         assert first_result_degree['id'] == str(first_degree.num_code)
         assert first_result_degree['name'] == first_degree.name
+        assert first_result_degree['years'] == [first_degree.year]
 
         assert second_result_degree['id'] == str(second_degree.num_code)
         assert second_result_degree['name'] == second_degree.name
+        assert second_result_degree['years'] == [second_degree.year]
+
+        # Both degrees have the same year so they should be combined
+        assert len(degrees['years']) == 1
+        assert degrees['years'][0] == first_degree.year
+
+    def test_multiple_years_one_degree(self):
+        first_degree = self.first_degree
+        self.h.insert_degree(first_degree)
+
+        extra_year = 2025
+
+        years = [first_degree.year, extra_year]
+
+        self.h.insert_degree_offering(first_degree, extra_year)
+
+        degrees = self.university.get_simple_degrees()
+
+        degrees_list = degrees['degrees']
+        assert len(degrees_list) == 1
+        degree = degrees_list[0]
+        assert degree['id'] == str(first_degree.num_code)
+        assert degree['name'] == first_degree.name
+        assert degree['years'] == years
+
+        assert degrees['years'] == years
 
 
 # Not including exclusion or equivalent because that might be changed to individual courses rather

@@ -1,7 +1,7 @@
 create table Degrees (
     name varchar(100),
     faculty varchar(100),
-    duration integer,
+    duration integer required,
     id integer primary key
 );
 

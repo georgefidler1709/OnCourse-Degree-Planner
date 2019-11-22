@@ -41,16 +41,6 @@ class ScrapedEnrollmentReq(singleReq.SingleReq):
             coreq: bool=False, excl: bool=False) -> List[str]:
         pass
 
-
-    # turn into proper EnrollmentReq
-    def inflate(self, university: 'university.University') -> Optional['enrollmentReq.EnrollmentReq']:
-        d = university.find_degree_number_code(self.degree)
-        if d:
-            return enrollmentReq.EnrollmentReq(d)
-        else:
-            return None
-
-
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled
     def fulfilled(self, program: 'program.Program', term: 'term.Term',

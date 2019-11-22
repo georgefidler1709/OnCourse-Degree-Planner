@@ -19,12 +19,12 @@ describe('Rendering the degree search page', () => {
     const wrapper = shallow(<Search />);
     await sleep(100);
     wrapper.update();
-    expect(wrapper.find('input')).toBe('f')//.simulate('keydown', { which: 'c' })
+    wrapper.instance().handleInputChange({target: {value: 'c'}})
     wrapper.update()
-    expect(wrapper.state()).toBe('f')
-  })
+    expect(wrapper.state().searchResults.findIndex(res => res.degree.name === "Computer Science") !== -1).toBeTruthy();
+  });
 
-  it('will send you to a timeline view for a given degree when you click on that degree', () => {
+  it('will let you select the starting year of your degree', () => {
     
 
   })

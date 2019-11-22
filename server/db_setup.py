@@ -141,6 +141,10 @@ def do_init_db() -> None:
     FIELDS_TO_SCRAPE = ['COMP', 'MATH', 'ENGG', 'DESN', 'SENG', 'ELEC', 'INFS', 'TELE',
         'BABS', 'BIOC', 'MICR', 'CHEM', 'PHYS', 'BINF', 'ARTS']
 
+    # FIELDS_TO_SCRAPE = ['COMP', 'MATH', 'ENGG', 'DESN', 'SENG', 'ELEC', 'INFS', 'TELE',
+    #     'BABS', 'BIOC', 'MICR', 'CHEM', 'PHYS', 'BINF', 'ACCT', 'ECON', 'MGMT', 'COMM',
+    #     'FINS', 'MARK', 'TABL', 'ARTS']
+
     generator.generate_db(year, FIELDS_TO_SCRAPE, postgrad, end_year=2025)
 
     # read courses from courses.csv

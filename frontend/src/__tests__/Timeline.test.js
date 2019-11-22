@@ -4,11 +4,8 @@ import { Button } from 'react-bootstrap'
 import Timeline from '../__components__/timeline_view/Timeline';
 import InfoBar from '../__components__/timeline_view/InfoBar';
 
-const mockRoute = {
-  params: {
-    degree: "3778",
-    reqs: undefined,
-  }
+const mockLocation = {
+  pathname: "/3778/2020"
 } 
 
 
@@ -22,7 +19,7 @@ function sleep(ms) {
 
 describe('savePlan method', () => {
   it('saves a plan when save button is pressed', async() => {
-    const wrapper = mount(<Timeline match={mockRoute} />);
+    const wrapper = mount(<Timeline location={mockLocation} />);
     await sleep(100);
     wrapper.update();
 
@@ -40,7 +37,7 @@ describe('savePlan method', () => {
 
 describe('onDragEnd method', () => {
   it('will preserve changing of the order of courses within a term', async() => {
-    const wrapper = shallow(<Timeline match={mockRoute} />);
+    const wrapper = shallow(<Timeline location={mockLocation} />);
     await sleep(1000);
     wrapper.update();
 
@@ -58,7 +55,7 @@ describe('onDragEnd method', () => {
     expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids.length).toBe(source_length)
   });
   it('will preserve changing the term of a course', async() => {
-    const wrapper = shallow(<Timeline match={mockRoute} />);
+    const wrapper = shallow(<Timeline location={mockLocation} />);
     await sleep(1000);
     wrapper.update();
     let source_course = wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]
@@ -80,7 +77,7 @@ describe('onDragEnd method', () => {
 
 describe('addMissingTerms method', () => {
   it('will add missing term', async() => {
-    const wrapper = shallow(<Timeline match={mockRoute} />);
+    const wrapper = shallow(<Timeline location={mockLocation} />);
     await sleep(1000);
     wrapper.update();
     wrapper.state().program.enrollments[0].term_plans.pop()
@@ -90,7 +87,7 @@ describe('addMissingTerms method', () => {
   });
 
   it('will add a missing year', async() => {
-    const wrapper = shallow(<Timeline match={mockRoute} />);
+    const wrapper = shallow(<Timeline location={mockLocation} />);
     await sleep(1000);
     wrapper.update();
     wrapper.state().program.enrollments.pop()
@@ -102,7 +99,7 @@ describe('addMissingTerms method', () => {
 
 describe('onDragStart method', () => {
   it('will highlight terms which contain an offering for the course being dragged', async() => {
-    const wrapper = shallow(<Timeline match={mockRoute} />);
+    const wrapper = shallow(<Timeline location={mockLocation} />);
     await sleep(100);
     wrapper.update();
 
@@ -116,7 +113,7 @@ describe('onDragStart method', () => {
 
 describe('Render degree planning timeline view', () => {
   it('renders correctly', async() => {
-    const wrapper = shallow(<Timeline match={mockRoute} />);
+    const wrapper = shallow(<Timeline location={mockLocation} />);
     await sleep(100);
     wrapper.update();
 
@@ -128,7 +125,7 @@ describe('Render degree planning timeline view', () => {
 
 describe('add and remove years', () => {
   it('add an empty year', async() => {
-    const wrapper = mount(<Timeline match={mockRoute} />);
+    const wrapper = mount(<Timeline location={mockLocation} />);
     await sleep(100);
     wrapper.update();
 
@@ -142,7 +139,7 @@ describe('add and remove years', () => {
   });
 
   it('remove an empty year', async() => {
-    const wrapper = mount(<Timeline match={mockRoute} />);
+    const wrapper = mount(<Timeline location={mockLocation} />);
     await sleep(100);
     wrapper.update();
 
@@ -156,7 +153,7 @@ describe('add and remove years', () => {
   });
 
   it('will not remove a year with courses in it', async() => {
-    const wrapper = mount(<Timeline match={mockRoute} />);
+    const wrapper = mount(<Timeline location={mockLocation} />);
     await sleep(100);
     wrapper.update();
     wrapper.instance().updateDuration(-1)
@@ -174,14 +171,14 @@ describe('add and remove years', () => {
 
 describe('removeCourse method', () => {
   it('has the course to be removed before removal', async() => {
-    const wrapper = mount(<Timeline match={mockRoute} />);
+    const wrapper = mount(<Timeline location={mockLocation} />);
     await sleep(100);
     wrapper.update();
     expect(wrapper.state().courses["COMP1511"]).toBeDefined()
   });
 
   it('does not have removed course after removal', async() => {
-    const wrapper = mount(<Timeline match={mockRoute} />);
+    const wrapper = mount(<Timeline location={mockLocation} />);
     await sleep(100);
     wrapper.update();
     wrapper.instance().removeCourse("COMP1511")

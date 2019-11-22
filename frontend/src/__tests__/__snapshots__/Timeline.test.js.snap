@@ -12,12 +12,10 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
     <NavbarBrand
       href="/"
     >
-      <span
-        aria-label="book"
-        role="img"
-      >
-        📖
-      </span>
+      <styled.img
+        alt="logo"
+        src="/images/logo.png"
+      />
        OnCourse
     </NavbarBrand>
     <Nav
@@ -766,6 +764,7 @@ COMP2011",
             done_courses={Array []}
             remove_course={[Function]}
             standby_courses={Array []}
+            year={2019}
           />
         </styled.div>
       </div>

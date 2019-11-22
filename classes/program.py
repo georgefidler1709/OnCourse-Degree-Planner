@@ -225,7 +225,10 @@ class Program(object):
                 'course_warn': self.check_course_warnings() }; 
 
     def get_generator_response_api(self) -> api.GeneratorResponse:
+        full_reqs = Program(self.degree, [], []).get_reqs_api()
+
         return {'program': self.to_api(),
                 'courses': {enrollment.course_code() : enrollment.course.to_api() for enrollment in self.courses},
-                'reqs': self.get_prereq_conflicts_api() };
+                'reqs': self.get_prereq_conflicts_api(),
+                'full_reqs': full_reqs };
 

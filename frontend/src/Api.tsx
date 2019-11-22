@@ -75,5 +75,6 @@ export interface GeneratorResponse {
   program: Program;
   courses: {[index: string]: Course};
   reqs: CheckResponse;
+  full_reqs: Array<RemainReq>;
 }
 

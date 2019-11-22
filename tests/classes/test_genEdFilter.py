@@ -20,9 +20,9 @@ deg = degree.Degree(num_code=3778, name='Computer Science', year=2019,
 		duration=3, faculty="SubjectFac", requirements=[], alpha_code='COMPA1')
 
 def test_accepts_course_true():
-    c = course.Course("OTHR", 1001, "Other1", 6, [], "OtherFac")
+    c = course.Course("OTHR", '1001', "Other1", 6, [], "OtherFac")
     assert f.accepts_course(c, deg)
 
 def test_accepts_course_false():
-    c = course.Course("SUBJ", 1001, "Subject1", 6, [], "SubjectFac")
+    c = course.Course("SUBJ", '1001', "Subject1", 6, [], "SubjectFac")
     assert not f.accepts_course(c, deg)

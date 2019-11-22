@@ -45,5 +45,4 @@ class MinDegreeReq(degreeReq.DegreeReq):
                 matching_courses.append(c)
                 if units == self.uoc:
                     break
-
         return (self.uoc - units, matching_courses)

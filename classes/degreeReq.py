@@ -53,7 +53,7 @@ class DegreeReq(ABC):
     def overall_requirement(self) -> bool:
         return self.filter is None
 
-    # the conditions for these checking functions 
+    # the conditions for these checking functions
     # help to establish a hierarchy of requirements
 
     # Return whether this is a core requirement

@@ -59,20 +59,20 @@ faculty = "SubjFaculty"
 def test_one():
 	# Make some courses
 	# subj1001
-	subj1001 = course.Course("SUBJ", 1001, "Subject1", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty)
+	subj1001 = course.Course("SUBJ", '1001', "Subject1", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty)
 
 	# subj1002, prereq subj1001
 	prereq1001 = subjectReq.SubjectReq(subj1001)
 	prereq_year2 = yearReq.YearReq(year=2)
 	assert prereq_year2.year == 2
 	req1001_and_year2 = andReq.AndReq([prereq1001, prereq_year2])
-	subj1002 = course.Course("SUBJ", 1002, "Subject2", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, req1001_and_year2)
+	subj1002 = course.Course("SUBJ", '1002', "Subject2", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, req1001_and_year2)
 
 	# subj1003, prereq subj1001 and 1002
 	prereq_final = yearReq.YearReq(year=-1)
 	assert prereq_final.year == -1
 	req1001_and_final = andReq.AndReq([prereq1001, prereq_final])
-	subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, req1001_and_final)
+	subj1003 = course.Course("SUBJ", '1003', "Subject3", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, req1001_and_final)
 
 	uni.reset_courses([subj1001, subj1002, subj1003])
 
@@ -100,14 +100,14 @@ def test_one():
 def test_check():
 	# Make some courses
 	# subj1001
-	subj1001 = course.Course("SUBJ", 1001, "Subject1", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty)
+	subj1001 = course.Course("SUBJ", '1001', "Subject1", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty)
 
 	# subj1002, prereq subj1001
 	prereq1001 = subjectReq.SubjectReq(subj1001)
-	subj1002 = course.Course("SUBJ", 1002, "Subject2", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, prereq1001)
+	subj1002 = course.Course("SUBJ", '1002', "Subject2", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, prereq1001)
 
 	# subj1003, prereq subj1001 and 1002
-	subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, prereq1001)
+	subj1003 = course.Course("SUBJ", '1003', "Subject3", 6, [t1, t2, t3, t4, t5, t6, t7, t8, t9], faculty, prereq1001)
 
 	uni.reset_courses([subj1001, subj1002, subj1003])
 

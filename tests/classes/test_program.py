@@ -45,19 +45,29 @@ def test_default_outstanding_reqs(plan):
     print(reqs)
     print("======================================================================")
 
-    assert len(reqs) == 4
+    assert len(reqs) == 5
 
-    # first one is 6 UOC of COMP3900
-    comp3900 = reqs[0][0]
-    comp3900_uoc = reqs[0][1]
+    # Already have 10 courses of 6 uoc each
+    plan_uoc = 6*10
+
+    # The first one is 144 UOC overall (but we have 60UoC already)
+    overall = reqs[0][0]
+    overall_uoc = reqs[0][1]
+    assert overall_uoc == 144 - plan_uoc
+    assert overall.uoc == 144
+    assert overall.filter is None
+
+    # second one is 6 UOC of COMP3900
+    comp3900 = reqs[1][0]
+    comp3900_uoc = reqs[1][1]
     assert comp3900_uoc == 6
     assert comp3900.uoc == 6
     assert isinstance(comp3900.filter, SpecificCourseFilter)
     assert comp3900.filter.course.course_code == "COMP3900"
 
-    # second is 30 UOC of level 3, 4, 6, 9 COMP
-    level = reqs[1][0]
-    level_uoc = reqs[1][1]
+    # third is 30 UOC of level 3, 4, 6, 9 COMP
+    level = reqs[2][0]
+    level_uoc = reqs[2][1]
     assert level_uoc == 30
     assert level.uoc == 30
     assert isinstance(level.filter, AndFilter)
@@ -78,21 +88,21 @@ def test_default_outstanding_reqs(plan):
     assert levels[3].level == 9
 
 
-    # third is 12 UOC of gen ed
-    gens = reqs[2][0]
-    gens_uoc = reqs[2][1]
+    # fourth is 12 UOC of gen ed
+    gens = reqs[3][0]
+    gens_uoc = reqs[3][1]
     assert gens_uoc == 12
     assert gens.uoc == 12
     assert isinstance(gens.filter, GenEdFilter)
 
-    # fourth is 36 UOC of free electives
-    frees = reqs[3][0]
-    frees_uoc = reqs[3][1]
+    # fifth is 36 UOC of free electives
+    frees = reqs[4][0]
+    frees_uoc = reqs[4][1]
     assert frees_uoc == 36
     assert frees.uoc == 36
     assert isinstance(frees.filter, FreeElectiveFilter)
 
-    # # first one is 48 UOC of 
+    # # first one is 48 UOC of
     # assert reqs[0][1] == 48
 
     # print(f"type of reqs[0] key {type(reqs[0][0])}")
@@ -156,7 +166,7 @@ def test_remove_elec(plan):
 
     uni = University(query_db)
 
-    econ1202 = Course("ECON", 1202, "Quantitative analysis for business and economics", 6,
+    econ1202 = Course("ECON", '1202', "Quantitative analysis for business and economics", 6,
             [Term(2021, 1)], "UNSW Business School")
     plan.add_course(econ1202, Term(2021, 1))
 

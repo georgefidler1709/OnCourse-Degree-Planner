@@ -34,7 +34,7 @@ describe("Won't render correctly outside of a DragDropContext", () => {
       const wrapper = mount(
       <DragDropContext>
       {
-        <Term key="test" termId="2 2019" courses={[]}/>
+        <Term key="test" name="2 2019" courses={[]}/>
       }
       </DragDropContext>);
       expect(wrapper.find(Term).first().text()).toBe('T2 2019')

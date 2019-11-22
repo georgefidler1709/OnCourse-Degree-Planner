@@ -82,7 +82,7 @@ interface SearchCourseState {
 }
 
 interface SearchCourseProps {
-  add_event: (course: Course, searchRef: RefObject<HTMLInputElement>, searchResults: Array<CourseSearchResult>) => void;
+  add_event: (code: string) => Promise<boolean>;
 }
 
 class Search extends Component<{}, SearchState> {
@@ -219,6 +219,7 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
       .catch((error) => console.error(error));
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.addCourse = this.addCourse.bind(this);
   }
 
   handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -271,6 +272,17 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
     this.setState({ searchResults, oldQuery: query });
   }
 
+  async addCourse(code: string) {
+    let success: boolean = await this.props.add_event(code);
+    if(success){ 
+      this.setState({ searchResults: [], oldQuery: ""});
+      // clear the search bar results via reference to object
+      if (this.searchBarRef.current) {
+        this.searchBarRef.current.value = "";
+      }
+    }
+  }
+
   render() {
     return (
       <CoursesContainer>
@@ -286,8 +298,7 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
         this.state.searchResults.length > 0 &&
         <CourseSuggestions 
           courses={this.state.searchResults} 
-          searchRef={this.searchBarRef} 
-          add_event={this.props.add_event}
+          add_event={this.addCourse}
         />
         }
       </CoursesContainer>

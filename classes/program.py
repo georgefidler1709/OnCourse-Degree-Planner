@@ -62,13 +62,28 @@ class Program(object):
         return self.degree.year
 
     @property
-    # Return: final year for program
+    # Return: final calendar year for program
     def final_year(self) -> int:
         final = self.degree.year + self.degree.duration - 1
         for enrol in self.courses:
             if enrol.term.year > final:
                 final = enrol.term.year
         return final
+
+    def matching_year(self, term: 'term.Term', year: int) -> bool:
+        if year >= 0:
+            # 8 courses per year full time load = 48 uoc
+            if self.unit_count_total(term) >= (year-1)*48:
+                return True
+            if term.year >= self.intake_year + year - 1:
+                return True
+        else:
+            if self.unit_count_total(term) >= (self.degree.duration + year)*48:
+                return True
+            if term.year >= self.final_year + year + 1:
+                return True
+        return False
+
 
     def __repr__(self) -> str:
         return f"<Program degree={self.degree!r}, courses={self.courses!r}>"
@@ -135,7 +150,7 @@ class Program(object):
         return errors
 
     def check_course_warnings(self) -> Dict[str, List[str]]:
-        errors = {} 
+        errors = {}
         for enrol in self.courses:
             course_errors = enrol.course.check_warnings(self, enrol.term)
             if len(course_errors) > 0:
@@ -149,7 +164,12 @@ class Program(object):
         for key, val in outstanding_reqs.items():
 
             new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
-            if key.filter:
+            if key.alttext:
+                new = {'units': val,
+                    'filter_type': 'Special requirement',
+                    'info': key.alttext,
+                }
+            elif key.filter:
                 new = {'units': val, 
                     'filter_type': key.filter.simple_name,
                     'info': key.filter.info
@@ -195,7 +215,9 @@ class Program(object):
                 'year': self.degree.year,
                 'duration': self.degree.duration,
                 'url': self.degree.get_url(),
-                'enrollments': enrollments};
+                'notes': self.degree.notes, # TODO add this to front end
+                'enrollments': enrollments,
+                'done': []}
     
     def get_prereq_conflicts_api(self) -> api.CheckResponse:
         return {'degree_reqs': self.get_reqs_api(),

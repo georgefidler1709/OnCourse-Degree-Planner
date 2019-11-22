@@ -16,6 +16,7 @@ from typing import List, Optional
 from . import courseParser
 from classes import course
 from classes import university
+from classes import unparsedReq
 
 class ScrapedCourse(object):
     def __init__(self,
@@ -52,6 +53,7 @@ class ScrapedCourse(object):
 
         if not self.finished:
             print(f"Could not parse requirements for {self.code}")
+            self.prereqs = unparsedReq.UnparsedReq(self.requirements)
 
         self.terms = parser.parse_terms(terms, self.year)
 

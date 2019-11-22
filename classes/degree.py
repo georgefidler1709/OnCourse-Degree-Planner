@@ -25,8 +25,9 @@ from . import freeElectiveFilter
 from . import minDegreeReq
 
 class Degree(object):
-
-    def __init__(self, num_code: int, name: str, year: int, duration: int, faculty: str, requirements: Sequence['degreeReq.DegreeReq'], alpha_code: str):
+    def __init__(self, num_code: int, name: str, year: int, duration: int,
+            faculty: str, requirements: Sequence['degreeReq.DegreeReq'], alpha_code: str,
+            notes: List[str]=[]):
         self.num_code = num_code
         self.alpha_code = alpha_code
         self.name = name
@@ -34,6 +35,7 @@ class Degree(object):
         self.duration = duration
         self.faculty = faculty
         self.requirements = requirements
+        self.notes = notes
 
     def __repr__(self) -> str:
         return f"<Degree num_code={self.num_code!r}, name={self.name!r}, year={self.year!r}, duration={self.duration!r}, requirements={self.requirements!r}>"
@@ -44,39 +46,25 @@ class Degree(object):
     def get_requirements(self, program: Optional['program.Program']=None) -> Dict[('degreeReq.DegreeReq', int)]:
         remaining = {}
         # if there isn't a program, pass in None's to DegreeRequirement.remaining()
-        courses: Optional[List['course.Course']] = None
-        degree: Optional['Degree'] = None
+        courses: List['course.Course'] = []
         if program:
             courses = program.course_list()
-            degree = program.degree
-            
+
         # split the requirements into types
         core_reqs = [ x for x in self.requirements if x.core_requirement() ]
         subj_reqs = [ x for x in self.requirements if x.subj_requirement() ]
         gen_reqs = [ x for x in self.requirements if x.gen_requirement() ]
         free_reqs = [ x for x in self.requirements if x.free_requirement() ]
 
-        # core requirement
-        for req in core_reqs:
+        reqs = core_reqs + subj_reqs + gen_reqs + free_reqs
+        for req in reqs:
             # requirement is outstanding if you don't have a Program (no enrollments)
             # or if your current Program doesn't fulfill this requirement
-            if not program or not (courses and degree and req.fulfilled(courses, degree)):
-                remaining[req] = req.remaining(courses, degree)
-        
-        # subject req
-        for req in subj_reqs:
-            if not program or not (courses and degree and req.fulfilled(courses, degree)):
-                remaining[req] = req.remaining(courses, degree)
-
-        # gen ed
-        for req in gen_reqs:
-            if not program or not (courses and degree and req.fulfilled(courses, degree)):
-                remaining[req] = req.remaining(courses, degree)
-
-        # free elec
-        for req in free_reqs:
-            if not program or not (courses and degree and req.fulfilled(courses, degree)):
-                remaining[req] = req.remaining(courses, degree)
+            rem, matched = req.remaining(courses, self)
+            if not req.fulfilled(courses, self):
+                remaining[req] = rem
+            for c in matched:
+                courses.remove(c)
 
         return remaining
 

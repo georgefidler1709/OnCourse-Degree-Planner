@@ -48,9 +48,11 @@ class Program(TypedDict):
     year: int;
     duration: int; # in years
     url: str; # degree handbook url
+    notes: List[str];
 
     # List of CourseEnrollments
     enrollments: List[YearPlan];
+    done: List[str];
 
 class Term(TypedDict):
     year: int

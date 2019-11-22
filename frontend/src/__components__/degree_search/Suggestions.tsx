@@ -1,7 +1,6 @@
-import React, {MouseEvent, RefObject} from "react";
+import React, {MouseEvent} from "react";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
-import { Course } from '../../Api'
 import { Button } from 'react-bootstrap'
 import {Position, SearchResult, CourseSearchResult} from '../../Types'
 import styled from 'styled-components'
@@ -95,8 +94,7 @@ export { Suggestions };
 
 interface CourseSuggestionsProps {
   courses: Array<CourseSearchResult>;
-  add_event: (course: Course, searchRef: RefObject<HTMLInputElement>, searchResults: Array<CourseSearchResult>) => void;
-  searchRef: RefObject<HTMLInputElement>;
+  add_event: (code: string) => void;
 }
 
 function CourseSuggestions(props: CourseSuggestionsProps) {
@@ -119,7 +117,7 @@ function CourseSuggestions(props: CourseSuggestionsProps) {
         variant="light"
         id={r.course.code}
         value={r.course.code}
-        onClick={() => props.add_event(r.course, props.searchRef, props.courses)}
+        onClick={() => props.add_event(r.course.code)}
       >
         <CourseCode>{r.code}</CourseCode>
         <CourseName>{r.text}</CourseName>

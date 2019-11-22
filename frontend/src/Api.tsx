@@ -37,7 +37,9 @@ export interface Program {
   year: number;
   duration: number; // in years
   url: string; // handbook entry for degree
+  notes: Array<string>;
   enrollments: Array<YearPlan>;
+  done: Array<string>;
 }
 
 export interface Term {

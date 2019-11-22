@@ -1,75 +1,71 @@
 import React from 'react';
 import styled from 'styled-components';
+import { StyledComponent } from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
-import { Course as ApiCourse } from "../../Api";
+import { Course as ApiCourse, CourseReq } from '../../Api';
 import Course from './Course';
 
-const Container = styled.div`
-  margin: 8px;
-  border: 1px solid lightgrey;
-  border-radius: 2px;
-  width: 220px;
+type DivComponent = StyledComponent<"div", any>;
+type TitleComponent = StyledComponent<"h5", any>;
 
-  margin-left: auto;
-  margin-right: auto;
+interface DroppableProps {
+  isDraggingOver: boolean;
+  highlight: boolean;
+}
 
-  display: flex;
-  flex-direction: column;
-`;
-const Title = styled.h5`
-  padding: 8px;
-`;
-const CourseList = styled.div`
+const CourseList = styled.div<DroppableProps>`
   padding: 8px;
   flex-grow: 1;
-  min-height: 50px;
+  min-height: 100px;
+  transition: background-color 0.2s ease;
+  background-color: ${props => {
+    if(props.highlight) {
+      return props.isDraggingOver ? 'green' : 'lightgreen'
+    } else return props.isDraggingOver ? 'lightgrey' : '#ededed'
+  }};
 `;
 
-interface DropBoxProps {
-  type: string;
-  add_course?: ApiCourse;
-  remove_course: (id: string) => void;
+interface DropboxProps {
+  name: string;
+  id: string;
+  courses: Array<ApiCourse>;
+  highlight: boolean;
+  removeCourse: (s: string) => void;
+  getError?: (s: string) => (Array<CourseReq> | undefined);
+  getWarn?: (s: string) => (Array<string> | undefined);
 }
 
-function CourseDropBox(props: DropBoxProps) {
-
-  if (props.add_course !== undefined) {
-    // make a course and put it in the box
-    return (
-      <Container>
-        <Title>{props.type}</Title>
-        <Droppable droppableId={props.type}>
-          {provided => (
-            <CourseList ref={provided.innerRef} {...provided.droppableProps}>
-              <Course
-                {...props.add_course!}
-                key={props.add_course!.code}
-                index={0}
-                removeCourse={props.remove_course}
-              />
-              {provided.placeholder}
-            </CourseList>
-          )}
-        </Droppable>
-      </Container>
-    );
-  } else {
-    // placeholder box
-    return (
-      <Container>
-        <Title>{props.type}</Title>
-        <Droppable droppableId={props.type}>
-          {provided => (
-            <CourseList ref={provided.innerRef} {...provided.droppableProps}>
+function CourseDropBox(Container: DivComponent, Title: TitleComponent) {
+  return (props: DropboxProps) => (
+    <Container>
+      <Title>{props.name}</Title>
+      <Droppable droppableId={props.id}>
+        {(provided, snapshot) => (
+          <CourseList 
+            ref={provided.innerRef} 
+            {...provided.droppableProps}
+            isDraggingOver={snapshot.isDraggingOver}
+            highlight={props.highlight}
+          >
+            {props.courses.map((course, index) => {
+              let course_id = course.code.toString()
+              return <Course 
+                {...course}
+                key={course_id} 
+                index={index} 
+                removeCourse={props.removeCourse}
+                error={props.getError === undefined ? undefined : props.getError(course_id)}
+                warn={props.getWarn === undefined ? undefined : props.getWarn(course_id)}
+                />
+            }
+            )}
             {provided.placeholder}
-            </CourseList>
-          )}
-        </Droppable>
-      </Container>
-    );
-
-  }
-
+          </CourseList>
+        )}
+      </Droppable>
+    </Container>
+  );
 }
+
 
 export default CourseDropBox

@@ -44,18 +44,23 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
           key="test"
           termId="2 2019"
         >
-          <styled.div>
-            <StyledComponent
-              forwardedComponent={
-                Object {
-                  "$$typeof": Symbol(react.forward_ref),
-                  "attrs": Array [],
-                  "componentStyle": ComponentStyle {
-                    "componentId": "sc-htpNat",
-                    "isStatic": false,
-                    "lastClassName": "dsUfca",
-                    "rules": Array [
-                      "
+          <Component
+            courses={Array []}
+            name="Tundefined"
+            termId="2 2019"
+          >
+            <styled.div>
+              <StyledComponent
+                forwardedComponent={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "attrs": Array [],
+                    "componentStyle": ComponentStyle {
+                      "componentId": "sc-bxivhb",
+                      "isStatic": false,
+                      "lastClassName": "dJmCIm",
+                      "rules": Array [
+                        "
   margin-top: 8px;
   margin-bottom: 8px;
   border: 1px solid lightgrey;
@@ -65,153 +70,149 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
   display: flex;
   flex-direction: column;
 ",
-                    ],
-                  },
-                  "displayName": "styled.div",
-                  "foldedComponentIds": Array [],
-                  "render": [Function],
-                  "styledComponentId": "sc-htpNat",
-                  "target": "div",
-                  "toString": [Function],
-                  "warnTooManyClasses": [Function],
-                  "withComponent": [Function],
+                      ],
+                    },
+                    "displayName": "styled.div",
+                    "foldedComponentIds": Array [],
+                    "render": [Function],
+                    "styledComponentId": "sc-bxivhb",
+                    "target": "div",
+                    "toString": [Function],
+                    "warnTooManyClasses": [Function],
+                    "withComponent": [Function],
+                  }
                 }
-              }
-              forwardedRef={null}
-            >
-              <div
-                className="sc-htpNat dsUfca"
+                forwardedRef={null}
               >
-                <styled.h3>
-                  <StyledComponent
-                    forwardedComponent={
-                      Object {
-                        "$$typeof": Symbol(react.forward_ref),
-                        "attrs": Array [],
-                        "componentStyle": ComponentStyle {
-                          "componentId": "sc-bxivhb",
-                          "isStatic": false,
-                          "lastClassName": "AcyJd",
-                          "rules": Array [
-                            "
+                <div
+                  className="sc-bxivhb dJmCIm"
+                >
+                  <styled.h3>
+                    <StyledComponent
+                      forwardedComponent={
+                        Object {
+                          "$$typeof": Symbol(react.forward_ref),
+                          "attrs": Array [],
+                          "componentStyle": ComponentStyle {
+                            "componentId": "sc-ifAKCX",
+                            "isStatic": false,
+                            "lastClassName": "hMawfQ",
+                            "rules": Array [
+                              "
   padding: 8px;
   font-family: Arial, Helvetica, sans-serif;
   border-bottom: 1px solid lightgrey;
   margin: 0px;
 ",
-                          ],
-                        },
-                        "displayName": "styled.h3",
-                        "foldedComponentIds": Array [],
-                        "render": [Function],
-                        "styledComponentId": "sc-bxivhb",
-                        "target": "h3",
-                        "toString": [Function],
-                        "warnTooManyClasses": [Function],
-                        "withComponent": [Function],
+                            ],
+                          },
+                          "displayName": "styled.h3",
+                          "foldedComponentIds": Array [],
+                          "render": [Function],
+                          "styledComponentId": "sc-ifAKCX",
+                          "target": "h3",
+                          "toString": [Function],
+                          "warnTooManyClasses": [Function],
+                          "withComponent": [Function],
+                        }
                       }
-                    }
-                    forwardedRef={null}
-                  >
-                    <h3
-                      className="sc-bxivhb AcyJd"
+                      forwardedRef={null}
                     >
-                      T2 2019
-                    </h3>
-                  </StyledComponent>
-                </styled.h3>
-                <ConnectFunction
-                  direction="vertical"
-                  droppableId="2 2019"
-                  getContainerForClone={[Function]}
-                  ignoreContainerClipping={false}
-                  isCombineEnabled={false}
-                  isDropDisabled={false}
-                  mode="standard"
-                  renderClone={null}
-                  type="DEFAULT"
-                >
-                  <Droppable
+                      <h3
+                        className="sc-ifAKCX hMawfQ"
+                      >
+                        Tundefined
+                      </h3>
+                    </StyledComponent>
+                  </styled.h3>
+                  <ConnectFunction
                     direction="vertical"
-                    droppableId="2 2019"
                     getContainerForClone={[Function]}
                     ignoreContainerClipping={false}
                     isCombineEnabled={false}
                     isDropDisabled={false}
                     mode="standard"
-                    placeholder={null}
                     renderClone={null}
-                    shouldAnimatePlaceholder={false}
-                    snapshot={
-                      Object {
-                        "draggingFromThisWith": null,
-                        "draggingOverWith": null,
-                        "isDraggingOver": false,
-                        "isUsingPlaceholder": false,
-                      }
-                    }
                     type="DEFAULT"
-                    updateViewportMaxScroll={[Function]}
-                    useClone={null}
                   >
-                    <styled.div
-                      data-rbd-droppable-context-id="0"
-                      data-rbd-droppable-id="2 2019"
-                      isDraggingOver={false}
+                    <Droppable
+                      direction="vertical"
+                      getContainerForClone={[Function]}
+                      ignoreContainerClipping={false}
+                      isCombineEnabled={false}
+                      isDropDisabled={false}
+                      mode="standard"
+                      placeholder={null}
+                      renderClone={null}
+                      shouldAnimatePlaceholder={false}
+                      snapshot={
+                        Object {
+                          "draggingFromThisWith": null,
+                          "draggingOverWith": null,
+                          "isDraggingOver": false,
+                          "isUsingPlaceholder": false,
+                        }
+                      }
+                      type="DEFAULT"
+                      updateViewportMaxScroll={[Function]}
+                      useClone={null}
                     >
-                      <StyledComponent
+                      <styled.div
                         data-rbd-droppable-context-id="0"
-                        data-rbd-droppable-id="2 2019"
-                        forwardedComponent={
-                          Object {
-                            "$$typeof": Symbol(react.forward_ref),
-                            "attrs": Array [],
-                            "componentStyle": ComponentStyle {
-                              "componentId": "sc-ifAKCX",
-                              "isStatic": false,
-                              "lastClassName": "kIIFkF",
-                              "rules": Array [
-                                "
+                        isDraggingOver={false}
+                      >
+                        <StyledComponent
+                          data-rbd-droppable-context-id="0"
+                          forwardedComponent={
+                            Object {
+                              "$$typeof": Symbol(react.forward_ref),
+                              "attrs": Array [],
+                              "componentStyle": ComponentStyle {
+                                "componentId": "sc-htpNat",
+                                "isStatic": false,
+                                "lastClassName": "jgdmCx",
+                                "rules": Array [
+                                  "
   padding: 8px;
   flex-grow: 1;
   min-height: 100px;
   transition: background-color 0.2s ease;
   background-color: ",
-                                [Function],
-                                ";
+                                  [Function],
+                                  ";
 ",
-                              ],
-                            },
-                            "displayName": "styled.div",
-                            "foldedComponentIds": Array [],
-                            "render": [Function],
-                            "styledComponentId": "sc-ifAKCX",
-                            "target": "div",
-                            "toString": [Function],
-                            "warnTooManyClasses": [Function],
-                            "withComponent": [Function],
+                                ],
+                              },
+                              "displayName": "styled.div",
+                              "foldedComponentIds": Array [],
+                              "render": [Function],
+                              "styledComponentId": "sc-htpNat",
+                              "target": "div",
+                              "toString": [Function],
+                              "warnTooManyClasses": [Function],
+                              "withComponent": [Function],
+                            }
                           }
-                        }
-                        forwardedRef={[Function]}
-                        isDraggingOver={false}
-                      >
-                        <div
-                          className="sc-ifAKCX kIIFkF"
-                          data-rbd-droppable-context-id="0"
-                          data-rbd-droppable-id="2 2019"
+                          forwardedRef={[Function]}
+                          isDraggingOver={false}
                         >
-                          <AnimateInOut
-                            on={null}
-                            shouldAnimate={false}
-                          />
-                        </div>
-                      </StyledComponent>
-                    </styled.div>
-                  </Droppable>
-                </ConnectFunction>
-              </div>
-            </StyledComponent>
-          </styled.div>
+                          <div
+                            className="sc-htpNat jgdmCx"
+                            data-rbd-droppable-context-id="0"
+                          >
+                            <AnimateInOut
+                              on={null}
+                              shouldAnimate={false}
+                            />
+                          </div>
+                        </StyledComponent>
+                      </styled.div>
+                    </Droppable>
+                  </ConnectFunction>
+                </div>
+              </StyledComponent>
+            </styled.div>
+          </Component>
         </Term>
       </Provider>
     </App>
@@ -220,22 +221,13 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
 `;
 
 exports[`Won't render correctly outside of a DragDropContext renders correctly 1`] = `
-<styled.div>
-  <styled.h3>
-    T2 2019
-  </styled.h3>
-  <Connect(Droppable)
-    direction="vertical"
-    droppableId="2 2019"
-    getContainerForClone={[Function]}
-    ignoreContainerClipping={false}
-    isCombineEnabled={false}
-    isDropDisabled={false}
-    mode="standard"
-    renderClone={null}
-    type="DEFAULT"
-  >
-    <Component />
-  </Connect(Droppable)>
-</styled.div>
+<Component
+  courses={Array []}
+  getError={[Function]}
+  getWarn={[Function]}
+  highlight={false}
+  name="Tundefined"
+  removeCourse={[Function]}
+  termId="2 2019"
+/>
 `;

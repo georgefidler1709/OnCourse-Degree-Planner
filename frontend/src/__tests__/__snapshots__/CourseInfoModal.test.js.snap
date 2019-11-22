@@ -20,6 +20,9 @@ exports[`Rendering a course info popup renders correctly 1`] = `
     </ModalTitle>
   </ModalHeader>
   <ModalBody>
+    <styled.h5>
+      UOC: 
+    </styled.h5>
     <div
       id="Prereqs"
     >

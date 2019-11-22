@@ -29,17 +29,18 @@ exports[`Rendering a degree tooltip displays more info on mouseover 1`] = `
       }
     }
   >
-    <Bootstrap(Popover)
+    <ForwardRef
       id="popover"
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
+      placement="right"
     >
       <ForwardRef>
         <div>
           More Info
         </div>
       </ForwardRef>
-    </Bootstrap(Popover)>
+    </ForwardRef>
   </Overlay>
 </Fragment>
 `;
@@ -73,17 +74,18 @@ exports[`Rendering a degree tooltip renders correctly 1`] = `
       }
     }
   >
-    <Bootstrap(Popover)
+    <ForwardRef
       id="popover"
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
+      placement="right"
     >
       <ForwardRef>
         <div>
           More Info
         </div>
       </ForwardRef>
-    </Bootstrap(Popover)>
+    </ForwardRef>
   </Overlay>
 </Fragment>
 `;

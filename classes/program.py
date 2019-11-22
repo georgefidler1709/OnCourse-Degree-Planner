@@ -170,12 +170,12 @@ class Program(object):
                     'info': key.alttext,
                 }
             elif key.filter:
-                new = {'units': val, 
+                new = {'units': val,
                     'filter_type': key.filter.simple_name,
                     'info': key.filter.info
                 }
 
-            reqs.append(new)                
+            reqs.append(new)
         return reqs;
 
 
@@ -203,14 +203,14 @@ class Program(object):
             enrollments_map[x.term.year][x.term.term].append(x.course.course_code)
 
         enrollments: List["api.YearPlan"] = [ { 
-                    "year": year, 
+                    "year": year,
                     "term_plans": [ {
-                        "term": term, 
+                        "term": term,
                         "course_ids": courses,
                     } for (term, courses) in term_plan.items() ]
                 } for (year, term_plan) in enrollments_map.items()];
-        
-        return {'id': self.degree.num_code, 
+
+        return {'id': self.degree.num_code,
                 'name': self.degree.name,
                 'year': self.degree.year,
                 'duration': self.degree.duration,
@@ -218,11 +218,11 @@ class Program(object):
                 'notes': self.degree.notes, # TODO add this to front end
                 'enrollments': enrollments,
                 'done': []}
-    
+
     def get_prereq_conflicts_api(self) -> api.CheckResponse:
         return {'degree_reqs': self.get_reqs_api(),
                 'course_reqs': self.check_course_reqs(),
-                'course_warn': self.check_course_warnings() }; 
+                'course_warn': self.check_course_warnings() };
 
     def get_generator_response_api(self) -> api.GeneratorResponse:
         full_reqs = Program(self.degree, [], []).get_reqs_api()

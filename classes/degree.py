@@ -51,12 +51,26 @@ class Degree(object):
             courses = program.course_list()
 
         # split the requirements into types
-        core_reqs = [ x for x in self.requirements if x.core_requirement() ]
-        subj_reqs = [ x for x in self.requirements if x.subj_requirement() ]
-        gen_reqs = [ x for x in self.requirements if x.gen_requirement() ]
-        free_reqs = [ x for x in self.requirements if x.free_requirement() ]
+        requirements = self.requirements
 
-        reqs = core_reqs + subj_reqs + gen_reqs + free_reqs
+        overall_reqs = [ x for x in requirements if x.overall_requirement() ]
+        requirements = [ x for x in requirements if not x.overall_requirement() ]
+
+        core_reqs = [ x for x in requirements if x.core_requirement() ]
+        requirements = [ x for x in requirements if not x.core_requirement() ]
+
+        subj_reqs = [ x for x in requirements if x.subj_requirement() ]
+        requirements = [ x for x in requirements if not x.subj_requirement() ]
+
+        gen_reqs = [ x for x in requirements if x.gen_requirement() ]
+        requirements = [ x for x in requirements if not x.gen_requirement() ]
+
+        free_reqs = [ x for x in requirements if x.free_requirement() ]
+        remaining_requirements = [ x for x in requirements if not x.free_requirement() ]
+
+        reqs = overall_reqs + core_reqs + subj_reqs + gen_reqs + free_reqs + remaining_requirements
+
+        assert len(reqs) == len(self.requirements)
         for req in reqs:
             # requirement is outstanding if you don't have a Program (no enrollments)
             # or if your current Program doesn't fulfill this requirement

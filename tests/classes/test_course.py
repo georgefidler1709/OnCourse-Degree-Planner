@@ -39,9 +39,9 @@ faculty = "SubjFaculty"
 degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 3, faculty, [], 'BAT1')
 
 def test_eq():
-    subj1001 = course.Course("SUBJ", 1001, "Subject1", 6, [t1, t2], faculty)
-    subj1001_2 = course.Course("SUBJ", 1001, "Subject1", 6, [t1, t2], faculty)
-    subj1002 = course.Course("SUBJ", 1002, "Subject2", 6, [t1, t2], faculty)
+    subj1001 = course.Course("SUBJ", '1001', "Subject1", 6, [t1, t2], faculty)
+    subj1001_2 = course.Course("SUBJ", '1001', "Subject1", 6, [t1, t2], faculty)
+    subj1002 = course.Course("SUBJ", '1002', "Subject2", 6, [t1, t2], faculty)
 
     assert subj1001 == subj1001
     assert subj1001 == subj1001_2
@@ -52,12 +52,12 @@ def test_eq():
 
 def test_check_reqs():
 
-    subj1001 = course.Course("SUBJ", 1001, "Subject1", 6, [t1, t2], faculty)
-    subj1002 = course.Course("SUBJ", 1002, "Subject2", 6, [t1, t2], faculty)
-    subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t2], faculty)
-    subj1004 = course.Course("SUBJ", 1004, "Subject4", 6, [t1, t2], faculty)
-    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t1, t2], faculty)
-    subj1006 = course.Course("SUBJ", 1006, "Subject6", 6, [t1, t2], faculty)
+    subj1001 = course.Course("SUBJ", '1001', "Subject1", 6, [t1, t2], faculty)
+    subj1002 = course.Course("SUBJ", '1002', "Subject2", 6, [t1, t2], faculty)
+    subj1003 = course.Course("SUBJ", '1003', "Subject3", 6, [t1, t2], faculty)
+    subj1004 = course.Course("SUBJ", '1004', "Subject4", 6, [t1, t2], faculty)
+    subj1005 = course.Course("SUBJ", '1005', "Subject5", 6, [t1, t2], faculty)
+    subj1006 = course.Course("SUBJ", '1006', "Subject6", 6, [t1, t2], faculty)
 
     req1001 = subjectReq.SubjectReq(subj1001, 75)
     req1002 = subjectReq.SubjectReq(subj1002)
@@ -68,7 +68,7 @@ def test_check_reqs():
     prereq_or = orReq.OrReq([req1001, req1002_and])
 
     ex = ["SUBJ1005", "SUBJ1006"]
-    subj1007 = course.Course("SUBJ", 1007, "Subject7", 6, [t1, t2], faculty,
+    subj1007 = course.Course("SUBJ", '1007', "Subject7", 6, [t1, t2], faculty,
                         prereqs=prereq_or, coreqs=req1004, exclusions=ex)
 
 
@@ -97,9 +97,9 @@ def test_check_reqs():
     assert subj1007.check_warnings(prog, t2) == ["A mark of 75 in SUBJ1001"]
 
 def test_exclusion_errors():
-    subj1001 = course.Course("SUBJ", 1001, "Subject1", 6, [t1, t2], faculty)
-    subj1002 = course.Course("SUBJ", 1002, "Subject2", 6, [t1, t2], faculty)
-    subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t2], faculty, exclusions=["SUBJ1001", "SUBJ1002"])
+    subj1001 = course.Course("SUBJ", '1001', "Subject1", 6, [t1, t2], faculty)
+    subj1002 = course.Course("SUBJ", '1002', "Subject2", 6, [t1, t2], faculty)
+    subj1003 = course.Course("SUBJ", '1003', "Subject3", 6, [t1, t2], faculty, exclusions=["SUBJ1001", "SUBJ1002"])
 
     prog = program.Program(degree1, [], [])
     prog.add_course(subj1001, t1)
@@ -114,7 +114,4 @@ def test_exclusion_errors():
     assert len(errors) == 2
     assert errors[0] == "SUBJ1001"
     assert errors[1] == "SUBJ1002"
-
-
-    
 

@@ -123,9 +123,9 @@ class TestUniversityWithDb():
 
         self.university = university.University(self.h.query_db)
 
-        self.first_course = course.Course("TEST", 1000, "Test course 1", 6, [], "TestFaculty",
+        self.first_course = course.Course("TEST", '1000', "Test course 1", 6, [], "TestFaculty",
                 finished=True)
-        self.second_course = course.Course("COMP", 2521, "Test course 2", 3, [], "Engineering",
+        self.second_course = course.Course("COMP", '2521', "Test course 2", 3, [], "Engineering",
                 finished=True)
 
         # TODO: check different years

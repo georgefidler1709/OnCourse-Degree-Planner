@@ -136,7 +136,7 @@ def test_simple_or_requirement():
 # check assignment with corequisite
 def test_coreq():
     # make a coreq subject
-    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t1, t3, t4, t6], faculty, prereq1001, prereq1002)
+    subj1005 = course.Course("SUBJ", '1005', "Subject5", 6, [t1, t3, t4, t6], faculty, prereq1001, prereq1002)
 
     uni.add_course(subj1005)
 
@@ -166,7 +166,7 @@ def test_coreq():
 
 def test_exclusion():
     # make an exclusion subject
-    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t1, t3, t4, t6], faculty,
+    subj1005 = course.Course("SUBJ", '1005', "Subject5", 6, [t1, t3, t4, t6], faculty,
             prereqs=prereq1001, exclusions=["SUBJ1002"])
     uni.add_course(subj1005)
 
@@ -195,10 +195,10 @@ def test_exclusion():
 
 def test_equivalent():
     # make an equivalent subject
-    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [], faculty, equivalents=["SUBJ1001"])
+    subj1005 = course.Course("SUBJ", '1005', "Subject5", 6, [], faculty, equivalents=["SUBJ1001"])
     subj1001.add_equivalent("SUBJ1005")
 
-    subj1006 = course.Course("SUBJ", 1006, "Subject5", 6, [t2, t3, t5, t6], faculty)
+    subj1006 = course.Course("SUBJ", '1006', "Subject5", 6, [t2, t3, t5, t6], faculty)
 
     uni.add_course(subj1005)
     uni.add_course(subj1006)
@@ -226,9 +226,9 @@ def test_equivalent():
 
 def test_term_cap_enrollment():
     # make a coreq subject
-    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t1, t4], faculty)
-    subj1006 = course.Course("SUBJ", 1006, "Subject6", 6, [t1, t2], faculty)
-    subj1007 = course.Course("SUBJ", 1007, "Subject7", 6, [t1, t2], faculty)
+    subj1005 = course.Course("SUBJ", '1005', "Subject5", 6, [t1, t4], faculty)
+    subj1006 = course.Course("SUBJ", '1006', "Subject6", 6, [t1, t2], faculty)
+    subj1007 = course.Course("SUBJ", '1007', "Subject7", 6, [t1, t2], faculty)
 
     uni.add_course(subj1005)
     uni.add_course(subj1006)

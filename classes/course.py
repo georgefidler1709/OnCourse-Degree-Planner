@@ -38,6 +38,8 @@ class Course(object):
             finished: bool=True):
         # figure out inputs - database or variables?
         # to be assigned:
+
+        assert isinstance(code, str)
         self.subject = subject
         self.code = code
         self.name = name

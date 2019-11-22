@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -9,7 +9,7 @@ A single course requirement
 Abstract class which collects the different types of single course requirement
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from abc import ABC, abstractmethod
 from typing import List, Optional
@@ -27,7 +27,7 @@ class SingleReq(courseReq.CourseReq, ABC):
 
     @abstractmethod
     def __repr__(self) -> str:
-        return f"<SingleReq>"
+        return f'<SingleReq>'
 
     def inflate(self, university: 'university.University') -> Optional['courseReq.CourseReq']:
         pass

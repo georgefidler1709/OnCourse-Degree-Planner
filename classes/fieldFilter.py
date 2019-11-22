@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ fieldFilter.py
 A filter that matches only courses in a specific field
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from . import course
 from . import courseFilter
@@ -22,7 +22,7 @@ class FieldFilter(courseFilter.CourseFilter):
         self.field = field
 
     def __repr__(self) -> str:
-        return f"<FieldFilter field={self.field!r}>"
+        return f'<FieldFilter field={self.field!r}>'
 
     @property
     def core(self) -> bool:
@@ -35,11 +35,11 @@ class FieldFilter(courseFilter.CourseFilter):
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
-        return "FieldFilter"
+        return 'FieldFilter'
 
     @property
     def info(self) -> str:
-        return f"Field '{self.field}'"
+        return f'Field \'{self.field}\''
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter

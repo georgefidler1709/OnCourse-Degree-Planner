@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ freeElectiveFilter.py
 A filter that matches free electives (should be anything)
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from . import course
 from . import courseFilter
@@ -21,7 +21,7 @@ class FreeElectiveFilter(courseFilter.CourseFilter):
         super().__init__()
 
     def __repr__(self) -> str:
-        return f"<FreeElectiveFilter>"
+        return f'<FreeElectiveFilter>'
 
     @property
     def core(self) -> bool:
@@ -34,11 +34,11 @@ class FreeElectiveFilter(courseFilter.CourseFilter):
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
-        return "FreeElectiveFilter"
+        return 'FreeElectiveFilter'
 
     @property
     def simple_name(self) -> str:
-        return "Free electives"
+        return 'Free electives'
 
     @property
     def info(self) -> str:

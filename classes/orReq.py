@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ orReq.py
 A course requirement that requires at least one of multiple requirements to be matched
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import List
 
@@ -25,18 +25,18 @@ class OrReq(compositeReq.CompositeReq):
         super().__init__(reqs)
 
     def __repr__(self) -> str:
-        return f"<OrReq reqs={self.reqs!r}>"
+        return f'<OrReq reqs={self.reqs!r}>'
 
     def info(self, top_level: bool=False, exclusion: bool=False) -> str:
         if top_level and exclusion:
             # For top level exclusions, we want to show it as a list
-            return "\n".join(map(lambda x: x.info(), self.reqs))
+            return '\n'.join(map(lambda x: x.info(), self.reqs))
         else:
-            return "(" + " OR ".join(map(lambda x: x.info(), self.reqs)) + ")"
+            return '(' + ' OR '.join(map(lambda x: x.info(), self.reqs)) + ')'
 
     @property
     def requirement_name(self) -> str:
-        return "OrRequirement"
+        return 'OrRequirement'
 
     # Input: a program and a term in which the required course is taken
     # Return: any errors pertaining to this requirement

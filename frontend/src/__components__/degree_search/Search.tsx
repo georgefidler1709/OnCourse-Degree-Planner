@@ -1,9 +1,10 @@
 import React, { Component, ChangeEvent, RefObject } from 'react'
 import {Suggestions, CourseSuggestions} from './Suggestions'
-import {API_ADDRESS} from '../../Constants'
+import {API_ADDRESS, CURRENT_YEAR} from '../../Constants'
 import {SimpleDegrees, SimpleDegree, CourseList, Course} from '../../Api'
 import {SearchResult, CourseSearchResult} from '../../Types'
 import styled from 'styled-components';
+import {Dropdown} from 'react-bootstrap'
 
 const Logo = styled.img`
   display: block;
@@ -27,6 +28,53 @@ const SearchContainer = styled.div`
   padding: 20px;
 `
 
+const SearchBarContainer = styled.div`
+  box-shadow: 10px 10px grey;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  height: 100%
+  margin-bottom: 2%;
+
+  border-radius: 50px;
+  border: 1px solid #575756;
+`
+
+const YearSelectContainer = styled(Dropdown)`
+`
+const YearSelect = styled(Dropdown.Toggle)`
+  font-weight: bold !important;
+  background-color: #00e6ae !important;
+  height: 100%;
+  width: 100%;
+  border-radius: 50px 0px 0px 50px !important;
+  border: 1px solid #575756 !important;
+
+  &:focus {
+    box-shadow:none !important;
+    outline:0px !important;
+  }
+  &:active {
+    box-shadow:none !important;
+    outline:0px !important;
+  }  
+}
+`
+const YearItem = styled(Dropdown.Item)`
+  background-color: ${
+  props => props.active ?
+      "#00e6ae": "white"
+  } !important; 
+
+  &:hover {
+    background-color: ${
+      props => props.active ?
+      "#38ab8f": "#e3e3e3"
+      } !important; 
+  } 
+`
+
 const SearchBar = styled.input`
 
   &:focus {
@@ -35,13 +83,11 @@ const SearchBar = styled.input`
       color: transparent;
     }
   }
-  box-shadow: 10px 10px grey;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 60%;
+  width: 100%;
+  height: 100%;
   padding: 1% 4%;
-  margin-bottom: 2%;
+  border-radius: 50px;
+  border: none;
   transition: background-colour .2s ease-in;
   font-size: 30px;
   line-height: 18px;
@@ -50,13 +96,11 @@ const SearchBar = styled.input`
   background-repeat: no-repeat;
   background-size: 40px 40px;
   background-position: 95% center;
-
-  border-radius: 50px;
-  border: 1px solid #575756;
 `
 
 const SearchForm = styled.form`
   width: 100%;
+  height: 11%;
   display: flex;
   flex-direction: column;
 `
@@ -70,9 +114,11 @@ const Disclaimer = styled.p`
 `
 
 interface SearchState {
-  searchResults : Array<SearchResult>;
+  searchResults : Array<SearchResult>
   degrees: SimpleDegrees
   oldQuery: string
+  years: Array<number>,
+  year: number
 }
 
 interface SearchCourseState {
@@ -93,12 +139,14 @@ class Search extends Component<{}, SearchState> {
       searchResults: [],
       degrees: [],
       oldQuery: '',
+      years: [],
+      year: CURRENT_YEAR
     }
 
     fetch(API_ADDRESS + '/degrees.json')
       .then(response => response.json())
-      .then(degrees => {
-        this.setState({ degrees })
+      .then(response => {
+        this.setState({...response})
       })
       .catch((error) => console.error(error));
 
@@ -109,7 +157,6 @@ class Search extends Component<{}, SearchState> {
     let query = event.target.value.toLowerCase();
     let searchResults: Array<SearchResult> = [];
 
-    console.log(this.state.degrees);
     function processDegree(degree: SimpleDegree) {
       let index = degree.name.toLowerCase().indexOf(query);
       if (index !== -1) {
@@ -126,7 +173,7 @@ class Search extends Component<{}, SearchState> {
       }
     }
 
-    if (query.length !== 0) {
+    if(query.length !== 0) {
       if (this.state.oldQuery.length !== 0 && (query.startsWith(this.state.oldQuery) || query.endsWith(this.state.oldQuery))) {
         for (let result of this.state.searchResults) {
           processDegree(result.degree);
@@ -147,25 +194,42 @@ class Search extends Component<{}, SearchState> {
         <Logo src={"/images/logo.png"} alt="logo"/>
         <Title>OnCourse</Title>
         <SearchForm>
+          <SearchBarContainer>
+            <YearSelectContainer>
+              <YearSelect variant="light" id="dropdown-basic">
+                Start Year: {this.state.year}
+              </YearSelect>
+              <Dropdown.Menu>
+                {
+                  this.state.years.map(year => 
+                    <YearItem active={year === this.state.year} onClick={() => this.setState({year: year})}>{year}</YearItem>
+                  )
+                }
+              </Dropdown.Menu>
+            </YearSelectContainer>
           <SearchBar
             placeholder="Search for your degree..."
             onChange={this.handleInputChange}
           />
-        </SearchForm>
-        {
-          this.state.searchResults.length > 0 &&
-          <Suggestions degrees={this.state.searchResults} />
-        }
-        <Disclaimer>
-          * Disclaimer: OnCourse is not
-          <br/> affiliated with or endorsed by UNSW.
-          <br/> This product is intended to aid degree planning.
-          <br/> However, it should not be the only resourced used
-          <br/> in planning your future at university,
-          <br/> as it may be subject to error.
-          </Disclaimer>
-      </SearchContainer>
-      )
+        </SearchBarContainer>
+      </SearchForm>
+      {
+        this.state.searchResults.length > 0 &&
+        <Suggestions 
+          degrees={this.state.searchResults}
+          year={this.state.year}
+        />
+      }
+      <Disclaimer>
+        * Disclaimer: OnCourse is not
+        <br/> affiliated with or endorsed by UNSW.
+        <br/> This product is intended to aid degree planning.
+        <br/> However, it should not be the only resourced used
+        <br/> in planning your future at university,
+        <br/> as it may be subject to error.
+      </Disclaimer>
+    </SearchContainer>
+    )
   }
 }
 

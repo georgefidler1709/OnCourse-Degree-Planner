@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -10,7 +10,7 @@ These requirements take the form of a count of units from a particular
 filter of courses.
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from abc import ABC, abstractmethod
 from typing import List, Optional, Tuple
@@ -31,7 +31,7 @@ class DegreeReq(ABC):
         super().__init__()
 
     def __repr__(self) -> str:
-        return f"<DegreeReq uoc={self.uoc}, filter={self.filter}, alttext={self.alttext}>"
+        return f'<DegreeReq uoc={self.uoc}, filter={self.filter}, alttext={self.alttext}>'
 
     # Input: a degree and a list of courses
     # Return: whether this course list would fulfil this degree requirement
@@ -53,7 +53,7 @@ class DegreeReq(ABC):
     def overall_requirement(self) -> bool:
         return self.filter is None
 
-    # the conditions for these checking functions 
+    # the conditions for these checking functions
     # help to establish a hierarchy of requirements
 
     # Return whether this is a core requirement

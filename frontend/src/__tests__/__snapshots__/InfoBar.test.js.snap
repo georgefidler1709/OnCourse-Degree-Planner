@@ -807,7 +807,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                   open={true}
 =======
                   open={false}
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                   setOpen={[Function]}
                   title="Courses Already Done"
 >>>>>>> already_done
@@ -1000,7 +1004,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
 >>>>>>> already_done
 =======
                             aria-expanded={false}
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                             onClick={[Function]}
                           >
                             <StyledComponent
@@ -1013,7 +1021,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
 >>>>>>> already_done
 =======
                               aria-expanded={false}
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -1074,7 +1086,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                 aria-expanded={true}
 =======
                                 aria-expanded={false}
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                 className="sc-dnqmqq fftazU"
 >>>>>>> already_done
                                 onClick={[Function]}
@@ -1096,7 +1112,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                   aria-expanded={true}
 =======
                                   aria-expanded={false}
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                   className="sc-dnqmqq fftazU card-header"
                                   onClick={[Function]}
                                 >
@@ -1109,7 +1129,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
 >>>>>>> already_done
 =======
                                       className="fa fa-chevron-right"
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                       forwardedComponent={
                                         Object {
                                           "$$typeof": Symbol(react.forward_ref),
@@ -1155,7 +1179,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
 >>>>>>> already_done
 =======
                                         className="sc-iwsKbI LdBUN fa fa-chevron-right"
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                       />
                                     </StyledComponent>
                                   </styled.i>
@@ -1228,7 +1256,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
 >>>>>>> already_done
 =======
                             in={false}
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                             mountOnEnter={false}
                             timeout={300}
                             unmountOnExit={false}
@@ -1247,7 +1279,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
 >>>>>>> already_done
 =======
                               in={false}
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                               mountOnEnter={false}
                               onEnter={[Function]}
                               onEntered={[Function]}
@@ -1505,7 +1541,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                 className="collapse show"
 =======
                                 className="collapse"
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                               >
                                 <div
                                   aria-expanded={null}
@@ -25317,7 +25357,11 @@ Final year in your degree
                                                             "$$typeof": Symbol(react.forward_ref),
                                                             "attrs": Array [],
                                                             "componentStyle": ComponentStyle {
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                                               "componentId": "sc-iwsKbI",
                                                               "isStatic": false,
                                                               "lastClassName": "LdBUN",
@@ -27836,7 +27880,11 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
 =======
 =======
                                 aria-expanded={false}
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                 className="sc-dnqmqq fftazU"
 >>>>>>> already_done
                                 onClick={[Function]}
@@ -27850,7 +27898,11 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
 =======
 =======
                                   aria-expanded={false}
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                   className="sc-dnqmqq fftazU card-header"
 >>>>>>> already_done
                                   onClick={[Function]}

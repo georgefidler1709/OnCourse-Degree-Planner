@@ -107,7 +107,7 @@ function InfoBar(props: InfoBarProps) {
       >
         <Card.Body>
           <ReqContainer>
-            <Requirements degree_reqs={props.degree_reqs}/>
+            <Requirements degree_reqs={props.degree_reqs} say_remain={true}/>
           </ReqContainer>
         </Card.Body>
       </InfoBarSection>
@@ -119,7 +119,7 @@ function InfoBar(props: InfoBarProps) {
       >
         <Card.Body>
           <ReqContainer>
-            <Requirements degree_reqs={props.full_reqs}/>
+            <Requirements degree_reqs={props.full_reqs} say_remain={false}/>
             <Notes notes={props.degree_notes}/>
           </ReqContainer>
         </Card.Body>

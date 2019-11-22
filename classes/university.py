@@ -208,7 +208,7 @@ class University(object):
             self.assert_no_nulls(year, term_num)
             terms.append(term.Term(year, term_num))
 
-        result_course = course.Course(subject, int(numeric_code), name, units, terms, faculty,
+        result_course = course.Course(subject, numeric_code, name, units, terms, faculty,
                 finished=finished)
         self.courses[course_id] = result_course
 

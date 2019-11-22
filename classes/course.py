@@ -26,7 +26,7 @@ class Course(object):
 
     def __init__(self,
             subject: str,
-            code: int,
+            code: str,
             name: str,
             units: int,
             terms: List[term.Term],
@@ -90,7 +90,7 @@ class Course(object):
 
     @property
     def level(self) -> int:
-        return self.code//1000
+        return int(self.code[0])
 
     # Returns whether this course has an offering in the given term
     def has_offering(self, term: term.Term) -> bool:

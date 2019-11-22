@@ -56,6 +56,7 @@ function InfoBar(props: InfoBarProps) {
   const [openAdd, setOpenAdd] = useState(true);
   const [openDone, setOpenDone] = useState(false);
   const [openReqs, setOpenReqs] = useState(false);
+  const [openFullReqs, setOpenFullReqs] = useState(false);
 
   return (
     <Container>
@@ -106,6 +107,17 @@ function InfoBar(props: InfoBarProps) {
         <Card.Body>
           <ReqContainer>
             <Requirements degree_reqs={props.degree_reqs}/>
+          </ReqContainer>
+        </Card.Body>
+      </InfoBarSection>
+
+      <InfoBarSection 
+        open={openFullReqs} 
+        setOpen={setOpenFullReqs}
+        title={"Full Degree Requirements"}
+      >
+        <Card.Body>
+          <ReqContainer>
             <Notes notes={props.degree_notes}/>
           </ReqContainer>
         </Card.Body>

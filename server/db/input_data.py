@@ -355,8 +355,6 @@ def insert_compsci_degree_requirements(db='university.db', start_year=2020, end_
         h.close()
 
 def insert_seng_degree_requirements(db='university.db', start_year=2020, end_year=2021):
-        # WARNING current degree structure means this is the only 'Engineering Hons' degree that can be represented
-
         # https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3707
         # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/SENGAH
 
@@ -508,6 +506,17 @@ def insert_degrees_with_no_offerings(db='university.db'):
 
     h.add_degree('Science', 'Faculty of Science', 1, 7001)
     h.add_degree('Engineering', 'Faculty of Engineering', 1, 7002)
+
+def insert_binf_degree_requirements(db='university.db', start_year=2020, end_year=2021):
+    # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/BINFAH
+    h = Helper(dbaddr=db)
+
+    print('==> Inserting Degree Requirements for BINFAH Degree')
+
+    BINF = '3707 BINFAH'
+
+    print('Inserting degree...')
+    h.add_degree('Engineering (Honours) (Bioinformatics)', 'Faculty of Engineering', 4, BINF)
 
 
 

@@ -146,18 +146,32 @@ class Search extends Component<{}, SearchState> {
     let searchResults: Array<SearchResult> = [];
 
     function processDegree(degree: SimpleDegree) {
+      // see if query matches part of name or degree id
       let index = degree.name.toLowerCase().indexOf(query);
+      let textRes = <>{degree.name}</>
       if (index !== -1) {
         let begin = degree.name.substring(0, index);
         let mid = degree.name.substring(index, index + query.length);
         let end = degree.name.substring(index + query.length)
+        textRes = <>{begin}<u>{mid}</u>{end}</>;
+      }
+
+      let codeIndex = degree.id.toLowerCase().indexOf(query)
+      let codeRes = <>{degree.id}</>
+      if (codeIndex !== -1) {
+        let beginC = degree.id.substring(0, codeIndex);
+        let midC = degree.id.substring(codeIndex, codeIndex + query.length);
+        let endC = degree.id.substring(codeIndex + query.length);
+        codeRes = <>{beginC}<u>{midC}</u>{endC}</>;
+      }
+
+      if (index !== -1 || codeIndex !== -1) {
+        // matches at least one, display result
         searchResults.push({
           degree,
-          text: <>{begin}<u>{mid}</u>{end}</>
+          text: textRes,
+          code: codeRes
         })
-      }
-      else if (degree.id.includes(query)) {
-        searchResults.push({degree, text: <>{degree.name}</>})
       }
     }
 

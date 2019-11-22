@@ -77,6 +77,7 @@ function InfoBar(props: InfoBarProps) {
               id="Add" 
               courses={props.standby_courses} 
               highlight={false}
+              termWarning={false}
               removeCourse={props.remove_course}/>
             <SearchCourses add_event={props.add_event}/>
           </Card.Body>
@@ -94,6 +95,7 @@ function InfoBar(props: InfoBarProps) {
               id="Done" 
               courses={props.done_courses} 
               highlight={false}
+              termWarning={false}
               removeCourse={props.remove_course}/>
           </Card.Body>
       </InfoBarSection>

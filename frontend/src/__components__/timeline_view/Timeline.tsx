@@ -81,6 +81,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       this.setState({
         ...plan, 
         add_course: [],
+		accepted_overload: false,
       }) 
       this.addMissingTerms()
     }).catch(error => console.error(error));
@@ -227,7 +228,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     fetch(request)
     .then(response => response.json())
     .then((reqs: CheckResponse) => {
-      console.log(reqs)
       this.setState({reqs}); 
       this.addMissingTerms();
     }).catch(error => console.error(error));
@@ -320,14 +320,27 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       ...this.state,
     }
 
+    let destIds = getTarget(newState, destination.droppableId);
+
+	let uoc = destIds.reduce((acc, course) => {return newState.courses[course].units + acc}, 0)
+	  + newState.courses[draggableId].units;
+	if (!newState.accepted_overload && termId && yearId && 18 < uoc) {
+	  var accept = window.confirm("You are overloading. Are you sure?");
+	  if (!accept) {
+		this.resetTermHighlights()
+		return;
+	  }
+	  newState.accepted_overload = true;
+	}
+
+    destIds.splice(destination.index, 0, draggableId)
     let sourceIds = getTarget(newState, source.droppableId);
     sourceIds.splice(source.index, 1);
-    let destIds = getTarget(newState, destination.droppableId);
-    destIds.splice(destination.index, 0, draggableId)
 
-    this.setState(newState)
-    this.updateProgram(newState)
-    this.resetTermHighlights()
+    this.setState(newState, () => {
+	  this.updateProgram(newState);
+	  this.resetTermHighlights();
+	});
   };
 
 
@@ -442,6 +455,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                               <Container key={year.year}>
                                 {year.term_plans.map(term => {
                                   const courses = term.course_ids.map(course_id => this.state.courses[course_id]!);
+								  const uoc = courses.reduce((acc, course) => course.units + acc, 0);
                                   const term_tag = term.term.toString() + " " + year.year.toString()
 
                                   return <Term 
@@ -449,6 +463,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                                             name={term_tag} 
                                             courses={courses} 
                                             highlight={term.highlight} 
+											termWarning={uoc > 18}
                                             removeCourse={this.removeCourse.bind(this)}
                                             getError={(s) => this.state.reqs.course_reqs[s]}
                                             getWarn={(s) => this.state.reqs.course_warn[s]}/>;

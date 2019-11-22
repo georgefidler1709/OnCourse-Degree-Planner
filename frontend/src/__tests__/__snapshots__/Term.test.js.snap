@@ -56,9 +56,9 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
                     "$$typeof": Symbol(react.forward_ref),
                     "attrs": Array [],
                     "componentStyle": ComponentStyle {
-                      "componentId": "sc-bxivhb",
+                      "componentId": "sc-ifAKCX",
                       "isStatic": false,
-                      "lastClassName": "dJmCIm",
+                      "lastClassName": "glRwJe",
                       "rules": Array [
                         "
   margin-top: 8px;
@@ -75,7 +75,7 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
                     "displayName": "styled.div",
                     "foldedComponentIds": Array [],
                     "render": [Function],
-                    "styledComponentId": "sc-bxivhb",
+                    "styledComponentId": "sc-ifAKCX",
                     "target": "div",
                     "toString": [Function],
                     "warnTooManyClasses": [Function],
@@ -85,7 +85,7 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
                 forwardedRef={null}
               >
                 <div
-                  className="sc-bxivhb dJmCIm"
+                  className="sc-ifAKCX glRwJe"
                 >
                   <styled.h3>
                     <StyledComponent
@@ -94,9 +94,9 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
                           "$$typeof": Symbol(react.forward_ref),
                           "attrs": Array [],
                           "componentStyle": ComponentStyle {
-                            "componentId": "sc-ifAKCX",
+                            "componentId": "sc-EHOje",
                             "isStatic": false,
-                            "lastClassName": "hMawfQ",
+                            "lastClassName": "eWQLBD",
                             "rules": Array [
                               "
   padding: 8px;
@@ -109,7 +109,7 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
                           "displayName": "styled.h3",
                           "foldedComponentIds": Array [],
                           "render": [Function],
-                          "styledComponentId": "sc-ifAKCX",
+                          "styledComponentId": "sc-EHOje",
                           "target": "h3",
                           "toString": [Function],
                           "warnTooManyClasses": [Function],
@@ -119,7 +119,7 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
                       forwardedRef={null}
                     >
                       <h3
-                        className="sc-ifAKCX hMawfQ"
+                        className="sc-EHOje eWQLBD"
                       >
                         Tundefined
                       </h3>
@@ -168,9 +168,9 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
                               "$$typeof": Symbol(react.forward_ref),
                               "attrs": Array [],
                               "componentStyle": ComponentStyle {
-                                "componentId": "sc-htpNat",
+                                "componentId": "sc-bxivhb",
                                 "isStatic": false,
-                                "lastClassName": "jgdmCx",
+                                "lastClassName": "hYJMoY",
                                 "rules": Array [
                                   "
   padding: 8px;
@@ -186,7 +186,7 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
                               "displayName": "styled.div",
                               "foldedComponentIds": Array [],
                               "render": [Function],
-                              "styledComponentId": "sc-htpNat",
+                              "styledComponentId": "sc-bxivhb",
                               "target": "div",
                               "toString": [Function],
                               "warnTooManyClasses": [Function],
@@ -197,7 +197,7 @@ exports[`Won't render correctly outside of a DragDropContext Will render correct
                           isDraggingOver={false}
                         >
                           <div
-                            className="sc-htpNat jgdmCx"
+                            className="sc-bxivhb hYJMoY"
                             data-rbd-droppable-context-id="0"
                           >
                             <AnimateInOut

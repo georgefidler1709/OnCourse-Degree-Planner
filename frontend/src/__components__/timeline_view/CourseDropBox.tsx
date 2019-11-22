@@ -11,6 +11,7 @@ type TitleComponent = StyledComponent<"h5", any>;
 interface DroppableProps {
   isDraggingOver: boolean;
   highlight: boolean;
+  termWarning: boolean;
 }
 
 const CourseList = styled.div<DroppableProps>`
@@ -21,7 +22,11 @@ const CourseList = styled.div<DroppableProps>`
   background-color: ${props => {
     if(props.highlight) {
       return props.isDraggingOver ? 'green' : 'lightgreen'
-    } else return props.isDraggingOver ? 'lightgrey' : '#ededed'
+    } else if (props.termWarning) {
+		return props.isDraggingOver ? 'yellow' : 'lightyellow'
+	} else {
+		return props.isDraggingOver ? 'lightgrey' : '#ededed'
+	}
   }};
 `;
 
@@ -30,6 +35,7 @@ interface DropboxProps {
   id: string;
   courses: Array<ApiCourse>;
   highlight: boolean;
+  termWarning: boolean;
   removeCourse: (s: string) => void;
   getError?: (s: string) => (Array<CourseReq> | undefined);
   getWarn?: (s: string) => (Array<string> | undefined);
@@ -46,6 +52,7 @@ function CourseDropBox(Container: DivComponent, Title: TitleComponent) {
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}
             highlight={props.highlight}
+            termWarning={props.termWarning}
           >
             {props.courses.map((course, index) => {
               let course_id = course.code.toString()

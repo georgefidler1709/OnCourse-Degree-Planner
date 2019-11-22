@@ -79,7 +79,7 @@ def do_add_to_db() -> None:
 
     db_path = current_app.config['DATABASE']
 
-    input_data.insert_degrees_with_no_offerings()
+    input_data.insert_degrees_with_no_offerings(db=db_path)
 
     # input Computer Science 3778 COMPA1 course requirements
     # In case we missed requirements for some courses

@@ -501,7 +501,7 @@ def insert_seng_degree_requirements(db='university.db', start_year=2020, end_yea
                 h.add_degree_reqs(SENG, year, None, 192)
 
 
-def insert_degrees_with_no_offerings():
+def insert_degrees_with_no_offerings(db='university.db'):
     # these degrees are used in course requirements but we don't have the full requirements for them
     print('==> Degrees with no offerings')
     h = Helper(dbaddr=db)

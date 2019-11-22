@@ -17,7 +17,7 @@ from classes import degree
 
 f = fieldFilter.FieldFilter('SUBJ')
 deg = degree.Degree(num_code=3778, name='Computer Science', year=2019,
-		duration=3, faculty='Engineering', requirements=[], alpha_code='COMPA1')
+        duration=3, faculty='Engineering', requirements=[], alpha_code='COMPA1')
 
 def test_accepts_course_true():
     c = course.Course('SUBJ', '1001', 'Subject1', 6, [], 'SubjectFac')

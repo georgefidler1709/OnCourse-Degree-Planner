@@ -16,21 +16,21 @@ from classes.degree import Degree
 
 @pytest.fixture
 def compa1_shallow():
-	deg = Degree(num_code=3778, name='Computer Science', year=2019,
-		duration=3, faculty='Engineering', requirements=[], alpha_code='COMPA1')
-	return deg
+    deg = Degree(num_code=3778, name='Computer Science', year=2019,
+        duration=3, faculty='Engineering', requirements=[], alpha_code='COMPA1')
+    return deg
 
 def compa1_deep():
-	
+    
 
-	deg = Degree(num_code=3778, name='Computer Science', year=2019,
-		duration=3, faculty='Engineering', requirements=[], alpha_code='COMPA1')
+    deg = Degree(num_code=3778, name='Computer Science', year=2019,
+        duration=3, faculty='Engineering', requirements=[], alpha_code='COMPA1')
 
 
 def test_url(compa1_shallow):
-	url = compa1_shallow.get_url()
+    url = compa1_shallow.get_url()
 
-	assert url == 'https://www.handbook.unsw.edu.au/undergraduate/programs/2019/3778'
+    assert url == 'https://www.handbook.unsw.edu.au/undergraduate/programs/2019/3778'
 
 
 # faculty = 'SubjFaculty'
@@ -46,29 +46,29 @@ def test_url(compa1_shallow):
 # req = subjectReq.SubjectReq(subj1001)
 
 def test_get_requirements_no_requirements():
-	deg = Degree(num_code=3778, name='Computer Science', year=2019,
-		duration=3, faculty='Engineering', requirements=[], alpha_code='COMPA1')
-	assert len(deg.get_requirements()) == 0
+    deg = Degree(num_code=3778, name='Computer Science', year=2019,
+        duration=3, faculty='Engineering', requirements=[], alpha_code='COMPA1')
+    assert len(deg.get_requirements()) == 0
 
 
 def test_get_requirements_none_remaining():
-	pass
+    pass
 
 def test_get_requirements_partial_free_remaining():
-	pass
+    pass
 
 def test_get_requirements_partial_gen_remaining():
-	pass
+    pass
 
 def test_get_requirements_partial_filt_remaining():
-	pass
+    pass
 
 def test_get_requirements_partial_core_remaining():
-	pass
+    pass
 
 def test_get_requirements_partial_all_remaining():
-	pass
+    pass
 
 def test_get_requirements_all_remaining():
-	pass
+    pass
 

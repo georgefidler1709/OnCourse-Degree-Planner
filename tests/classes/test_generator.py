@@ -63,19 +63,19 @@ faculty = "SubjFaculty"
 
 # Make some courses
 # subj1001
-subj1001 = course.Course("SUBJ", 1001, "Subject1", 6, [t1, t2, t3, t4, t5, t6], faculty)
+subj1001 = course.Course("SUBJ", "1001", "Subject1", 6, [t1, t2, t3, t4, t5, t6], faculty)
 
 # subj1002, prereq subj1001
 prereq1001 = subjectReq.SubjectReq(subj1001)
-subj1002 = course.Course("SUBJ", 1002, "Subject2", 6, [t1, t3, t4, t6], faculty, prereq1001)
+subj1002 = course.Course("SUBJ", "1002", "Subject2", 6, [t1, t3, t4, t6], faculty, prereq1001)
 
 # subj1003, prereq subj1001 and 1002
 prereq1002 = subjectReq.SubjectReq(subj1002)
 req1001_and_1002 = andReq.AndReq([prereq1001, prereq1002])
-subj1003 = course.Course("SUBJ", 1003, "Subject3", 6, [t1, t4], faculty, req1001_and_1002)
+subj1003 = course.Course("SUBJ", "1003", "Subject3", 6, [t1, t4], faculty, req1001_and_1002)
 
 # TODO subj1004 was not defined! making a dummy one
-subj1004 = course.Course("SUBJ", 1004, "Subject4", 6, [t1, t2], faculty, req1001_and_1002)
+subj1004 = course.Course("SUBJ", "1004", "Subject4", 6, [t1, t2], faculty, req1001_and_1002)
 
 def setup_function(function):
     uni.reset_courses([subj1001, subj1002, subj1003, subj1004])

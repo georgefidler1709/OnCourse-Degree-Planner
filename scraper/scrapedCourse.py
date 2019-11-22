@@ -81,7 +81,7 @@ class ScrapedCourse(object):
     def to_course(self) -> 'course.Course':
          # Step 1: save into db
         subject = self.code[:4]
-        code  = int(self.code[4:])
+        code  = self.code[4:]
         name = self.name
         units = self.units
         terms = self.terms

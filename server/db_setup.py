@@ -34,7 +34,7 @@ def store_db(command: str, args: Tuple = ()) -> int:
         insert_id = cur.lastrowid
         get_db().commit()
     except sqlite3.IntegrityError as e:
-        print(f'Failed integrity error with command '{command}' and args '{args}'')
+        print(f'Failed integrity error with command \'{command}\' and args \'{args}\'')
         raise e
 
     return insert_id

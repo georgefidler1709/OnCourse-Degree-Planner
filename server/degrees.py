@@ -49,7 +49,7 @@ def course_info(course: str) -> str:
     uni = University(query_db)
     course_info = uni.find_course(course.upper())
     if not course_info:
-        raise Exception(f'course code {course} doesn't exist in the db')
+        raise Exception(f'course code {course} doesn\'t exist in the db')
 
     return jsonify(course_info.to_api())
 

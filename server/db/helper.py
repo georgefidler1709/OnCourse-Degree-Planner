@@ -27,7 +27,7 @@ class Helper:
                         (letter_code, number_code))
                 result = self.cursor.fetchone()
                 if result is None:
-                    print(f'Adding course {course} because it doesn't exist in the database/must be from earlier years')
+                    print(f'Adding course {course} because it doesn\'t exist in the database/must be from earlier years')
 
                     course_id = self.cursor.execute('''insert into Courses(letter_code, number_code, level, units,
             finished, faculty, name) values(?, ?, ?, ?, ?, ?, ?)''', (letter_code, number_code,

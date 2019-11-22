@@ -6,6 +6,8 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
     content={
       <a
         href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3778"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         More Info
       </a>
@@ -35,6 +37,8 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
     content={
       <a
         href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/7001"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         More Info
       </a>

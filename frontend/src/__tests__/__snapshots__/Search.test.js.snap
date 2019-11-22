@@ -10,10 +10,38 @@ exports[`Rendering the degree search page renders correctly 1`] = `
     OnCourse
   </styled.h1>
   <styled.form>
-    <styled.input
-      onChange={[Function]}
-      placeholder="Search for your degree..."
-    />
+    <styled.div>
+      <Styled(Dropdown)>
+        <Styled(Bootstrap(DropdownToggle))
+          id="dropdown-basic"
+          variant="light"
+        >
+          Start Year: 
+          2020
+        </Styled(Bootstrap(DropdownToggle))>
+        <DropdownMenu
+          alignRight={false}
+          flip={true}
+        >
+          <Styled(DropdownItem)
+            active={true}
+            onClick={[Function]}
+          >
+            2020
+          </Styled(DropdownItem)>
+          <Styled(DropdownItem)
+            active={false}
+            onClick={[Function]}
+          >
+            2021
+          </Styled(DropdownItem)>
+        </DropdownMenu>
+      </Styled(Dropdown)>
+      <styled.input
+        onChange={[Function]}
+        placeholder="Search for your degree..."
+      />
+    </styled.div>
   </styled.form>
   <styled.p>
     * Disclaimer: OnCourse is not

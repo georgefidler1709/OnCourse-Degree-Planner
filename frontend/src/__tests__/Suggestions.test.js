@@ -25,20 +25,22 @@ jest.mock("react-router-dom", () => ({
 
 describe('Rendering a degree suggestion', () => {
     it('renders correctly', () => {
-	  const wrapper = shallow(<Suggestions degrees={mockDegrees}/>);
+	  const wrapper = shallow(<Suggestions degrees={mockDegrees} year={2020} />);
 	  expect(wrapper).toMatchSnapshot();
 	});
 
 	it('puts the code of provided degrees as titles', () => {
-		const wrapper = shallow(<Suggestions degrees={mockDegrees}/>);
+		const wrapper = shallow(<Suggestions degrees={mockDegrees} year={2020}/>);
 		
 		expect(wrapper.html().includes(">3778</h1>")).toBeTruthy()
 	})
 
 	it('renders degree suggestions in the order they are provided', () => {
-		const wrapper = shallow(<Suggestions degrees={mockDegrees}/>);
+		const wrapper = shallow(<Suggestions degrees={mockDegrees} year={2020}/>);
 		const code1 = wrapper.html().indexOf(">3778</h1>")
 		const code2 = wrapper.html().indexOf(">7001</h1>")
 		expect(code1 < code2).toBeTruthy();
 	})	
+
+	//it('sends you to a timeline for the chosen degree for a given year')
 });

@@ -1,37 +1,31 @@
-import Button from "react-bootstrap/Button";
+
 import React from 'react'
 import { shallow } from 'enzyme';
 import Search from '../__components__/degree_search/Search';
 
-// LEAVING THIS FOR KEVIN WITH NEW SEARCH IMPLEMENTATION TESTS
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 describe('Rendering the degree search page', () => {
-  it('placeholder', () => {
-    expect(true).toBeTruthy()
+  it('renders correctly', async() => {
+    const wrapper = shallow(<Search />);
+    await sleep(100);
+    wrapper.update();
+    expect(wrapper).toMatchSnapshot(); 
   })
-  
-  // fetch.mockReturnValue(
-  //   Promise.resolve(
-  //     new Response(`
-  //       [
-  //         { id: "1", name: "this is a test" },
-  //         { id: "2", name: "blah" },
-  //         { id: "3", name: "foo bar" },
-  //         { id: "4", name: "tea" },
-  //       ] `
-  //     )
-  //   )
-  // );
 
-  // const wrapper = shallow(<Search />);
-  
-  // it('renders correctly', () => {
-  //   expect(wrapper).toMatchSnapshot();
-  // });
+  it('shows a degrees with a names/coded with a substring the search bar input', async() => {
+    const wrapper = shallow(<Search />);
+    await sleep(100);
+    wrapper.update();
+    expect(wrapper.find('input')).toBe('f')//.simulate('keydown', { which: 'c' })
+    wrapper.update()
+    expect(wrapper.state()).toBe('f')
+  })
 
-  // TODO(kevin): fix these tests
-  //wrapper.find('input.search-bar').simulate("change", { target: { value: "study" }})
+  it('will send you to a timeline view for a given degree when you click on that degree', () => {
+    
 
-  //it('searches correctly', () => {
-  //  expect(wrapper.find(Button).first().text()).toBe("studyology");
-  //});
+  })
 });

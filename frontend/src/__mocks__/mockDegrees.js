@@ -1,6 +1,11 @@
 export const mockDegrees = [
-  {id: "123", name: "underwater basket weaving"},
-  {id: "456", name: "studyology"},
-  {id: "789", name: "this is a test"},
+  {
+    "id": "3707", 
+    "name": "Engineering (Honours) (Software Engineering)"
+  }, 
+  {
+    "id": "3778", 
+    "name": "Computer Science"
+  }
 ]
 

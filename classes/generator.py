@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On Coursee
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ generator.py
 A generator which creates a degree plan for a given degree
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import List, Optional
 from . import program

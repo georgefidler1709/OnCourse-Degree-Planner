@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ test_minDegreeReq.py
 Test the functions defined in minDegreeReq.py
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 import pytest
 

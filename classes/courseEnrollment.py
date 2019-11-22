@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -10,7 +10,7 @@ a course. This contains the course enrolled in and the term in which the course
 will be taken.
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from . import course
 from . import term
@@ -23,7 +23,7 @@ class CourseEnrollment(object):
         self.term = term
 
     def __repr__(self) -> str:
-        return f"<CourseEnrollment course={self.course!r}, term={self.term!r}>"
+        return f'<CourseEnrollment course={self.course!r}, term={self.term!r}>'
 
     def course_code(self) -> str:
         return self.course.course_code

@@ -12,7 +12,7 @@ from classes import program
 
 from .db_setup import query_db
 
-degrees_bp = Blueprint("degrees_bp", __name__);
+degrees_bp = Blueprint('degrees_bp', __name__);
 
 @degrees_bp.route('/degrees.json')
 def load_degrees() -> str:
@@ -42,14 +42,14 @@ def load_full_courses() -> str:
 @degrees_bp.route('/<course>/course_info.json')
 def course_info(course: str) -> str:
     '''
-    <course> should be a string for course code, i.e. "COMP1511"
+    <course> should be a string for course code, i.e. 'COMP1511'
     Gets the information about when this course is offered
     and returns it as an api.Course
     '''
     uni = University(query_db)
     course_info = uni.find_course(course.upper())
     if not course_info:
-        raise Exception(f"course code {course} doesn't exist in the db")
+        raise Exception(f'course code {course} doesn't exist in the db')
 
     return jsonify(course_info.to_api())
 
@@ -69,7 +69,7 @@ def generate_program(code: int, year: int) -> str:
     if deg is None:
         # given code is not valid
         # TODO see if there's a more elegant way of doing this
-        raise Exception(f"Degree code {code} is not in the database for year {year}.")
+        raise Exception(f'Degree code {code} is not in the database for year {year}.')
 
     gen = Generator(deg, uni)
 

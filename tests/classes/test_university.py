@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -7,7 +7,7 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 test_university.py
 Test the functions defined in university.py
 
-"""
+'''
 
 import pytest
 import sqlite3
@@ -57,7 +57,7 @@ class DbHelper:
     # Inserts a degree into the database from the fields that make it up
     # Ignores requirements
     def insert_degree_from_fields(self, name='TestDegree', code='TestCode', id=42, year=2019,
-            duration=3, faculty="TestFaculty", requirements=[]):
+            duration=3, faculty='TestFaculty', requirements=[]):
         self.cursor.execute('insert into Degrees(name, faculty, duration, id) values(?, ?, ?, ?)', (name, faculty, duration, id))
 
         self.cursor.execute('insert into DegreeOfferings(year, degree_id) values(?, ?)', (year, id))
@@ -71,7 +71,7 @@ class DbHelper:
 
     # Inserts a course from just the fields that make up the course
     def insert_course_from_fields(self, letter_code='COMP', number_code='1511', level=1,
-            name='Intro to computing', units=6, faculty="Engineering", prereq=None, coreq=None,
+            name='Intro to computing', units=6, faculty='Engineering', prereq=None, coreq=None,
             exclusions=[], equivalents=[], finished=True):
         self.cursor.execute('''insert into Courses(letter_code, number_code, level, name, units,
         faculty, prereq, coreq, finished) values (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
@@ -123,15 +123,15 @@ class TestUniversityWithDb():
 
         self.university = university.University(self.h.query_db)
 
-        self.first_course = course.Course("TEST", '1000', "Test course 1", 6, [], "TestFaculty",
+        self.first_course = course.Course('TEST', '1000', 'Test course 1', 6, [], 'TestFaculty',
                 finished=True)
-        self.second_course = course.Course("COMP", '2521', "Test course 2", 3, [], "Engineering",
+        self.second_course = course.Course('COMP', '2521', 'Test course 2', 3, [], 'Engineering',
                 finished=True)
 
         # TODO: check different years
-        self.first_degree = degree.Degree(1111, "Test degree", 2019, 3, "TestFaculty", [], "ABCDE")
+        self.first_degree = degree.Degree(1111, 'Test degree', 2019, 3, 'TestFaculty', [], 'ABCDE')
 
-        self.second_degree = degree.Degree(3223, "Test degree 2", 2019, 5, "Engineering", [], "FGHIJ")
+        self.second_degree = degree.Degree(3223, 'Test degree 2', 2019, 5, 'Engineering', [], 'FGHIJ')
 
     def teardown_method(self, function):
         self.db.close()
@@ -727,7 +727,7 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         input_course = self.first_course
 
         requirement_type_id = self.h.get_requirement_type_id('UnparsedRequirement')
-        requirement_string = "Requirement string"
+        requirement_string = 'Requirement string'
 
         self.cursor.execute('''insert into CourseRequirements(type_id, requirement_string) values(?,
                                 ?)''', (requirement_type_id, requirement_string))

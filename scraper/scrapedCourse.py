@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ scrapedCourse.py
 A class to contain information about a course, scraped from the handbook
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 
 from typing import List, Optional
@@ -52,7 +52,7 @@ class ScrapedCourse(object):
         self.prereqs, self.coreqs, self.finished = parser.parse_reqs(self.requirements)
 
         if not self.finished:
-            print(f"Could not parse requirements for {self.code}")
+            print(f'Could not parse requirements for {self.code}')
             self.prereqs = unparsedReq.UnparsedReq(self.requirements)
 
         self.terms = parser.parse_terms(terms, self.year)

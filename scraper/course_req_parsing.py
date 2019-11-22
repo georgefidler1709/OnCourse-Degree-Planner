@@ -36,7 +36,7 @@
 #    def course_requirement_from_str(self, req: str) -> CourseReq:
 #        # determine what type of requirement
 #        if completion(req):
-#            helper.make_course_req("completed", )
+#            helper.make_course_req('completed', )
 #        else if current(req)
 #        else if year(req)
 #        else if uoc(req)
@@ -48,7 +48,7 @@
 
 #    def corequisite(self, req: str) -> bool:
 #        # if str contains? begins with?
-#        #["Coreq", "Coreqs" "Corequisite", "Corequisites"]
+#        #['Coreq', 'Coreqs' 'Corequisite', 'Corequisites']
 #        pass
 
 #    # returns whether string corresponds to course completion requirement

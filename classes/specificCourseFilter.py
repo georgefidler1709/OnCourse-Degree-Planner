@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ specificCourseFilter
 A filter that matches only one course
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from . import course
 from . import courseFilter
@@ -34,16 +34,16 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
         return False
 
     def __repr__(self) -> str:
-        return f"<SpecificCourseFilter course={self.course!r}>"
+        return f'<SpecificCourseFilter course={self.course!r}>'
 
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
-        return "SpecificCourseFilter"
+        return 'SpecificCourseFilter'
 
     @property
     def simple_name(self) -> str:
-        return "Required courses"
+        return 'Required courses'
 
     # Input: course.Course, program the student is enrolled in
     # Return: Whether this course matches the filter

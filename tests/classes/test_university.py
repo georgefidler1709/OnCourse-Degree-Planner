@@ -50,11 +50,15 @@ class DbHelper:
         self.insert_degree_from_fields(degree.name, degree.alpha_code, degree.num_code, degree.year,
                 degree.duration, degree.faculty, degree.requirements)
 
+    def insert_degree_offering(self, degree, year):
+        self.cursor.execute('insert into DegreeOfferings(year, degree_id) values(?, ?)', (year,
+            degree.num_code))
+
     # Inserts a degree into the database from the fields that make it up
     # Ignores requirements
     def insert_degree_from_fields(self, name='TestDegree', code='TestCode', id=42, year=2019,
             duration=3, faculty="TestFaculty", requirements=[]):
-        self.cursor.execute('insert into Degrees(name, code, faculty, duration, id) values(?, ?, ?, ?, ?)', (name, code, faculty, duration, id))
+        self.cursor.execute('insert into Degrees(name, faculty, duration, id) values(?, ?, ?, ?)', (name, faculty, duration, id))
 
         self.cursor.execute('insert into DegreeOfferings(year, degree_id) values(?, ?)', (year, id))
 
@@ -956,7 +960,8 @@ class TestUniversity_GetSimpleDegrees(TestUniversityWithDb):
     def test_no_degrees(self):
         degrees = self.university.get_simple_degrees()
 
-        assert len(degrees) == 0
+        assert len(degrees['degrees']) == 0
+        assert len(degrees['years']) == 0
 
     def test_single_degree(self):
         input_degree = self.first_degree
@@ -964,10 +969,14 @@ class TestUniversity_GetSimpleDegrees(TestUniversityWithDb):
         self.h.insert_degree(input_degree)
 
         degrees = self.university.get_simple_degrees()
-        assert len(degrees) == 1
-        degree = degrees[0]
+        assert len(degrees['degrees']) == 1
+        degree = degrees['degrees'][0]
         assert degree['id'] == str(input_degree.num_code)
         assert degree['name'] == input_degree.name
+        assert degree['years'] == [input_degree.year]
+
+        assert len(degrees['years']) == 1
+        assert degrees['years'][0] == input_degree.year
 
     def test_multiple_degrees(self):
         first_degree = self.first_degree
@@ -978,14 +987,42 @@ class TestUniversity_GetSimpleDegrees(TestUniversityWithDb):
         self.h.insert_degree(second_degree)
 
         degrees = self.university.get_simple_degrees()
-        assert len(degrees) == 2
-        degrees.sort(key=lambda x: x['id'])
-        first_result_degree, second_result_degree = degrees
+        degrees_list = degrees['degrees']
+        assert len(degrees_list) == 2
+        degrees_list.sort(key=lambda x: x['id'])
+        first_result_degree, second_result_degree = degrees_list
         assert first_result_degree['id'] == str(first_degree.num_code)
         assert first_result_degree['name'] == first_degree.name
+        assert first_result_degree['years'] == [first_degree.year]
 
         assert second_result_degree['id'] == str(second_degree.num_code)
         assert second_result_degree['name'] == second_degree.name
+        assert second_result_degree['years'] == [second_degree.year]
+
+        # Both degrees have the same year so they should be combined
+        assert len(degrees['years']) == 1
+        assert degrees['years'][0] == first_degree.year
+
+    def test_multiple_years_one_degree(self):
+        first_degree = self.first_degree
+        self.h.insert_degree(first_degree)
+
+        extra_year = 2025
+
+        years = [first_degree.year, extra_year]
+
+        self.h.insert_degree_offering(first_degree, extra_year)
+
+        degrees = self.university.get_simple_degrees()
+
+        degrees_list = degrees['degrees']
+        assert len(degrees_list) == 1
+        degree = degrees_list[0]
+        assert degree['id'] == str(first_degree.num_code)
+        assert degree['name'] == first_degree.name
+        assert degree['years'] == years
+
+        assert degrees['years'] == years
 
 
 # Not including exclusion or equivalent because that might be changed to individual courses rather

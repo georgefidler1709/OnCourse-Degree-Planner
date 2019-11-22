@@ -10,7 +10,7 @@ Implementation of the University class which is a database of courses and progra
 [MORE INFO ABOUT CLASS]
 """
 
-from typing import Dict, List, Optional, Callable, Tuple
+from typing import Callable, Dict, List, Optional, Set, Tuple
 from mypy_extensions import DefaultArg
 from sqlite3 import Row, Connection
 
@@ -71,19 +71,20 @@ class University(object):
     # Input: degree numerical code (eg. 3778)
     # Return: corresponding Degree object
     def find_degree_number_code(self, numeric_code: int, year: int) -> Optional['degree.Degree']:
-        return self.load_degree(numeric_code, year, need_requirements = True)
+        return self.load_degree(numeric_code, need_requirements=True, year=year)
 
     # Input: degree numerical code (eg. 3778), whether we need the requirements for the degree
     # (eg. if we're just loading the degree as part of a course requirement we don't need the
     # requirements)
+    # assumes that you want the degree for 2020 unless you specify
     # Return: corresponding Degree object
-    def load_degree(self, numeric_code: int, year: int, need_requirements: bool=True) -> Optional['degree.Degree']:
-        if (numeric_code, year) in self.degrees:
+    def load_degree(self, numeric_code: int, need_requirements: bool=True, year: int=2020) -> Optional['degree.Degree']:
+        if numeric_code in self.degrees:
             # TODO: Might not work if we first load without requirements then call this with
             # requirements, decide whether we even want the need_requirements option anymore
             return self.degrees[(numeric_code, year)]
 
-        response = self.query_db('''select name, code, faculty, duration
+        response = self.query_db('''select name, faculty, duration
                                  from Degrees
                                  where id = ?''', (numeric_code,), one=True)
 
@@ -91,9 +92,10 @@ class University(object):
             # No degree with that code, so return nothing
             return None
 
-        name, alpha_code, faculty, duration = response
-        # Alpha code might be null
+        name, faculty, duration = response
         self.assert_no_nulls(name, faculty, duration)
+
+        alpha_code = "ALPHA_CODE"
 
         # Check that there is actually an offering for that degree
         response = self.query_db('''select *
@@ -105,28 +107,38 @@ class University(object):
             # No offering for that year
             return None
 
-        # Get all of the requirements for the degree
-        response = self.query_db('''select uoc_needed, requirement_id
-                                 from DegreeOfferingRequirements
-                                 where offering_degree_id = ?
-                                 and offering_year_id = ?''', (numeric_code, year))
-
+        # get any notes on the degree
+        response = self.query_db('''select note
+                                from DegreeOfferingNotes
+                                where offering_degree_id = ?
+                                and offering_year_id = ?''',
+                                (numeric_code, year))
+        notes = []
+        if response:
+            for r in response:
+                notes.append(r['note'])
 
         # create a degree without requirements, then add requirements later
         # This is done so that we can cache the degree, to avoid circular loading
-        result_degree = degree.Degree(numeric_code, name, year, duration, faculty, [], alpha_code)
+
+        result_degree = degree.Degree(numeric_code, name, year, duration, faculty, [], alpha_code, notes)
 
         self.degrees[(numeric_code, year)] = result_degree
 
         requirements = []
 
         if need_requirements:
+            # Get all of the requirements for the degree
+            response = self.query_db('''select uoc_needed, requirement_id, alt_text
+                                     from DegreeOfferingRequirements
+                                     where offering_degree_id = ?
+                                     and offering_year_id = ?''', (numeric_code, year))
             for offering_requirement in response:
-                uoc, filter_id = offering_requirement
+                uoc, filter_id, alt_text = offering_requirement
                 self.assert_no_nulls(uoc)
 
                 if filter_id is None:
-                    requirement = minDegreeReq.MinDegreeReq(None, uoc)
+                    requirement = minDegreeReq.MinDegreeReq(None, uoc, alt_text)
                 else:
                     filter = self.load_course_filter(filter_id)
                     self.assert_no_nulls(filter)
@@ -134,7 +146,7 @@ class University(object):
                     # mypy doesn't recognise that assert_no_nulls makes sure that filter is not none
                     assert filter is not None
 
-                    requirement = minDegreeReq.MinDegreeReq(filter, uoc)
+                    requirement = minDegreeReq.MinDegreeReq(filter, uoc, alt_text)
                 requirements.append(requirement)
 
         result_degree.requirements = requirements
@@ -562,8 +574,40 @@ class University(object):
         response = self.query_db('''select degree.id, degree.name, offering.year
                                  from DegreeOfferings as offering
                                  join Degrees as degree
-                                 on degree.id = offering.degree_id''')
-        return [{'id': str(i['id']), 'year': i['year'], 'name': i['name']} for i in response];
+                                 on degree.id = offering.degree_id
+                                 order by degree.id, offering.year''')
+
+        degrees: List[api.SimpleDegree] = []
+        years: Set[str] = set()
+
+        current_id: str = ''
+        current_name: str = ''
+        current_years: List[str] = []
+
+        for offering in response:
+            degree_id, name, year = offering
+            degree_id = str(degree_id)
+
+            if current_id != degree_id:
+                # Don't add if the current degree is just the empty data for the first run through
+                if current_id != '':
+                    degrees.append({'id': current_id, 'years': current_years, 'name': current_name})
+
+                current_id = degree_id
+                current_name = name
+                current_years = []
+
+            current_years.append(year)
+
+            years.add(year)
+
+        if current_id != '':
+            # Add the final degree
+            degrees.append({'id': current_id, 'years': current_years, 'name': current_name})
+
+        years_list = list(sorted(years))
+
+        return {'degrees': degrees, 'years': years_list}
 
     def get_simple_courses(self) -> api.SimpleCourses:
         response = self.query_db('''select letter_code, number_code, name

@@ -16,10 +16,12 @@ from mypy_extensions import TypedDict
 
 class SimpleDegree(TypedDict):
     id: str;
-    year: str;
+    years: List[str];
     name: str;
 
-SimpleDegrees = List[SimpleDegree]
+class SimpleDegrees(TypedDict):
+    degrees: List[SimpleDegree]
+    years: List[str]
 
 class SimpleCourse(TypedDict):
     id: str;
@@ -48,6 +50,7 @@ class Program(TypedDict):
     year: int;
     duration: int; # in years
     url: str; # degree handbook url
+    notes: List[str];
 
     # List of CourseEnrollments
     enrollments: List[YearPlan];

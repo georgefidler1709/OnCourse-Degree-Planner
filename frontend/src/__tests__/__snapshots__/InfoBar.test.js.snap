@@ -66,9 +66,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                   "$$typeof": Symbol(react.forward_ref),
                   "attrs": Array [],
                   "componentStyle": ComponentStyle {
-                    "componentId": "sc-kEYyzF",
+                    "componentId": "sc-kkGfuU",
                     "isStatic": false,
-                    "lastClassName": "zzhEK",
+                    "lastClassName": "dUkchd",
                     "rules": Array [
                       "
   &::-webkit-scrollbar {
@@ -91,7 +91,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                   "displayName": "styled.div",
                   "foldedComponentIds": Array [],
                   "render": [Function],
-                  "styledComponentId": "sc-kEYyzF",
+                  "styledComponentId": "sc-kkGfuU",
                   "target": "div",
                   "toString": [Function],
                   "warnTooManyClasses": [Function],
@@ -101,7 +101,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
               forwardedRef={null}
             >
               <div
-                className="sc-kEYyzF zzhEK"
+                className="sc-kkGfuU dUkchd"
               >
                 <styled.h3>
                   <StyledComponent
@@ -110,9 +110,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "sc-kkGfuU",
+                          "componentId": "sc-iAyFgw",
                           "isStatic": false,
-                          "lastClassName": "jKNyZI",
+                          "lastClassName": "bsxapa",
                           "rules": Array [
                             "
   padding: 8px;
@@ -126,7 +126,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                         "displayName": "styled.h3",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "sc-kkGfuU",
+                        "styledComponentId": "sc-iAyFgw",
                         "target": "h3",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -136,7 +136,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                     forwardedRef={null}
                   >
                     <h3
-                      className="sc-kkGfuU jKNyZI"
+                      className="sc-iAyFgw bsxapa"
                     >
                       Computing
                       <br />
@@ -216,9 +216,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                           },
                           "attrs": Array [],
                           "componentStyle": ComponentStyle {
-                            "componentId": "sc-htoDjs",
+                            "componentId": "sc-dnqmqq",
                             "isStatic": false,
-                            "lastClassName": "keqScR",
+                            "lastClassName": "hJxOZJ",
                             "rules": Array [
                               "
 ",
@@ -227,7 +227,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                           "displayName": "Styled(Card)",
                           "foldedComponentIds": Array [],
                           "render": [Function],
-                          "styledComponentId": "sc-htoDjs",
+                          "styledComponentId": "sc-dnqmqq",
                           "target": Object {
                             "$$typeof": Symbol(react.forward_ref),
                             "Body": Object {
@@ -303,11 +303,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                       <Card
                         bg="dark"
                         body={false}
-                        className="sc-htoDjs keqScR"
+                        className="sc-dnqmqq hJxOZJ"
                         text="white"
                       >
                         <div
-                          className="sc-htoDjs keqScR card bg-dark text-white"
+                          className="sc-dnqmqq hJxOZJ card bg-dark text-white"
                         >
                           <Styled(CardHeader)
                             aria-controls="collapse-add-course"
@@ -322,9 +322,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                   "$$typeof": Symbol(react.forward_ref),
                                   "attrs": Array [],
                                   "componentStyle": ComponentStyle {
-                                    "componentId": "sc-dnqmqq",
+                                    "componentId": "sc-iwsKbI",
                                     "isStatic": false,
-                                    "lastClassName": "fftazU",
+                                    "lastClassName": "fypTFz",
                                     "rules": Array [
                                       "
   transition: color 0.2s ease;
@@ -342,7 +342,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                   "displayName": "Styled(CardHeader)",
                                   "foldedComponentIds": Array [],
                                   "render": [Function],
-                                  "styledComponentId": "sc-dnqmqq",
+                                  "styledComponentId": "sc-iwsKbI",
                                   "target": Object {
                                     "$$typeof": Symbol(react.forward_ref),
                                     "defaultProps": undefined,
@@ -360,13 +360,13 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                               <CardHeader
                                 aria-controls="collapse-add-course"
                                 aria-expanded={false}
-                                className="sc-dnqmqq fftazU"
+                                className="sc-iwsKbI fypTFz"
                                 onClick={[Function]}
                               >
                                 <div
                                   aria-controls="collapse-add-course"
                                   aria-expanded={false}
-                                  className="sc-dnqmqq fftazU card-header"
+                                  className="sc-iwsKbI fypTFz card-header"
                                   onClick={[Function]}
                                 >
                                   <styled.i
@@ -379,9 +379,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "sc-iwsKbI",
+                                            "componentId": "sc-gZMcBi",
                                             "isStatic": false,
-                                            "lastClassName": "LdBUN",
+                                            "lastClassName": "dKgYPz",
                                             "rules": Array [
                                               "
   float: left;
@@ -391,7 +391,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                           "displayName": "styled.i",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "sc-iwsKbI",
+                                          "styledComponentId": "sc-gZMcBi",
                                           "target": "i",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -401,7 +401,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                       forwardedRef={null}
                                     >
                                       <i
-                                        className="sc-iwsKbI LdBUN fa fa-chevron-right"
+                                        className="sc-gZMcBi dKgYPz fa fa-chevron-right"
                                       />
                                     </StyledComponent>
                                   </styled.i>
@@ -412,9 +412,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "sc-gzVnrw",
+                                            "componentId": "sc-htoDjs",
                                             "isStatic": false,
-                                            "lastClassName": "cvDevI",
+                                            "lastClassName": "bNWaiC",
                                             "rules": Array [
                                               "
   padding: 4px;
@@ -426,7 +426,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                           "displayName": "styled.h5",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "sc-gzVnrw",
+                                          "styledComponentId": "sc-htoDjs",
                                           "target": "h5",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -436,7 +436,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                       forwardedRef={null}
                                     >
                                       <h5
-                                        className="sc-gzVnrw cvDevI"
+                                        className="sc-htoDjs bNWaiC"
                                       >
                                         Add a Course
                                       </h5>
@@ -483,16 +483,13 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                   <p>
                                     Search for a course and click on it. Then drag the course into your timeline from the 
                                     <b>
-                                      Tray
+                                      Add
                                     </b>
-                                    .
+                                     box.
                                   </p>
-                                  <Component
-                                    courses={Array []}
-                                    highlight={false}
-                                    id="Add"
-                                    name="Tray"
-                                    removeCourse={[MockFunction]}
+                                  <CourseDropBox
+                                    remove_course={[MockFunction]}
+                                    type="Add"
                                   >
                                     <styled.div>
                                       <StyledComponent
@@ -565,7 +562,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                               <h5
                                                 className="sc-bZQynM btxUkQ"
                                               >
-                                                Tray
+                                                Add
                                               </h5>
                                             </StyledComponent>
                                           </styled.h5>
@@ -606,8 +603,6 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                               <styled.div
                                                 data-rbd-droppable-context-id="3"
                                                 data-rbd-droppable-id="Add"
-                                                highlight={false}
-                                                isDraggingOver={false}
                                               >
                                                 <StyledComponent
                                                   data-rbd-droppable-context-id="3"
@@ -617,25 +612,21 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                                       "$$typeof": Symbol(react.forward_ref),
                                                       "attrs": Array [],
                                                       "componentStyle": ComponentStyle {
-                                                        "componentId": "sc-htpNat",
+                                                        "componentId": "sc-gzVnrw",
                                                         "isStatic": false,
-                                                        "lastClassName": "jgdmCx",
+                                                        "lastClassName": "hQQdYy",
                                                         "rules": Array [
                                                           "
   padding: 8px;
   flex-grow: 1;
-  min-height: 100px;
-  transition: background-color 0.2s ease;
-  background-color: ",
-                                                          [Function],
-                                                          ";
+  min-height: 50px;
 ",
                                                         ],
                                                       },
                                                       "displayName": "styled.div",
                                                       "foldedComponentIds": Array [],
                                                       "render": [Function],
-                                                      "styledComponentId": "sc-htpNat",
+                                                      "styledComponentId": "sc-gzVnrw",
                                                       "target": "div",
                                                       "toString": [Function],
                                                       "warnTooManyClasses": [Function],
@@ -643,11 +634,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                                     }
                                                   }
                                                   forwardedRef={[Function]}
-                                                  highlight={false}
-                                                  isDraggingOver={false}
                                                 >
                                                   <div
-                                                    className="sc-htpNat jgdmCx"
+                                                    className="sc-gzVnrw hQQdYy"
                                                     data-rbd-droppable-context-id="3"
                                                     data-rbd-droppable-id="Add"
                                                   >
@@ -663,7 +652,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                         </div>
                                       </StyledComponent>
                                     </styled.div>
-                                  </Component>
+                                  </CourseDropBox>
                                   <SearchCourses
                                     add_event={[MockFunction]}
                                   >
@@ -674,22 +663,21 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                             "$$typeof": Symbol(react.forward_ref),
                                             "attrs": Array [],
                                             "componentStyle": ComponentStyle {
-                                              "componentId": "sc-ckVGcZ",
+                                              "componentId": "sc-jKJlTe",
                                               "isStatic": false,
-                                              "lastClassName": "fcibBt",
+                                              "lastClassName": "BsXjl",
                                               "rules": Array [
                                                 "
   padding: 3px;
   margin: 0;
   text-align: center;
-  width: 100%;
 ",
                                               ],
                                             },
                                             "displayName": "styled.div",
                                             "foldedComponentIds": Array [],
                                             "render": [Function],
-                                            "styledComponentId": "sc-ckVGcZ",
+                                            "styledComponentId": "sc-jKJlTe",
                                             "target": "div",
                                             "toString": [Function],
                                             "warnTooManyClasses": [Function],
@@ -699,7 +687,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                         forwardedRef={null}
                                       >
                                         <div
-                                          className="sc-ckVGcZ fcibBt"
+                                          className="sc-jKJlTe BsXjl"
                                         >
                                           <form>
                                             <Styled(styled.input)
@@ -712,9 +700,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                                     "$$typeof": Symbol(react.forward_ref),
                                                     "attrs": Array [],
                                                     "componentStyle": ComponentStyle {
-                                                      "componentId": "sc-jKJlTe",
+                                                      "componentId": "sc-eNQAEJ",
                                                       "isStatic": false,
-                                                      "lastClassName": "iZEjBx",
+                                                      "lastClassName": "fmHDKE",
                                                       "rules": Array [
                                                         "
 
@@ -767,10 +755,10 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                                     },
                                                     "displayName": "Styled(styled.input)",
                                                     "foldedComponentIds": Array [
-                                                      "sc-kGXeez",
+                                                      "sc-kpOJdX",
                                                     ],
                                                     "render": [Function],
-                                                    "styledComponentId": "sc-jKJlTe",
+                                                    "styledComponentId": "sc-eNQAEJ",
                                                     "target": "input",
                                                     "toString": [Function],
                                                     "warnTooManyClasses": [Function],
@@ -780,7 +768,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                                 forwardedRef={
                                                   Object {
                                                     "current": <input
-                                                      class="sc-kGXeez sc-jKJlTe iZEjBx"
+                                                      class="sc-kpOJdX sc-eNQAEJ fmHDKE"
                                                       placeholder="Search for a course..."
                                                     />,
                                                   }
@@ -789,7 +777,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                                 placeholder="Search for a course..."
                                               >
                                                 <input
-                                                  className="sc-kGXeez sc-jKJlTe iZEjBx"
+                                                  className="sc-kpOJdX sc-eNQAEJ fmHDKE"
                                                   onChange={[Function]}
                                                   placeholder="Search for a course..."
                                                 />
@@ -819,7 +807,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                   open={true}
 =======
                   open={false}
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                   setOpen={[Function]}
                   title="Courses Already Done"
 >>>>>>> already_done
@@ -1012,7 +1004,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
 >>>>>>> already_done
 =======
                             aria-expanded={false}
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                             onClick={[Function]}
                           >
                             <StyledComponent
@@ -1025,7 +1021,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
 >>>>>>> already_done
 =======
                               aria-expanded={false}
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -1086,7 +1086,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                 aria-expanded={true}
 =======
                                 aria-expanded={false}
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                 className="sc-dnqmqq fftazU"
 >>>>>>> already_done
                                 onClick={[Function]}
@@ -1108,7 +1112,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                   aria-expanded={true}
 =======
                                   aria-expanded={false}
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                   className="sc-dnqmqq fftazU card-header"
                                   onClick={[Function]}
                                 >
@@ -1121,7 +1129,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
 >>>>>>> already_done
 =======
                                       className="fa fa-chevron-right"
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                       forwardedComponent={
                                         Object {
                                           "$$typeof": Symbol(react.forward_ref),
@@ -1167,7 +1179,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
 >>>>>>> already_done
 =======
                                         className="sc-iwsKbI LdBUN fa fa-chevron-right"
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                       />
                                     </StyledComponent>
                                   </styled.i>
@@ -1240,7 +1256,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
 >>>>>>> already_done
 =======
                             in={false}
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                             mountOnEnter={false}
                             timeout={300}
                             unmountOnExit={false}
@@ -1259,7 +1279,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
 >>>>>>> already_done
 =======
                               in={false}
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                               mountOnEnter={false}
                               onEnter={[Function]}
                               onEntered={[Function]}
@@ -1517,7 +1541,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                 className="collapse show"
 =======
                                 className="collapse"
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                               >
                                 <div
                                   aria-expanded={null}
@@ -25329,7 +25357,11 @@ Final year in your degree
                                                             "$$typeof": Symbol(react.forward_ref),
                                                             "attrs": Array [],
                                                             "componentStyle": ComponentStyle {
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                                               "componentId": "sc-iwsKbI",
                                                               "isStatic": false,
                                                               "lastClassName": "LdBUN",
@@ -27848,7 +27880,11 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
 =======
 =======
                                 aria-expanded={false}
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                 className="sc-dnqmqq fftazU"
 >>>>>>> already_done
                                 onClick={[Function]}
@@ -27862,7 +27898,11 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
 =======
 =======
                                   aria-expanded={false}
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> fix_remaining_reqs
+>>>>>>> degree_year_backend
                                   className="sc-dnqmqq fftazU card-header"
 >>>>>>> already_done
                                   onClick={[Function]}

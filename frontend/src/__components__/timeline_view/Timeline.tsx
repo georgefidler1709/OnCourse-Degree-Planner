@@ -226,6 +226,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     fetch(request)
     .then(response => response.json())
     .then((reqs: CheckResponse) => {
+      console.log(reqs)
       this.setState({reqs}); 
       this.addMissingTerms();
     }).catch(error => console.error(error));
@@ -466,6 +467,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                     degree_name={this.state.program.name}
                     degree_reqs={this.state.reqs.degree_reqs}
                     year={this.state.program.year}
+                    degree_notes={this.state.program.notes}
                     standby_courses={this.state.add_course.map(course_id => this.state.courses[course_id]!)}
                     done_courses={this.state.program.done.map(course_id => this.state.courses[course_id]!)}
                     add_event={this.addCourse.bind(this)}

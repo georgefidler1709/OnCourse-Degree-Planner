@@ -64,7 +64,7 @@ def generate_program(code: int, year: int) -> str:
     code = int(code)
     year = int(year)
 
-    deg = uni.load_degree(code, year)
+    deg = uni.load_degree(code, year=year)
 
     if deg is None:
         # given code is not valid
@@ -116,7 +116,7 @@ def check_program() -> str:
     uni = University(query_db)
 
     # create the degree with requirements
-    deg = uni.load_degree(data['id'], data['year']) # TODO when we have more than one year we need to search by id and year
+    deg = uni.load_degree(data['id'], year=data['year'])
     assert deg is not None
     # TODO reflect any changes in frontend if you change degree.year
     deg.duration = data['duration']

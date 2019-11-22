@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rendering the degree search page renders correctly 1`] = `
+<styled.div>
+  <styled.img
+    alt="logo"
+    src="/images/logo.png"
+  />
+  <styled.h1>
+    OnCourse
+  </styled.h1>
+  <styled.form>
+    <styled.input
+      onChange={[Function]}
+      placeholder="Search for your degree..."
+    />
+  </styled.form>
+  <styled.p>
+    * Disclaimer: OnCourse is not
+    <br />
+     affiliated with or endorsed by UNSW.
+    <br />
+     This product is intended to aid degree planning.
+    <br />
+     However, it should not be the only resourced used
+    <br />
+     in planning your future at university,
+    <br />
+     as it may be subject to error.
+  </styled.p>
+</styled.div>
+`;

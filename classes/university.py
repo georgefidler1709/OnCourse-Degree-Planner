@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,9 +8,9 @@ university.py
 Implementation of the University class which is a database of courses and programs
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
-from typing import Dict, List, Optional, Callable, Tuple
+from typing import Callable, Dict, List, Optional, Set, Tuple
 from mypy_extensions import DefaultArg
 from sqlite3 import Row, Connection
 
@@ -38,10 +38,6 @@ from . import  (
     yearReq,
 )
 
-# TODO change me
-# Temporary: only allow 2019 results
-YEAR = 2020
-
 class University(object):
 
     def __init__(self, query_db: Callable[[str, DefaultArg(Tuple), DefaultArg(bool, 'one')], Row]):
@@ -55,11 +51,11 @@ class University(object):
         self.courses: Dict[int, 'course.Course'] = {}
         # cache of degrees loaded from the db for this session, indexed by numeric code (which is
         # also db id)
-        self.degrees: Dict[int, 'degree.Degree'] = {}
+        self.degrees: Dict[Tuple[int, int], 'degree.Degree'] = {}
 
     # Input: degree letter code (eg. COMPA1)
     # Return: corresponding degree.Degree object
-    def find_degree_alpha_code(self, letter_code: str) -> Optional['degree.Degree']:
+    def find_degree_alpha_code(self, letter_code: str, year: int) -> Optional['degree.Degree']:
         response = self.query_db('''select id
                                  from Degrees
                                  where code = ?''', (letter_code,), one=True)
@@ -70,12 +66,12 @@ class University(object):
             numeric_code = response[0]
             self.assert_no_nulls(numeric_code)
 
-            return self.find_degree_number_code(numeric_code)
+            return self.find_degree_number_code(numeric_code, year)
 
     # Input: degree numerical code (eg. 3778)
     # Return: corresponding Degree object
-    def find_degree_number_code(self, numeric_code: int) -> Optional['degree.Degree']:
-        return self.load_degree(numeric_code, need_requirements = True)
+    def find_degree_number_code(self, numeric_code: int, year: int) -> Optional['degree.Degree']:
+        return self.load_degree(numeric_code, need_requirements=True, year=year)
 
     # Input: degree numerical code (eg. 3778), whether we need the requirements for the degree
     # (eg. if we're just loading the degree as part of a course requirement we don't need the
@@ -86,7 +82,7 @@ class University(object):
         if numeric_code in self.degrees:
             # TODO: Might not work if we first load without requirements then call this with
             # requirements, decide whether we even want the need_requirements option anymore
-            return self.degrees[numeric_code]
+            return self.degrees[(numeric_code, year)]
 
         response = self.query_db('''select name, faculty, duration
                                  from Degrees
@@ -97,14 +93,22 @@ class University(object):
             return None
 
         name, faculty, duration = response
-        # Alpha code might be null
-        self.assert_no_nulls(name, faculty)
+        self.assert_no_nulls(name, faculty, duration)
 
-        # TODO: alpha code in db (although we prob want to split into major)
-        alpha_code = "AlphaCode"
+        alpha_code = 'ALPHA_CODE'
+
+        # Check that there is actually an offering for that degree
+        response = self.query_db('''select *
+                                    from DegreeOfferings
+                                    where degree_id = ?
+                                    and year = ?''', (numeric_code, year), one=True)
+
+        if response is None:
+            # No offering for that year
+            return None
 
         # get any notes on the degree
-        response = self.query_db('''select note 
+        response = self.query_db('''select note
                                 from DegreeOfferingNotes
                                 where offering_degree_id = ?
                                 and offering_year_id = ?''',
@@ -119,7 +123,7 @@ class University(object):
 
         result_degree = degree.Degree(numeric_code, name, year, duration, faculty, [], alpha_code, notes)
 
-        self.degrees[numeric_code] = result_degree
+        self.degrees[(numeric_code, year)] = result_degree
 
         requirements = []
 
@@ -320,7 +324,7 @@ class University(object):
 
         if response is None:
             # Failed to load course requirement
-            print("ERROR: No course requirement {}".format(requirement_id))
+            print('ERROR: No course requirement {}'.format(requirement_id))
             return None
 
         requirement_data = response
@@ -345,7 +349,7 @@ class University(object):
         elif type_name == 'UnparsedRequirement':
             return self.load_unparsed_requirement(requirement_data)
         else:
-            print('ERROR: No course requirement "{}"'.format(type_name))
+            print('ERROR: No course requirement \'{}\''.format(type_name))
             return None
 
     # Input: row from the CourseRequirements table in the db for a completed course requirement
@@ -367,13 +371,18 @@ class University(object):
     def load_current_degree_requirement(self, requirement_data: Row) -> Optional['courseReq.CourseReq']:
         degree_id = requirement_data['degree_id']
 
-        required_degree = self.load_degree(degree_id)
+        response = self.query_db('''select name
+                                    from Degrees
+                                    where id = ?''', (degree_id, ), one=True)
 
-        if required_degree is None:
-            print('ERROR: No degree with id {}', degree_id)
+        if response is None:
+            # No degree with that id
+            print('ERROR: failed to get degree with id {}'.format(degree_id))
             return None
 
-        return enrollmentReq.EnrollmentReq(required_degree)
+        (degree_name, ) = response
+
+        return enrollmentReq.EnrollmentReq(degree_id, degree_name)
 
     # Input: row from the CourseRequirements table in the db for a year requirement
     # Return: The relevant requirement
@@ -454,7 +463,7 @@ class University(object):
 
         if response is None:
             # Failed to load course filter
-            raise ValueError(f"ERROR: No course filter {filter_id}")
+            raise ValueError(f'ERROR: No course filter {filter_id}')
 
         filter_data = response
         type_id = filter_data['type_id']
@@ -464,7 +473,7 @@ class University(object):
 
         if type_name is None:
             # Invalid course filter type
-            print("ERROR: invalid course filter type {}".format(type_id))
+            print('ERROR: invalid course filter type {}'.format(type_id))
             return None
 
         # Determine which filter type it is from the name
@@ -483,7 +492,7 @@ class University(object):
         elif type_name == 'OrFilter':
             return self.load_or_filter(filter_data)
         else:
-            print('ERROR: No course filter "{}"'.format(type_name))
+            print('ERROR: No course filter \'{}\''.format(type_name))
             return None
 
     # Input: row from the CourseFilters table in the db for a specific course filter
@@ -562,9 +571,43 @@ class University(object):
 
     # Return: Jsonifiable dict that contains minimal data to display to the user in a menu
     def get_simple_degrees(self) -> api.SimpleDegrees:
-        response = self.query_db('''select id, name
-                                 from Degrees''')
-        return [{'id': str(i['id']), 'name': i['name']} for i in response];
+        response = self.query_db('''select degree.id, degree.name, offering.year
+                                 from DegreeOfferings as offering
+                                 join Degrees as degree
+                                 on degree.id = offering.degree_id
+                                 order by degree.id, offering.year''')
+
+        degrees: List[api.SimpleDegree] = []
+        years: Set[str] = set()
+
+        current_id: str = ''
+        current_name: str = ''
+        current_years: List[str] = []
+
+        for offering in response:
+            degree_id, name, year = offering
+            degree_id = str(degree_id)
+
+            if current_id != degree_id:
+                # Don't add if the current degree is just the empty data for the first run through
+                if current_id != '':
+                    degrees.append({'id': current_id, 'years': current_years, 'name': current_name})
+
+                current_id = degree_id
+                current_name = name
+                current_years = []
+
+            current_years.append(year)
+
+            years.add(year)
+
+        if current_id != '':
+            # Add the final degree
+            degrees.append({'id': current_id, 'years': current_years, 'name': current_name})
+
+        years_list = list(sorted(years))
+
+        return {'degrees': degrees, 'years': years_list}
 
     def get_simple_courses(self) -> api.SimpleCourses:
         response = self.query_db('''select letter_code, number_code, name
@@ -593,4 +636,4 @@ class University(object):
     def assert_no_nulls(self, *args):
         for i, arg in enumerate(args):
             if arg is None:
-                raise ValueError(f"ERROR: argument #{i} is None in arguments {args}")
+                raise ValueError(f'ERROR: argument #{i} is None in arguments {args}')

@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -10,7 +10,7 @@ It contains a course code, course name, UoC value, offered terms, and details
 concerning requirements.
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from flask import g
 from typing import List, Optional, Tuple
@@ -38,6 +38,8 @@ class Course(object):
             finished: bool=True):
         # figure out inputs - database or variables?
         # to be assigned:
+
+        assert isinstance(code, str)
         self.subject = subject
         self.code = code
         self.name = name
@@ -62,22 +64,22 @@ class Course(object):
 
     # WARNING getting hard to debug with this, restore later
     # def __repr__(self) -> str:
-    #     return f"<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>"
+    #     return f'<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>'
 
     def __repr__(self) -> str:
-        return f"{self.subject}{self.code}"
+        return f'{self.subject}{self.code}'
 
     def to_api(self) -> api.Course:
         try:
-            return { "code": self.course_code,
-                    "name": self.name,
-                    "units": self.units,
-                    "terms": [term.to_api() for term in self.terms],
-                    "prereqs": self.prereqs.info(top_level=True) if self.prereqs else "",
-                    "coreqs": self.coreqs.info(top_level=True) if self.coreqs else "",
-                    "exclusions": "\n".join(self.exclusions),
+            return { 'code': self.course_code,
+                    'name': self.name,
+                    'units': self.units,
+                    'terms': [term.to_api() for term in self.terms],
+                    'prereqs': self.prereqs.info(top_level=True) if self.prereqs else '',
+                    'coreqs': self.coreqs.info(top_level=True) if self.coreqs else '',
+                    'exclusions': '\n'.join(self.exclusions),
 
-                    "equivalents": "\n".join(self.equivalents)
+                    'equivalents': '\n'.join(self.equivalents)
                 }
         except Exception as e:
             print(self)
@@ -168,17 +170,17 @@ class Course(object):
         if self.prereqs is not None:
             prereq_errors = self.prereqs.check(prog, term);
             if len(prereq_errors) > 0:
-                errors.append({"filter_type" : "Prerequisite", "info": prereq_errors})
+                errors.append({'filter_type' : 'Prerequisite', 'info': prereq_errors})
 
         if self.coreqs is not None:
             coreq_errors = self.coreqs.check(prog, term, coreq=True);
             if len(coreq_errors) > 0:
-                errors.append({"filter_type" : "Corequisite", "info": coreq_errors})
+                errors.append({'filter_type' : 'Corequisite', 'info': coreq_errors})
 
         # handle exclusions
         exclusion_errors = self.exclusion_errors(prog, term)
         if len(exclusion_errors) > 0:
-            errors.append({"filter_type" : "Exclusion", "info": exclusion_errors})
+            errors.append({'filter_type' : 'Exclusion', 'info': exclusion_errors})
 
         return errors
 

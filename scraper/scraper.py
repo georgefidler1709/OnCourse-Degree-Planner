@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -7,7 +7,7 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 scraper.py
 scrapes the handbook to get all of the information from it and put it in text form to then be parsed
 
-"""
+'''
 import bs4
 from bs4 import BeautifulSoup
 import json
@@ -16,7 +16,7 @@ from typing import Callable, Dict, List, Optional
 
 from . import scrapedCourse
 
-handbook_url = "https://www.handbook.unsw.edu.au"
+handbook_url = 'https://www.handbook.unsw.edu.au'
 
 
 class Scraper(object):
@@ -27,13 +27,13 @@ class Scraper(object):
         try:
             page = BeautifulSoup(self.get_webpage(handbook_url), 'html.parser')
         except requests.exceptions.HTTPError:
-            print("Could not get course fields")
+            print('Could not get course fields')
             return []
 
         fields = []
 
         # The list of all fields (e.g. COMP) is in a div with the 'tab_educational_area' id
-        fields_tab = page.find(id="tab_educational_area")
+        fields_tab = page.find(id='tab_educational_area')
 
         assert fields_tab is not None
 
@@ -44,7 +44,7 @@ class Scraper(object):
             # The name itself is in an h3 tag
             field_name_tag = field_tag.find('h3')
             field = field_name_tag.string
-            # The field is formatted as "CODE: Name", so we get everything before the colon
+            # The field is formatted as 'CODE: Name', so we get everything before the colon
             field_code = field.split(':')[0]
 
             # The field code should always be exactly 4 letters
@@ -56,15 +56,15 @@ class Scraper(object):
 
     # Given a field and a year, gets all of the course codes in that field
     # leave the field blank to get all codes in total
-    def get_course_codes(self, year: int, field: str="", postgrad: bool=False) -> List[str]:
+    def get_course_codes(self, year: int, field: str='', postgrad: bool=False) -> List[str]:
         if postgrad:
-            study_level = "Postgraduate"
+            study_level = 'Postgraduate'
         else:
-            study_level = "Undergraduate"
+            study_level = 'Undergraduate'
 
         lowercase_study_level = study_level.lower()
 
-        url=handbook_url + f"/api/content/query/+contentType:subject%20-subject.published_in_handbook:0%20+subject.implementation_year:{year}%20+subject.code:*{field}*%20+subject.study_level:{lowercase_study_level}%20+deleted:false%20+working:true/offset/0/limit/10000000/orderby/subject.code%20asc"
+        url=handbook_url + f'/api/content/query/+contentType:subject%20-subject.published_in_handbook:0%20+subject.implementation_year:{year}%20+subject.code:*{field}*%20+subject.study_level:{lowercase_study_level}%20+deleted:false%20+working:true/offset/0/limit/10000000/orderby/subject.code%20asc'
 
 
         try:
@@ -75,7 +75,7 @@ class Scraper(object):
 
         results = json.loads(response)
 
-        course_objects = results["contentlets"]
+        course_objects = results['contentlets']
 
         codes = list(map(lambda x: x['code'], course_objects))
 
@@ -98,7 +98,7 @@ class Scraper(object):
         try:
             page = BeautifulSoup(self.get_webpage(url), 'html.parser')
         except requests.exceptions.HTTPError:
-            print(f"(Could not get scraped course {course_code})")
+            print(f'(Could not get scraped course {course_code})')
             return None
 
         # Get course name
@@ -178,7 +178,7 @@ class Scraper(object):
             courses = list(map(lambda x: x.find('span'), course_sections))
             return list(map(lambda x: x.string, courses))
 
-    def scrape_all_courses(self, year: int, field: str="", postgrad: bool = False) -> List[scrapedCourse.ScrapedCourse]:
+    def scrape_all_courses(self, year: int, field: str='', postgrad: bool = False) -> List[scrapedCourse.ScrapedCourse]:
         course_codes = self.get_course_codes(year, field, postgrad)
 
         courses = list(map(lambda x: self.get_course(year, x, postgrad), course_codes))
@@ -207,14 +207,14 @@ if __name__ == '__main__':
 
     fields = scraper.get_course_fields(2019)
 
-    course = scraper.get_course(2020, "COMP1511")
+    course = scraper.get_course(2020, 'COMP1511')
 
     '''
 
     for field in fields:
-        print("Field is", field)
+        print('Field is', field)
 
         codes = scraper.get_course_codes_for_field(2019, field, postgrad=False)
-        print(field + ":", codes)
+        print(field + ':', codes)
 
     '''

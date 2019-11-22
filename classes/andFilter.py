@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ andFilter.py
 A filter that only allows courses that match all of the provided filters
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import List
 
@@ -24,7 +24,7 @@ class AndFilter(courseFilter.CourseFilter):
         self.filters = filters
 
     def __repr__(self) -> str:
-        return f"<AndFilter filters={self.filters!r}>"
+        return f'<AndFilter filters={self.filters!r}>'
 
     @property
     def core(self) -> bool:
@@ -37,7 +37,7 @@ class AndFilter(courseFilter.CourseFilter):
     # The name of the requirement for the database
     @property
     def filter_name(self) -> str:
-        return "AndFilter"
+        return 'AndFilter'
 
     # simple name for an And is for front-end purposes
     # so get the name of one of its components
@@ -46,11 +46,11 @@ class AndFilter(courseFilter.CourseFilter):
         # if len(self.filters) != 0:
         #     return self.filters[0].simple_name
         # else:
-        #     return "And"
+        #     return 'And'
 
-        # return "Satisfy all of these requirements"
+        # return 'Satisfy all of these requirements'
 
-        return "Courses with options"
+        return 'Courses with options'
 
     @property
     def info(self) -> str:

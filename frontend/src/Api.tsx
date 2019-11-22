@@ -3,6 +3,7 @@
 export interface SimpleDegree {
   id: string; 
   name: string;
+  years: Array<number>;
 }
 
 export type SimpleDegrees = Array<SimpleDegree>;
@@ -75,5 +76,6 @@ export interface GeneratorResponse {
   program: Program;
   courses: {[index: string]: Course};
   reqs: CheckResponse;
+  full_reqs: Array<RemainReq>;
 }
 

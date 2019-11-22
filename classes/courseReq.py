@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -9,7 +9,7 @@ Implementation of the CourseReq class, an abstract class which collects types
 of course requirements.
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from abc import ABC, abstractmethod
 from flask import g
@@ -25,7 +25,7 @@ class CourseReq(ABC):
 
     @abstractmethod
     def __repr__(self) -> str:
-        return f"<CourseReq>"
+        return f'<CourseReq>'
 
     # Get info for the requirement, for displaying in information for the course
     @abstractmethod
@@ -36,7 +36,7 @@ class CourseReq(ABC):
     @property
     # @abstractmethod
     def requirement_name(self) -> str:
-        return "GenericRequirement"
+        return 'GenericRequirement'
 
     @abstractmethod
     def inflate(self, university: 'university.University') -> Optional['CourseReq']:

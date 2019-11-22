@@ -3,6 +3,7 @@ import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
 import { Button } from 'react-bootstrap'
 import {Position, SearchResult, CourseSearchResult} from '../../Types'
+import { DEGREE_HANDBOOK_PREFIX, COURSE_HANDBOOK_PREFIX } from '../../Constants'
 import styled from 'styled-components'
 
 const DegreeSuggestion = styled(Button)`
@@ -52,21 +53,29 @@ const CourseName = styled.small`
 `
 
 
-function Suggestions(props: {degrees: Array<SearchResult>}) {
+function Suggestions(props: {degrees: Array<SearchResult>, year: number}) {
 
-  const year : string = "2020"
-  const handbook : string = `https://www.handbook.unsw.edu.au/undergraduate/programs/${year}/`
   const placement : Position = "right"
   let history = useHistory();
 
-  function handleClick(event: MouseEvent<HTMLButtonElement>) {
-    history.push("/" + event.currentTarget.id.toString())
+
+  function handleClick(event: MouseEvent<HTMLButtonElement>, degree: string, year: number, years: Array<number>) {
+    if(years.findIndex(y => y === year) === -1) {
+      alert(`${degree} was not available in starting year: ${year}`)
+      return
+    }
+    history.push("/" + event.currentTarget.id.toString() + "/" + year)
   }
   
   const options = props.degrees.map((r,i) => (
     <SuggestionInfoHover
       content={
-        <a href={handbook + r.degree.id}>More Info</a>
+        <a 
+          href={DEGREE_HANDBOOK_PREFIX + r.degree.id}
+          target="_blank"
+          rel="noopener noreferrer" 
+        >More Info
+        </a>
       }
       placement={placement}
       delay={100}
@@ -77,7 +86,7 @@ function Suggestions(props: {degrees: Array<SearchResult>}) {
         variant="light"
         id={r.degree.id}
         value={r.degree.id}
-        onClick={handleClick}
+        onClick={(e: MouseEvent<HTMLButtonElement>) => handleClick(e, r.degree.id, props.year, r.degree.years)}
       >
         <DegreeCode>{r.degree.id}</DegreeCode>
         <DegreeName>{r.text}</DegreeName>
@@ -99,14 +108,17 @@ interface CourseSuggestionsProps {
 
 function CourseSuggestions(props: CourseSuggestionsProps) {
 
-  const year : string = "2020"
-  const handbook : string = `https://www.handbook.unsw.edu.au/undergraduate/courses/${year}/`
   const placement : Position = "right"
   
   const options = props.courses.map((r,i) => (
     <SuggestionInfoHover
       content={
-        <a href={handbook + r.course.code}>More Info</a>
+        <a 
+          href={COURSE_HANDBOOK_PREFIX + r.course.code}
+          target="_blank"
+          rel="noopener noreferrer" 
+        >More Info
+        </a>
       }
       placement={placement}
       delay={200}

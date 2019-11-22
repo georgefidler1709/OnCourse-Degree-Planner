@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -9,7 +9,7 @@ A composite course requirement, where more than one requirement must be consider
 Abstract class which collects the two kinds of composite requirement (AND/OR)
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from abc import ABC, abstractmethod
 from typing import List, Optional
@@ -28,7 +28,7 @@ class CompositeReq(courseReq.CourseReq, ABC):
 
     @abstractmethod
     def __repr__(self) -> str:
-        return f"<CompositeReq reqs={self.reqs!r}>"
+        return f'<CompositeReq reqs={self.reqs!r}>'
 
     # Convert all sub requirements from
     def inflate(self, university: 'university.University') -> Optional['courseReq.CourseReq']:

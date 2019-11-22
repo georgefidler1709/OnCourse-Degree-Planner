@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -9,7 +9,7 @@ The course requirement to be enrolled in a specific degree program
 A skeleton class for webscraper
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import List, Optional
 
@@ -28,28 +28,18 @@ class ScrapedEnrollmentReq(singleReq.SingleReq):
         self.degree = degree
 
     def __repr__(self) -> str:
-        return f"<EnrollmentReq degree={self.degree!r}>"
+        return f'<EnrollmentReq degree={self.degree!r}>'
 
     def info(self, top_level: bool=False, exclusion: bool=False) -> str:
         pass
 
     @property
     def requirement_name(self) -> str:
-        return "CurrentDegreeRequirement"
+        return 'CurrentDegreeRequirement'
 
     def check(self, program: 'program.Program', term: 'term.Term',
             coreq: bool=False, excl: bool=False) -> List[str]:
         pass
-
-
-    # turn into proper EnrollmentReq
-    def inflate(self, university: 'university.University') -> Optional['enrollmentReq.EnrollmentReq']:
-        d = university.find_degree_number_code(self.degree)
-        if d:
-            return enrollmentReq.EnrollmentReq(d)
-        else:
-            return None
-
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled

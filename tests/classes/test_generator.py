@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ test_generator.py
 Test the functions defined in generator.py
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 import pytest
 from typing import List, Optional
@@ -59,23 +59,23 @@ t4 = term.Term(2020, 1)
 t5 = term.Term(2020, 2)
 t6 = term.Term(2020, 3)
 
-faculty = "SubjFaculty"
+faculty = 'SubjFaculty'
 
 # Make some courses
 # subj1001
-subj1001 = course.Course("SUBJ", "1001", "Subject1", 6, [t1, t2, t3, t4, t5, t6], faculty)
+subj1001 = course.Course('SUBJ', '1001', 'Subject1', 6, [t1, t2, t3, t4, t5, t6], faculty)
 
 # subj1002, prereq subj1001
 prereq1001 = subjectReq.SubjectReq(subj1001)
-subj1002 = course.Course("SUBJ", "1002", "Subject2", 6, [t1, t3, t4, t6], faculty, prereq1001)
+subj1002 = course.Course('SUBJ', '1002', 'Subject2', 6, [t1, t3, t4, t6], faculty, prereq1001)
 
 # subj1003, prereq subj1001 and 1002
 prereq1002 = subjectReq.SubjectReq(subj1002)
 req1001_and_1002 = andReq.AndReq([prereq1001, prereq1002])
-subj1003 = course.Course("SUBJ", "1003", "Subject3", 6, [t1, t4], faculty, req1001_and_1002)
+subj1003 = course.Course('SUBJ', '1003', 'Subject3', 6, [t1, t4], faculty, req1001_and_1002)
 
 # TODO subj1004 was not defined! making a dummy one
-subj1004 = course.Course("SUBJ", "1004", "Subject4", 6, [t1, t2], faculty, req1001_and_1002)
+subj1004 = course.Course('SUBJ', '1004', 'Subject4', 6, [t1, t2], faculty, req1001_and_1002)
 
 def setup_function(function):
     uni.reset_courses([subj1001, subj1002, subj1003, subj1004])
@@ -92,7 +92,7 @@ def test_single_course_requirements():
     req1002 = minDegreeReq.MinDegreeReq(filter1002, 6)
     req1003 = minDegreeReq.MinDegreeReq(filter1003, 6)
 
-    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1002, req1003], 'BAT1')
+    degree1 = degree.Degree(1, 'Bachelor of Testing', 2019, 2, faculty, [req1001, req1002, req1003], 'BAT1')
 
     gen = generator.Generator(degree1, uni)
     prog = gen.generate()
@@ -119,7 +119,7 @@ def test_simple_or_requirement():
     req1002 = minDegreeReq.MinDegreeReq(or_filter, 6)
     req1003 = minDegreeReq.MinDegreeReq(filter1003, 6)
 
-    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1002, req1003], 'TESTA1')
+    degree1 = degree.Degree(1, 'Bachelor of Testing', 2019, 2, faculty, [req1001, req1002, req1003], 'TESTA1')
 
     gen = generator.Generator(degree1, uni)
     prog = gen.generate()
@@ -136,7 +136,7 @@ def test_simple_or_requirement():
 # check assignment with corequisite
 def test_coreq():
     # make a coreq subject
-    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t1, t3, t4, t6], faculty, prereq1001, prereq1002)
+    subj1005 = course.Course('SUBJ', '1005', 'Subject5', 6, [t1, t3, t4, t6], faculty, prereq1001, prereq1002)
 
     uni.add_course(subj1005)
 
@@ -150,7 +150,7 @@ def test_coreq():
     req1002 = minDegreeReq.MinDegreeReq(filter1002, 6)
     req1005 = minDegreeReq.MinDegreeReq(filter1005, 6)
 
-    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1002, req1005], 'TESTA1')
+    degree1 = degree.Degree(1, 'Bachelor of Testing', 2019, 2, faculty, [req1001, req1002, req1005], 'TESTA1')
 
     gen = generator.Generator(degree1, uni)
     prog = gen.generate()
@@ -166,8 +166,8 @@ def test_coreq():
 
 def test_exclusion():
     # make an exclusion subject
-    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t1, t3, t4, t6], faculty,
-            prereqs=prereq1001, exclusions=["SUBJ1002"])
+    subj1005 = course.Course('SUBJ', '1005', 'Subject5', 6, [t1, t3, t4, t6], faculty,
+            prereqs=prereq1001, exclusions=['SUBJ1002'])
     uni.add_course(subj1005)
 
     # Make some degree requirements
@@ -180,7 +180,7 @@ def test_exclusion():
     req1002 = minDegreeReq.MinDegreeReq(filter1002, 6)
     req1005 = minDegreeReq.MinDegreeReq(filter1005, 6)
 
-    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1002, req1005], 'TESTA1')
+    degree1 = degree.Degree(1, 'Bachelor of Testing', 2019, 2, faculty, [req1001, req1002, req1005], 'TESTA1')
 
     gen = generator.Generator(degree1, uni)
     prog = gen.generate()
@@ -195,10 +195,10 @@ def test_exclusion():
 
 def test_equivalent():
     # make an equivalent subject
-    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [], faculty, equivalents=["SUBJ1001"])
-    subj1001.add_equivalent("SUBJ1005")
+    subj1005 = course.Course('SUBJ', '1005', 'Subject5', 6, [], faculty, equivalents=['SUBJ1001'])
+    subj1001.add_equivalent('SUBJ1005')
 
-    subj1006 = course.Course("SUBJ", 1006, "Subject5", 6, [t2, t3, t5, t6], faculty)
+    subj1006 = course.Course('SUBJ', '1006', 'Subject5', 6, [t2, t3, t5, t6], faculty)
 
     uni.add_course(subj1005)
     uni.add_course(subj1006)
@@ -211,7 +211,7 @@ def test_equivalent():
     req1005 = minDegreeReq.MinDegreeReq(filter1005, 6)
     req1006 = minDegreeReq.MinDegreeReq(filter1006, 6)
 
-    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1005, req1006], 'TESTA1')
+    degree1 = degree.Degree(1, 'Bachelor of Testing', 2019, 2, faculty, [req1005, req1006], 'TESTA1')
 
     gen = generator.Generator(degree1, uni)
     prog = gen.generate()
@@ -226,9 +226,9 @@ def test_equivalent():
 
 def test_term_cap_enrollment():
     # make a coreq subject
-    subj1005 = course.Course("SUBJ", 1005, "Subject5", 6, [t1, t4], faculty)
-    subj1006 = course.Course("SUBJ", 1006, "Subject6", 6, [t1, t2], faculty)
-    subj1007 = course.Course("SUBJ", 1007, "Subject7", 6, [t1, t2], faculty)
+    subj1005 = course.Course('SUBJ', '1005', 'Subject5', 6, [t1, t4], faculty)
+    subj1006 = course.Course('SUBJ', '1006', 'Subject6', 6, [t1, t2], faculty)
+    subj1007 = course.Course('SUBJ', '1007', 'Subject7', 6, [t1, t2], faculty)
 
     uni.add_course(subj1005)
     uni.add_course(subj1006)
@@ -246,7 +246,7 @@ def test_term_cap_enrollment():
     req1006 = minDegreeReq.MinDegreeReq(filter1006, 6)
     req1007 = minDegreeReq.MinDegreeReq(filter1007, 6)
 
-    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1005, req1006, req1007], 'TESTA1')
+    degree1 = degree.Degree(1, 'Bachelor of Testing', 2019, 2, faculty, [req1001, req1005, req1006, req1007], 'TESTA1')
 
     gen = generator.Generator(degree1, uni)
     prog = gen.generate()
@@ -270,7 +270,7 @@ def test_requirement_ordering():
     req1002 = minDegreeReq.MinDegreeReq(filter1002, 6)
     req1003 = minDegreeReq.MinDegreeReq(filter1003, 6)
 
-    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1003, req1002, req1001], 'TESTA1')
+    degree1 = degree.Degree(1, 'Bachelor of Testing', 2019, 2, faculty, [req1003, req1002, req1001], 'TESTA1')
 
     gen = generator.Generator(degree1, uni)
     prog = gen.generate()
@@ -295,7 +295,7 @@ def test_prior_studies_simple():
     req1002 = minDegreeReq.MinDegreeReq(filter1002, 6)
     req1003 = minDegreeReq.MinDegreeReq(filter1003, 6)
 
-    degree1 = degree.Degree(1, "Bachelor of Testing", 2019, 2, faculty, [req1001, req1002, req1003], 'BAT1')
+    degree1 = degree.Degree(1, 'Bachelor of Testing', 2019, 2, faculty, [req1001, req1002, req1003], 'BAT1')
 
     gen = generator.Generator(degree1, uni, prior)
     prog = gen.generate()

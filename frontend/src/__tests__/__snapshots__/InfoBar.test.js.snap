@@ -66,15 +66,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                   "$$typeof": Symbol(react.forward_ref),
                   "attrs": Array [],
                   "componentStyle": ComponentStyle {
-<<<<<<< HEAD
-                    "componentId": "sc-kkGfuU",
-                    "isStatic": false,
-                    "lastClassName": "dUkchd",
-=======
                     "componentId": "sc-kEYyzF",
                     "isStatic": false,
                     "lastClassName": "zzhEK",
->>>>>>> already_done
                     "rules": Array [
                       "
   &::-webkit-scrollbar {
@@ -97,11 +91,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                   "displayName": "styled.div",
                   "foldedComponentIds": Array [],
                   "render": [Function],
-<<<<<<< HEAD
-                  "styledComponentId": "sc-kkGfuU",
-=======
                   "styledComponentId": "sc-kEYyzF",
->>>>>>> already_done
                   "target": "div",
                   "toString": [Function],
                   "warnTooManyClasses": [Function],
@@ -111,11 +101,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
               forwardedRef={null}
             >
               <div
-<<<<<<< HEAD
-                className="sc-kkGfuU dUkchd"
-=======
                 className="sc-kEYyzF zzhEK"
->>>>>>> already_done
               >
                 <styled.h3>
                   <StyledComponent
@@ -124,15 +110,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-<<<<<<< HEAD
-                          "componentId": "sc-iAyFgw",
-                          "isStatic": false,
-                          "lastClassName": "bsxapa",
-=======
                           "componentId": "sc-kkGfuU",
                           "isStatic": false,
                           "lastClassName": "jKNyZI",
->>>>>>> already_done
                           "rules": Array [
                             "
   padding: 8px;
@@ -146,11 +126,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                         "displayName": "styled.h3",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-<<<<<<< HEAD
-                        "styledComponentId": "sc-iAyFgw",
-=======
                         "styledComponentId": "sc-kkGfuU",
->>>>>>> already_done
                         "target": "h3",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -160,11 +136,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                     forwardedRef={null}
                   >
                     <h3
-<<<<<<< HEAD
-                      className="sc-iAyFgw bsxapa"
-=======
                       className="sc-kkGfuU jKNyZI"
->>>>>>> already_done
                     >
                       Computing
                       <br />
@@ -244,15 +216,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                           },
                           "attrs": Array [],
                           "componentStyle": ComponentStyle {
-<<<<<<< HEAD
-                            "componentId": "sc-dnqmqq",
-                            "isStatic": false,
-                            "lastClassName": "hJxOZJ",
-=======
                             "componentId": "sc-htoDjs",
                             "isStatic": false,
                             "lastClassName": "keqScR",
->>>>>>> already_done
                             "rules": Array [
                               "
 ",
@@ -261,11 +227,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                           "displayName": "Styled(Card)",
                           "foldedComponentIds": Array [],
                           "render": [Function],
-<<<<<<< HEAD
-                          "styledComponentId": "sc-dnqmqq",
-=======
                           "styledComponentId": "sc-htoDjs",
->>>>>>> already_done
                           "target": Object {
                             "$$typeof": Symbol(react.forward_ref),
                             "Body": Object {
@@ -341,19 +303,11 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                       <Card
                         bg="dark"
                         body={false}
-<<<<<<< HEAD
-                        className="sc-dnqmqq hJxOZJ"
-                        text="white"
-                      >
-                        <div
-                          className="sc-dnqmqq hJxOZJ card bg-dark text-white"
-=======
                         className="sc-htoDjs keqScR"
                         text="white"
                       >
                         <div
                           className="sc-htoDjs keqScR card bg-dark text-white"
->>>>>>> already_done
                         >
                           <Styled(CardHeader)
                             aria-controls="collapse-add-course"
@@ -368,15 +322,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                   "$$typeof": Symbol(react.forward_ref),
                                   "attrs": Array [],
                                   "componentStyle": ComponentStyle {
-<<<<<<< HEAD
-                                    "componentId": "sc-iwsKbI",
-                                    "isStatic": false,
-                                    "lastClassName": "fypTFz",
-=======
                                     "componentId": "sc-dnqmqq",
                                     "isStatic": false,
                                     "lastClassName": "fftazU",
->>>>>>> already_done
                                     "rules": Array [
                                       "
   transition: color 0.2s ease;
@@ -394,11 +342,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                   "displayName": "Styled(CardHeader)",
                                   "foldedComponentIds": Array [],
                                   "render": [Function],
-<<<<<<< HEAD
-                                  "styledComponentId": "sc-iwsKbI",
-=======
                                   "styledComponentId": "sc-dnqmqq",
->>>>>>> already_done
                                   "target": Object {
                                     "$$typeof": Symbol(react.forward_ref),
                                     "defaultProps": undefined,
@@ -416,21 +360,13 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                               <CardHeader
                                 aria-controls="collapse-add-course"
                                 aria-expanded={false}
-<<<<<<< HEAD
-                                className="sc-iwsKbI fypTFz"
-=======
                                 className="sc-dnqmqq fftazU"
->>>>>>> already_done
                                 onClick={[Function]}
                               >
                                 <div
                                   aria-controls="collapse-add-course"
                                   aria-expanded={false}
-<<<<<<< HEAD
-                                  className="sc-iwsKbI fypTFz card-header"
-=======
                                   className="sc-dnqmqq fftazU card-header"
->>>>>>> already_done
                                   onClick={[Function]}
                                 >
                                   <styled.i
@@ -443,47 +379,6 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-<<<<<<< HEAD
-                                            "componentId": "sc-gZMcBi",
-                                            "isStatic": false,
-                                            "lastClassName": "dKgYPz",
-                                            "rules": Array [
-                                              "
-  float: left;
-",
-                                            ],
-                                          },
-                                          "displayName": "styled.i",
-                                          "foldedComponentIds": Array [],
-                                          "render": [Function],
-                                          "styledComponentId": "sc-gZMcBi",
-                                          "target": "i",
-                                          "toString": [Function],
-                                          "warnTooManyClasses": [Function],
-                                          "withComponent": [Function],
-                                        }
-                                      }
-                                      forwardedRef={null}
-                                    >
-                                      <i
-                                        className="sc-gZMcBi dKgYPz fa fa-chevron-right"
-                                      />
-                                    </StyledComponent>
-                                  </styled.i>
-                                  <styled.h5>
-                                    <StyledComponent
-                                      forwardedComponent={
-                                        Object {
-                                          "$$typeof": Symbol(react.forward_ref),
-                                          "attrs": Array [],
-                                          "componentStyle": ComponentStyle {
-                                            "componentId": "sc-htoDjs",
-                                            "isStatic": false,
-                                            "lastClassName": "bNWaiC",
-                                            "rules": Array [
-                                              "
-  padding: 4px;
-=======
                                             "componentId": "sc-iwsKbI",
                                             "isStatic": false,
                                             "lastClassName": "LdBUN",
@@ -786,279 +681,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                                 "
   padding: 3px;
   margin: 0;
->>>>>>> already_done
   text-align: center;
   width: 100%;
 ",
-<<<<<<< HEAD
-                                            ],
-                                          },
-                                          "displayName": "styled.h5",
-                                          "foldedComponentIds": Array [],
-                                          "render": [Function],
-                                          "styledComponentId": "sc-htoDjs",
-                                          "target": "h5",
-                                          "toString": [Function],
-                                          "warnTooManyClasses": [Function],
-                                          "withComponent": [Function],
-                                        }
-                                      }
-                                      forwardedRef={null}
-                                    >
-                                      <h5
-                                        className="sc-htoDjs bNWaiC"
-                                      >
-                                        Add a Course
-                                      </h5>
-                                    </StyledComponent>
-                                  </styled.h5>
-                                </div>
-                              </CardHeader>
-                            </StyledComponent>
-                          </Styled(CardHeader)>
-                          <Collapse
-                            appear={false}
-                            dimension="height"
-                            getDimensionValue={[Function]}
-                            in={false}
-                            mountOnEnter={false}
-                            timeout={300}
-                            unmountOnExit={false}
-                          >
-                            <Transition
-                              addEndListener={[Function]}
-                              appear={false}
-                              aria-expanded={null}
-                              enter={true}
-                              exit={true}
-                              in={false}
-                              mountOnEnter={false}
-                              onEnter={[Function]}
-                              onEntered={[Function]}
-                              onEntering={[Function]}
-                              onExit={[Function]}
-                              onExited={[Function]}
-                              onExiting={[Function]}
-                              timeout={300}
-                              unmountOnExit={false}
-                            >
-                              <CardBody
-                                aria-expanded={null}
-                                className="collapse"
-                              >
-                                <div
-                                  aria-expanded={null}
-                                  className="collapse card-body"
-                                >
-                                  <p>
-                                    Search for a course and click on it. Then drag the course into your timeline from the 
-                                    <b>
-                                      Add
-                                    </b>
-                                     box.
-                                  </p>
-                                  <CourseDropBox
-                                    remove_course={[MockFunction]}
-                                    type="Add"
-                                  >
-                                    <styled.div>
-                                      <StyledComponent
-                                        forwardedComponent={
-                                          Object {
-                                            "$$typeof": Symbol(react.forward_ref),
-                                            "attrs": Array [],
-                                            "componentStyle": ComponentStyle {
-                                              "componentId": "sc-EHOje",
-                                              "isStatic": false,
-                                              "lastClassName": "gIuBAP",
-                                              "rules": Array [
-                                                "
-  margin: 8px;
-  border: 1px solid lightgrey;
-  border-radius: 2px;
-  width: 220px;
-
-  margin-left: auto;
-  margin-right: auto;
-
-  display: flex;
-  flex-direction: column;
-",
-                                              ],
-                                            },
-                                            "displayName": "styled.div",
-                                            "foldedComponentIds": Array [],
-                                            "render": [Function],
-                                            "styledComponentId": "sc-EHOje",
-                                            "target": "div",
-                                            "toString": [Function],
-                                            "warnTooManyClasses": [Function],
-                                            "withComponent": [Function],
-                                          }
-                                        }
-                                        forwardedRef={null}
-                                      >
-                                        <div
-                                          className="sc-EHOje gIuBAP"
-                                        >
-                                          <styled.h5>
-                                            <StyledComponent
-                                              forwardedComponent={
-                                                Object {
-                                                  "$$typeof": Symbol(react.forward_ref),
-                                                  "attrs": Array [],
-                                                  "componentStyle": ComponentStyle {
-                                                    "componentId": "sc-bZQynM",
-                                                    "isStatic": false,
-                                                    "lastClassName": "btxUkQ",
-                                                    "rules": Array [
-                                                      "
-  padding: 8px;
-",
-                                                    ],
-                                                  },
-                                                  "displayName": "styled.h5",
-                                                  "foldedComponentIds": Array [],
-                                                  "render": [Function],
-                                                  "styledComponentId": "sc-bZQynM",
-                                                  "target": "h5",
-                                                  "toString": [Function],
-                                                  "warnTooManyClasses": [Function],
-                                                  "withComponent": [Function],
-                                                }
-                                              }
-                                              forwardedRef={null}
-                                            >
-                                              <h5
-                                                className="sc-bZQynM btxUkQ"
-                                              >
-                                                Add
-                                              </h5>
-                                            </StyledComponent>
-                                          </styled.h5>
-                                          <ConnectFunction
-                                            direction="vertical"
-                                            droppableId="Add"
-                                            getContainerForClone={[Function]}
-                                            ignoreContainerClipping={false}
-                                            isCombineEnabled={false}
-                                            isDropDisabled={false}
-                                            mode="standard"
-                                            renderClone={null}
-                                            type="DEFAULT"
-                                          >
-                                            <Droppable
-                                              direction="vertical"
-                                              droppableId="Add"
-                                              getContainerForClone={[Function]}
-                                              ignoreContainerClipping={false}
-                                              isCombineEnabled={false}
-                                              isDropDisabled={false}
-                                              mode="standard"
-                                              placeholder={null}
-                                              renderClone={null}
-                                              shouldAnimatePlaceholder={false}
-                                              snapshot={
-                                                Object {
-                                                  "draggingFromThisWith": null,
-                                                  "draggingOverWith": null,
-                                                  "isDraggingOver": false,
-                                                  "isUsingPlaceholder": false,
-                                                }
-                                              }
-                                              type="DEFAULT"
-                                              updateViewportMaxScroll={[Function]}
-                                              useClone={null}
-                                            >
-                                              <styled.div
-                                                data-rbd-droppable-context-id="3"
-                                                data-rbd-droppable-id="Add"
-                                              >
-                                                <StyledComponent
-                                                  data-rbd-droppable-context-id="3"
-                                                  data-rbd-droppable-id="Add"
-                                                  forwardedComponent={
-                                                    Object {
-                                                      "$$typeof": Symbol(react.forward_ref),
-                                                      "attrs": Array [],
-                                                      "componentStyle": ComponentStyle {
-                                                        "componentId": "sc-gzVnrw",
-                                                        "isStatic": false,
-                                                        "lastClassName": "hQQdYy",
-                                                        "rules": Array [
-                                                          "
-  padding: 8px;
-  flex-grow: 1;
-  min-height: 50px;
-",
-                                                        ],
-                                                      },
-                                                      "displayName": "styled.div",
-                                                      "foldedComponentIds": Array [],
-                                                      "render": [Function],
-                                                      "styledComponentId": "sc-gzVnrw",
-                                                      "target": "div",
-                                                      "toString": [Function],
-                                                      "warnTooManyClasses": [Function],
-                                                      "withComponent": [Function],
-                                                    }
-                                                  }
-                                                  forwardedRef={[Function]}
-                                                >
-                                                  <div
-                                                    className="sc-gzVnrw hQQdYy"
-                                                    data-rbd-droppable-context-id="3"
-                                                    data-rbd-droppable-id="Add"
-                                                  >
-                                                    <AnimateInOut
-                                                      on={null}
-                                                      shouldAnimate={false}
-                                                    />
-                                                  </div>
-                                                </StyledComponent>
-                                              </styled.div>
-                                            </Droppable>
-                                          </ConnectFunction>
-                                        </div>
-                                      </StyledComponent>
-                                    </styled.div>
-                                  </CourseDropBox>
-                                  <SearchCourses
-                                    add_event={[MockFunction]}
-                                  >
-                                    <styled.div>
-                                      <StyledComponent
-                                        forwardedComponent={
-                                          Object {
-                                            "$$typeof": Symbol(react.forward_ref),
-                                            "attrs": Array [],
-                                            "componentStyle": ComponentStyle {
-                                              "componentId": "sc-jKJlTe",
-                                              "isStatic": false,
-                                              "lastClassName": "BsXjl",
-                                              "rules": Array [
-                                                "
-  padding: 3px;
-  margin: 0;
-  text-align: center;
-",
-                                              ],
-                                            },
-                                            "displayName": "styled.div",
-                                            "foldedComponentIds": Array [],
-                                            "render": [Function],
-                                            "styledComponentId": "sc-jKJlTe",
-                                            "target": "div",
-                                            "toString": [Function],
-                                            "warnTooManyClasses": [Function],
-                                            "withComponent": [Function],
-                                          }
-                                        }
-                                        forwardedRef={null}
-                                      >
-                                        <div
-                                          className="sc-jKJlTe BsXjl"
-=======
                                               ],
                                             },
                                             "displayName": "styled.div",
@@ -1075,7 +700,6 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                       >
                                         <div
                                           className="sc-ckVGcZ fcibBt"
->>>>>>> already_done
                                         >
                                           <form>
                                             <Styled(styled.input)
@@ -1088,15 +712,9 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                                     "$$typeof": Symbol(react.forward_ref),
                                                     "attrs": Array [],
                                                     "componentStyle": ComponentStyle {
-<<<<<<< HEAD
-                                                      "componentId": "sc-eNQAEJ",
-                                                      "isStatic": false,
-                                                      "lastClassName": "fmHDKE",
-=======
                                                       "componentId": "sc-jKJlTe",
                                                       "isStatic": false,
                                                       "lastClassName": "iZEjBx",
->>>>>>> already_done
                                                       "rules": Array [
                                                         "
 
@@ -1149,17 +767,10 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                                     },
                                                     "displayName": "Styled(styled.input)",
                                                     "foldedComponentIds": Array [
-<<<<<<< HEAD
-                                                      "sc-kpOJdX",
-                                                    ],
-                                                    "render": [Function],
-                                                    "styledComponentId": "sc-eNQAEJ",
-=======
                                                       "sc-kGXeez",
                                                     ],
                                                     "render": [Function],
                                                     "styledComponentId": "sc-jKJlTe",
->>>>>>> already_done
                                                     "target": "input",
                                                     "toString": [Function],
                                                     "warnTooManyClasses": [Function],
@@ -1169,11 +780,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                                 forwardedRef={
                                                   Object {
                                                     "current": <input
-<<<<<<< HEAD
-                                                      class="sc-kpOJdX sc-eNQAEJ fmHDKE"
-=======
                                                       class="sc-kGXeez sc-jKJlTe iZEjBx"
->>>>>>> already_done
                                                       placeholder="Search for a course..."
                                                     />,
                                                   }
@@ -1182,11 +789,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                                 placeholder="Search for a course..."
                                               >
                                                 <input
-<<<<<<< HEAD
-                                                  className="sc-kpOJdX sc-eNQAEJ fmHDKE"
-=======
                                                   className="sc-kGXeez sc-jKJlTe iZEjBx"
->>>>>>> already_done
                                                   onChange={[Function]}
                                                   placeholder="Search for a course..."
                                                 />
@@ -1208,11 +811,15 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                 </InfoBarSection>
                 <InfoBarSection
 <<<<<<< HEAD
+<<<<<<< HEAD
                   open={false}
                   setOpen={[Function]}
                   title="Requirements"
 =======
                   open={true}
+=======
+                  open={false}
+>>>>>>> master
                   setOpen={[Function]}
                   title="Courses Already Done"
 >>>>>>> already_done
@@ -1400,17 +1007,25 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                         >
                           <Styled(CardHeader)
                             aria-controls="collapse-add-course"
+<<<<<<< HEAD
                             aria-expanded={true}
 >>>>>>> already_done
+=======
+                            aria-expanded={false}
+>>>>>>> master
                             onClick={[Function]}
                           >
                             <StyledComponent
                               aria-controls="collapse-add-course"
 <<<<<<< HEAD
+<<<<<<< HEAD
                               aria-expanded={false}
 =======
                               aria-expanded={true}
 >>>>>>> already_done
+=======
+                              aria-expanded={false}
+>>>>>>> master
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -1464,16 +1079,21 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                               <CardHeader
                                 aria-controls="collapse-add-course"
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 aria-expanded={false}
                                 className="sc-iwsKbI fypTFz"
 =======
                                 aria-expanded={true}
+=======
+                                aria-expanded={false}
+>>>>>>> master
                                 className="sc-dnqmqq fftazU"
 >>>>>>> already_done
                                 onClick={[Function]}
                               >
                                 <div
                                   aria-controls="collapse-add-course"
+<<<<<<< HEAD
 <<<<<<< HEAD
                                   aria-expanded={false}
                                   className="sc-iwsKbI fypTFz card-header"
@@ -1486,15 +1106,22 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                       className="fa fa-chevron-right"
 =======
                                   aria-expanded={true}
+=======
+                                  aria-expanded={false}
+>>>>>>> master
                                   className="sc-dnqmqq fftazU card-header"
                                   onClick={[Function]}
                                 >
                                   <styled.i
-                                    className="fa fa-chevron-down"
+                                    className="fa fa-chevron-right"
                                   >
                                     <StyledComponent
+<<<<<<< HEAD
                                       className="fa fa-chevron-down"
 >>>>>>> already_done
+=======
+                                      className="fa fa-chevron-right"
+>>>>>>> master
                                       forwardedComponent={
                                         Object {
                                           "$$typeof": Symbol(react.forward_ref),
@@ -1533,10 +1160,14 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                     >
                                       <i
 <<<<<<< HEAD
+<<<<<<< HEAD
                                         className="sc-gZMcBi dKgYPz fa fa-chevron-right"
 =======
                                         className="sc-iwsKbI LdBUN fa fa-chevron-down"
 >>>>>>> already_done
+=======
+                                        className="sc-iwsKbI LdBUN fa fa-chevron-right"
+>>>>>>> master
                                       />
                                     </StyledComponent>
                                   </styled.i>
@@ -1602,10 +1233,14 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                             dimension="height"
                             getDimensionValue={[Function]}
 <<<<<<< HEAD
+<<<<<<< HEAD
                             in={false}
 =======
                             in={true}
 >>>>>>> already_done
+=======
+                            in={false}
+>>>>>>> master
                             mountOnEnter={false}
                             timeout={300}
                             unmountOnExit={false}
@@ -1617,10 +1252,14 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                               enter={true}
                               exit={true}
 <<<<<<< HEAD
+<<<<<<< HEAD
                               in={false}
 =======
                               in={true}
 >>>>>>> already_done
+=======
+                              in={false}
+>>>>>>> master
                               mountOnEnter={false}
                               onEnter={[Function]}
                               onEntered={[Function]}
@@ -1633,6 +1272,7 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                             >
                               <CardBody
                                 aria-expanded={null}
+<<<<<<< HEAD
 <<<<<<< HEAD
                                 className="collapse"
                               >
@@ -1875,10 +1515,13 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                   </styled.div>
 =======
                                 className="collapse show"
+=======
+                                className="collapse"
+>>>>>>> master
                               >
                                 <div
                                   aria-expanded={null}
-                                  className="collapse show card-body"
+                                  className="collapse card-body"
                                 >
                                   <p>
                                     Drop the courses you have already done into the box below
@@ -4365,7 +4008,7 @@ exports[`Has collapsable sections can expand a section 1`] = `
                   </Styled(Card)>
                 </InfoBarSection>
                 <InfoBarSection
-                  open={true}
+                  open={false}
                   setOpen={[Function]}
                   title="Courses Already Done"
                 >
@@ -4531,12 +4174,12 @@ exports[`Has collapsable sections can expand a section 1`] = `
                         >
                           <Styled(CardHeader)
                             aria-controls="collapse-add-course"
-                            aria-expanded={true}
+                            aria-expanded={false}
                             onClick={[Function]}
                           >
                             <StyledComponent
                               aria-controls="collapse-add-course"
-                              aria-expanded={true}
+                              aria-expanded={false}
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -4579,21 +4222,21 @@ exports[`Has collapsable sections can expand a section 1`] = `
                             >
                               <CardHeader
                                 aria-controls="collapse-add-course"
-                                aria-expanded={true}
+                                aria-expanded={false}
                                 className="sc-dnqmqq fftazU"
                                 onClick={[Function]}
                               >
                                 <div
                                   aria-controls="collapse-add-course"
-                                  aria-expanded={true}
+                                  aria-expanded={false}
                                   className="sc-dnqmqq fftazU card-header"
                                   onClick={[Function]}
                                 >
                                   <styled.i
-                                    className="fa fa-chevron-down"
+                                    className="fa fa-chevron-right"
                                   >
                                     <StyledComponent
-                                      className="fa fa-chevron-down"
+                                      className="fa fa-chevron-right"
                                       forwardedComponent={
                                         Object {
                                           "$$typeof": Symbol(react.forward_ref),
@@ -4621,7 +4264,7 @@ exports[`Has collapsable sections can expand a section 1`] = `
                                       forwardedRef={null}
                                     >
                                       <i
-                                        className="sc-iwsKbI LdBUN fa fa-chevron-down"
+                                        className="sc-iwsKbI LdBUN fa fa-chevron-right"
                                       />
                                     </StyledComponent>
                                   </styled.i>
@@ -4670,7 +4313,7 @@ exports[`Has collapsable sections can expand a section 1`] = `
                             appear={false}
                             dimension="height"
                             getDimensionValue={[Function]}
-                            in={true}
+                            in={false}
                             mountOnEnter={false}
                             timeout={300}
                             unmountOnExit={false}
@@ -4681,7 +4324,7 @@ exports[`Has collapsable sections can expand a section 1`] = `
                               aria-expanded={null}
                               enter={true}
                               exit={true}
-                              in={true}
+                              in={false}
                               mountOnEnter={false}
                               onEnter={[Function]}
                               onEntered={[Function]}
@@ -4694,11 +4337,11 @@ exports[`Has collapsable sections can expand a section 1`] = `
                             >
                               <CardBody
                                 aria-expanded={null}
-                                className="collapse show"
+                                className="collapse"
                               >
                                 <div
                                   aria-expanded={null}
-                                  className="collapse show card-body"
+                                  className="collapse card-body"
                                 >
                                   <p>
                                     Drop the courses you have already done into the box below
@@ -14800,7 +14443,7 @@ Final year in your degree
                                     </Styled(Card)>
                                   </InfoBarSection>
                                   <InfoBarSection
-                                    open={true}
+                                    open={false}
                                     setOpen={[Function]}
                                     title="Courses Already Done"
                                   >
@@ -14966,12 +14609,12 @@ Final year in your degree
                                           >
                                             <Styled(CardHeader)
                                               aria-controls="collapse-add-course"
-                                              aria-expanded={true}
+                                              aria-expanded={false}
                                               onClick={[Function]}
                                             >
                                               <StyledComponent
                                                 aria-controls="collapse-add-course"
-                                                aria-expanded={true}
+                                                aria-expanded={false}
                                                 forwardedComponent={
                                                   Object {
                                                     "$$typeof": Symbol(react.forward_ref),
@@ -15014,21 +14657,21 @@ Final year in your degree
                                               >
                                                 <CardHeader
                                                   aria-controls="collapse-add-course"
-                                                  aria-expanded={true}
+                                                  aria-expanded={false}
                                                   className="sc-dnqmqq fftazU"
                                                   onClick={[Function]}
                                                 >
                                                   <div
                                                     aria-controls="collapse-add-course"
-                                                    aria-expanded={true}
+                                                    aria-expanded={false}
                                                     className="sc-dnqmqq fftazU card-header"
                                                     onClick={[Function]}
                                                   >
                                                     <styled.i
-                                                      className="fa fa-chevron-down"
+                                                      className="fa fa-chevron-right"
                                                     >
                                                       <StyledComponent
-                                                        className="fa fa-chevron-down"
+                                                        className="fa fa-chevron-right"
                                                         forwardedComponent={
                                                           Object {
                                                             "$$typeof": Symbol(react.forward_ref),
@@ -15056,7 +14699,7 @@ Final year in your degree
                                                         forwardedRef={null}
                                                       >
                                                         <i
-                                                          className="sc-iwsKbI LdBUN fa fa-chevron-down"
+                                                          className="sc-iwsKbI LdBUN fa fa-chevron-right"
                                                         />
                                                       </StyledComponent>
                                                     </styled.i>
@@ -15186,7 +14829,7 @@ Final year in your degree
                                               appear={false}
                                               dimension="height"
                                               getDimensionValue={[Function]}
-                                              in={true}
+                                              in={false}
                                               mountOnEnter={false}
                                               timeout={300}
                                               unmountOnExit={false}
@@ -15197,7 +14840,7 @@ Final year in your degree
                                                 aria-expanded={null}
                                                 enter={true}
                                                 exit={true}
-                                                in={true}
+                                                in={false}
                                                 mountOnEnter={false}
                                                 onEnter={[Function]}
                                                 onEntered={[Function]}
@@ -15210,11 +14853,11 @@ Final year in your degree
                                               >
                                                 <CardBody
                                                   aria-expanded={null}
-                                                  className="collapse show"
+                                                  className="collapse"
                                                 >
                                                   <div
                                                     aria-expanded={null}
-                                                    className="collapse show card-body"
+                                                    className="collapse card-body"
                                                   >
                                                     <p>
                                                       Drop the courses you have already done into the box below
@@ -25100,7 +24743,7 @@ Final year in your degree
                                     </Styled(Card)>
                                   </InfoBarSection>
                                   <InfoBarSection
-                                    open={true}
+                                    open={false}
                                     setOpen={[Function]}
                                     title="Courses Already Done"
 >>>>>>> already_done
@@ -25285,12 +24928,12 @@ Final year in your degree
                                           >
                                             <Styled(CardHeader)
                                               aria-controls="collapse-add-course"
-                                              aria-expanded={true}
+                                              aria-expanded={false}
                                               onClick={[Function]}
                                             >
                                               <StyledComponent
                                                 aria-controls="collapse-add-course"
-                                                aria-expanded={true}
+                                                aria-expanded={false}
                                                 forwardedComponent={
                                                   Object {
                                                     "$$typeof": Symbol(react.forward_ref),
@@ -25343,6 +24986,7 @@ Final year in your degree
                                               >
                                                 <CardHeader
                                                   aria-controls="collapse-add-course"
+<<<<<<< HEAD
                                                   aria-expanded={true}
 <<<<<<< HEAD
                                                   className="sc-iwsKbI fypTFz"
@@ -25664,6 +25308,28 @@ Final year in your degree
   padding: 3px;
   margin: 0;
 =======
+=======
+                                                  aria-expanded={false}
+                                                  className="sc-dnqmqq fftazU"
+                                                  onClick={[Function]}
+                                                >
+                                                  <div
+                                                    aria-controls="collapse-add-course"
+                                                    aria-expanded={false}
+                                                    className="sc-dnqmqq fftazU card-header"
+                                                    onClick={[Function]}
+                                                  >
+                                                    <styled.i
+                                                      className="fa fa-chevron-right"
+                                                    >
+                                                      <StyledComponent
+                                                        className="fa fa-chevron-right"
+                                                        forwardedComponent={
+                                                          Object {
+                                                            "$$typeof": Symbol(react.forward_ref),
+                                                            "attrs": Array [],
+                                                            "componentStyle": ComponentStyle {
+>>>>>>> master
                                                               "componentId": "sc-iwsKbI",
                                                               "isStatic": false,
                                                               "lastClassName": "LdBUN",
@@ -25686,7 +25352,7 @@ Final year in your degree
                                                         forwardedRef={null}
                                                       >
                                                         <i
-                                                          className="sc-iwsKbI LdBUN fa fa-chevron-down"
+                                                          className="sc-iwsKbI LdBUN fa fa-chevron-right"
                                                         />
                                                       </StyledComponent>
                                                     </styled.i>
@@ -25816,7 +25482,7 @@ Final year in your degree
                                               appear={false}
                                               dimension="height"
                                               getDimensionValue={[Function]}
-                                              in={true}
+                                              in={false}
                                               mountOnEnter={false}
                                               timeout={300}
                                               unmountOnExit={false}
@@ -25827,7 +25493,7 @@ Final year in your degree
                                                 aria-expanded={null}
                                                 enter={true}
                                                 exit={true}
-                                                in={true}
+                                                in={false}
                                                 mountOnEnter={false}
                                                 onEnter={[Function]}
                                                 onEntered={[Function]}
@@ -25840,11 +25506,11 @@ Final year in your degree
                                               >
                                                 <CardBody
                                                   aria-expanded={null}
-                                                  className="collapse show"
+                                                  className="collapse"
                                                 >
                                                   <div
                                                     aria-expanded={null}
-                                                    className="collapse show card-body"
+                                                    className="collapse card-body"
                                                   >
                                                     <p>
                                                       Drop the courses you have already done into the box below
@@ -27932,7 +27598,7 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                   </Styled(Card)>
                 </InfoBarSection>
                 <InfoBarSection
-                  open={true}
+                  open={false}
                   setOpen={[Function]}
                   title="Courses Already Done"
 >>>>>>> already_done
@@ -28117,12 +27783,12 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                         >
                           <Styled(CardHeader)
                             aria-controls="collapse-add-course"
-                            aria-expanded={true}
+                            aria-expanded={false}
                             onClick={[Function]}
                           >
                             <StyledComponent
                               aria-controls="collapse-add-course"
-                              aria-expanded={true}
+                              aria-expanded={false}
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -28175,29 +27841,37 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                             >
                               <CardHeader
                                 aria-controls="collapse-add-course"
+<<<<<<< HEAD
                                 aria-expanded={true}
 <<<<<<< HEAD
                                 className="sc-iwsKbI fypTFz"
 =======
+=======
+                                aria-expanded={false}
+>>>>>>> master
                                 className="sc-dnqmqq fftazU"
 >>>>>>> already_done
                                 onClick={[Function]}
                               >
                                 <div
                                   aria-controls="collapse-add-course"
+<<<<<<< HEAD
                                   aria-expanded={true}
 <<<<<<< HEAD
                                   className="sc-iwsKbI fypTFz card-header"
 =======
+=======
+                                  aria-expanded={false}
+>>>>>>> master
                                   className="sc-dnqmqq fftazU card-header"
 >>>>>>> already_done
                                   onClick={[Function]}
                                 >
                                   <styled.i
-                                    className="fa fa-chevron-down"
+                                    className="fa fa-chevron-right"
                                   >
                                     <StyledComponent
-                                      className="fa fa-chevron-down"
+                                      className="fa fa-chevron-right"
                                       forwardedComponent={
                                         Object {
                                           "$$typeof": Symbol(react.forward_ref),
@@ -28361,7 +28035,7 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                                       forwardedRef={null}
                                     >
                                       <i
-                                        className="sc-iwsKbI LdBUN fa fa-chevron-down"
+                                        className="sc-iwsKbI LdBUN fa fa-chevron-right"
                                       />
                                     </StyledComponent>
                                   </styled.i>
@@ -28410,7 +28084,7 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                             appear={false}
                             dimension="height"
                             getDimensionValue={[Function]}
-                            in={true}
+                            in={false}
                             mountOnEnter={false}
                             timeout={300}
                             unmountOnExit={false}
@@ -28421,7 +28095,7 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                               aria-expanded={null}
                               enter={true}
                               exit={true}
-                              in={true}
+                              in={false}
                               mountOnEnter={false}
                               onEnter={[Function]}
                               onEntered={[Function]}
@@ -28434,11 +28108,11 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                             >
                               <CardBody
                                 aria-expanded={null}
-                                className="collapse show"
+                                className="collapse"
                               >
                                 <div
                                   aria-expanded={null}
-                                  className="collapse show card-body"
+                                  className="collapse card-body"
                                 >
                                   <p>
                                     Drop the courses you have already done into the box below

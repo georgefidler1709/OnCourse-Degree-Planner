@@ -4,6 +4,11 @@ import Button from "react-bootstrap/Button";
 import { CourseReq } from '../../Api';
 import { SubTitle } from '../../Types';
 import { COURSE_HANDBOOK_PREFIX } from '../../Constants'
+import styled from 'styled-components';
+
+const UOC = styled.h5`
+  margin-bottom: 16px;
+`
 
 interface CourseInfoModalProps {
   index: number;
@@ -12,6 +17,7 @@ interface CourseInfoModalProps {
   show: boolean;
   code: string;
   name: string;
+  units: number;
   prereqs: string;
   coreqs: string;
   equivalents: string;
@@ -30,10 +36,10 @@ function displayCourseReqs(reqs: string, req_type: string) {
       <h5>{req_type + ":"}</h5>
       {reqs ? (
         <ul>
-          {reqs.split("\n").map((req,index) => <li key={index}>{addLinks(req)}</li>)}
+          {reqs.split("\n").map((req,index) => <li key={index}> {addLinks(req)}</li>)}
         </ul>
       ) : (
-        <ul style={noBullet}>
+        <ul style={noBullet} key={"none"}>
           <li>None</li>
         </ul>
       )} 
@@ -47,6 +53,7 @@ function addLinks(req: string) {
   return req.split(' ').map(word => {
     if(!word.match(re)) return " " + word + " "
     return (<a 
+              key={word}
               href={`${COURSE_HANDBOOK_PREFIX}${word}`}
               target="_blank"
               rel="noopener noreferrer" 
@@ -105,6 +112,7 @@ function CourseInfoModal(props: CourseInfoModalProps) {
                 filter_type="Warning(s)"
                 info={props.warn}
               />}
+          <UOC>UOC: {props.units}</UOC>
           {displayCourseReqs(props.prereqs, "Prereqs")}
           {displayCourseReqs(props.coreqs, "Coreqs")}
           {displayCourseReqs(props.equivalents, "Equivalents")}

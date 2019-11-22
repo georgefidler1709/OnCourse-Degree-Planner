@@ -719,6 +719,27 @@ class TestUniversity_FindCourse(TestUniversityWithDb):
         sub_requirement = sub_requirements[0]
         assert sub_requirement.requirement_name == 'YearRequirement'
 
+    def test_course_with_unparsed_prereq(self):
+        input_course = self.first_course
+
+        requirement_type_id = self.h.get_requirement_type_id('UnparsedRequirement')
+        requirement_string = "Requirement string"
+
+        self.cursor.execute('''insert into CourseRequirements(type_id, requirement_string) values(?,
+                                ?)''', (requirement_type_id, requirement_string))
+
+        requirement_id = self.cursor.lastrowid
+
+        self.h.insert_course(input_course, prereq=requirement_id)
+
+        course = self.university.find_course(input_course.course_code)
+
+        assert course is not None
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'UnparsedRequirement'
+        assert prereq.requirement_string == requirement_string
+
     def test_course_with_coreq(self):
         input_course = self.first_course
 

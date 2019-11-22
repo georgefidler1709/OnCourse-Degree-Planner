@@ -94,6 +94,9 @@ create table CourseRequirements (
     -- wam requirement
     wam integer,
 
+    -- Unparsed requirement
+    requirement_string varchar(500),
+
     id integer primary key,
     -- And and Or requirements have relationships in CourseRequirementHierarchies
 
@@ -103,6 +106,7 @@ create table CourseRequirements (
     unique(type_id, year),
     unique(type_id, wam),
     unique(type_id, uoc_amount_required, uoc_min_level, uoc_subject, uoc_course_filter)
+    unique(type_id, requirement_string)
 );
 
 -- For And and Or requirements, the parent is the And/Or and the child is another requirement

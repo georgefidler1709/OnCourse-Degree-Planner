@@ -20,6 +20,7 @@ from classes import (
         compositeReq,
         course,
         courseReq,
+        unparsedReq,
         uocReq,
         wamReq,
         yearReq
@@ -86,13 +87,13 @@ class dbGenerator(object):
         # Now insert all of them with their prerequisites
         for scraped_course in scraped_courses:
             course_id = scraped_courses_to_course_id[scraped_course]
-            full_course = scraped_course.to_course()
+            course = scraped_course.to_course()
 
-            if full_course is not None and full_course.finished:
-                self.insert_requirements(course_id, full_course.prereqs, full_course.coreqs,
-                        full_course.exclusions, full_course.equivalents)
-            else:
-                print(f"Course {course.course_code} could not be parsed properly")
+            if not course.finished:
+                print(f"Course {course.course_code} could not be parsed properly, inserting anyway")
+
+            self.insert_requirements(course_id, course.prereqs, course.coreqs,
+                        course.exclusions, course.equivalents)
 
     def insert_course_without_requirements(self, course: 'course.Course', start_year: int,
             end_year: Optional[int]=None) -> int:
@@ -166,6 +167,8 @@ class dbGenerator(object):
             return self.store_enrollment_req(requirement)
         elif isinstance(requirement, scrapedSubjectReq.ScrapedSubjectReq):
             return self.store_subject_req(requirement)
+        elif isinstance(requirement, unparsedReq.UnparsedReq):
+            return self.store_unparsed_req(requirement)
         else:
             raise NotImplementedError("Cannot store course requirement type {}".format(type(requirement)))
 
@@ -205,7 +208,7 @@ class dbGenerator(object):
     def store_wam_req(self, requirement: 'wamReq.WAMReq'):
         type_id = self.get_req_type_id(requirement.requirement_name)
         wam = requirement.wam
-        
+
         result = self.query_db('''select id from CourseRequirements where type_id = ? and wam =
                 ?''', (type_id, wam), one=True)
 
@@ -219,7 +222,7 @@ class dbGenerator(object):
         return req_id
 
     def store_year_req(self, requirement: 'yearReq.YearReq'):
-        type_id = self.get_req_type_id(requirement.requirement_name) 
+        type_id = self.get_req_type_id(requirement.requirement_name)
         year = requirement.year
 
         result = self.query_db('''select id from CourseRequirements where type_id = ? and year =
@@ -265,9 +268,29 @@ class dbGenerator(object):
             return req_id
 
         req_id = self.store_db('''insert into CourseRequirements(type_id, course_id, min_mark)
-        values(?, ?, ?)''', (self.get_req_type_id(requirement.requirement_name), course_id, requirement.min_mark))
+        values(?, ?, ?)''', (type_id, course_id, min_mark))
 
         return req_id
+
+    def store_unparsed_req(self, requirement: 'unparsedReq.UnparsedReq'):
+        type_id = self.get_req_type_id(requirement.requirement_name)
+        requirement_string = requirement.requirement_string
+
+        result = self.query_db('''select id from CourseRequirements where type_id = ? and
+        requirement_string = ?''', (type_id, requirement_string), one=True)
+
+        if result is not None:
+            # One of these already exists, just return it
+            (req_id, ) = result
+            return req_id
+
+        req_id = self.store_db('''insert into CourseRequirements(type_id, requirement_string)
+        values(?, ?)''', (type_id, requirement_string))
+
+        return req_id
+
+
+
 
     def find_course(self, course_code: str):
         letter_code = course_code[:4]

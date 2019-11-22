@@ -73,9 +73,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   constructor(props: RouteComponentProps<{degree: string}>) {
     super(props)
-    console.log("hello")
     let code = props.location.pathname;
-    console.log(code)
     fetch(API_ADDRESS + `${code}/gen_program.json`)
     .then(response => response.json())
     .then(plan => {
@@ -84,7 +82,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
         add_course: [],
       }) 
       this.addMissingTerms()
-    })
+    }).catch(error => console.error(error));
   }
 
   addMissingTerms() {
@@ -230,7 +228,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     .then((reqs: CheckResponse) => {
       this.setState({reqs}); 
       this.addMissingTerms();
-    })
+    }).catch(error => console.error(error));
   }
 
   removeCourse(draggableId: string) {
@@ -405,8 +403,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }
     newState.program.duration += updateVal
     newState.program.duration = Math.max(1, newState.program.duration)
-    if(newState.program.year + newState.program.duration > DB_YEAR_MAX) {
-      newState.program.duration = DB_YEAR_MAX - newState.program.year
+    if(newState.program.year + newState.program.duration > DB_YEAR_MAX + 1) {
+      newState.program.duration = DB_YEAR_MAX + 1 - newState.program.year
       alert("Degree planning information is not accurate beyond 2025")
     }
     

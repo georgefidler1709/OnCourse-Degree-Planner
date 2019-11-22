@@ -23,14 +23,15 @@ from . import genEdFilter, freeElectiveFilter
 
 class DegreeReq(ABC):
 
-    def __init__(self, inFilter: Optional['courseFilter.CourseFilter'], uoc: int):
+    def __init__(self, inFilter: Optional['courseFilter.CourseFilter'], uoc: int, alttext: Optional[str]=None):
         # input as separate variables? or some other format
         self.uoc = uoc
         self.filter = inFilter
+        self.alttext = alttext
         super().__init__()
 
     def __repr__(self) -> str:
-        return f"<DegreeReq uoc={self.uoc}, filter={self.filter}>"
+        return f"<DegreeReq uoc={self.uoc}, filter={self.filter}, alttext={self.alttext}>"
 
     # Input: a degree and a list of courses
     # Return: whether this course list would fulfil this degree requirement

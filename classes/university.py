@@ -38,8 +38,9 @@ from . import  (
     yearReq,
 )
 
+# TODO change me
 # Temporary: only allow 2019 results
-YEAR = 2019
+YEAR = 2020
 
 class University(object):
 
@@ -79,15 +80,15 @@ class University(object):
     # Input: degree numerical code (eg. 3778), whether we need the requirements for the degree
     # (eg. if we're just loading the degree as part of a course requirement we don't need the
     # requirements)
+    # assumes that you want the degree for 2020 unless you specify
     # Return: corresponding Degree object
-    def load_degree(self, numeric_code: int, need_requirements: bool=True) -> Optional['degree.Degree']:
+    def load_degree(self, numeric_code: int, need_requirements: bool=True, year: int=2020) -> Optional['degree.Degree']:
         if numeric_code in self.degrees:
             # TODO: Might not work if we first load without requirements then call this with
             # requirements, decide whether we even want the need_requirements option anymore
             return self.degrees[numeric_code]
 
-        year = YEAR
-        response = self.query_db('''select name, code, faculty
+        response = self.query_db('''select name, faculty, duration
                                  from Degrees
                                  where id = ?''', (numeric_code,), one=True)
 
@@ -95,42 +96,45 @@ class University(object):
             # No degree with that code, so return nothing
             return None
 
-        name, alpha_code, faculty = response
+        name, faculty, duration = response
         # Alpha code might be null
         self.assert_no_nulls(name, faculty)
 
-        # Get all of the requirements for the degree
-        response = self.query_db('''select uoc_needed, requirement_id
-                                 from DegreeOfferingRequirements
-                                 where offering_degree_id = ?
-                                 and offering_year_id = ?''', (numeric_code, year))
-
-
-        # print("Response is")
-        # print(response)
-        # print("\n\n\n")
-
-        # TODO: put duration in database
-        duration = 3
         # TODO: alpha code in db (although we prob want to split into major)
         alpha_code = "AlphaCode"
+
+        # get any notes on the degree
+        response = self.query_db('''select note 
+                                from DegreeOfferingNotes
+                                where offering_degree_id = ?
+                                and offering_year_id = ?''',
+                                (numeric_code, year))
+        notes = []
+        if response:
+            for r in response:
+                notes.append(r['note'])
 
         # create a degree without requirements, then add requirements later
         # This is done so that we can cache the degree, to avoid circular loading
 
-        result_degree = degree.Degree(numeric_code, name, year, duration, faculty, [], alpha_code)
+        result_degree = degree.Degree(numeric_code, name, year, duration, faculty, [], alpha_code, notes)
 
         self.degrees[numeric_code] = result_degree
 
         requirements = []
 
         if need_requirements:
+            # Get all of the requirements for the degree
+            response = self.query_db('''select uoc_needed, requirement_id, alt_text
+                                     from DegreeOfferingRequirements
+                                     where offering_degree_id = ?
+                                     and offering_year_id = ?''', (numeric_code, year))
             for offering_requirement in response:
-                uoc, filter_id = offering_requirement
+                uoc, filter_id, alt_text = offering_requirement
                 self.assert_no_nulls(uoc)
 
                 if filter_id is None:
-                    requirement = minDegreeReq.MinDegreeReq(None, uoc)
+                    requirement = minDegreeReq.MinDegreeReq(None, uoc, alt_text)
                 else:
                     filter = self.load_course_filter(filter_id)
                     self.assert_no_nulls(filter)
@@ -138,7 +142,7 @@ class University(object):
                     # mypy doesn't recognise that assert_no_nulls makes sure that filter is not none
                     assert filter is not None
 
-                    requirement = minDegreeReq.MinDegreeReq(filter, uoc)
+                    requirement = minDegreeReq.MinDegreeReq(filter, uoc, alt_text)
                 requirements.append(requirement)
 
         result_degree.requirements = requirements

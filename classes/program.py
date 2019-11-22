@@ -164,7 +164,12 @@ class Program(object):
         for key, val in outstanding_reqs.items():
 
             new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
-            if key.filter:
+            if key.alttext:
+                new = {'units': val,
+                    'filter_type': 'Special requirement',
+                    'info': key.alttext,
+                }
+            elif key.filter:
                 new = {'units': val, 
                     'filter_type': key.filter.simple_name,
                     'info': key.filter.info
@@ -210,8 +215,9 @@ class Program(object):
                 'year': self.degree.year,
                 'duration': self.degree.duration,
                 'url': self.degree.get_url(),
+                'notes': self.degree.notes, # TODO add this to front end
                 'enrollments': enrollments,
-                'done': []};
+                'done': []}
     
     def get_prereq_conflicts_api(self) -> api.CheckResponse:
         return {'degree_reqs': self.get_reqs_api(),

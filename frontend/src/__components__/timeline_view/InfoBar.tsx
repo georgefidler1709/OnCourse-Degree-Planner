@@ -4,7 +4,7 @@ import InfoBarDropBox from "./InfoBarDropBox"
 import InfoBarSection from "./InfoBarSection"
 import { SearchCourses } from "../degree_search/Search"
 import { RemainReq, Course } from "../../Api"
-import Requirements from "./Requirements"
+import { Requirements, Notes } from "./Requirements"
 import { Card } from 'react-bootstrap'
 
 const Container = styled.div`
@@ -44,6 +44,7 @@ interface InfoBarProps {
   degree_id: number;
   degree_name: string;
   degree_reqs: Array<RemainReq>;
+  degree_notes: Array<string>;
   standby_courses: Array<Course>;
   done_courses: Array<Course>;
   add_event: (code: string) => Promise<boolean>;// function to call when you want to add a course
@@ -105,6 +106,7 @@ function InfoBar(props: InfoBarProps) {
         <Card.Body>
           <ReqContainer>
             <Requirements degree_reqs={props.degree_reqs}/>
+            <Notes notes={props.degree_notes}/>
           </ReqContainer>
         </Card.Body>
       </InfoBarSection>

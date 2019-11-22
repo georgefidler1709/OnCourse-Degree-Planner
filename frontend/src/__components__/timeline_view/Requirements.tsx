@@ -69,21 +69,35 @@ function Requirements(props: ReqProps) {
     // then a list of items. 
     // <span style={{color: '#3F94B6'}}>
     var res = keys.map(k => {
-      return(
-        <React.Fragment key={k}>
-          <CounterContainer>
-          <ReqTitle>{`${k}`}</ReqTitle>
-          <p><span style={{color: '#17a2b8'}}><u>{`${combo_reqs[k].units} UOC`}</u>{props.say_remain && ' remaining'}</span></p>
-          </CounterContainer>
-          <ul>
-            {
-              combo_reqs[k].items.map(it => {
-                return <li key={it}>{`${it}`}</li>;
-              })
-            }
-          </ul>
-        </React.Fragment>
-      )
+      if (k) {
+        return(
+          <React.Fragment key={k}>
+              <CounterContainer>
+              <ReqTitle>{`${k}`}</ReqTitle>
+              <p><span style={{color: '#17a2b8'}}><u>{`${combo_reqs[k].units} UOC`}</u>{props.say_remain && ' remaining'}</span></p>
+              </CounterContainer>
+              <ul>
+                {
+                  combo_reqs[k].items.map(it => {
+                    return <li key={it}>{`${it}`}</li>;
+                  })
+                }
+              </ul>
+          </React.Fragment>
+        )
+      } else {
+        // Total UOC
+        // teal = #00cc99
+        // light gray = rgba(255, 255, 255, 0.75)
+        return(
+          <React.Fragment key="Total">
+            <CounterContainer>
+            <ReqTitle>> Total UOC count</ReqTitle>
+            <p><span style={{color: '#00cc99'}}><u>{`${combo_reqs[k].units} UOC`}</u>{props.say_remain && ' remaining'}</span></p>
+            </CounterContainer>
+          </React.Fragment>
+        )
+      }
     })
 
     return <div>{res}</div>;

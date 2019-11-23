@@ -1,3 +1,14 @@
+/**
+ * COMP4290 Group Project
+ * Team: On Course
+ * Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910), 
+ * George Fidler (z5160384), Kevin Ni (z5025098)
+ *
+ * Search.tsx
+ * Implementation of search for degrees used on the home page,
+ * and search for courses used in the sidebar.
+ */
+
 import React, { Component, ChangeEvent, RefObject } from 'react'
 import {Suggestions, CourseSuggestions} from './Suggestions'
 import {API_ADDRESS, CURRENT_YEAR} from '../../Constants'
@@ -132,8 +143,14 @@ interface SearchCourseProps {
   already_enrolled: (code: string) => boolean;
 }
 
+/**
+ * Search for degrees.
+ */
 class Search extends Component<{}, SearchState> {
 
+  /**
+   * Initialises state and fetches the full list of degrees from API.
+   */
   constructor(props: {}) {
     super(props)
     this.state = {
@@ -154,6 +171,11 @@ class Search extends Component<{}, SearchState> {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
+  /**
+   * Whenever the user enters a query in search bar,
+   * displays a dropdown of search results,
+   * and underlines the matching parts of search results.
+   */
   handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
     let query = event.target.value.toLowerCase();
     let searchResults: Array<SearchResult> = [];
@@ -203,6 +225,9 @@ class Search extends Component<{}, SearchState> {
     this.setState({ searchResults, oldQuery: query });
   }
 
+  /**
+   * HTML output of search for degrees.
+   */
   render() {
     return (
       <SearchContainer>
@@ -277,10 +302,15 @@ const CourseSearchBar = styled(SearchBar)`
   box-shadow: 0px 0px;
 `
 
-
+/**
+ * Search functionality for courses in the sidebar once filling out a degree.
+ */
 class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
   private searchBarRef: RefObject<HTMLInputElement>
 
+  /**
+   * Initialises state and fetches the full list of courses from API.
+   */
   constructor(props: SearchCourseProps) {
     super(props)
     this.searchBarRef = React.createRef<HTMLInputElement>()
@@ -303,10 +333,18 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
     this.addCourse = this.addCourse.bind(this);
   }
 
+  /**
+   * Whenever the user enters a query in search bar,
+   * displays a dropdown of search results,
+   * and underlines the matching parts of search results.
+   */
   handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
     this.search();
   }
 
+  /**
+   * performs the search and populates the results
+   */
   search(): void {
     let query = this.searchBarRef.current!.value.toLowerCase();
     let searchResults: Array<CourseSearchResult> = [];
@@ -358,6 +396,9 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
     this.setState({ searchResults});
   }
 
+  /**
+   * Adds a course asynchronously to try and improve performance of loading courses.
+   */
   async addCourse(code: string) {
     let success: boolean = await this.props.add_event(code);
     if(success){ 
@@ -369,6 +410,9 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
     }
   }
 
+  /**
+   * Checks the term offerings of the element that changed.
+   */
   handleCheckChanged(event: ChangeEvent<HTMLInputElement>) {
     var target = event.target;
     this.setState(state => {
@@ -378,6 +422,9 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
     }, () => this.search());
   }
 
+  /**
+   * HTML output of search for courses.
+   */
   render() {
     return (
       <CoursesContainer>
@@ -385,7 +432,6 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
           <CourseSearchBar
             ref={this.searchBarRef}
             placeholder="Search for a course..."
-            //value={this.state.query}
             onChange={this.handleInputChange}
           />
           <Form.Group controlId="terms">

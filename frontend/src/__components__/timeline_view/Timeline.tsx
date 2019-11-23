@@ -321,25 +321,26 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     let destIds = getTarget(newState, destination.droppableId);
 
-	let uoc = destIds.reduce((acc, course) => {return newState.courses[course].units + acc}, 0)
-	  + newState.courses[draggableId].units;
-	if (!newState.accepted_overload && termId && yearId && 18 < uoc) {
-	  var accept = window.confirm("You are overloading. Are you sure?");
-	  if (!accept) {
-		this.resetTermHighlights()
-		return;
-	  }
-	  newState.accepted_overload = true;
-	}
+    let uoc = destIds.reduce((acc, course) => {return newState.courses[course].units + acc}, 0)
+      + (destination.droppableId === source.droppableId ? 0 : newState.courses[draggableId].units);
 
-    destIds.splice(destination.index, 0, draggableId)
+    if (!newState.accepted_overload && termId && yearId && 18 < uoc) {
+      var accept = window.confirm("You are overloading. Are you sure?");
+      if (!accept) {
+        this.resetTermHighlights()
+        return;
+      }
+      newState.accepted_overload = true;
+    }
+
     let sourceIds = getTarget(newState, source.droppableId);
     sourceIds.splice(source.index, 1);
+    destIds.splice(destination.index, 0, draggableId);
 
     this.setState(newState, () => {
-	  this.updateProgram(newState);
-	  this.resetTermHighlights();
-	});
+      this.updateProgram(newState);
+      this.resetTermHighlights();
+    });
   };
 
 

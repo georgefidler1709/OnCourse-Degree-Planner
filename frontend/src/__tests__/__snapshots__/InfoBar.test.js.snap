@@ -792,13 +792,13 @@ exports[`Has collapsable sections can collapse a section 1`] = `
                                                 />
                                               </StyledComponent>
                                             </Styled(styled.input)>
-                                            Filter by Term:
                                             <FormGroup
                                               controlId="terms"
                                             >
                                               <div
                                                 className="form-group"
                                               >
+                                                Filter by Term:
                                                 <FormCheck
                                                   checked={false}
                                                   disabled={false}
@@ -3301,13 +3301,13 @@ exports[`Has collapsable sections can expand a section 1`] = `
                                                 />
                                               </StyledComponent>
                                             </Styled(styled.input)>
-                                            Filter by Term:
                                             <FormGroup
                                               controlId="terms"
                                             >
                                               <div
                                                 className="form-group"
                                               >
+                                                Filter by Term:
                                                 <FormCheck
                                                   checked={false}
                                                   disabled={false}
@@ -13449,13 +13449,13 @@ Final year in your degree"
                                                                   />
                                                                 </StyledComponent>
                                                               </Styled(styled.input)>
-                                                              Filter by Term:
                                                               <FormGroup
                                                                 controlId="terms"
                                                               >
                                                                 <div
                                                                   className="form-group"
                                                                 >
+                                                                  Filter by Term:
                                                                   <FormCheck
                                                                     checked={false}
                                                                     disabled={false}
@@ -24383,13 +24383,13 @@ Final year in your degree"
                                                                   />
                                                                 </StyledComponent>
                                                               </Styled(styled.input)>
-                                                              Filter by Term:
                                                               <FormGroup
                                                                 controlId="terms"
                                                               >
                                                                 <div
                                                                   className="form-group"
                                                                 >
+                                                                  Filter by Term:
                                                                   <FormCheck
                                                                     checked={false}
                                                                     disabled={false}
@@ -27722,13 +27722,13 @@ exports[`Render degree planning info bar renders correctly 1`] = `
                                                 />
                                               </StyledComponent>
                                             </Styled(styled.input)>
-                                            Filter by Term:
                                             <FormGroup
                                               controlId="terms"
                                             >
                                               <div
                                                 className="form-group"
                                               >
+                                                Filter by Term:
                                                 <FormCheck
                                                   checked={false}
                                                   disabled={false}

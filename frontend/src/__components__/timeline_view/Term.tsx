@@ -25,6 +25,7 @@ interface TermProps {
   name: string;
   courses: Array<ApiCourse>;
   highlight: boolean;
+  termWarning: boolean;
   removeCourse: (s: string) => void;
   getError: (s: string) => (Array<CourseReq> | undefined);
   getWarn: (s: string) => (Array<string> | undefined);

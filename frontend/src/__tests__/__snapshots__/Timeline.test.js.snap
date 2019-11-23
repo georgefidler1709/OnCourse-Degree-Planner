@@ -53,11 +53,17 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                   courses={
                     Array [
                       Object {
-                        "code": "MATH1081",
-                        "coreqs": "(DPST1013 OR MATH1131 OR MATH1141 OR MATH1151)",
-                        "equivalents": "",
-                        "exclusions": "MATH1090",
-                        "name": "Discrete Mathematics",
+                        "code": "MATH1131",
+                        "coreqs": "",
+                        "equivalents": "DPST1013",
+                        "exclusions": "DPST1013
+MATH1151
+MATH1031
+MATH1141
+ECON2291
+MATH1011
+ECON1202",
+                        "name": "Mathematics 1A",
                         "prereqs": "",
                         "terms": Array [
                           Object {
@@ -148,11 +154,11 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                         "units": 6,
                       },
                       Object {
-                        "code": "COMP1511",
-                        "coreqs": "",
+                        "code": "MATH1081",
+                        "coreqs": "(DPST1013 OR MATH1131 OR MATH1141 OR MATH1151)",
                         "equivalents": "",
-                        "exclusions": "DPST1091",
-                        "name": "Programming Fundamentals",
+                        "exclusions": "MATH1090",
+                        "name": "Discrete Mathematics",
                         "prereqs": "",
                         "terms": Array [
                           Object {
@@ -249,22 +255,17 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                   key="1 2019"
                   name="1 2019"
                   removeCourse={[Function]}
+                  termWarning={false}
                 />
                 <Term
                   courses={
                     Array [
                       Object {
-                        "code": "MATH1131",
+                        "code": "COMP1511",
                         "coreqs": "",
-                        "equivalents": "DPST1013",
-                        "exclusions": "DPST1013
-MATH1151
-MATH1031
-MATH1141
-ECON2291
-MATH1011
-ECON1202",
-                        "name": "Mathematics 1A",
+                        "equivalents": "",
+                        "exclusions": "DPST1091",
+                        "name": "Programming Fundamentals",
                         "prereqs": "",
                         "terms": Array [
                           Object {
@@ -525,6 +526,7 @@ DPST1014",
                   key="2 2019"
                   name="2 2019"
                   removeCourse={[Function]}
+                  termWarning={false}
                 />
                 <Term
                   courses={Array []}
@@ -534,6 +536,7 @@ DPST1014",
                   key="3 2019"
                   name="3 2019"
                   removeCourse={[Function]}
+                  termWarning={false}
                 />
               </styled.div>
             </div>
@@ -550,6 +553,7 @@ DPST1014",
                   key="1 2020"
                   name="1 2020"
                   removeCourse={[Function]}
+                  termWarning={false}
                 />
                 <Term
                   courses={
@@ -672,6 +676,7 @@ COMP2011",
                   key="2 2020"
                   name="2 2020"
                   removeCourse={[Function]}
+                  termWarning={false}
                 />
                 <Term
                   courses={Array []}
@@ -680,6 +685,7 @@ COMP2011",
                   key="3 2020"
                   name="3 2020"
                   removeCourse={[Function]}
+                  termWarning={false}
                 />
               </styled.div>
             </div>
@@ -697,6 +703,7 @@ COMP2011",
                   key="1 2021"
                   name="1 2021"
                   removeCourse={[Function]}
+                  termWarning={false}
                 />
                 <Term
                   courses={Array []}
@@ -706,6 +713,7 @@ COMP2011",
                   key="2 2021"
                   name="2 2021"
                   removeCourse={[Function]}
+                  termWarning={false}
                 />
                 <Term
                   courses={Array []}
@@ -715,6 +723,7 @@ COMP2011",
                   key="3 2021"
                   name="3 2021"
                   removeCourse={[Function]}
+                  termWarning={false}
                 />
               </styled.div>
             </div>

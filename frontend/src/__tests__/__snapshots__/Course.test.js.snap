@@ -86,9 +86,9 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                     "$$typeof": Symbol(react.forward_ref),
                     "attrs": Array [],
                     "componentStyle": ComponentStyle {
-                      "componentId": "sc-bxivhb",
+                      "componentId": "sc-ifAKCX",
                       "isStatic": false,
-                      "lastClassName": "dJmCIm",
+                      "lastClassName": "glRwJe",
                       "rules": Array [
                         "
   margin-top: 8px;
@@ -105,7 +105,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                     "displayName": "styled.div",
                     "foldedComponentIds": Array [],
                     "render": [Function],
-                    "styledComponentId": "sc-bxivhb",
+                    "styledComponentId": "sc-ifAKCX",
                     "target": "div",
                     "toString": [Function],
                     "warnTooManyClasses": [Function],
@@ -115,7 +115,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                 forwardedRef={null}
               >
                 <div
-                  className="sc-bxivhb dJmCIm"
+                  className="sc-ifAKCX glRwJe"
                 >
                   <styled.h3>
                     <StyledComponent
@@ -124,9 +124,9 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                           "$$typeof": Symbol(react.forward_ref),
                           "attrs": Array [],
                           "componentStyle": ComponentStyle {
-                            "componentId": "sc-ifAKCX",
+                            "componentId": "sc-EHOje",
                             "isStatic": false,
-                            "lastClassName": "hMawfQ",
+                            "lastClassName": "eWQLBD",
                             "rules": Array [
                               "
   padding: 8px;
@@ -139,7 +139,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                           "displayName": "styled.h3",
                           "foldedComponentIds": Array [],
                           "render": [Function],
-                          "styledComponentId": "sc-ifAKCX",
+                          "styledComponentId": "sc-EHOje",
                           "target": "h3",
                           "toString": [Function],
                           "warnTooManyClasses": [Function],
@@ -149,7 +149,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                       forwardedRef={null}
                     >
                       <h3
-                        className="sc-ifAKCX hMawfQ"
+                        className="sc-EHOje eWQLBD"
                       >
                         Tundefined
                       </h3>
@@ -199,9 +199,9 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                               "$$typeof": Symbol(react.forward_ref),
                               "attrs": Array [],
                               "componentStyle": ComponentStyle {
-                                "componentId": "sc-htpNat",
+                                "componentId": "sc-bxivhb",
                                 "isStatic": false,
-                                "lastClassName": "jgdmCx",
+                                "lastClassName": "hYJMoY",
                                 "rules": Array [
                                   "
   padding: 8px;
@@ -217,7 +217,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                               "displayName": "styled.div",
                               "foldedComponentIds": Array [],
                               "render": [Function],
-                              "styledComponentId": "sc-htpNat",
+                              "styledComponentId": "sc-bxivhb",
                               "target": "div",
                               "toString": [Function],
                               "warnTooManyClasses": [Function],
@@ -229,7 +229,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                           isDraggingOver={false}
                         >
                           <div
-                            className="sc-htpNat jgdmCx"
+                            className="sc-bxivhb hYJMoY"
                             data-rbd-droppable-context-id="1"
                           >
                             <Course
@@ -327,9 +327,9 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                                                 "$$typeof": Symbol(react.forward_ref),
                                                 "attrs": Array [],
                                                 "componentStyle": ComponentStyle {
-                                                  "componentId": "sc-bwzfXH",
+                                                  "componentId": "sc-htpNat",
                                                   "isStatic": false,
-                                                  "lastClassName": "bBrTaZ",
+                                                  "lastClassName": "jOWwhq",
                                                   "rules": Array [
                                                     "
   color: black;
@@ -352,7 +352,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                                                 "displayName": "styled.div",
                                                 "foldedComponentIds": Array [],
                                                 "render": [Function],
-                                                "styledComponentId": "sc-bwzfXH",
+                                                "styledComponentId": "sc-htpNat",
                                                 "target": "div",
                                                 "toString": [Function],
                                                 "warnTooManyClasses": [Function],
@@ -376,7 +376,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                                           >
                                             <div
                                               aria-labelledby="rbd-lift-instruction-1"
-                                              className="sc-bwzfXH bBrTaZ"
+                                              className="sc-htpNat jOWwhq"
                                               data-rbd-drag-handle-context-id="1"
                                               data-rbd-drag-handle-draggable-id="COMP1511"
                                               data-rbd-draggable-context-id="1"
@@ -453,7 +453,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                                       show={false}
                                       size="lg"
                                     >
-                                      <Modal
+                                      <ForwardRef
                                         autoFocus={true}
                                         backdrop={true}
                                         backdropTransition={[Function]}
@@ -481,11 +481,68 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                                         onMouseUp={[Function]}
                                         renderBackdrop={[Function]}
                                         restoreFocus={true}
-                                        role="dialog"
                                         show={false}
                                         style={Object {}}
                                         transition={[Function]}
-                                      />
+                                      >
+                                        <Modal
+                                          autoFocus={true}
+                                          backdrop={true}
+                                          backdropTransition={[Function]}
+                                          className="modal"
+                                          container={
+                                            <body>
+                                              <div
+                                                aria-atomic="true"
+                                                aria-live="assertive"
+                                                id="rbd-announcement-0"
+                                                role="log"
+                                                style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                              />
+                                              <div
+                                                aria-atomic="true"
+                                                aria-live="assertive"
+                                                id="rbd-announcement-1"
+                                                role="log"
+                                                style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                              />
+                                              <div
+                                                id="rbd-lift-instruction-1"
+                                                style="display: none;"
+                                              >
+                                                Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                              </div>
+                                            </body>
+                                          }
+                                          containerClassName="modal-open"
+                                          enforceFocus={true}
+                                          keyboard={true}
+                                          manager={
+                                            BootstrapModalManager {
+                                              "adjustAndStore": [Function],
+                                              "containers": Array [],
+                                              "data": Array [],
+                                              "handleContainerOverflow": true,
+                                              "hideSiblingNodes": true,
+                                              "modals": Array [],
+                                              "restore": [Function],
+                                              "scrollbarSize": 0,
+                                            }
+                                          }
+                                          onClick={[Function]}
+                                          onEnter={[Function]}
+                                          onEntering={[Function]}
+                                          onExited={[Function]}
+                                          onHide={[Function]}
+                                          onMouseUp={[Function]}
+                                          renderBackdrop={[Function]}
+                                          restoreFocus={true}
+                                          role="dialog"
+                                          show={false}
+                                          style={Object {}}
+                                          transition={[Function]}
+                                        />
+                                      </ForwardRef>
                                     </Modal>
                                   </Bootstrap(Modal)>
                                 </CourseInfoModal>
@@ -699,9 +756,9 @@ exports[`Rendering a course on the timeline renders correctly within a DragDropC
                                   "$$typeof": Symbol(react.forward_ref),
                                   "attrs": Array [],
                                   "componentStyle": ComponentStyle {
-                                    "componentId": "sc-bwzfXH",
+                                    "componentId": "sc-htpNat",
                                     "isStatic": false,
-                                    "lastClassName": "bBrTaZ",
+                                    "lastClassName": "jOWwhq",
                                     "rules": Array [
                                       "
   color: black;
@@ -724,7 +781,7 @@ exports[`Rendering a course on the timeline renders correctly within a DragDropC
                                   "displayName": "styled.div",
                                   "foldedComponentIds": Array [],
                                   "render": [Function],
-                                  "styledComponentId": "sc-bwzfXH",
+                                  "styledComponentId": "sc-htpNat",
                                   "target": "div",
                                   "toString": [Function],
                                   "warnTooManyClasses": [Function],
@@ -748,7 +805,7 @@ exports[`Rendering a course on the timeline renders correctly within a DragDropC
                             >
                               <div
                                 aria-labelledby="rbd-lift-instruction-0"
-                                className="sc-bwzfXH bBrTaZ"
+                                className="sc-htpNat jOWwhq"
                                 data-rbd-drag-handle-context-id="0"
                                 data-rbd-drag-handle-draggable-id="COMP1511"
                                 data-rbd-draggable-context-id="0"
@@ -823,7 +880,7 @@ exports[`Rendering a course on the timeline renders correctly within a DragDropC
                         show={false}
                         size="lg"
                       >
-                        <Modal
+                        <ForwardRef
                           autoFocus={true}
                           backdrop={true}
                           backdropTransition={[Function]}
@@ -851,11 +908,61 @@ exports[`Rendering a course on the timeline renders correctly within a DragDropC
                           onMouseUp={[Function]}
                           renderBackdrop={[Function]}
                           restoreFocus={true}
-                          role="dialog"
                           show={false}
                           style={Object {}}
                           transition={[Function]}
-                        />
+                        >
+                          <Modal
+                            autoFocus={true}
+                            backdrop={true}
+                            backdropTransition={[Function]}
+                            className="modal"
+                            container={
+                              <body>
+                                <div
+                                  aria-atomic="true"
+                                  aria-live="assertive"
+                                  id="rbd-announcement-0"
+                                  role="log"
+                                  style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                />
+                                <div
+                                  id="rbd-lift-instruction-0"
+                                  style="display: none;"
+                                >
+                                  Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                </div>
+                              </body>
+                            }
+                            containerClassName="modal-open"
+                            enforceFocus={true}
+                            keyboard={true}
+                            manager={
+                              BootstrapModalManager {
+                                "adjustAndStore": [Function],
+                                "containers": Array [],
+                                "data": Array [],
+                                "handleContainerOverflow": true,
+                                "hideSiblingNodes": true,
+                                "modals": Array [],
+                                "restore": [Function],
+                                "scrollbarSize": 0,
+                              }
+                            }
+                            onClick={[Function]}
+                            onEnter={[Function]}
+                            onEntering={[Function]}
+                            onExited={[Function]}
+                            onHide={[Function]}
+                            onMouseUp={[Function]}
+                            renderBackdrop={[Function]}
+                            restoreFocus={true}
+                            role="dialog"
+                            show={false}
+                            style={Object {}}
+                            transition={[Function]}
+                          />
+                        </ForwardRef>
                       </Modal>
                     </Bootstrap(Modal)>
                   </CourseInfoModal>

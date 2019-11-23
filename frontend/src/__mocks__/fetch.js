@@ -4,7 +4,6 @@ import {mockCourse} from 'mockCourse'
 import {mockDegrees} from 'mockDegrees'
 
 export default function fetch(type) {
-  console.log(type)
   if(type === API_ADDRESS + `/3778/2020/gen_program.json`) return Promise.resolve({json: () => {
     return {...mockPlan}
   }})

@@ -10,7 +10,7 @@ import mockCourse from '../__mocks__/mockCourse';
 
 console.error = jest.fn();
 console.warn = jest.fn();
-//console.log = jest.fn();
+console.log = jest.fn();
 
 const mockProgram = {
   degree_id: "3778",
@@ -29,7 +29,7 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-describe('Render degree planning timeline view', () => {
+describe('Render degree planning info bar', () => {
   it('renders correctly', () => {
     const wrapper = mount(
       <DragDropContext>

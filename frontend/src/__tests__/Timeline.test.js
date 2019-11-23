@@ -8,14 +8,14 @@ const mockLocation = {
   pathname: "/3778/2020"
 } 
 
-
 console.error = jest.fn();
 console.warn = jest.fn();
-console.log = jest.fn();
+//console.log = jest.fn();
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
 
 describe('savePlan method', () => {
   it('saves a plan when save button is pressed', async() => {
@@ -38,41 +38,50 @@ describe('savePlan method', () => {
 describe('onDragEnd method', () => {
   it('will preserve changing of the order of courses within a term', async() => {
     const wrapper = shallow(<Timeline location={mockLocation} />);
-    await sleep(1000);
+    await sleep(100);
     wrapper.update();
 
     let source_course = wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]
     let source_length = wrapper.state().program.enrollments[0].term_plans[0].course_ids.length
     let new_source_course = wrapper.state().program.enrollments[0].term_plans[0].course_ids[1]
+
+    // console.log(source_course)
+    // console.log(source_length)
+    // console.log(new_source_course)
 
     wrapper.instance().onDragEnd({
       destination: {index: 2, droppableId: "1 2019"},
       source: {index: 0, droppableId: "1 2019"},
       draggableId: source_course,
     })
+
+    await sleep(100);
+    wrapper.update()
+    expect(wrapper.state().program.enrollments[0].term_plans[0]).toBe('f')
     expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]).toBe(new_source_course)
     expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[2]).toBe(source_course)
     expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids.length).toBe(source_length)
   });
-  it('will preserve changing the term of a course', async() => {
-    const wrapper = shallow(<Timeline location={mockLocation} />);
-    await sleep(1000);
-    wrapper.update();
-    let source_course = wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]
-    let new_source_course = wrapper.state().program.enrollments[0].term_plans[0].course_ids[1]
-    let source_length = wrapper.state().program.enrollments[0].term_plans[0].course_ids.length
-    let dest_length = wrapper.state().program.enrollments[0].term_plans[1].course_ids.length
 
-    wrapper.instance().onDragEnd({
-      destination: {index: 0, droppableId: "2 2019"},
-      source: {index: 0, droppableId: "1 2019"},
-      draggableId: source_course,
-    })
-    expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]).toBe(new_source_course)
-    expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids).toHaveLength(source_length - 1)
-    expect(wrapper.state().program.enrollments[0].term_plans[1].course_ids[0]).toBe(source_course)
-    expect(wrapper.state().program.enrollments[0].term_plans[1].course_ids).toHaveLength(dest_length + 1)
-  });
+  // it('will preserve changing the term of a course', async() => {
+  //   const wrapper = shallow(<Timeline location={mockLocation} />);
+  //   await sleep(1000);
+  //   wrapper.update();
+  //   let source_course = wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]
+  //   let new_source_course = wrapper.state().program.enrollments[0].term_plans[0].course_ids[1]
+  //   let source_length = wrapper.state().program.enrollments[0].term_plans[0].course_ids.length
+  //   let dest_length = wrapper.state().program.enrollments[0].term_plans[1].course_ids.length
+
+  //   wrapper.instance().onDragEnd({
+  //     destination: {index: 0, droppableId: "2 2019"},
+  //     source: {index: 0, droppableId: "1 2019"},
+  //     draggableId: source_course,
+  //   })
+  //   expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]).toBe(new_source_course)
+  //   expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids).toHaveLength(source_length - 1)
+  //   expect(wrapper.state().program.enrollments[0].term_plans[1].course_ids[0]).toBe(source_course)
+  //   expect(wrapper.state().program.enrollments[0].term_plans[1].course_ids).toHaveLength(dest_length + 1)
+  // });
 });
 
 describe('addMissingTerms method', () => {
@@ -97,6 +106,7 @@ describe('addMissingTerms method', () => {
   });
 });
 
+
 describe('onDragStart method', () => {
   it('will highlight terms which contain an offering for the course being dragged', async() => {
     const wrapper = shallow(<Timeline location={mockLocation} />);
@@ -111,6 +121,7 @@ describe('onDragStart method', () => {
   });
 });
 
+
 describe('Render degree planning timeline view', () => {
   it('renders correctly', async() => {
     const wrapper = shallow(<Timeline location={mockLocation} />);
@@ -122,6 +133,7 @@ describe('Render degree planning timeline view', () => {
     wrapper.unmount();
   })
 });
+
 
 describe('add and remove years', () => {
   it('add an empty year', async() => {
@@ -168,6 +180,7 @@ describe('add and remove years', () => {
     wrapper.unmount();
   });
 });
+
 
 describe('removeCourse method', () => {
   it('has the course to be removed before removal', async() => {

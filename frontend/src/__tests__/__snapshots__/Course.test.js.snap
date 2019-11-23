@@ -453,7 +453,7 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                                       show={false}
                                       size="lg"
                                     >
-                                      <ForwardRef
+                                      <Modal
                                         autoFocus={true}
                                         backdrop={true}
                                         backdropTransition={[Function]}
@@ -481,68 +481,11 @@ exports[`Rendering a course on the timeline can render correctly within a term 1
                                         onMouseUp={[Function]}
                                         renderBackdrop={[Function]}
                                         restoreFocus={true}
+                                        role="dialog"
                                         show={false}
                                         style={Object {}}
                                         transition={[Function]}
-                                      >
-                                        <Modal
-                                          autoFocus={true}
-                                          backdrop={true}
-                                          backdropTransition={[Function]}
-                                          className="modal"
-                                          container={
-                                            <body>
-                                              <div
-                                                aria-atomic="true"
-                                                aria-live="assertive"
-                                                id="rbd-announcement-0"
-                                                role="log"
-                                                style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
-                                              />
-                                              <div
-                                                aria-atomic="true"
-                                                aria-live="assertive"
-                                                id="rbd-announcement-1"
-                                                role="log"
-                                                style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
-                                              />
-                                              <div
-                                                id="rbd-lift-instruction-1"
-                                                style="display: none;"
-                                              >
-                                                Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
-                                              </div>
-                                            </body>
-                                          }
-                                          containerClassName="modal-open"
-                                          enforceFocus={true}
-                                          keyboard={true}
-                                          manager={
-                                            BootstrapModalManager {
-                                              "adjustAndStore": [Function],
-                                              "containers": Array [],
-                                              "data": Array [],
-                                              "handleContainerOverflow": true,
-                                              "hideSiblingNodes": true,
-                                              "modals": Array [],
-                                              "restore": [Function],
-                                              "scrollbarSize": 0,
-                                            }
-                                          }
-                                          onClick={[Function]}
-                                          onEnter={[Function]}
-                                          onEntering={[Function]}
-                                          onExited={[Function]}
-                                          onHide={[Function]}
-                                          onMouseUp={[Function]}
-                                          renderBackdrop={[Function]}
-                                          restoreFocus={true}
-                                          role="dialog"
-                                          show={false}
-                                          style={Object {}}
-                                          transition={[Function]}
-                                        />
-                                      </ForwardRef>
+                                      />
                                     </Modal>
                                   </Bootstrap(Modal)>
                                 </CourseInfoModal>
@@ -880,7 +823,7 @@ exports[`Rendering a course on the timeline renders correctly within a DragDropC
                         show={false}
                         size="lg"
                       >
-                        <ForwardRef
+                        <Modal
                           autoFocus={true}
                           backdrop={true}
                           backdropTransition={[Function]}
@@ -908,61 +851,11 @@ exports[`Rendering a course on the timeline renders correctly within a DragDropC
                           onMouseUp={[Function]}
                           renderBackdrop={[Function]}
                           restoreFocus={true}
+                          role="dialog"
                           show={false}
                           style={Object {}}
                           transition={[Function]}
-                        >
-                          <Modal
-                            autoFocus={true}
-                            backdrop={true}
-                            backdropTransition={[Function]}
-                            className="modal"
-                            container={
-                              <body>
-                                <div
-                                  aria-atomic="true"
-                                  aria-live="assertive"
-                                  id="rbd-announcement-0"
-                                  role="log"
-                                  style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
-                                />
-                                <div
-                                  id="rbd-lift-instruction-0"
-                                  style="display: none;"
-                                >
-                                  Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
-                                </div>
-                              </body>
-                            }
-                            containerClassName="modal-open"
-                            enforceFocus={true}
-                            keyboard={true}
-                            manager={
-                              BootstrapModalManager {
-                                "adjustAndStore": [Function],
-                                "containers": Array [],
-                                "data": Array [],
-                                "handleContainerOverflow": true,
-                                "hideSiblingNodes": true,
-                                "modals": Array [],
-                                "restore": [Function],
-                                "scrollbarSize": 0,
-                              }
-                            }
-                            onClick={[Function]}
-                            onEnter={[Function]}
-                            onEntering={[Function]}
-                            onExited={[Function]}
-                            onHide={[Function]}
-                            onMouseUp={[Function]}
-                            renderBackdrop={[Function]}
-                            restoreFocus={true}
-                            role="dialog"
-                            show={false}
-                            style={Object {}}
-                            transition={[Function]}
-                          />
-                        </ForwardRef>
+                        />
                       </Modal>
                     </Bootstrap(Modal)>
                   </CourseInfoModal>

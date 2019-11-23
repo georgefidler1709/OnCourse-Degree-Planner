@@ -25,12 +25,14 @@ exports[`Rendering the degree search page renders correctly 1`] = `
         >
           <Styled(DropdownItem)
             active={true}
+            key="2020"
             onClick={[Function]}
           >
             2020
           </Styled(DropdownItem)>
           <Styled(DropdownItem)
             active={false}
+            key="2021"
             onClick={[Function]}
           >
             2021

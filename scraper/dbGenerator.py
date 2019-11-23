@@ -109,7 +109,8 @@ class DbGenerator(object):
         parser = courseParser.CourseParser()
         with open(requirements_file) as f:
             for line in f:
-                if line.startswith('#'):
+                line = line.strip()
+                if line.startswith('#') or line == '':
                     # This line is a comment, continue
                     continue
 

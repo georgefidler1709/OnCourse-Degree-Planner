@@ -1,11 +1,26 @@
-# Comp Sci requirements
+# COMPA1
 COMP4920 | (COMP2511 or COMP2911) and enrol 3778_COMPA1 and year -1
 COMP3900 | COMP1531 and (COMP2521 or COMP1927) and enrol 3778_COMPA1 and uoc 120
-# Seng requirements
+
+# SENGAH
 # DESN2000
 SENG2021 | (SENG1031 or COMP1531) and enrol 3707_SENGAH
 MATH2859 | MATH1231 or MATH1241 or MATH1251 or DPST1014
-COMP4951 | uoc 126 and (unparsed completion of 3rd year core)
 SENG4920 | SENG3011 and enrol 3707_SENGAH and uoc 144
+COMP4951 | uoc 126 and (unparsed completion of 3rd year core)
 COMP4952 | COMP4951
 COMP4953 | COMP4952
+
+# BINFAH
+
+# COMPBH
+
+# FINSA1
+
+# ACCTA1
+
+# MATHT1
+
+# PSYCA1
+
+# BIOSJ1

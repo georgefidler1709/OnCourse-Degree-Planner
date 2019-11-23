@@ -33,7 +33,7 @@ export interface RemainReq {
 
 export interface Program {
   // Degree object
-  id: number;
+  id: string;
   name: string;
   year: number;
   duration: number; // in years

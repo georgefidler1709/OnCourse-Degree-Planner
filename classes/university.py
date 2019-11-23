@@ -52,7 +52,7 @@ class University(object):
         self.courses: Dict[int, 'course.Course'] = {}
         # cache of degrees loaded from the db for this session, indexed by numeric code (which is
         # also db id)
-        self.degrees: Dict[Tuple[int, int], 'degree.Degree'] = {}
+        self.degrees: Dict[Tuple[str, int], 'degree.Degree'] = {}
 
     # Input: degree letter code (eg. COMPA1)
     # Return: corresponding degree.Degree object
@@ -71,7 +71,7 @@ class University(object):
 
     # Input: degree numerical code (eg. 3778)
     # Return: corresponding Degree object
-    def find_degree_number_code(self, numeric_code: int, year: int) -> Optional['degree.Degree']:
+    def find_degree_number_code(self, numeric_code: str, year: int) -> Optional['degree.Degree']:
         return self.load_degree(numeric_code, need_requirements=True, year=year)
 
     # Input: degree numerical code (eg. 3778), whether we need the requirements for the degree
@@ -79,7 +79,7 @@ class University(object):
     # requirements)
     # assumes that you want the degree for 2020 unless you specify
     # Return: corresponding Degree object
-    def load_degree(self, numeric_code: int, need_requirements: bool=True, year: int=2020) -> Optional['degree.Degree']:
+    def load_degree(self, numeric_code: str, need_requirements: bool=True, year: int=2020) -> Optional['degree.Degree']:
         if numeric_code in self.degrees:
             # TODO: Might not work if we first load without requirements then call this with
             # requirements, decide whether we even want the need_requirements option anymore

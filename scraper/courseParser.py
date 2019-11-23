@@ -3,6 +3,7 @@ Parses course information
 '''
 
 from typing import List, Tuple, Optional
+import re
 
 from classes import course
 from classes import term
@@ -46,6 +47,14 @@ class CourseParser(object):
         if string[:4].isalpha() and string[4:].isdigit():
             return True
         return False
+
+    def make_int(self, string: str) -> Optional[int]:
+        # takes a string and removes all non-digits, then converts to an int
+        num_str = re.sub(r"[^0-9]", "", string)
+        if str.isdigit(num_str):
+            return int(num_str)
+        else:
+            return None
 
     # Split a str of bracketed phrases by the outer level conjunction
     # Return: list of split phrases and the conjunction joining them
@@ -139,7 +148,12 @@ class CourseParser(object):
         levels: List[int] = []
         f: bool = False
         l: bool = False
+
         for word in req[2:]:
+            level_num: Optional[int] = self.make_int(word)
+            if level_num is None:
+                return None
+
             if word == 'f':
                 f = True
                 l = False
@@ -149,7 +163,7 @@ class CourseParser(object):
             elif f:
                 fields.append(word)
             elif l:
-                levels.append(int(word))
+                levels.append(level_num)
 
         field_filters: List['courseFilter.CourseFilter'] = []
         level_filters: List['courseFilter.CourseFilter'] = []
@@ -192,8 +206,11 @@ class CourseParser(object):
                 return scrapedSubjectReq.ScrapedSubjectReq(split[0])
             elif len(split) == 2:
                 course, mark = split
+                mark_num = self.make_int(mark)
+                if mark_num is None:
+                    return None
                 if mark.isdigit():
-                    return scrapedSubjectReq.ScrapedSubjectReq(course, int(mark))
+                    return scrapedSubjectReq.ScrapedSubjectReq(course, mark_num)
 
         # WAM requirements
         elif 'wam' in split:
@@ -234,8 +251,11 @@ class CourseParser(object):
 
         # enrollment requirements
         elif split[0] == 'enrol' and len(split) == 2:
-
-            degree = int(split[1])
+            # Degree ids have both a number and letter code with a space between them, but we'll put
+            # underscores instead in the extra requirements
+            degree = split[1]
+            degree = degree.replace('_', ' ')
+            degree = degree.upper()
             return scrapedEnrollmentReq.ScrapedEnrollmentReq(degree)
 
         # something has gone wrong
@@ -247,6 +267,9 @@ class CourseParser(object):
     def parse_course_req(self, req_str: str) -> Optional['courseReq.CourseReq']:
         # strip trailing characters and whitespace
         req = self.strip_punct_whitespace(req_str)
+
+        if not req or len(req) == 0:
+            return None
 
         # split by outer conjunctions
         tokenised, conj, success = self.split_by_conj(req)

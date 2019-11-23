@@ -75,6 +75,8 @@ class DbGenerator(object):
     def generate_db(self, year: int, fields: List[str]=[''], postgrad: bool=False, end_year:
             Optional[int]=None) -> None:
 
+        fields = list(set(fields))
+
         if end_year is None:
             end_year = year
 

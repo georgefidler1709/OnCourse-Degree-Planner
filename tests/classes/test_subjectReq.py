@@ -24,7 +24,7 @@ from classes import courseEnrollment
 faculty = 'SubjFaculty'
 t1 = term.Term(2019, 1)
 t2 = term.Term(2019, 2)
-degree1 = degree.Degree(1, 'Bachelor of Testing', 2019, 3, faculty, [], 'BAT1')
+degree1 = degree.Degree('1', 'Bachelor of Testing', 2019, 3, faculty, [], 'BAT1')
 subj1001 = course.Course('SUBJ', '1001', 'Subject1', 6, [t1], faculty)
 subj1002 = course.Course('SUBJ', '1002', 'Subject1', 6, [t1], faculty)
 enrol1001 = courseEnrollment.CourseEnrollment(subj1001, t1)

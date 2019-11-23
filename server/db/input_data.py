@@ -735,7 +735,7 @@ def insert_fins_degree_requirements(db='university.db', start_year=2020, end_yea
     # ===> start filters needed
     bus_core = h.spec_courses_to_filters(['ACCT1501', 'ECON1101', 'ECON1203', 'MGMT1001'])
 
-    flex_core = h.spec_courses_to_filters(['ACCT1511', 'COMM1000', 'COMM1822', 'ECON1102', 'FINS1613',
+    flex_core = h.spec_courses_to_filters(['ACCT1511', 'COMM1000', 'COMM1822', 'ECON1102',
         'INFS1602', 'MARK1012', 'MGMT1101', 'TABL1710'])
     flex_or = h.combine_course_filters('or', flex_core)
 
@@ -811,9 +811,9 @@ def insert_acct_degree_requirements(db='university.db', start_year=2020, end_yea
     h = Helper(dbaddr=db)
 
     # ===> start filters needed
-    bus_core = h.spec_courses_to_filters(['ACCT1501', 'ECON1101', 'ECON1203', 'MGMT1001'])
+    bus_core = h.spec_courses_to_filters(['ECON1101', 'ECON1203', 'MGMT1001'])
 
-    flex_core = h.spec_courses_to_filters(['ACCT1511', 'COMM1000', 'COMM1822', 'ECON1102', 'FINS1613',
+    flex_core = h.spec_courses_to_filters(['COMM1000', 'COMM1822', 'ECON1102', 'FINS1613',
         'INFS1602', 'MARK1012', 'MGMT1101', 'TABL1710'])
     flex_or = h.combine_course_filters('or', flex_core)
 
@@ -1012,7 +1012,7 @@ def insert_stat_degree_requirements(db='university.db', start_year=2020, end_yea
         h.add_degree_reqs(STAT, year, None, 144)
 
         # notes
-        h.add_degree_notes(STAT, year, 'Science Electives include courses with the following field codes: ANAT, AVEN, AVIA, AVIF, AVIG, BABS, BEES, BIOC, BIOS, BIOT, CHEM, CLIM, COMP, FOOD, GEOS, MATH, MATS, MICR, MSCI, NEUR, OPTM, PATH, PHAR, PHSL, PHYS, PSYC, SCIF, SOMS, VISN')
+        h.add_degree_notes(STAT, year, 'Science Electives include courses with the following field codes: ANAT, AVEN, AVIA, AVIF, AVIG, BABS, BEES, BIOC, BIOS, BIOT, CHEM, CLIM, COMP, FOOD, GEOS, MATH, MATS, MICR, MSCI, NEUR, OPTM, PATH, PHAR, PHSL, PHYS, PSYC, SCIF, SOMS, VISN.')
 
         h.add_degree_notes(STAT, year, 'GEN# courses cannot count towards the free elective component, or towards science core courses or science electives in the program. Any exceptions to these rules must be approved by the Associate Dean (Academic Programs) or nominee.')
 
@@ -1085,7 +1085,7 @@ def insert_psyc_degree_requirements(db='university.db', start_year=2020, end_yea
         h.add_degree_reqs(PSYC, year, None, 144)
 
         # notes
-        h.add_degree_notes(PSYC, year, 'Science Electives include courses with the following field codes: ANAT, AVEN, AVIA, AVIF, AVIG, BABS, BEES, BIOC, BIOS, BIOT, CHEM, CLIM, COMP, FOOD, GEOS, MATH, MATS, MICR, MSCI, NEUR, OPTM, PATH, PHAR, PHSL, PHYS, PSYC, SCIF, SOMS, VISN')
+        h.add_degree_notes(PSYC, year, 'Science Electives include courses with the following field codes: ANAT, AVEN, AVIA, AVIF, AVIG, BABS, BEES, BIOC, BIOS, BIOT, CHEM, CLIM, COMP, FOOD, GEOS, MATH, MATS, MICR, MSCI, NEUR, OPTM, PATH, PHAR, PHSL, PHYS, PSYC, SCIF, SOMS, VISN.')
 
         h.add_degree_notes(PSYC, year, 'Prescribed Level 3 Psychology Electives include: PSYC3051, PSYC3121, PSYC3211, PSYC3221, PSYC3241, PSYC3301, PSYC3311, PSYC3331, PSYC3341, PSYC3361, PSYC3371.')
 
@@ -1170,7 +1170,7 @@ def insert_bio_degree_requirements(db='university.db', start_year=2020, end_year
         h.add_degree_reqs(BIO, year, None, 144)
 
         # notes
-        h.add_degree_notes(BIO, year, 'Science Electives include courses with the following field codes: ANAT, AVEN, AVIA, AVIF, AVIG, BABS, BEES, BIOC, BIOS, BIOT, CHEM, CLIM, COMP, FOOD, GEOS, MATH, MATS, MICR, MSCI, NEUR, OPTM, PATH, PHAR, PHSL, PHYS, PSYC, SCIF, SOMS, VISN')
+        h.add_degree_notes(BIO, year, 'Science Electives include courses with the following field codes: ANAT, AVEN, AVIA, AVIF, AVIG, BABS, BEES, BIOC, BIOS, BIOT, CHEM, CLIM, COMP, FOOD, GEOS, MATH, MATS, MICR, MSCI, NEUR, OPTM, PATH, PHAR, PHSL, PHYS, PSYC, SCIF, SOMS, VISN.')
 
         h.add_degree_notes(BIO, year, 'GEN# courses cannot count towards the free elective component, or towards science core courses or science electives in the program. Any exceptions to these rules must be approved by the Associate Dean (Academic Programs) or nominee.')
 
@@ -1229,7 +1229,7 @@ def insert_bio_degree_requirements(db='university.db', start_year=2020, end_year
 #         h.add_degree_reqs(STAT, year, None, 144)
 
 #         # notes
-#         h.add_degree_notes(STAT, year, 'Science Electives include courses with the following field codes: ANAT, AVEN, AVIA, AVIF, AVIG, BABS, BEES, BIOC, BIOS, BIOT, CHEM, CLIM, COMP, FOOD, GEOS, MATH, MATS, MICR, MSCI, NEUR, OPTM, PATH, PHAR, PHSL, PHYS, PSYC, SCIF, SOMS, VISN')
+#         h.add_degree_notes(STAT, year, 'Science Electives include courses with the following field codes: ANAT, AVEN, AVIA, AVIF, AVIG, BABS, BEES, BIOC, BIOS, BIOT, CHEM, CLIM, COMP, FOOD, GEOS, MATH, MATS, MICR, MSCI, NEUR, OPTM, PATH, PHAR, PHSL, PHYS, PSYC, SCIF, SOMS, VISN.')
 
 #         h.add_degree_notes(STAT, year, 'GEN# courses cannot count towards the free elective component, or towards science core courses or science electives in the program. Any exceptions to these rules must be approved by the Associate Dean (Academic Programs) or nominee.')
 

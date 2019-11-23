@@ -1,3 +1,14 @@
+/**
+ * COMP4290 Group Project
+ * Team: On Course
+ * Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
+ * George Fidler (z5160384), Kevin Ni (z5025098)
+ *
+ * InfoBar.tsx
+ * Controls the sidebar on the right hand side of the timeline view
+ * Displays information such as degree requirements as well as adds new courses into the timeline
+ */
+
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import InfoBarDropBox from "./InfoBarDropBox"
@@ -49,7 +60,7 @@ interface InfoBarProps {
   standby_courses: Array<Course>;
   done_courses: Array<Course>;
   year: number;
-  add_event: (code: string) => Promise<boolean>;// function to call when you want to add a course
+  add_event: (code: string) => Promise<boolean>; // function to call when you want to add a course
   remove_course: (id: string) => void;
   already_enrolled: (code: string) => boolean;
 }

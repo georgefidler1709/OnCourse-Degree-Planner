@@ -76,6 +76,11 @@ class Course(object):
             print(self)
             raise e
 
+    def to_api_simple(self) -> api.SimpleCourse:
+        return { 'code': self.course_code,
+                'name': self.name,
+                'terms': [term.to_api() for term in self.terms] }
+
     # returns the SUBJxxxx course code
     @property
     def course_code(self) -> str:

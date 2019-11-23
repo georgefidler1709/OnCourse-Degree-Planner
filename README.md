@@ -14,7 +14,7 @@ Degrees that are currently in the database are 3778 (COMPA1), 3707 (SENGAH, BINF
 
 ## Disclaimer
 
-This application is a good tool for students. However, it is not UNSW-endorsed, so does not replace official UNSW channels, such as submitting a [progression check](https://nucleus.unsw.edu.au/Program/academic-progression-and-progression-checks). 
+This application is a good tool for students. However, it is not UNSW-endorsed so does not replace official UNSW channels, such as submitting a [progression check](https://nucleus.unsw.edu.au/Program/academic-progression-and-progression-checks). 
 
 ## Group Members
 

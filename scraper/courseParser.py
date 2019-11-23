@@ -251,8 +251,11 @@ class CourseParser(object):
 
         # enrollment requirements
         elif split[0] == 'enrol' and len(split) == 2:
-
-            degree = int(split[1])
+            # Degree ids have both a number and letter code with a space between them, but we'll put
+            # underscores instead in the extra requirements
+            degree = split[1]
+            degree = degree.replace('_', ' ')
+            degree = degree.upper()
             return scrapedEnrollmentReq.ScrapedEnrollmentReq(degree)
 
         # something has gone wrong

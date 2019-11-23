@@ -27,8 +27,8 @@ const Container = styled.div<DraggableProps>`
   &:hover {
     background-color: ${props => { 
       if (props.isDragging) return 'lightblue';
-      else if(props.hasWarning) return 'darkyellow';
       else if(props.hasError) return 'darkred';
+      else if(props.hasWarning) return 'darkyellow';
       else return 'grey';
     }};
   }

@@ -47,9 +47,13 @@ class CourseParser(object):
             return True
         return False
 
-    def make_int(self, string: str) -> int:
+    def make_int(self, string: str) -> Optional[int]:
         # takes a string and removes all non-digits, then converts to an int
-        return int(re.sub(r"[^0-9]", "", string))
+        num_str = re.sub(r"[^0-9]", "", string)
+        if str.isdigit(num_str):
+            return int(num_str)
+        else:
+            return None
 
     # Split a str of bracketed phrases by the outer level conjunction
     # Return: list of split phrases and the conjunction joining them
@@ -143,7 +147,12 @@ class CourseParser(object):
         levels: List[int] = []
         f: bool = False
         l: bool = False
+
         for word in req[2:]:
+            level_num: Optional[int] = self.make_int(word)
+            if level_num is None:
+                return None
+
             if word == 'f':
                 f = True
                 l = False
@@ -153,7 +162,7 @@ class CourseParser(object):
             elif f:
                 fields.append(word)
             elif l:
-                levels.append(self.make_int(word))
+                levels.append(level_num)
 
         field_filters: List['courseFilter.CourseFilter'] = []
         level_filters: List['courseFilter.CourseFilter'] = []
@@ -194,8 +203,11 @@ class CourseParser(object):
                 return scrapedSubjectReq.ScrapedSubjectReq(split[0])
             elif len(split) == 2:
                 course, mark = split
+                mark_num = self.make_int(mark)
+                if mark_num is None:
+                    return None
                 if mark.isdigit():
-                    return scrapedSubjectReq.ScrapedSubjectReq(course, self.make_int(mark))
+                    return scrapedSubjectReq.ScrapedSubjectReq(course, mark_num)
 
         # WAM requirements
         elif 'wam' in split:

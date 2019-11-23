@@ -34,6 +34,7 @@ from . import  (
     subjectReq,
     term,
     unparsedReq,
+    wamReq,
     uocReq,
     yearReq,
 )
@@ -348,6 +349,8 @@ class University(object):
             return self.load_or_requirement(requirement_data)
         elif type_name == 'UnparsedRequirement':
             return self.load_unparsed_requirement(requirement_data)
+        elif type_name == 'WamRequirement':
+            return self.load_wam_requirement(requirement_data)
         else:
             print('ERROR: No course requirement \'{}\''.format(type_name))
             return None
@@ -453,6 +456,11 @@ class University(object):
         requirement_string = requirement_data['requirement_string']
 
         return unparsedReq.UnparsedReq(requirement_string)
+
+    def load_wam_requirement(self, requirement_data: Row) -> 'wamReq.WAMReq':
+        wam = requirement_data['wam']
+
+        return wamReq.WAMReq(wam)
 
     # Input: the id of the course filter
     # Return: The course filter in question

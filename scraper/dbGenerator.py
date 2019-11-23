@@ -199,8 +199,8 @@ class DbGenerator(object):
         type_id = self.get_req_type_id(requirement.requirement_name)
         uoc = requirement.uoc
 
-        result = self.query_db('''select id from CourseRequirements where type_id = ? and uoc = ?
-        and filter_id = ?''', (type_id, uoc, filter_id), one=True)
+        result = self.query_db('''select id from CourseRequirements where type_id = ? and
+        uoc_amount_required = ? and uoc_course_filter = ?''', (type_id, uoc, filter_id), one=True)
 
         if result is not None:
             (req_id, ) = result
@@ -247,7 +247,7 @@ class DbGenerator(object):
         type_id = self.get_req_type_id(requirement.requirement_name)
         degree = requirement.degree
 
-        result = self.query_db('''select id from CourseRequirements where type_id = ? and degree =
+        result = self.query_db('''select id from CourseRequirements where type_id = ? and degree_id =
         ?''', (type_id, degree), one=True)
 
         if result is not None:
@@ -361,7 +361,8 @@ class DbGenerator(object):
     def store_filter_with_no_values(self, filter: 'courseFilter.CourseFilter') -> int:
         type_id = self.get_filter_type_id(filter.filter_name)
 
-        result = self.query_db('''select id from CourseFilters where type_id = ?''', (type_id, ))
+        result = self.query_db('''select id from CourseFilters where type_id = ?''', (type_id, ),
+                one=True)
 
         if result is not None:
             (filter_id, ) = result
@@ -376,7 +377,7 @@ class DbGenerator(object):
         level = filter.level
 
         result = self.query_db('''select id from CourseFilters where type_id = ? and level = ?''',
-                (type_id, level))
+                (type_id, level), one=True)
 
         if result is not None:
             (filter_id, ) = result

@@ -15,7 +15,28 @@ import sqlite3
 from typing import Tuple
 
 from scraper import dbGenerator
-from classes import course
+from scraper import scrapedEnrollmentReq
+from scraper import scrapedSubjectReq
+
+from classes import (
+        andFilter,
+        andReq,
+        course,
+        enrollmentReq,
+        fieldFilter,
+        freeElectiveFilter,
+        genEdFilter,
+        levelFilter,
+        orFilter,
+        orReq,
+        specificCourseFilter,
+        subjectReq,
+        university,
+        unparsedReq,
+        uocReq,
+        wamReq,
+        yearReq,
+        )
 
 class DbHelper:
     def __init__(self, db):
@@ -153,60 +174,320 @@ class TestDbGenerator_insert_requirements(TestDbGenerator):
         self.first_course_id = self.dbGenerator.insert_course_without_requirements(self.first_course, 2020)
         self.second_course_id = self.dbGenerator.insert_course_without_requirements(self.second_course, 2020)
 
+        self.first_degree_id = 42
+        self.first_degree_name = 'Test degree'
+        self.first_degree_faculty = 'Faculty of Testing'
+        self.first_degree_duration = 3
+
+        self.h.store_db('''insert into Degrees(name, faculty, duration, id) values(?, ?, ?, ?)''',
+                (self.first_degree_name, self.first_degree_faculty,
+                    self.first_degree_duration, self.first_degree_id))
+
+        self.uni = university.University(self.h.query_db)
+
     def test_insert_nothing(self):
         self.dbGenerator.insert_requirements(self.first_course_id, None, None, [], [])
 
-        prereqs, coreqs, exclusions, equivalents = self.h.get_requirements(self.first_course_id)
+        course = self.uni.find_course(self.first_course.course_code)
 
-        assert prereqs is None
-        assert coreqs is None
-        assert exclusions == []
-        assert equivalents == []
+        assert course.prereqs is None
+        assert course.coreqs is None
+        assert course.exclusions == []
+        assert course.equivalents == []
 
     def test_insert_and_req(self):
-        pass
+        wam = 40
+        sub_requirement = wamReq.WAMReq(wam)
+
+        requirement = andReq.AndReq([sub_requirement])
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'AndRequirement'
+        assert len(prereq.reqs) == 1
+        sub_req = prereq.reqs[0]
+        assert sub_req.requirement_name == 'WamRequirement'
+        assert sub_req.wam == wam
 
     def test_insert_or_req(self):
-        pass
+        wam = 40
+        sub_requirement = wamReq.WAMReq(wam)
+
+        requirement = orReq.OrReq([sub_requirement])
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'OrRequirement'
+        assert len(prereq.reqs) == 1
+        sub_req = prereq.reqs[0]
+        assert sub_req.requirement_name == 'WamRequirement'
+        assert sub_req.wam == wam
 
     def test_insert_empty_uoc_req(self):
-        pass
+        uoc = 20
+        requirement = uocReq.UOCReq(uoc, None)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'UocRequirement'
+        assert prereq.uoc == uoc
+        assert prereq.filter is None
 
     def test_insert_wam_req(self):
-        pass
+        wam = 40
+        requirement = wamReq.WAMReq(wam)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'WamRequirement'
+        assert prereq.wam == wam
 
     def test_insert_year_req(self):
-        pass
+        year = 3
+        requirement = yearReq.YearReq(year)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'YearRequirement'
+        assert prereq.year == year
 
     def test_insert_enrollment_req(self):
-        pass
+        requirement = scrapedEnrollmentReq.ScrapedEnrollmentReq(self.first_degree_id)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'CurrentDegreeRequirement'
+        assert prereq.degree_id == self.first_degree_id
+        assert prereq.degree_name == self.first_degree_name
+
 
     def test_insert_subject_req(self):
-        pass
+        min_mark = 75
+        requirement = scrapedSubjectReq.ScrapedSubjectReq(self.second_course.course_code, min_mark)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'CompletedCourseRequirement'
+        assert prereq.course == self.second_course
+        assert prereq.min_mark == min_mark
 
     def test_insert_unparsed_req(self):
-        pass
+        requirement_string = 'This is an unparsed requirement'
+
+        requirement = unparsedReq.UnparsedReq(requirement_string)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'UnparsedRequirement'
+        assert prereq.requirement_string == requirement_string
+
+    def test_insert_prereq(self):
+        requirement_string = 'This is an unparsed requirement'
+
+        requirement = unparsedReq.UnparsedReq(requirement_string)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.requirement_name == 'UnparsedRequirement'
+        assert prereq.requirement_string == requirement_string
+        assert course.coreqs is None
+        assert course.exclusions == []
+        assert course.equivalents == []
+
+    def test_insert_coreq(self):
+        requirement_string = 'This is an unparsed requirement'
+
+        requirement = unparsedReq.UnparsedReq(requirement_string)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, None, requirement, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        coreq = course.coreqs
+        assert coreq is not None
+        assert coreq.requirement_name == 'UnparsedRequirement'
+        assert coreq.requirement_string == requirement_string
+        assert course.prereqs is None
+        assert course.exclusions == []
+        assert course.equivalents == []
 
     def test_insert_exclusion(self):
         self.dbGenerator.insert_requirements(self.first_course_id, None, None,
                 [self.second_course.course_code], [])
 
-        prereqs, coreqs, exclusions, equivalents = self.h.get_requirements(self.first_course_id)
+        course = self.uni.find_course(self.first_course.course_code)
 
-        assert prereqs is None
-        assert coreqs is None
-        assert exclusions == [self.second_course_id]
-        assert equivalents == []
+        assert course.prereqs is None
+        assert course.coreqs is None
+        assert course.exclusions == [self.second_course.course_code]
+        assert course.equivalents == []
+
 
     def test_insert_equivalent(self):
         self.dbGenerator.insert_requirements(self.first_course_id, None, None,
                 [], [self.second_course.course_code])
 
-        prereqs, coreqs, exclusions, equivalents = self.h.get_requirements(self.first_course_id)
+        course = self.uni.find_course(self.first_course.course_code)
 
-        assert prereqs is None
-        assert coreqs is None
-        assert exclusions == []
-        assert equivalents == [self.second_course_id]
+        assert course.prereqs is None
+        assert course.coreqs is None
+        assert course.exclusions == []
+        assert course.equivalents == [self.second_course.course_code]
+
+    def test_insert_uoc_req_with_and_filter(self):
+        input_sub_filter = freeElectiveFilter.FreeElectiveFilter()
+
+        input_filter = andFilter.AndFilter([input_sub_filter])
+
+        uoc = 20
+        requirement = uocReq.UOCReq(uoc, input_filter)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.filter is not None
+        filter = prereq.filter
+        assert filter.filter_name == input_filter.filter_name
+        assert len(filter.filters) == 1
+        sub_filter = filter.filters[0]
+        assert sub_filter.filter_name == input_sub_filter.filter_name
+        
+    def test_insert_uoc_req_with_or_filter(self):
+        input_sub_filter = freeElectiveFilter.FreeElectiveFilter()
+
+        input_filter = orFilter.OrFilter([input_sub_filter])
+
+        uoc = 20
+        requirement = uocReq.UOCReq(uoc, input_filter)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.filter is not None
+        filter = prereq.filter
+        assert filter.filter_name == input_filter.filter_name
+        assert len(filter.filters) == 1
+        sub_filter = filter.filters[0]
+        assert sub_filter.filter_name == input_sub_filter.filter_name
+
+    def test_insert_uoc_req_with_field_filter(self):
+        field = 'COMP'
+        input_filter = fieldFilter.FieldFilter(field)
+
+        uoc = 20
+        requirement = uocReq.UOCReq(uoc, input_filter)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.filter is not None
+        filter = prereq.filter
+        assert filter.filter_name == input_filter.filter_name
+        assert filter.field == field
+
+    def test_insert_uoc_req_with_free_elective_filter(self):
+        input_filter = freeElectiveFilter.FreeElectiveFilter()
+
+        uoc = 20
+        requirement = uocReq.UOCReq(uoc, input_filter)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.filter is not None
+        filter = prereq.filter
+        assert filter.filter_name == input_filter.filter_name
+
+    def test_insert_uoc_req_with_gen_ed_filter(self):
+        input_filter = genEdFilter.GenEdFilter()
+
+        uoc = 20
+        requirement = uocReq.UOCReq(uoc, input_filter)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.filter is not None
+        filter = prereq.filter
+        assert filter.filter_name == input_filter.filter_name
+
+    def test_insert_uoc_req_with_level_filter(self):
+        level = 3
+        input_filter = levelFilter.LevelFilter(level)
+
+        uoc = 20
+        requirement = uocReq.UOCReq(uoc, input_filter)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.filter is not None
+        filter = prereq.filter
+        assert filter.filter_name == input_filter.filter_name
+        assert filter.level == input_filter.level
+
+    def test_insert_uoc_req_with_specific_course_filter(self):
+        input_filter = specificCourseFilter.SpecificCourseFilter(self.second_course)
+
+        uoc = 20
+        requirement = uocReq.UOCReq(uoc, input_filter)
+
+        self.dbGenerator.insert_requirements(self.first_course_id, requirement, None, [], [])
+
+        course = self.uni.find_course(self.first_course.course_code)
+        prereq = course.prereqs
+        assert prereq is not None
+        assert prereq.filter is not None
+        filter = prereq.filter
+        assert filter.filter_name == input_filter.filter_name
+        assert filter.course == input_filter.course
+
+
+
+
+
+
+
+
+
+
 
 

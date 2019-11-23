@@ -76,17 +76,24 @@ def add_to_db() -> None:
 
 def do_add_to_db() -> None:
     from server.db import input_data
+    from scraper import dbGenerator
 
     db_path = current_app.config['DATABASE']
-
+    extra_requirements_path = current_app.config['EXTRA_REQUIREMENTS']
+    
     START_YEAR = 2020
     END_YEAR = 2021
 
     input_data.insert_degrees_with_no_offerings(db=db_path)
 
-    # input Computer Science 3778 COMPA1 course requirements
-    # In case we missed requirements for some courses
-    input_data.compsci_course_reqs(db_path)
+    # input extra course requirements
+    generator = dbGenerator.DbGenerator(query_db, store_db)
+
+    print('ADDING EXTRA COURSE REQUIREMENTS')
+    generator.add_extra_requirements(extra_requirements_path)
+    print('EXTRA COURSE REQUIREMENTS INSERTED')
+
+    input_data.insert_degrees_with_no_offerings(db=db_path)
 
     # input CourseFilters and DegreeOfferingRequirements for 3778 COMPA1
     input_data.insert_compsci_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
@@ -110,6 +117,7 @@ def do_add_to_db() -> None:
     input_data.insert_bio_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
 
     print('DEGREE REQUIREMENTS INSERTED')
+
 
 @click.command('init-db')
 @with_appcontext

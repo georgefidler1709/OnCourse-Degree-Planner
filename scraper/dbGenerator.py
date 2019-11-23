@@ -33,7 +33,7 @@ from classes import (
         yearReq
 )
 
-
+from . import courseParser
 from . import scrapedCourse
 from . import scrapedEnrollmentReq
 from . import scrapedSubjectReq
@@ -102,11 +102,36 @@ class DbGenerator(object):
             self.insert_requirements(course_id, course.prereqs, course.coreqs,
                         course.exclusions, course.equivalents)
 
+    # Gets extra course requirements from the course requirements file and adds them to the database
+    def add_extra_requirements(self, requirements_file: str) -> None:
+        parser = courseParser.CourseParser()
+        with open(requirements_file) as f:
+            for line in f:
+                if line.startswith('#'):
+                    # This line is a comment, continue
+                    continue
+
+                course_code, requirements = line.split('|')
+                course_code = course_code.strip()
+
+                print(f'INSERTING REQUIREMENTS FOR {course_code}')
+
+                prereqs, coreqs, finished = parser.parse_reqs(requirements)
+
+                if not finished:
+                    raise ValueError(f'''requirements in extra course requirements should be parseable
+                        line was {line}''')
+
+                course_id = self.find_course(course_code)
+                # Don't need to readd exclusions and equivalents because they won't be removed by
+                # this
+                self.insert_requirements(course_id, prereqs, coreqs, [], [])
+
     def insert_course_without_requirements(self, course: 'course.Course', start_year: int,
             end_year: Optional[int]=None) -> int:
         if end_year is None:
             end_year = start_year
-        result_id = self.store_db('''insert or replace into Courses(letter_code, number_code, level, name,
+        result_id = self.store_db('''insert into Courses(letter_code, number_code, level, name,
         faculty, units, finished) values (?, ?, ?, ?, ?, ?, 0)''', (course.subject, course.code,
             course.level, course.name, course.faculty, course.units))
 

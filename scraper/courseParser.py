@@ -15,6 +15,7 @@ from . import scrapedEnrollmentReq
 from . import scrapedSubjectReq
 from classes import courseReq
 from classes import yearReq
+from classes import unparsedReq
 from classes import uocReq
 from classes import wamReq
 from classes import andReq
@@ -183,8 +184,10 @@ class CourseParser(object):
     def make_single_course_req(self, string: str) -> Optional['courseReq.CourseReq']:
         split = string.split()
 
+        if split[0] == 'unparsed':
+            return unparsedReq.UnparsedReq(" ".join(split[1:]))
         # subject requirements
-        if self.is_course_code(split[0]):
+        elif self.is_course_code(split[0]):
             if len(split) == 1:
                 return scrapedSubjectReq.ScrapedSubjectReq(split[0])
             elif len(split) == 2:

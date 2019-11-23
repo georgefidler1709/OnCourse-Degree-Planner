@@ -44,6 +44,7 @@ create table CourseFilters (
     type_id integer references CourseFilterTypes(id),
 
     -- Specific Course filter
+    min_mark integer,
     course_id integer references Courses(id),
 
     -- Gen Ed filter has no attributes
@@ -58,7 +59,7 @@ create table CourseFilters (
 
     id integer primary key,
     -- And and Or filters have relationships in CourseFilterHierarchies
-    unique(type_id, course_id)
+    unique(type_id, course_id, min_mark)
     unique(type_id, level)
 );
 

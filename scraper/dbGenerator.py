@@ -392,15 +392,18 @@ class DbGenerator(object):
         type_id = self.get_filter_type_id(filter.filter_name)
         course_id = self.find_course(filter.course.course_code)
 
+        # TODO maybe get from specific course filter if we decide we need it
+        min_mark = 50
+
         result = self.query_db('''select id from CourseFilters where type_id = ? and course_id
-        = ?''', (type_id, course_id), one=True)
+        = ? and min_mark = ?''', (type_id, course_id, min_mark), one=True)
 
         if result is not None:
             (filter_id, ) = result
             return filter_id
 
-        filter_id = self.store_db('''insert into CourseFilters(type_id, course_id) values(?, ?)''',
-                (type_id, course_id))
+        filter_id = self.store_db('''insert into CourseFilters(type_id, course_id, min_mark) values(?, ?, ?)''',
+                (type_id, course_id, min_mark))
 
         return filter_id
 

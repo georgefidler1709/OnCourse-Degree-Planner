@@ -1,6 +1,6 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
@@ -8,8 +8,6 @@ degreeReq.py
 Implementation of the DegreeReq class which specifies a degree requirement.
 These requirements take the form of a count of units from a particular
 filter of courses.
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from abc import ABC, abstractmethod
@@ -40,7 +38,6 @@ class DegreeReq(ABC):
     def fulfilled(self, courses: List['course.Course'], degree: 'degree.Degree') -> bool:
         pass
 
-    
     # Input: a degree and a list of courses
     # Return: number of units remaining to complete this requirement
     # Note: Deletes matching courses from list!
@@ -85,8 +82,3 @@ class DegreeReq(ABC):
             return True
         else:
             return False
-
-    # Saves the requirement in the database
-    # Return: the id of the filter in the database
-    def save(self):
-        return self.filter.save()

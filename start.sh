@@ -12,9 +12,7 @@ export SECRET_KEY="OneTwoThreeFourFiveSix"
 
 # set up the database connection
 export DATABASE="./server/db/university.db"
-#./server/db/create_db.sh
 
 export EXTRA_REQUIREMENTS='./server/db/extra_course_requirements.txt'
 
-# flask init-db # TODO maybe it's 2 instances, keep it within run.py
 mypy . && flask $1

@@ -1,14 +1,12 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 courseReq.py
 Implementation of the CourseReq class, an abstract class which collects types
 of course requirements.
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from abc import ABC, abstractmethod
@@ -34,13 +32,8 @@ class CourseReq(ABC):
 
     # The name of the requirement for the database
     @property
-    # @abstractmethod
     def requirement_name(self) -> str:
         return 'GenericRequirement'
-
-    @abstractmethod
-    def inflate(self, university: 'university.University') -> Optional['CourseReq']:
-        pass
 
     # Input: a program and a term in which the required course is taken
     # Return: any errors pertaining to this requirement
@@ -61,6 +54,3 @@ class CourseReq(ABC):
     def fulfilled(self, program: 'program.Program', term: 'term.Term',
             coreq: bool=False) -> bool:
         return len(self.check(program, term, coreq)) == 0
-
-# Imports that were causing circular dependency issues at the bottom
-from . import university

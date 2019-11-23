@@ -1,13 +1,11 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 specificCourseFilter
 A filter that matches only one course
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from . import course
@@ -56,9 +54,3 @@ class SpecificCourseFilter(courseFilter.CourseFilter):
             return True
         else:
             return False
-
-    # Saves the filter in the database
-    # Return: the id of the filter in the database
-    def save(self) -> int:
-        # TODO
-        pass

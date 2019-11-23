@@ -1,3 +1,12 @@
+'''
+COMP4290 Group Project
+Team: On Course
+Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
+George Fidler (z5160384), Kevin Ni (z5025098)
+
+test_program.py
+Test the functions defined in program.py
+'''
 import pytest
 
 from classes.course import Course
@@ -22,7 +31,7 @@ def plan():
     '''
     uni = University(query_db)
 
-    deg = uni.find_degree_number_code(3778, 2020)
+    deg = uni.find_degree_number_code('3778 COMPA1', 2020)
     assert deg is not None
 
     prog = Generator(deg, uni).generate()

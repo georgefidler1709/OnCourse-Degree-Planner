@@ -6,8 +6,6 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 
 test_freeElectiveFilter.py
 Test the functions defined in freeElectiveFilter.py
-
-[MORE INFO ABOUT CLASS]
 '''
 
 import pytest

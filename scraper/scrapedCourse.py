@@ -1,13 +1,11 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 scrapedCourse.py
 A class to contain information about a course, scraped from the handbook
-
-[MORE INFO ABOUT CLASS]
 '''
 
 
@@ -61,20 +59,6 @@ class ScrapedCourse(object):
     def reparse(self) -> None:
         parser = courseParser.CourseParser()
         self.prereqs, self.coreqs, self.finished = parser.parse_reqs(self.requirements)
-
-
-    # Given a university with database populated excluding requirements,
-    def inflate(self, university: 'university.University') -> Optional['course.Course']:
-        course = university.find_course(self.code, allow_unfinished=True)
-        if course is None:
-            # ERROR
-            return None
-        if self.prereqs:
-            course.prereqs = self.prereqs.inflate(university)
-        if self.coreqs:
-            course.coreqs = self.coreqs.inflate(university)
-
-        return course
 
 
     # Convert to a course object

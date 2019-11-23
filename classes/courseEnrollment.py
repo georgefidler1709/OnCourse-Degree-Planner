@@ -1,6 +1,6 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
@@ -8,8 +8,6 @@ courseEnrollment.py
 Implementation of the CourseEnrollment class, which represents an enrollment in
 a course. This contains the course enrolled in and the term in which the course
 will be taken.
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from . import course
@@ -36,7 +34,7 @@ class CourseEnrollment(object):
 
     # override equality
     def __eq__(self, other) -> bool: # For x == y
-        if (isinstance(other, CourseEnrollment) and 
+        if (isinstance(other, CourseEnrollment) and
             self.course == other.course and self.term == other.term):
             return True
         else:

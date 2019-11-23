@@ -1,14 +1,12 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 uocReq.py
 The course requirement to have completed a certain number of units of credit prior
 to enrolling, sometimes from a specific list of subjects
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from typing import List, Optional
@@ -61,9 +59,3 @@ class UOCReq(singleReq.SingleReq):
             return [self.info()]
         else:
             return []
-
-    # Saves the requirement in the database
-    # Return: the id of the requirement in the database
-    def save(self) -> int:
-        # TODO
-        pass

@@ -1,14 +1,12 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 scrapedSubjectReq.py
 The course requirement to have taken a specific course prior to completing this one
 Skeleton class to be filled out later
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from typing import List, Optional
@@ -31,13 +29,6 @@ class ScrapedSubjectReq(singleReq.SingleReq):
             self.min_mark = 50
         else:
             self.min_mark = min_mark
-
-    # create function to turn into proper subjectReq
-    def inflate(self, university: 'university.University') -> Optional['subjectReq.SubjectReq']:
-        c = university.find_course(self.course, allow_unfinished=True)
-        if c is not None:
-            return subjectReq.SubjectReq(c, self.min_mark)
-        return None
 
     def __repr__(self) -> str:
         return f'<SubjectReq course={self.course!r} min_mark={self.min_mark!r}>'

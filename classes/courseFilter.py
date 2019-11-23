@@ -7,8 +7,6 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 courseFilter.py
 Implementation of the CourseFilter class, an abstract class which collects types
 of filters for courses.
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from abc import ABC, abstractmethod
@@ -72,12 +70,3 @@ class CourseFilter(ABC):
     def accepts_course(self, course: 'course.Course', degree: 'degree.Degree',
                 eq: bool=True) -> bool:
         pass
-
-    # Saves the filter in the database
-    # Return: the id of the filter in the database
-    #@abstractmethod
-    def save(self) -> int:
-        g.db.execute('''insert into CourseFilters(type_id) values(?)''',
-                self.filter_id)
-
-        return g.db.lastrowid

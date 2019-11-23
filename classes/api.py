@@ -22,11 +22,16 @@ class SimpleDegrees(TypedDict):
     degrees: List[SimpleDegree]
     years: List[str]
 
-class SimpleCourse(TypedDict):
-    id: str;
-    name: str;
+class Term(TypedDict):
+    year: int
+    term: int
 
-SimpleCourses = List[SimpleCourse]
+class SimpleCourse(TypedDict):
+    code: str;
+    name: str;
+    terms: List[Term];
+
+CourseList = List[SimpleCourse]
 
 class TermPlan(TypedDict):
     course_ids: List[str];
@@ -55,10 +60,6 @@ class Program(TypedDict):
     enrollments: List[YearPlan];
     done: List[str];
 
-class Term(TypedDict):
-    year: int
-    term: int
-
 class Course(TypedDict):
     code: str;
     name: str;
@@ -68,8 +69,6 @@ class Course(TypedDict):
     coreqs: str;
     exclusions: str;
     equivalents: str;
-
-CourseList = List[Course]
 
 class CourseReq(TypedDict):
     filter_type: str;

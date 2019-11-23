@@ -615,11 +615,6 @@ class University(object):
 
         return {'degrees': degrees, 'years': years_list}
 
-    def get_simple_courses(self) -> api.SimpleCourses:
-        response = self.query_db('''select letter_code, number_code, name
-                                 from Courses where finished = 1''')
-        return [{'id': i['letter_code'] + i['number_code'], 'name': i['name']} for i in response];
-
     # get the course information with terms so you can display to user when courses are offered
     def get_full_courses(self) -> api.CourseList:
         # get the ids of all courses in database
@@ -633,7 +628,7 @@ class University(object):
             if new is None:
                 continue
 
-            res.append(new.to_api())
+            res.append(new.to_api_simple())
 
         return res
 

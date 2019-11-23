@@ -745,11 +745,12 @@ def insert_fins_degree_requirements(db='university.db', start_year=2020, end_yea
     fins_core = h.spec_courses_to_filters(['FINS1612', 'FINS1613', 'FINS2624', 'FINS3616'])
 
     presc_elec = h.spec_courses_to_filters(['ACCT3563', 'COMM2222', 'COMM3020', 'COMM3030',
-        'COMM3101', 'COMM3202', 'FINGS2622', 'FINS2642', 'FINS3623', 'FINS3626', 'FINS3630',
-        'FINS3631', 'FINS3633', 'FINS3634', 'FINS3635', 'FINS3636', 'FINS3637', 'FINS3640',
-        'FINS3641', 'FINS3644', 'FINS3650', 'FINS3655', 'FINS3666', 'FINS3775'])
-    presc_one = h.spec_courses_to_filters(['FINS3645', 'FINS3646', 'FINS3647', 'FINS3648'])
-    presc_filter = h.combine_course_filters('or', [presc_elec, presc_one])
+        'COMM3101', 'COMM3202', 'FINS2622', 'FINS2643', 'FINS3623', 'FINS3625', 'FINS3626',
+        'FINS3630', 'FINS3631', 'FINS3633', 'FINS3634', 'FINS3635', 'FINS3636', 'FINS3637', 
+        'FINS3640', 'FINS3641', 'FINS3644', 'FINS3650', 'FINS3655', 'FINS3666', 'FINS3775',
+        'FINS3645', 'FINS3646', 'FINS3647', 'FINS3648'])
+    # presc_one = h.spec_courses_to_filters(['FINS3645', 'FINS3646', 'FINS3647', 'FINS3648'])
+    presc_filter = h.combine_course_filters('or', presc_elec)
 
     # ===> end filters needed
  
@@ -848,9 +849,9 @@ def insert_acct_degree_requirements(db='university.db', start_year=2020, end_yea
 
         # business major = 48 UOC in stream and at least 18 UOC in level 3
         for f in acct_core:
-            h.add_degree_reqs(ACCT, year, acct_core, 6)
+            h.add_degree_reqs(ACCT, year, f, 6)
 
-        h.add_degree_notes(ACCT, year, presc_or, 18, 'Prescribed Electives')
+        h.add_degree_reqs(ACCT, year, presc_or, 18, 'Prescribed Electives')
 
         # 36 UOC free electives (GEN courses cannot count as free elective)
         h.add_degree_reqs(ACCT, year, free_filter, 36)

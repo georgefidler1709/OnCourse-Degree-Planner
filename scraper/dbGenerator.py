@@ -115,6 +115,7 @@ class DbGenerator(object):
                     continue
 
                 parts = line.split('|')
+                parts = list(map(lambda x: x.strip(), parts))
                 course_code = parts[0]
                 requirements = parts[1]
                 course_code = course_code.strip()

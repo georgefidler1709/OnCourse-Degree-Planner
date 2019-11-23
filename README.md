@@ -78,6 +78,7 @@ Or
 
     .
     ├── classes                   # Backend classes
+    ├── documents                 # Design documents
     ├── frontend                  # Frontend development environment
     ├── scraper                   # Python clases to scrape and parse the handbook
     ├── server                    # Serving the API and database setup

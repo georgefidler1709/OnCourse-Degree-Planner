@@ -44,7 +44,6 @@ create table CourseFilters (
     type_id integer references CourseFilterTypes(id),
 
     -- Specific Course filter
-    -- min_mark integer,
     course_id integer references Courses(id),
 
     -- Gen Ed filter has no attributes

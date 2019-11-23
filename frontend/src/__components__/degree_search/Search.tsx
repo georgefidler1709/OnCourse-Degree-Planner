@@ -302,6 +302,13 @@ const CourseSearchBar = styled(SearchBar)`
   box-shadow: 0px 0px;
 `
 
+const TermFilterGroup = styled(Form.Group)`
+  display: flex;
+  justify-content: space-around;
+`
+const TermFilter = styled(Form.Check)`
+`
+
 /**
  * Search functionality for courses in the sidebar once filling out a degree.
  */
@@ -434,10 +441,10 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
             placeholder="Search for a course..."
             onChange={this.handleInputChange}
           />
-          <Form.Group controlId="terms">
-          Filter by Term:
+          <TermFilterGroup controlId="terms">
+          Filter by Term:   
           {this.state.termFilters.map((checked, index) =>
-            <Form.Check
+            <TermFilter
               inline
               label={`${index + 1}`}
               name={`${index}`}
@@ -447,7 +454,7 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
               onChange={this.handleCheckChanged}
             />
           )}
-          </Form.Group>
+          </TermFilterGroup>
         </form>
       {
         this.state.searchResults.length > 0 &&

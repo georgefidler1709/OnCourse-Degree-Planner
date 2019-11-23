@@ -490,6 +490,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                     done_courses={this.state.program.done.map(course_id => this.state.courses[course_id]!)}
                     add_event={this.addCourse.bind(this)}
                     remove_course={this.removeCourse.bind(this)}
+                    already_enrolled={this.isEnrolled.bind(this)}
                   />
                 </RColumn>
               </div>

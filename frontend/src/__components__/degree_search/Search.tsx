@@ -1,10 +1,10 @@
 import React, { Component, ChangeEvent, RefObject } from 'react'
 import {Suggestions, CourseSuggestions} from './Suggestions'
 import {API_ADDRESS, CURRENT_YEAR} from '../../Constants'
-import {SimpleDegrees, SimpleDegree, CourseList, Course} from '../../Api'
+import {SimpleDegrees, SimpleDegree, CourseList} from '../../Api'
 import {SearchResult, CourseSearchResult} from '../../Types'
 import styled from 'styled-components';
-import {Dropdown} from 'react-bootstrap'
+import {Dropdown, Form} from 'react-bootstrap'
 
 const Logo = styled.img`
   display: block;
@@ -123,12 +123,13 @@ interface SearchState {
 
 interface SearchCourseState {
   searchResults : Array<CourseSearchResult>;
+  termFilters: Array<boolean>;
   courses: CourseList
-  oldQuery: string
 }
 
 interface SearchCourseProps {
   add_event: (code: string) => Promise<boolean>;
+  already_enrolled: (code: string) => boolean;
 }
 
 class Search extends Component<{}, SearchState> {
@@ -283,10 +284,11 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
   constructor(props: SearchCourseProps) {
     super(props)
     this.searchBarRef = React.createRef<HTMLInputElement>()
+
     this.state = {
       searchResults: [],
+      termFilters: [false, false, false],
       courses: [],
-      oldQuery: '',
     }
 
     fetch(API_ADDRESS + '/full_courses.json')
@@ -297,68 +299,83 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
       .catch((error) => console.error(error));
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleCheckChanged = this.handleCheckChanged.bind(this);
     this.addCourse = this.addCourse.bind(this);
   }
 
   handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
-    let query = event.target.value.toLowerCase();
+    this.search();
+  }
+
+  search(): void {
+    let query = this.searchBarRef.current!.value.toLowerCase();
     let searchResults: Array<CourseSearchResult> = [];
-
-    function processCourse(course: Course) {
-      // see if query matches part of name or course code
-      let index = course.name.toLowerCase().indexOf(query);
-      let textRes = <>{course.name}</>
-      if (index !== -1) {
-        let begin = course.name.substring(0, index);
-        let mid = course.name.substring(index, index + query.length);
-        let end = course.name.substring(index + query.length);
-        textRes = <>{begin}<u>{mid}</u>{end}</>;
-      }
-
-      let codeIndex = course.code.toLowerCase().indexOf(query);
-      let codeRes = <>{course.code}</>
-      if (codeIndex !== -1) {
-        let beginC = course.code.substring(0, codeIndex);
-        let midC = course.code.substring(codeIndex, codeIndex + query.length);
-        let endC = course.code.substring(codeIndex + query.length);
-        codeRes = <>{beginC}<u>{midC}</u>{endC}</>;
-      }
-
-      if (index !== -1 || codeIndex !== -1) {
-        // matches at least one, display result
-        searchResults.push({
-          course,
-          text: textRes,
-          code: codeRes
-        })
-      }
-
-    }
+    let hasTermFilter = this.state.termFilters.some(x => x);
+    let termFilters = this.state.termFilters;
 
     if (query.length !== 0) {
-      if (this.state.oldQuery.length !== 0 && (query.startsWith(this.state.oldQuery) || query.endsWith(this.state.oldQuery))) {
-        for (let result of this.state.searchResults) {
-          processCourse(result.course);
+      for (let course of this.state.courses) {
+        // see if query matches part of name or course code
+        if (this.props.already_enrolled(course.code)) {
+          continue; 
         }
-      }
-      else {
-        for (let course of this.state.courses) {
-          processCourse(course);
+
+        let index = course.name.toLowerCase().indexOf(query);
+        let textRes = <>{course.name}</>
+        if (index !== -1) {
+          let begin = course.name.substring(0, index);
+          let mid = course.name.substring(index, index + query.length);
+          let end = course.name.substring(index + query.length);
+          textRes = <>{begin}<u>{mid}</u>{end}</>;
+        }
+
+        let codeIndex = course.code.toLowerCase().indexOf(query);
+        let codeRes = <>{course.code}</>
+        if (codeIndex !== -1) {
+          let beginC = course.code.substring(0, codeIndex);
+          let midC = course.code.substring(codeIndex, codeIndex + query.length);
+          let endC = course.code.substring(codeIndex + query.length);
+          codeRes = <>{beginC}<u>{midC}</u>{endC}</>;
+        }
+
+        if (hasTermFilter) {
+          if(!course.terms.some(x => termFilters[x.term - 1])) {
+            continue;
+          }
+        }
+
+        if (index !== -1 || codeIndex !== -1) {
+          // matches at least one, display result
+          searchResults.push({
+            course,
+            text: textRes,
+            code: codeRes
+          })
+          if(searchResults.length >= 50) break;
         }
       }
     }
-    this.setState({ searchResults, oldQuery: query });
+    this.setState({ searchResults});
   }
 
   async addCourse(code: string) {
     let success: boolean = await this.props.add_event(code);
     if(success){ 
-      this.setState({ searchResults: [], oldQuery: ""});
       // clear the search bar results via reference to object
       if (this.searchBarRef.current) {
         this.searchBarRef.current.value = "";
       }
+      this.setState({ searchResults: []}, () => this.search());
     }
+  }
+
+  handleCheckChanged(event: ChangeEvent<HTMLInputElement>) {
+    var target = event.target;
+    this.setState(state => {
+      let filters = state.termFilters;
+      filters[parseInt(target.name)] = target.checked;
+      return {termFilters: filters};
+    }, () => this.search());
   }
 
   render() {
@@ -371,6 +388,20 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
             //value={this.state.query}
             onChange={this.handleInputChange}
           />
+          Filter by Term:
+          <Form.Group controlId="terms">
+          {this.state.termFilters.map((checked, index) =>
+            <Form.Check
+              inline
+              label={`${index + 1}`}
+              name={`${index}`}
+              checked={checked}
+              key={`${index}`}
+              type="checkbox"
+              onChange={this.handleCheckChanged}
+            />
+          )}
+          </Form.Group>
         </form>
       {
         this.state.searchResults.length > 0 &&

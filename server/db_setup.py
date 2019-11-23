@@ -138,12 +138,16 @@ def do_init_db() -> None:
     year = 2020
     postgrad = False
 
-    FIELDS_TO_SCRAPE = ['COMP', 'MATH', 'ENGG', 'DESN', 'SENG', 'ELEC', 'INFS', 'TELE',
-        'BABS', 'BIOC', 'MICR', 'CHEM', 'PHYS', 'BINF', 'ARTS']
+    COMP_DEG_FIELDS = ['COMP', 'MATH', 'ENGG', 'DESN', 'SENG', 'ELEC', 'INFS', 'TELE',
+        'BABS', 'BIOC', 'MICR', 'CHEM', 'PHYS', 'BINF']
+    COMMERCE_DEG_FIELDS = ['ACCT', 'ECON', 'MGMT', 'COMM', 'FINS', 'MARK', 'TABL', 
+        'ACCT', 'BLDG', 'RISK']
+    SCIENCE_DEG_FIELDS = ['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC',
+        'BIOS', 'CLIM', 'FOOD', 'GEOS', 'MATS', 'MSCI', 'NEUR', 'OPTM', 'PATH',
+        'PHSL', 'PSYC', 'SCIF', 'SOMS', 'VISN']
+    GENED_FIELDS = ['ARTS']
 
-    # FIELDS_TO_SCRAPE = ['COMP', 'MATH', 'ENGG', 'DESN', 'SENG', 'ELEC', 'INFS', 'TELE',
-    #     'BABS', 'BIOC', 'MICR', 'CHEM', 'PHYS', 'BINF', 'ACCT', 'ECON', 'MGMT', 'COMM',
-    #     'FINS', 'MARK', 'TABL', 'ARTS']
+    FIELDS_TO_SCRAPE = COMP_DEG_FIELDS + COMMERCE_DEG_FIELDS + SCIENCE_DEG_FIELDS + GENED_FIELDS
 
     generator.generate_db(year, FIELDS_TO_SCRAPE, postgrad, end_year=2025)
 

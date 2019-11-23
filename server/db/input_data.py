@@ -728,6 +728,56 @@ def insert_compeng_degree_requirements(db='university.db', start_year=2020, end_
         # total_UOC = 192
         h.add_degree_reqs(COMP, year, None, 192)
 
+def insert_fins_degree_requirements(db='university.db', start_year=2020, end_year=2021):
+    # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/FINSA1
+    h = Helper(dbaddr=db)
+
+    # ===> start filters needed
+
+    gen_filter = h.add_course_filter('gen')
+    # ===> end filters needed
+ 
+    print('==> Inserting Degree Requirements for FINSA1 Degree')
+
+    FINS = '3502 FINSA1'
+
+    print('Inserting degree...')
+    h.add_degree('Commerce (Finance)', 'Faculty of Business', 3, FINS)
+
+    print('Inserting degree offerings and requirements...')
+    for year in range(start_year, end_year + 1):
+        print(f'... year {year}')
+        h.add_degree_offering(year, FINS)
+
+        # business core courses, 24 UOC (all of them)
+
+        # flexible core courses, 24 UOC
+
+        # business major = 48 UOC in stream and at least 18 UOC in level 3
+
+        # 36 UOC free electives (GEN courses cannot count as free elective)
+
+        # 12 UOC General Education
+        h.add_degree_reqs(FINS, year, gen_filter, 12)
+
+        # total_UOC = 144
+        h.add_degree_reqs(FINS, year, None, 144)
+
+        # program limit of 60 UOC level 1 courses
+        h.add_degree_notes(FINS, year, 'Students must complete a maximum of 60 UOC of level 1 courses, excluding level 1 courses completed as part of the General Education requirement in Dual Programs.')
+
+        # general education maturity
+        h.add_degree_notes(FINS, year, 'Students must complete at least 48 UOC before enrolling in General Education courses.')
+
+        # level 2 and 3 maturity requirements
+        h.add_degree_notes(FINS, year, 'Students must have completed 24 UOC before taking any level 2 courses.')
+        h.add_degree_notes(FINS, year, 'Students must have completed 48 UOC before taking any level 3 courses.')
+
+        # minimum faculty UOC, 96 UOC in business school
+        h.add_degree_notes(FINS, year, 'Students must complete a minimum of 96 UOC of any course offered by UNSW Business School.')
+
+
+
 # def insert_fins_degree_requirements(db='university.db', start_year=2020, end_year=2021):
 #     # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/FINSA1
 #     h = Helper(dbaddr=db)
@@ -748,6 +798,14 @@ def insert_compeng_degree_requirements(db='university.db', start_year=2020, end_
 #     for year in range(start_year, end_year + 1):
 #         print(f'... year {year}')
 #         h.add_degree_offering(year, FINS)
+
+#         # business core courses, 24 UOC (all of them)
+
+#         # flexible core courses, 24 UOC
+
+#         # business major = 48 UOC in stream and at least 18 UOC in level 3
+
+#         # 36 UOC free electives (GEN courses cannot count as free elective)
 
 #         # 12 UOC General Education
 #         h.add_degree_reqs(FINS, year, gen_filter, 12)
@@ -755,33 +813,19 @@ def insert_compeng_degree_requirements(db='university.db', start_year=2020, end_
 #         # total_UOC = 144
 #         h.add_degree_reqs(FINS, year, None, 144)
 
+#         # program limit of 60 UOC level 1 courses
+#         h.add_degree_notes(FINS, year, 'Students must complete a maximum of 60 UOC of level 1 courses, excluding level 1 courses completed as part of the General Education requirement in Dual Programs.')
 
-# def insert_fins_degree_requirements(db='university.db', start_year=2020, end_year=2021):
-#     # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/FINSA1
-#     h = Helper(dbaddr=db)
+#         # general education maturity
+#         h.add_degree_notes(FINS, year, 'Students must complete at least 48 UOC before enrolling in General Education courses.')
 
-#     # ===> start filters needed
+#         # level 2 and 3 maturity requirements
+#         h.add_degree_notes(FINS, year, 'Students must have completed 24 UOC before taking any level 2 courses.')
+#         h.add_degree_notes(FINS, year, 'Students must have completed 48 UOC before taking any level 3 courses.')
 
-#     gen_filter = h.add_course_filter('gen')
-#     # ===> end filters needed
- 
-#     print('==> Inserting Degree Requirements for FINSA1 Degree')
+#         # minimum faculty UOC, 96 UOC in business school
+#         h.add_degree_notes(FINS, year, 'Students must complete a minimum of 96 UOC of any course offered by UNSW Business School.')
 
-#     FINS = '3502 FINSA1'
-
-#     print('Inserting degree...')
-#     h.add_degree('Commerce (Finance)', 'Faculty of Business', 3, FINS)
-
-#     print('Inserting degree offerings and requirements...')
-#     for year in range(start_year, end_year + 1):
-#         print(f'... year {year}')
-#         h.add_degree_offering(year, FINS)
-
-#         # 12 UOC General Education
-#         h.add_degree_reqs(FINS, year, gen_filter, 12)
-
-#         # total_UOC = 192
-#         h.add_degree_reqs(FINS, year, None, 192)
 
 
 if __name__ == '__main__':

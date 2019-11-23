@@ -3,6 +3,7 @@ Parses course information
 '''
 
 from typing import List, Tuple, Optional
+import re
 
 from classes import course
 from classes import term
@@ -40,6 +41,10 @@ class CourseParser(object):
         if string[:4].isalpha() and string[4:].isdigit():
             return True
         return False
+
+    def make_int(self, string: str) -> int:
+        # takes a string and removes all non-digits, then converts to an int
+        return int(re.sub(r"[^0-9]", "", string))
 
     # Split a str of bracketed phrases by the outer level conjunction
     # Return: list of split phrases and the conjunction joining them
@@ -142,7 +147,7 @@ class CourseParser(object):
             elif f:
                 fields.append(word)
             elif l:
-                levels.append(int(word))
+                levels.append(self.make_int(word))
 
         field_filters: List['courseFilter.CourseFilter'] = []
         level_filters: List['courseFilter.CourseFilter'] = []
@@ -184,19 +189,19 @@ class CourseParser(object):
             elif len(split) == 2:
                 course, mark = split
                 if mark.isdigit():
-                    return scrapedSubjectReq.ScrapedSubjectReq(course, int(mark))
+                    return scrapedSubjectReq.ScrapedSubjectReq(course, self.make_int(mark))
 
         # WAM requirements
         elif split[0] == 'wam':
-            return wamReq.WAMReq(int(split[1]))
+            return wamReq.WAMReq(self.make_int(split[1]))
 
         # year requirements
         elif split[0] == 'year':
-            return yearReq.YearReq(int(split[1]))
+            return yearReq.YearReq(self.make_int(split[1]))
 
         # UOC requirements
         elif split[0] == 'uoc':
-            units = int(split[1])
+            units = self.make_int(split[1])
             if len(split) > 2:
                 filter = self.parse_uoc_req_filter(split)
                 return uocReq.UOCReq(units, filter)
@@ -205,7 +210,7 @@ class CourseParser(object):
 
         # enrollment requirements
         elif split[0] == 'enrol':
-            degree = int(split[1])
+            degree = self.make_int(split[1])
             return scrapedEnrollmentReq.ScrapedEnrollmentReq(degree)
 
         # something has gone wrong

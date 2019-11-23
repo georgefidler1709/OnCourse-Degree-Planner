@@ -237,3 +237,36 @@ def test_actual_scraped_req_fail():
 def test_actual_scraped_req_fail_2():
     prereq, coreq, status = parser.parse_reqs('Prerequisite: COMP1531, and COMP2521 or COMP1927, and enrolled in a BSc Computer Science major with completion of 102 uoc.')
     assert not status
+
+def test_actual_scraped_req_full_stop():
+    prereq, coreq, status = parser.parse_reqs("Prerequisite: COMP1511 or DPST1091 or COMP1917 or COMP1921.")
+    assert isinstance(prereq, orReq.OrReq)
+    assert not coreq
+    assert status
+
+def test_parse_course_req_semicolon():
+    prereq, coreq, status = parser.parse_reqs("Prerequisite: (COMP1511 or DPST1092 or COMP2121); Corequisite: (COMP1927 or COMP2521) and (wam 75).")
+    assert isinstance(prereq, orReq.OrReq)
+    assert isinstance(coreq, andReq.AndReq)
+    assert status
+
+def test_actual_scraped_req_wam():
+    prereq, coreq, status = parser.parse_reqs("Prerequisite: 70 WAM and COMP9024.")
+    assert isinstance(prereq, andReq.AndReq)
+    assert status
+
+def test_commas_implicit():
+    prereq, coreq, status = parser.parse_reqs("COMP1511, COMP1521, COMP1531")
+    assert isinstance(prereq, andReq.AndReq)
+    assert status
+
+def test_commas_and():
+    prereq, coreq, status = parser.parse_reqs("COMP1511, COMP1521, and COMP1531")
+    assert isinstance(prereq, andReq.AndReq)
+    assert status
+
+
+def test_replace_words():
+    prereq, coreq, status = parser.parse_reqs("Prerequisite: 24 units of credit at Level 1")
+    assert isinstance(prereq, uocReq.UOCReq)
+    assert status

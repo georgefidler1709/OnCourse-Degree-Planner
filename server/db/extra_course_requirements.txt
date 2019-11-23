@@ -1,0 +1,11 @@
+# Comp Sci requirements
+COMP4920 | (COMP2511 or COMP2911) and enrol 3778 and year -1
+COMP3900 | COMP1531 and (COMP2521 or COMP1927) and enrol 3778 and uoc 120
+# Seng requirements
+# DESN2000
+# SENG2021
+# MATH2859
+# COMP4951
+# SENG4920
+# COMP4952
+# COMP4953

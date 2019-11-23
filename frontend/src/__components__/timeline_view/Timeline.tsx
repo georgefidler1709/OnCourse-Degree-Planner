@@ -286,9 +286,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
     const { destination, source, draggableId } = result
 
-    console.log(destination)
-    console.log(source)
-    console.log(draggableId)
     // if not dragged into a term, don't change state
     if(!destination) {
       this.resetTermHighlights()

@@ -123,7 +123,7 @@ def do_init_db() -> None:
         db.executescript(f.read().decode('utf8'))
 
     # Generate as much as we can from the handbook
-    generator = dbGenerator.dbGenerator(query_db, store_db)
+    generator = dbGenerator.DbGenerator(query_db, store_db)
 
     # TODO: Change later if we decide to include multiple years or different study levels
     year = 2020

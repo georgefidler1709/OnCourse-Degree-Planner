@@ -99,7 +99,13 @@ Or
 
 ### Manually Update Course Requirements
 
-TODO
+If the prerequisites or corequisites of a course failed to get scraped in the process of generating the database, they can be manually added by adding them to `server/db/extra_course_requirements.txt`.
+
+The whole set of requirements for a single course is added one per line in the format `<course code> | <prerequisites> coreq <corequisites> | <extra exclusions> | <extra equivalent courses>`.
+
+Both the extra exclusions and extra equivalent courses are optional, and both will still include excluded and equivalent courses that were already scraped from the handbook. Prerequisites and corequisites are however required and will overwrite whatever was scraped from the handbook.
+
+Once the additional requirements have been added to `server/db/extra_course_requirements.txt`, the database can be updated with the command `cp server/db/university.db_scraped server/db/university.db; ./start.sh add-to-db`, or a new database can be generated from scratch including the extra requirements with `./start.sh init-db-full`
 
 ### Input New Degrees
 

@@ -2,7 +2,6 @@ import React from 'react'
 import { shallow, mount } from 'enzyme';
 import { Button } from 'react-bootstrap'
 import Timeline from '../__components__/timeline_view/Timeline';
-import InfoBar from '../__components__/timeline_view/InfoBar';
 
 const mockLocation = {
   pathname: "/3778/2020"

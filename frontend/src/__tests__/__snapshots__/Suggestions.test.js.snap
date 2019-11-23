@@ -5,7 +5,7 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
   <SuggestionInfoHover
     content={
       <a
-        href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3778"
+        href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3502 ACCTA1"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -18,23 +18,27 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
         "fontSize": "25px",
       }
     }
-    key="3778"
+    key="3502 ACCTA1"
     placement="right"
   >
     <Styled(Button)
-      id="3778"
+      id="3502 ACCTA1"
       onClick={[Function]}
-      value="3778"
+      value="3502 ACCTA1"
       variant="light"
     >
-      <styled.h1 />
-      <styled.p />
+      <styled.h1>
+        3502 ACCTA1
+      </styled.h1>
+      <styled.p>
+        Commerce (Accounting)
+      </styled.p>
     </Styled(Button)>
   </SuggestionInfoHover>
   <SuggestionInfoHover
     content={
       <a
-        href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/7001"
+        href="https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3778 COMPA1"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -47,17 +51,21 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
         "fontSize": "25px",
       }
     }
-    key="7001"
+    key="3778 COMPA1"
     placement="right"
   >
     <Styled(Button)
-      id="7001"
+      id="3778 COMPA1"
       onClick={[Function]}
-      value="7001"
+      value="3778 COMPA1"
       variant="light"
     >
-      <styled.h1 />
-      <styled.p />
+      <styled.h1>
+        3778 COMPA1
+      </styled.h1>
+      <styled.p>
+        Computer Science
+      </styled.p>
     </Styled(Button)>
   </SuggestionInfoHover>
 </styled.div>

@@ -1,16 +1,29 @@
+/**
+* COMP4290 Group Project
+* Team: On Course
+* Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
+* George Fidler (z5160384), Kevin Ni (z5025098)
+* 
+* Timeline.tsx
+* Main component for the timeline view of a degree plan.
+*/
+
+
+
 import React, {Component} from 'react';
 import '@atlaskit/css-reset';
 import styled from 'styled-components';
+import { Navbar, Nav, Button } from 'react-bootstrap'
 import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
-import Term from './Term';
+import html2canvas from 'html2canvas'
+import { saveAs } from 'file-saver'
 import { RouteComponentProps } from 'react-router-dom';
 import { CheckResponse } from '../../Api';
 import {API_ADDRESS, DB_YEAR_MAX } from '../../Constants'
-import { Navbar, Nav, Button } from 'react-bootstrap'
-import InfoBar from "./InfoBar"
-import html2canvas from 'html2canvas'
-import { saveAs } from 'file-saver'
 import { TimelineState, YearState } from '../../Types'
+import Term from './Term';
+import InfoBar from "./InfoBar"
+
 
 const TimeLineContext = styled.div`
   display: flex;
@@ -69,6 +82,9 @@ const YearButton = styled(Button)`
   padding: 0px;
 `
 
+ /**
+ * Main component for the timeline view for a degree plan
+ */
 class Timeline extends Component<RouteComponentProps<{degree: string}>, TimelineState> {
 
   constructor(props: RouteComponentProps<{degree: string}>) {
@@ -86,6 +102,11 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }).catch(error => console.error(error));
   }
 
+ /**
+ * Fills out a degree plan with empty terms to be represented on the timeline view
+ * so that there will be a container representing every term for 
+ * the duration of the degree.
+ */
   addMissingTerms() {
     const program = this.state.program
     // fill in required years for the program duration
@@ -119,16 +140,25 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }
   }
 
+ /**
+ * Check if the current plan contains a given course
+ */
   isEnrolled(course: string): boolean {
     return course in this.state.courses;
   }
 
-  // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
-
+ /**
+ * Check if the current plan has any enrollments in a given year
+ */
   isYearEmpty(year: YearState) {
     return year.term_plans.findIndex(term => term.course_ids.length > 0) === -1;
   }
 
+/**
+ * Attempt to remove a year from the timeline.
+ * Succeeds if the year does not have any courses assigned to it.
+ * If it fails the user is alerted
+ */
   removeYear() {
     let newState = {
       ...this.state,
@@ -144,8 +174,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     this.setState(newState)
   }
 
-  // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
-  // sets this.state.add_course to be the Course passed in
+  /**
+  * function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
+  * sets this.state.add_course to be the Course passed in
+  */
   async addCourse(code: string) {
     // if already have this course on timeline, then can't enroll in it
     if (this.isEnrolled(code)) {
@@ -171,7 +203,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }
   }
 
-
+  /**
+  * Adds an new empty term to the timeline view
+  */
   addTerm(newTermId: number, year: YearState, yearIdx: number) {
     let idx = year.term_plans.findIndex(term => term.term > newTermId)
     if(idx === -1) {
@@ -188,6 +222,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     return idx
   }
 
+  /**
+  * Adds an new empty year to the timeline view
+  */
   addYear(newYearId: number) {
     let newState = {
       ...this.state,
@@ -210,9 +247,11 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     return idx
   }
 
-  // takes the current program in state,
-  // assuming it has been modified,
-  // and updates it via an API call to /check_program.json
+  /**
+  * Takes the current program in state,
+  * assuming it has been modified,
+  * and updates it via an API call to /check_program.json
+  */
   updateProgram(state: TimelineState): void {
     // if you change anything other than the enrollments or the degree duration in front-end
     // go to server/degrees.py and change in check_program() what is being created as the new state
@@ -232,7 +271,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }).catch(error => console.error(error));
   }
 
-  removeCourse(draggableId: string) {
+  /**
+   * Removes a given course from the timeline view
+   */
+  removeCourse(courseId: string) {
     let sourceIdx = -1
     let startTermIdx = -1
     let startYearIdx = -1
@@ -241,35 +283,40 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       ...this.state,
     }
 
+    // find given course
     let findArray = () => {
-      if ((sourceIdx = newState.add_course.findIndex(id => id === draggableId)) !== -1) {
+      if ((sourceIdx = newState.add_course.findIndex(id => id === courseId)) !== -1) {
         return newState.add_course;
       }
-      else if ((sourceIdx = newState.program.done.findIndex(id => id === draggableId)) !== -1) {
+      else if ((sourceIdx = newState.program.done.findIndex(id => id === courseId)) !== -1) {
         return newState.program.done;
       }
       else {
         startYearIdx = newState.program.enrollments.findIndex(year => {
           startTermIdx = year.term_plans.findIndex(term => {
-            sourceIdx = term.course_ids.findIndex(id => id === draggableId)
+            sourceIdx = term.course_ids.findIndex(id => id === courseId)
             return sourceIdx !== -1
           })
           return startTermIdx !== -1
         })
 
+        // remove it
         return newState.program.enrollments[startYearIdx].term_plans[startTermIdx].course_ids;
       }
     }
 
     findArray().splice(sourceIdx, 1)
-    delete newState.courses[draggableId];
+    delete newState.courses[courseId];
     // set state, then update program in the new state
     this.setState(newState)
     this.updateProgram(newState)
   }
 
+  /**
+   * Add a new course to the timeline view from the add tray
+   */
   newCourse(draggableId: string, destYearIdx: number, destTermIdx: number, destIdx: number, sourceIdx: number) {
-    // when you drag something from "add" box to somewhere on a term
+    // when you drag something from add tray to somewhere on a term
     let newState = {
       ...this.state,
     }
@@ -282,6 +329,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     this.resetTermHighlights()
   }
 
+  /**
+  * Eventhandler called when the user drops a course object after a drag
+  * Determines the new location of the course and updates state accordingly
+  */
   onDragEnd = (result: DropResult) => {
 
     const { destination, source, draggableId } = result
@@ -302,7 +353,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
       this.resetTermHighlights()
       return;
     }
-
+    /**
+     * Determines the location in state
+     * represented by the location in which the course was dropped
+     */
     function getTarget(state: TimelineState, id: string): Array<string> {
       if(id === "Add") return state.add_course;
       if(id === "Done") return state.program.done;
@@ -344,7 +398,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     });
   };
 
-
+  /**
+   * Reset all terms to the term highlights after a drag has concluded
+   */
   resetTermHighlights() {
     let newEnrollments = this.state.program.enrollments.map(year => {
       let newYear = {
@@ -369,6 +425,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     this.setState(newState)
   }
 
+  /**
+   * Check if a course is offered in a given term (in a given year)
+   */
   isCourseOffered(courseId: string, term: number, year: number) {
     const termsOffered = this.state.courses[courseId].terms
     const isOffered = termsOffered.findIndex(offering => 
@@ -377,6 +436,11 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     return isOffered !== -1
   }
 
+  /**
+   * Event handler called when a user clicks on a course
+   * and begins to drag it. 
+   * Highlights the term containers in which the course being dragged is offered
+   */
   onDragStart = async (start: DragStart) => {
     const { draggableId } = start
 
@@ -404,6 +468,10 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     this.setState(newState)
   }
 
+  /**
+   * Save an image of the current plan
+   * to be stored locally for the user
+   */
   savePlan() {
     html2canvas(document.getElementById('timeline')!).then(function(canvas) {
       canvas.toBlob(function(blob) {
@@ -413,6 +481,11 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   });
   }
 
+  /**
+   * Update the duration of the degree plan 
+   * i.e. adding or removing a year from the timeline view
+   * within the bounds of an acceptable degree plan
+   */
   updateDuration(updateVal : number) {
     let newState = {
       ...this.state
@@ -429,6 +502,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   }
 
+  /**
+   * Render the timeline view
+   */
   render() {
     if(!this.state) return <div></div>
 

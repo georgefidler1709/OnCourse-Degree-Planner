@@ -1,22 +1,20 @@
-// Modified from:
-// https://gist.github.com/lou/571b7c0e7797860d6c555a9fdc0496f9
-
-/*
-* Usage:
-* <SuggestionInfoHover
-*    content={<div>Holy guacamole! I'm Sticky.</div>}
-*    placement="top"
-*    delay={200}
-* >
-*   <div>Show the sticky tooltip</div>
-* </SuggestionInfoHover>
-*/
+/**
+ * COMP4290 Group Project
+ * Team: On Course
+ * Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910), 
+ * George Fidler (z5160384), Kevin Ni (z5025098)
+ *
+ * SuggestionInfoHover.tsx
+ * Implements a suggestion when you hover over a search result that takes you to
+ * a link with more information.
+ *
+ * Modified from: https://gist.github.com/lou/571b7c0e7797860d6c555a9fdc0496f9
+ */
 
 import React, {Component, RefObject} from 'react'
 import { Overlay, Popover } from 'react-bootstrap'
 import { Position } from '../../Types'
 import CSS from 'csstype'
-
 
 interface SuggestionInfoHoverProps { 
   content: JSX.Element
@@ -27,10 +25,16 @@ interface SuggestionInfoHoverProps {
   infoSize: CSS.Properties 
 }
 
+/**
+ * Implements a pop-up with URL to more information when you hover over a search result.
+ */
 class SuggestionInfoHover extends Component<SuggestionInfoHoverProps, {showPopover: boolean}> {
   private setTimeoutConst?: ReturnType<typeof setTimeout>
   private targetRef: RefObject<Component>
 
+  /**
+   * Initialises state, binds functions, creates a reference.
+   */
   constructor(props: SuggestionInfoHoverProps) {
     super(props)
 
@@ -43,6 +47,9 @@ class SuggestionInfoHover extends Component<SuggestionInfoHoverProps, {showPopov
     }
   }
 
+  /**
+   * Reaction to mouse entering the hover area.
+   */
   handleMouseEnter() {
     const {delay} = this.props
 
@@ -52,6 +59,9 @@ class SuggestionInfoHover extends Component<SuggestionInfoHoverProps, {showPopov
     }, delay);
   }
 
+  /**
+   * Reaction to mouse leaving the hover area.
+   */
   handleMouseLeave() {
     if(this.setTimeoutConst) {
       clearTimeout(this.setTimeoutConst)
@@ -59,12 +69,18 @@ class SuggestionInfoHover extends Component<SuggestionInfoHoverProps, {showPopov
     this.setState({ showPopover: false })
   }
 
+  /**
+   * Making sure hover suggestion times out.
+   */
   componentWillUnmount() {
     if (this.setTimeoutConst) {
       clearTimeout(this.setTimeoutConst)
     }
   }
 
+  /**
+   * HTML look of the hover
+   */
   render() {
     let { content, children, placement } = this.props
 

@@ -1,4 +1,3 @@
-// import React from 'react'
 import React from 'react'
 import { shallow, mount } from 'enzyme';
 import Term from '../__components__/timeline_view/Term';

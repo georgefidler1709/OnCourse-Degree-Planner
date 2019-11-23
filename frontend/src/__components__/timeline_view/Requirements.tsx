@@ -1,3 +1,15 @@
+/**
+ * COMP4290 Group Project
+ * Team: On Course
+ * Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910), 
+ * George Fidler (z5160384), Kevin Ni (z5025098)
+ *
+ * Requirements.tsx
+ * Implements the display of requirements in the infobar.
+ * Does both requirements left to be completed that update dynamically,
+ * and static "full requirements" of a degree.
+ */
+
 import React from 'react';
 import styled from 'styled-components';
 import { Req } from "../../Types"
@@ -11,14 +23,6 @@ interface PrettyReq {
   units: number;
   items: Array<string>;
 }
-
-// Filter types in reqs.filter_type
-// - 'OrFilter'
-// - 'AndFilter'
-// - 'FreeElective'
-// - 'GenEd'
-// - 'Level'
-// - 'SpecificCourse'
 
 const CounterContainer = styled.div`
   display: flex;
@@ -34,6 +38,9 @@ const CongratsMessage = styled.h4`
   color: #3ae05c;
 `
 
+/**
+ * Checks if all requirements for a degree are met.
+ */
 function allRequirementsMet(degree_reqs: Array<Req>) {
   if(degree_reqs !== undefined) {
     return degree_reqs.length === 0
@@ -41,6 +48,10 @@ function allRequirementsMet(degree_reqs: Array<Req>) {
   
 }
 
+/**
+ * Renders requirements in the form of ReqProps.
+ * This includes everything but free-form degree notes.
+ */
 function Requirements(props: ReqProps) {
   if(allRequirementsMet(props.degree_reqs)) {
     return <CongratsMessage>Good to Graduate!</CongratsMessage>
@@ -69,7 +80,6 @@ function Requirements(props: ReqProps) {
 
     // each item in combo_reqs should be displayed as UOC
     // then a list of items. 
-    // <span style={{color: '#3F94B6'}}>
     var res = keys.map(k => {
       if (k) {
         return(
@@ -89,8 +99,6 @@ function Requirements(props: ReqProps) {
         )
       } else {
         // Total UOC
-        // teal = #00cc99
-        // light gray = rgba(255, 255, 255, 0.75)
         return(
           <React.Fragment key="Total">
             <CounterContainer>
@@ -115,9 +123,10 @@ interface NoteProps {
   notes: Array<string>;
 }
 
-
-// simple notes about the degree to display in a list
-// make the text small as it's verbose
+/**
+ * Displays simple notes about a degree that don't fit in the
+ * standard Requirements format.
+ */
 function Notes(props: NoteProps) {
   if (props.notes && props.notes.length > 0) {
     var res = props.notes.map(note => (<li>{`${note}`}</li>))

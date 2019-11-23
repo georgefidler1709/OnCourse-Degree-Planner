@@ -27,9 +27,7 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
       value="3778"
       variant="light"
     >
-      <styled.h1>
-        3778
-      </styled.h1>
+      <styled.h1 />
       <styled.p />
     </Styled(Button)>
   </SuggestionInfoHover>
@@ -58,9 +56,7 @@ exports[`Rendering a degree suggestion renders correctly 1`] = `
       value="7001"
       variant="light"
     >
-      <styled.h1>
-        7001
-      </styled.h1>
+      <styled.h1 />
       <styled.p />
     </Styled(Button)>
   </SuggestionInfoHover>

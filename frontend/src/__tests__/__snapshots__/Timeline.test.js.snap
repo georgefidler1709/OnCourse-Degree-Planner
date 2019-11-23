@@ -53,17 +53,11 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                   courses={
                     Array [
                       Object {
-                        "code": "MATH1131",
-                        "coreqs": "",
-                        "equivalents": "DPST1013",
-                        "exclusions": "DPST1013
-MATH1151
-MATH1031
-MATH1141
-ECON2291
-MATH1011
-ECON1202",
-                        "name": "Mathematics 1A",
+                        "code": "MATH1081",
+                        "coreqs": "(DPST1013 OR MATH1131 OR MATH1141 OR MATH1151)",
+                        "equivalents": "",
+                        "exclusions": "MATH1090",
+                        "name": "Discrete Mathematics",
                         "prereqs": "",
                         "terms": Array [
                           Object {
@@ -154,11 +148,11 @@ ECON1202",
                         "units": 6,
                       },
                       Object {
-                        "code": "MATH1081",
-                        "coreqs": "(DPST1013 OR MATH1131 OR MATH1141 OR MATH1151)",
+                        "code": "COMP1511",
+                        "coreqs": "",
                         "equivalents": "",
-                        "exclusions": "MATH1090",
-                        "name": "Discrete Mathematics",
+                        "exclusions": "DPST1091",
+                        "name": "Programming Fundamentals",
                         "prereqs": "",
                         "terms": Array [
                           Object {
@@ -261,11 +255,17 @@ ECON1202",
                   courses={
                     Array [
                       Object {
-                        "code": "COMP1511",
+                        "code": "MATH1131",
                         "coreqs": "",
-                        "equivalents": "",
-                        "exclusions": "DPST1091",
-                        "name": "Programming Fundamentals",
+                        "equivalents": "DPST1013",
+                        "exclusions": "DPST1013
+MATH1151
+MATH1031
+MATH1141
+ECON2291
+MATH1011
+ECON1202",
+                        "name": "Mathematics 1A",
                         "prereqs": "",
                         "terms": Array [
                           Object {

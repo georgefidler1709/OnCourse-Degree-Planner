@@ -202,10 +202,6 @@ class Search extends Component<{}, SearchState> {
     this.setState({ searchResults, oldQuery: query });
   }
 
-  setYear(year: number) {
-    this.setState({year: year})
-  }
-
   render() {
     return (
       <SearchContainer>
@@ -220,7 +216,7 @@ class Search extends Component<{}, SearchState> {
               <Dropdown.Menu>
                 {
                   this.state.years.map(year => 
-                    <YearItem active={year === this.state.year} onClick={this.setYear(year)}>{year}</YearItem>
+                    <YearItem active={year === this.state.year} onClick={() => this.setState({year: year})}>{year}</YearItem>
                   )
                 }
               </Dropdown.Menu>

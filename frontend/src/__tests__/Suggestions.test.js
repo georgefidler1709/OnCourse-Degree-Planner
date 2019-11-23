@@ -37,8 +37,8 @@ describe('Rendering a degree suggestion', () => {
 
 	it('renders degree suggestions in the order they are provided', () => {
 		const wrapper = shallow(<Suggestions degrees={mockDegrees} year={2020}/>);
-		const code1 = wrapper.html().indexOf(">3778</h1>")
-		const code2 = wrapper.html().indexOf(">7001</h1>")
-		expect(code1 < code2).toBeTruthy();
+		const code1 = wrapper.html().indexOf(">3778 COMPA1</h1>")
+		const code2 = wrapper.html().indexOf(">3707 SENGAH</h1>")
+		expect(wrapper.html()).toBe('f');
 	})	
 });

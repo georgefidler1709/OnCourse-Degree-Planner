@@ -1,4 +1,12 @@
-# COMP4920 On Course
+# COMP4920 19T3 - On Course
+
+Group Members
+
+* Alexander Rowell (z5116848)
+* Eleni Dimitriadis (z5191013)
+* Emily Chen (z5098910)
+* George Fidler (z5160384)
+* Kevin Ni (z5025098)
 
 # Virtual Environment
 

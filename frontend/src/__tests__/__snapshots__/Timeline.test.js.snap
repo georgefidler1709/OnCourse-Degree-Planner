@@ -53,89 +53,6 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                   courses={
                     Array [
                       Object {
-                        "code": "MATH1081",
-                        "coreqs": "(MATH1131 OR DPST1013 OR MATH1141 OR MATH1151)",
-                        "equivalents": "",
-                        "exclusions": "MATH1090",
-                        "name": "Discrete Mathematics",
-                        "prereqs": "",
-                        "terms": Array [
-                          Object {
-                            "term": 1,
-                            "year": 2020,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2020,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2020,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2021,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2021,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2021,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2022,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2022,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2022,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2023,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2023,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2023,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2024,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2024,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2024,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2025,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2025,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2025,
-                          },
-                        ],
-                        "units": 6,
-                      },
-                      Object {
                         "code": "COMP1511",
                         "coreqs": "",
                         "equivalents": "DPST1091
@@ -670,6 +587,7 @@ COMP2011",
         <styled.div>
           <InfoBar
             add_event={[Function]}
+            already_enrolled={[Function]}
             degree_id="3778 COMPA1"
             degree_name="Computer Science"
             degree_notes={Array []}

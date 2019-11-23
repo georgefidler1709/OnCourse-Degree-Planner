@@ -51,6 +51,7 @@ interface InfoBarProps {
   year: number;
   add_event: (code: string) => Promise<boolean>;// function to call when you want to add a course
   remove_course: (id: string) => void;
+  already_enrolled: (code: string) => boolean;
 }
 
 function InfoBar(props: InfoBarProps) {
@@ -82,7 +83,7 @@ function InfoBar(props: InfoBarProps) {
               highlight={false}
               termWarning={false}
               removeCourse={props.remove_course}/>
-            <SearchCourses add_event={props.add_event}/>
+            <SearchCourses add_event={props.add_event} already_enrolled={props.already_enrolled}/>
           </Card.Body>
       </InfoBarSection>
 

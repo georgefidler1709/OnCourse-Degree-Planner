@@ -1,14 +1,12 @@
 '''
 COMP4290 Group Project
-Team: On Coursee
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 program.py
 Implementation of the Program class, which represents a specific program of
 study.
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from typing import List, Optional, Dict, Tuple

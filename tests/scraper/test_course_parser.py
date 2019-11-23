@@ -1,6 +1,6 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
@@ -169,9 +169,9 @@ def test_make_single_course_req_year():
     assert req.year == 2
 
 def test_make_single_course_req_enrol():
-    req = parser.make_single_course_req('enrol 3778')
+    req = parser.make_single_course_req('enrol 3778_COMPA1')
     assert isinstance(req, scrapedEnrollmentReq.ScrapedEnrollmentReq)
-    assert req.degree == 3778
+    assert req.degree == '3778 COMPA1'
 
 def test_make_single_course_req_wam():
     req = parser.make_single_course_req('wam 75')

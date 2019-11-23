@@ -1,9 +1,7 @@
-# IF YOU EDIT THIS FILE MAKE SURE YOU UPDATE frontend/src/Api.tsx TO MATCH 
-import json;
-
+# IF YOU EDIT THIS FILE MAKE SURE YOU UPDATE frontend/src/Api.tsx TO MATCH
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
@@ -11,6 +9,7 @@ apiTypes.py
 Contains the json layout of the types to be sent over to the front end
 '''
 
+import json
 from typing import List, Dict
 from mypy_extensions import TypedDict
 

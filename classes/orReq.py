@@ -1,13 +1,11 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 orReq.py
 A course requirement that requires at least one of multiple requirements to be matched
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from typing import List
@@ -64,9 +62,3 @@ class OrReq(compositeReq.CompositeReq):
 
         # Accept if any of the requirements are fulfilled
         return any(individual_fulfills)
-    
-    # Saves the requirement in the database
-    # Return: the id of the requirement in the database
-    def save(self) -> int:
-        # TODO
-        pass

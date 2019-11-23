@@ -150,10 +150,6 @@ class CourseParser(object):
         l: bool = False
 
         for word in req[2:]:
-            level_num: Optional[int] = self.make_int(word)
-            if level_num is None:
-                return None
-
             if word == 'f':
                 f = True
                 l = False
@@ -163,6 +159,10 @@ class CourseParser(object):
             elif f:
                 fields.append(word)
             elif l:
+                level_num: Optional[int] = self.make_int(word)
+                if level_num is None:
+                    return None
+
                 levels.append(level_num)
 
         field_filters: List['courseFilter.CourseFilter'] = []

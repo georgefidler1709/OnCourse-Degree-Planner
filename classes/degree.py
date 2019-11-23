@@ -1,8 +1,6 @@
-import json;
-
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
@@ -10,11 +8,10 @@ degree.py
 Implementation of the Degree class which is an object corresponding to a degree
 offered by the university, and contains information about the degree completion
 requirements.
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from flask import g
+import json
 from typing import Dict, Optional, Sequence, List
 
 from . import courseEnrollment, course
@@ -97,7 +94,9 @@ class Degree(object):
     def get_url(self) -> str:
         # for extensibility to postgraduate
         study_level = 'undergraduate'
-        url = f'https://www.handbook.unsw.edu.au/{study_level}/programs/{self.year}/{self.num_code}'
+
+        num_code = self.num_code.split()[0]
+        url = f'https://www.handbook.unsw.edu.au/{study_level}/programs/{self.year}/{num_code}'
         return url
 
     # Defines what it means for two degrees to be equal
@@ -108,22 +107,3 @@ class Degree(object):
             if self.year == other.year:
                 return True
         return False
-
-    # Saves degree into the database
-    # Return: the id of the degree
-    def save(self) -> str:
-        g.db.execute('insert or ignore into Degrees(name, code, id) values(?, ?, ?)', self.name,
-                self.name,
-                self.num_code)
-
-        g.db.execute('insert into DegreeOfferings(year, degree_id) values (?, ?)', self.year,
-                self.num_code)
-
-
-        for requirement in self.requirements:
-           filter_id = requirement.save()
-           g.db.execute('''insert into DegreeOfferingRequirements(offering_degree_id,
-           offering_year_id, requirement_id, uoc_needed) values (?, ?, ?, ?)''', self.year,
-           self.num_code, filter_id, requirement.uoc)
-
-        return self.num_code

@@ -25,18 +25,11 @@ COMP4953 | COMP4952
 # MATH2069 | MATH1231 or DPST1014 or MATH1241 or MATH1251 | MATH2011, MATH2111, MATH2510, MATH2610, MATH2520, MATH2620
 
 # FINSA1
-<<<<<<< HEAD
 # ACCT1501 | (unparsed Only available to single and double degree Business School students in Term 1. It will be offered to non-Business School students in Terms 2 and 3.)
 # MGMT1101 | 
 # ECON1203 | (unparsed Must not be enrolled in Program 3715 or 3764) | MATH2841, MATH2801, MATH2901, MATH2099, ACTL2002, ACTL2131
 # FINS2622 | coreq FINS1612 and FINS2624
-=======
-# ACCT1501
-MGMT1101 |
-# MGMT1101
-# ECON1203
-# FINS2622
->>>>>>> 49016411d89b1b2c71e003ed29f1ff219dfce94a
+
 
 # ACCTA1
 ACCT2507 | ACCT1511 80

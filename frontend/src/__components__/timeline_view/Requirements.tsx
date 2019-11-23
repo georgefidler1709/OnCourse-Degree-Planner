@@ -35,11 +35,13 @@ const CongratsMessage = styled.h4`
 `
 
 function allRequirementsMet(degree_reqs: Array<Req>) {
-  return degree_reqs.length === 0
+  if(degree_reqs !== undefined) {
+    return degree_reqs.length === 0
+  } else return true
+  
 }
 
 function Requirements(props: ReqProps) {
-
   if(allRequirementsMet(props.degree_reqs)) {
     return <CongratsMessage>Good to Graduate!</CongratsMessage>
   } 
@@ -117,7 +119,7 @@ interface NoteProps {
 // simple notes about the degree to display in a list
 // make the text small as it's verbose
 function Notes(props: NoteProps) {
-  if (props.notes.length > 0) {
+  if (props.notes && props.notes.length > 0) {
     var res = props.notes.map(note => (<li>{`${note}`}</li>))
 
     return (<div><ReqTitle>Other requirements to note</ReqTitle><ul>{res}</ul></div>);

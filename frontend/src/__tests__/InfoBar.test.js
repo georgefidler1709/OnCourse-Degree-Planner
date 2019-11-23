@@ -20,11 +20,8 @@ const mockProgram = {
   done_courses: [],
 }
 
-const mockRoute = {
-  params: {
-    degree: "3778",
-    reqs: undefined,
-  }
+const mockLocation = {
+  pathname: "/3778 COMPA1/2020"
 } 
 
 
@@ -32,7 +29,7 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-describe('Render degree planning timeline view', () => {
+describe('Render degree planning info bar', () => {
   it('renders correctly', () => {
     const wrapper = mount(
       <DragDropContext>
@@ -47,7 +44,7 @@ describe('Render degree planning timeline view', () => {
       wrapper.unmount();
   })
   it('renders correctly as part of timeline', async() => {
-    const wrapper = shallow(<Timeline match={mockRoute} />);
+    const wrapper = shallow(<Timeline location={mockLocation} />);
     await sleep(1000);
     wrapper.update();
     expect(wrapper).toMatchSnapshot();
@@ -56,7 +53,7 @@ describe('Render degree planning timeline view', () => {
   });
 
   it('displays missing course under requirements if a required course is missing', async() => {
-    const wrapper = mount(<Timeline match={mockRoute} />);
+    const wrapper = mount(<Timeline location={mockLocation} />);
     await sleep(1000);
     wrapper.update();
     wrapper.instance().removeCourse("COMP1511");
@@ -68,7 +65,7 @@ describe('Render degree planning timeline view', () => {
   });
 
   it('adds a course to the Add box after search', async() => {
-    const wrapper = mount(<Timeline match={mockRoute} />);
+    const wrapper = mount(<Timeline location={mockLocation} />);
     await sleep(100);
     wrapper.update();
     wrapper.instance().addCourse("COMP1511")

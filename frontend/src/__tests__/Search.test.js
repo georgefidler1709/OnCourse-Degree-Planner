@@ -1,37 +1,31 @@
-import Button from "react-bootstrap/Button";
+
 import React from 'react'
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import Search from '../__components__/degree_search/Search';
+import {Dropdown} from 'react-bootstrap'
 
-// LEAVING THIS FOR KEVIN WITH NEW SEARCH IMPLEMENTATION TESTS
+console.error = jest.fn();
+console.warn = jest.fn();
+console.log = jest.fn();
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 describe('Rendering the degree search page', () => {
-  it('placeholder', () => {
-    expect(true).toBeTruthy()
+  it('renders correctly', async() => {
+    const wrapper = shallow(<Search />);
+    await sleep(100);
+    wrapper.update();
+    expect(wrapper).toMatchSnapshot(); 
   })
-  
-  // fetch.mockReturnValue(
-  //   Promise.resolve(
-  //     new Response(`
-  //       [
-  //         { id: "1", name: "this is a test" },
-  //         { id: "2", name: "blah" },
-  //         { id: "3", name: "foo bar" },
-  //         { id: "4", name: "tea" },
-  //       ] `
-  //     )
-  //   )
-  // );
 
-  // const wrapper = shallow(<Search />);
-  
-  // it('renders correctly', () => {
-  //   expect(wrapper).toMatchSnapshot();
-  // });
-
-  // TODO(kevin): fix these tests
-  //wrapper.find('input.search-bar').simulate("change", { target: { value: "study" }})
-
-  //it('searches correctly', () => {
-  //  expect(wrapper.find(Button).first().text()).toBe("studyology");
-  //});
+  it('shows a degrees with a names/coded with a substring the search bar input', async() => {
+    const wrapper = shallow(<Search />);
+    await sleep(100);
+    wrapper.update();
+    wrapper.instance().handleInputChange({target: {value: 'c'}})
+    wrapper.update()
+    expect(wrapper.state().searchResults.findIndex(res => res.degree.name === "Computer Science") !== -1).toBeTruthy();
+  });
 });

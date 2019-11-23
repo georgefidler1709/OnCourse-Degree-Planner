@@ -33,9 +33,12 @@ exports[`Rendering a course info popup renders correctly 1`] = `
         <li
           key="0"
         >
+           
           <a
             href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP1927"
             key="COMP1927"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             COMP1927
           </a>
@@ -43,6 +46,8 @@ exports[`Rendering a course info popup renders correctly 1`] = `
           <a
             href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP2521"
             key="COMP2521"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             COMP2521
           </a>
@@ -56,6 +61,7 @@ exports[`Rendering a course info popup renders correctly 1`] = `
         Coreqs:
       </h5>
       <ul
+        key="none"
         style={
           Object {
             "listStyleType": "none",
@@ -77,12 +83,15 @@ exports[`Rendering a course info popup renders correctly 1`] = `
         <li
           key="0"
         >
+           
            COMP3821, 
            COMP9801, 
            COMP3120, 
           <a
             href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP9101"
             key="COMP9101"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             COMP9101
           </a>
@@ -96,6 +105,7 @@ exports[`Rendering a course info popup renders correctly 1`] = `
         Exclusions:
       </h5>
       <ul
+        key="none"
         style={
           Object {
             "listStyleType": "none",

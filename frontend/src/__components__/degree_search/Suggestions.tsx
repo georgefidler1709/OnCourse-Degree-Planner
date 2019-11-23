@@ -54,10 +54,8 @@ const CourseName = styled.small`
 
 
 function Suggestions(props: {degrees: Array<SearchResult>, year: number}) {
-
   const placement : Position = "right"
   let history = useHistory();
-
 
   function handleClick(event: MouseEvent<HTMLButtonElement>, degree: string, year: number, years: Array<number>) {
     if(years.findIndex(y => y === year) === -1) {
@@ -109,7 +107,7 @@ interface CourseSuggestionsProps {
 function CourseSuggestions(props: CourseSuggestionsProps) {
 
   const placement : Position = "right"
-  
+
   const options = props.courses.map((r,i) => (
     <SuggestionInfoHover
       content={

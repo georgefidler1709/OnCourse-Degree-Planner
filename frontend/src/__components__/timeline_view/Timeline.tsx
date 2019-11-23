@@ -337,6 +337,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     sourceIds.splice(source.index, 1);
     destIds.splice(destination.index, 0, draggableId);
 
+
     this.setState(newState, () => {
       this.updateProgram(newState);
       this.resetTermHighlights();

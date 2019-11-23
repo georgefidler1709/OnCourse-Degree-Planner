@@ -27,7 +27,7 @@ class CourseParser(object):
         self.prereq_words = ["prereq:", "prerequisite:", "pre-requisite:"]
         self.coreq_words = ["coreq:", "corequisite:", "co-requisite", "prerequisite/corequisite:"]
         self.and_words = [", and ", "; and ", ", including", " including ", ", plus ", " plus ", "+", ", "]
-        self.or_words = [", or ", "; or "]
+        self.or_words = [", or ", "; or ", "/"]
         self.uoc_words = [" units of credit ", " units ", " units credit ", " credits "]
         self.level_words = [" level "]
         self.ignore_words = [" at ", " in ", " overall "]

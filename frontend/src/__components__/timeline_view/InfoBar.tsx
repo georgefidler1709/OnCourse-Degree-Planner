@@ -41,7 +41,7 @@ const ReqContainer = styled.div`
 `;
 
 interface InfoBarProps {
-  degree_id: number;
+  degree_id: string;
   degree_name: string;
   degree_reqs: Array<RemainReq>;
   full_reqs: Array<RemainReq>;

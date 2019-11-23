@@ -9,3 +9,4 @@ class Config:
     DEBUG = os.environ.get('DEBUG')
     SECRET_KEY = os.environ.get('SECRET_KEY')
     DATABASE = os.environ.get('DATABASE')
+    EXTRA_REQUIREMENTS = os.environ.get('EXTRA_REQUIREMENTS')

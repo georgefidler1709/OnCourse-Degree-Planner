@@ -76,22 +76,48 @@ def add_to_db() -> None:
 
 def do_add_to_db() -> None:
     from server.db import input_data
+    from scraper import dbGenerator
 
     db_path = current_app.config['DATABASE']
+    extra_requirements_path = current_app.config['EXTRA_REQUIREMENTS']
+    
+    START_YEAR = 2020
+    END_YEAR = 2021
 
     input_data.insert_degrees_with_no_offerings(db=db_path)
 
-    # input Computer Science 3778 COMPA1 course requirements
-    # In case we missed requirements for some courses
-    input_data.compsci_course_reqs(db_path)
+    # input extra course requirements
+    generator = dbGenerator.DbGenerator(query_db, store_db)
+
+    print('ADDING EXTRA COURSE REQUIREMENTS')
+    generator.add_extra_requirements(extra_requirements_path)
+    print('EXTRA COURSE REQUIREMENTS INSERTED')
+
+    input_data.insert_degrees_with_no_offerings(db=db_path)
 
     # input CourseFilters and DegreeOfferingRequirements for 3778 COMPA1
-    input_data.insert_compsci_degree_requirements(db=db_path)
+    input_data.insert_compsci_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
 
     # insert requirements for SENGAH
-    input_data.insert_seng_degree_requirements(db=db_path)
+    input_data.insert_seng_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+
+    # bioinformatics
+    input_data.insert_binf_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+
+    # computer engineering
+    input_data.insert_compeng_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+
+    # commerce majors
+    input_data.insert_fins_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+    input_data.insert_acct_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+
+    # science majors
+    input_data.insert_stat_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+    input_data.insert_psyc_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+    input_data.insert_bio_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
 
     print('DEGREE REQUIREMENTS INSERTED')
+
 
 @click.command('init-db')
 @with_appcontext
@@ -129,8 +155,18 @@ def do_init_db() -> None:
     year = 2020
     postgrad = False
 
-    FIELDS_TO_SCRAPE = ['COMP', 'MATH', 'ENGG', 'DESN', 'SENG', 'ELEC', 'INFS', 'TELE',
-        'ARTS']
+    COMP_DEG_FIELDS = ['COMP', 'MATH', 'ENGG', 'DESN', 'SENG', 'ELEC', 'INFS', 'TELE',
+        'BABS', 'BIOC', 'MICR', 'CHEM', 'PHYS', 'BINF']
+    COMMERCE_DEG_FIELDS = ['ACCT', 'ECON', 'MGMT', 'COMM', 'FINS', 'MARK', 'TABL', 
+        'ACCT', 'BLDG', 'RISK']
+    SCIENCE_DEG_FIELDS = ['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC',
+        'BIOS', 'BIOT', 'CLIM', 'FOOD', 'GEOS', 'MATS', 'MSCI', 'NEUR', 'OPTM', 'PATH',
+        'PHAR', 'PHSL', 'PSYC', 'SCIF', 'SOMS', 'VISN']
+    GENED_FIELDS = ['ARTS']
+
+    ALL_FIELDS = COMP_DEG_FIELDS + COMMERCE_DEG_FIELDS + SCIENCE_DEG_FIELDS + GENED_FIELDS
+
+    FIELDS_TO_SCRAPE = list(set(ALL_FIELDS))
 
     generator.generate_db(year, FIELDS_TO_SCRAPE, postgrad, end_year=2025)
 

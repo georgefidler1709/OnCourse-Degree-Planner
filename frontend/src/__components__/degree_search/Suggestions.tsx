@@ -87,7 +87,7 @@ function Suggestions(props: {degrees: Array<SearchResult>, year: number}) {
         value={r.degree.id}
         onClick={(e: MouseEvent<HTMLButtonElement>) => handleClick(e, r.degree.id, props.year, r.degree.years)}
       >
-        <DegreeCode>{r.degree.id}</DegreeCode>
+        <DegreeCode>{r.code}</DegreeCode>
         <DegreeName>{r.text}</DegreeName>
       </DegreeSuggestion>
     </SuggestionInfoHover>

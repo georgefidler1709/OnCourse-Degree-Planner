@@ -23,7 +23,7 @@ from classes import university
 
 class ScrapedEnrollmentReq(singleReq.SingleReq):
 
-    def __init__(self, degree: int):
+    def __init__(self, degree: str):
         super().__init__()
         self.degree = degree
 

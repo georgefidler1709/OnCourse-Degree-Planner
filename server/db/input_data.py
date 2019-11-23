@@ -936,6 +936,300 @@ def insert_acct_degree_requirements(db='university.db', start_year=2020, end_yea
 #         h.add_degree_notes(FINS, year, 'Students must complete a minimum of 96 UOC of any course offered by UNSW Business School.')
 
 
+def insert_stat_degree_requirements(db='university.db', start_year=2020, end_year=2021):
+    # https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3970?q=science&ct=course
+    h = Helper(dbaddr=db)
+
+    # ===> course filters
+    math1_opts = h.spec_courses_to_filters(['MATH1131', 'MATH1141'])
+    math1_or = h.combine_course_filters('or', math1_opts)
+
+    math2_opts = h.spec_courses_to_filters(['MATH1231', 'MATH1241'])
+    math2_or = h.combine_course_filters('or', math2_opts)
+
+    calc_opts = h.spec_courses_to_filters(['MATH2011', 'MATH2111'])
+    calc_or = h.combine_course_filters('or', calc_opts)
+
+    alg_opts = h.spec_courses_to_filters(['MATH2501', 'MATH2601'])
+    alg_or = h.combine_course_filters('or', alg_opts)
+
+    stat_opts = h.spec_courses_to_filters(['MATH2801', 'MATH2901'])
+    stat_or = h.combine_course_filters('or', stat_opts)
+
+    lin_opts = h.spec_courses_to_filters(['MATH2831', 'MATH2931'])
+    lin_or = h.combine_course_filters('or', lin_opts)
+
+    statmodel = h.spec_courses_to_filters(['MATH3821'])
+
+    stoch_opts = h.spec_courses_to_filters(['MATH3801', 'MATH3901'])
+    stoch_or = h.combine_course_filters('or', stoch_opts)
+
+    inf_opts = h.spec_courses_to_filters(['MATH3811', 'MATH3911'])
+    inf_or = h.combine_course_filters('or', inf_opts)
+
+    math_elec = h.spec_courses_to_filters(['MATH3831', 'MATH3841', 'MATH3851', 'MATH3871'])
+    elec_or = h.combine_course_filters('or', elec_or)
+
+    sci_elec = h.spec_courses_to_filters(['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC', 
+        'BIOS', 'BIOT', 'CHEM', 'CLIM', 'COMP', 'FOOD', 'GEOS', 'MATH', 'MATS', 'MICR', 'MSCI', 'NEUR', 
+        'OPTM', 'PATH', 'PHAR', 'PHSL', 'PHYS', 'PSYC', 'SCIF', 'SOMS', 'VISN'])
+    sci_or = h.combine_course_filters('or', sci_elec)
+
+    gen_filter = h.add_course_filter('gen')
+    free_filter = h.add_course_filter('free')
+    # ===> end course filters
+
+    print('==> Inserting Degree Requirements for MATHT1 Degree')
+    STAT = '3970 MATHT1'
+
+    print('Inserting degree...')
+    h.add_degree('Science (Statistics)', 'Faculty of Science', 3, STAT)
+
+    print('Inserting degree offerings and requirements...')
+    for year in range(start_year, end_year + 1):
+        print(f'... year {year}')
+        h.add_degree_offering(year, STAT)
+
+        # 108 UOC science courses: BS major + Science electives
+
+        # BS major, stat = 60 UOC
+        uoc_6 = [math1_or, math2_or, calc_or, alg_or, stat_or, lin_or, statmodel, stoch_or, inf_or, elec_or]
+        for f in uoc_6:
+            h.add_degree_reqs(STAT, year, f, 6)
+
+        # science electives, at least 12 UOC (however many to make up 108)
+        h.add_degree_reqs(STAT, year, sci_or, 108 - 60, 'Science Electives')
+
+        # 24 UOC free electives
+        h.add_degree_reqs(STAT, year, free_filter, 24)
+
+        # 12 UOC general education
+        h.add_degree_reqs(STAT, year, gen_filter, 12)
+
+        h.add_degree_reqs(STAT, year, None, 144)
+
+        # notes
+        h.add_degree_notes(STAT, year, 'Science Electives include courses with the following field codes: ANAT, AVEN, AVIA, AVIF, AVIG, BABS, BEES, BIOC, BIOS, BIOT, CHEM, CLIM, COMP, FOOD, GEOS, MATH, MATS, MICR, MSCI, NEUR, OPTM, PATH, PHAR, PHSL, PHYS, PSYC, SCIF, SOMS, VISN')
+
+        h.add_degree_notes(STAT, year, 'GEN# courses cannot count towards the free elective component, or towards science core courses or science electives in the program. Any exceptions to these rules must be approved by the Associate Dean (Academic Programs) or nominee.')
+
+        h.add_degree_notes(STAT, year, 'Students may not take the following course as general education: any COMP, FOOD, SOMS, GENS course; any course by the Faculty of Science.')
+
+        h.add_degree_notes(STAT, year, 'Students must complete a minimum of 24 UOC of level 1 courses by the Faculty of Science.')
+
+        h.add_degree_notes(STAT, year, 'A maximum of 72 UOC of level 1 courses can be taken, including any General Education or mainstream Level 1 course taken to fulfill either the General Education or the Free Elective requirement.')
+
+        h.add_degree_notes(STAT, year, 'Students must have completed 30 UOC before taking any level 2 course.')
+
+        h.add_degree_notes(STAT, year, 'Students must have completed 72 UOC before taking any level 3, 6 courses.')
+
+def insert_psyc_degree_requirements(db='university.db', start_year=2020, end_year=2021):
+    # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/PSYCA1
+    h = Helper(dbaddr=db)
+
+    # ===> course filters
+    core_l1 = h.spec_courses_to_filters(['PSYC1001', 'PSYC1011', 'PSYC1111'])
+
+    core_l2 = h.spec_courses_to_filters(['PSYC2001', 'PSYC2061', 'PSYC2071', 'PSYC2081', 'PSYC2101'])
+
+    core_l3 = h.spec_courses_to_filters(['PSYC3001', 'PSYC3011'])
+
+    l3_presc = h.spec_courses_to_filters(['PSYC3051', 'PSYC3121', 'PSYC3211', 'PSYC3221', 'PSYC3241', 
+        'PSYC3301', 'PSYC3311', 'PSYC3331', 'PSYC3341', 'PSYC3361', 'PSYC3371'])
+    presc_or = h.combine_course_filters('or', l3_presc)
+
+    sci_elec = h.spec_courses_to_filters(['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC', 
+        'BIOS', 'BIOT', 'CHEM', 'CLIM', 'COMP', 'FOOD', 'GEOS', 'MATH', 'MATS', 'MICR', 'MSCI', 'NEUR', 
+        'OPTM', 'PATH', 'PHAR', 'PHSL', 'PHYS', 'PSYC', 'SCIF', 'SOMS', 'VISN'])
+    sci_or = h.combine_course_filters('or', sci_elec)
+
+    gen_filter = h.add_course_filter('gen')
+    free_filter = h.add_course_filter('free')
+    # ===> end course filters
+
+    print('==> Inserting Degree Requirements for PSYCA1 Degree')
+    PSYC = '3970 PSYCA1'
+
+    print('Inserting degree...')
+    h.add_degree('Science (Psychology)', 'Faculty of Science', 3, PSYC)
+
+    print('Inserting degree offerings and requirements...')
+    for year in range(start_year, end_year + 1):
+        print(f'... year {year}')
+        h.add_degree_offering(year, PSYC)
+
+        # 108 UOC science courses: BS major + Science electives
+
+        # BS major: 78 UOC
+        uoc_6 = core_l1 + core_l2 + core_l3
+        for f in uoc_6: 
+            h.add_degree_reqs(PSYC, year, f, 6)
+
+        h.add_degree_reqs(PSYC, year, presc_or, 18)
+
+        # science electives, at least 12 UOC (however many to make up 108)
+        h.add_degree_reqs(PSYC, year, sci_or, 108 - 78, 'Science Electives')
+
+        # 24 UOC free electives
+        h.add_degree_reqs(PSYC, year, free_filter, 24)
+
+        # 12 UOC general education
+        h.add_degree_reqs(PSYC, year, gen_filter, 12)
+
+        h.add_degree_reqs(PSYC, year, None, 144)
+
+        # notes
+        h.add_degree_notes(PSYC, year, 'Science Electives include courses with the following field codes: ANAT, AVEN, AVIA, AVIF, AVIG, BABS, BEES, BIOC, BIOS, BIOT, CHEM, CLIM, COMP, FOOD, GEOS, MATH, MATS, MICR, MSCI, NEUR, OPTM, PATH, PHAR, PHSL, PHYS, PSYC, SCIF, SOMS, VISN')
+
+        h.add_degree_notes(PSYC, year, 'Prescribed Level 3 Psychology Electives include: PSYC3051, PSYC3121, PSYC3211, PSYC3221, PSYC3241, PSYC3301, PSYC3311, PSYC3331, PSYC3341, PSYC3361, PSYC3371.')
+
+        h.add_degree_notes(PSYC, year, 'Students must include at least one course from elective list A: PSYC3051, PSYC3211, PSYC3221, PSYC3241, PSYC3311, PSYC3371.')
+
+        h.add_degree_notes(PSYC, year, 'Students must include at least on course from elective list B: PSYC3121, PSYC3202, PSYC3301, PSYC3331, PSYC3341, PSYC3361.')
+
+        h.add_degree_notes(PSYC, year, 'GEN# courses cannot count towards the free elective component, or towards science core courses or science electives in the program. Any exceptions to these rules must be approved by the Associate Dean (Academic Programs) or nominee.')
+
+        h.add_degree_notes(PSYC, year, 'Students may not take the following course as general education: any COMP, FOOD, SOMS, GENS course; any course by the Faculty of Science.')
+
+        h.add_degree_notes(PSYC, year, 'Students must complete a minimum of 24 UOC of level 1 courses by the Faculty of Science.')
+
+        h.add_degree_notes(PSYC, year, 'A maximum of 72 UOC of level 1 courses can be taken, including any General Education or mainstream Level 1 course taken to fulfill either the General Education or the Free Elective requirement.')
+
+        h.add_degree_notes(PSYC, year, 'Students must have completed 30 UOC before taking any level 2 course.')
+
+        h.add_degree_notes(PSYC, year, 'Students must have completed 72 UOC before taking any level 3, 6 courses.')
+
+def insert_bio_degree_requirements(db='university.db', start_year=2020, end_year=2021):
+    # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/BIOSJ1
+    h = Helper(dbaddr=db)
+
+    # ===> course filters
+    core_l1 = h.spec_courses_to_filters(['BABS1201', 'BIOS1101', 'BIOS1301', 'MATH1041'])
+
+    core_l2 = h.spec_courses_to_filters(['BEES2041'])
+
+    gen_opts = h.spec_courses_to_filters(['BABS2204', 'BABS2264'])
+    gen_or = h.combine_course_filters('or', gen_opts)
+
+    l2_presc_opts = h.spec_courses_to_filters(['BIOS2011', 'BIOS2031', 'BIOS2051', 'BIOS2061'])
+    l2_presc = h.combine_course_filters('or', l2_presc_opts)
+
+    l3_presc_opts = h.spec_courses_to_filters(['BIOS3011', 'BIOS3061', 'BIOS3081', 'BIOS3161',
+        'BIOS3171', 'BIOS3221', 'BIOS3601', 'BIOS6671', 'GEOS3911'])
+    l3_presc = h.combine_course_filters('or', l3_presc_opts)
+
+    sci_elec = h.spec_courses_to_filters(['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC', 
+        'BIOS', 'BIOT', 'CHEM', 'CLIM', 'COMP', 'FOOD', 'GEOS', 'MATH', 'MATS', 'MICR', 'MSCI', 'NEUR', 
+        'OPTM', 'PATH', 'PHAR', 'PHSL', 'PHYS', 'PSYC', 'SCIF', 'SOMS', 'VISN'])
+    sci_or = h.combine_course_filters('or', sci_elec)
+
+    gen_filter = h.add_course_filter('gen')
+    free_filter = h.add_course_filter('free')
+    # ===> end course filters
+
+    print('==> Inserting Degree Requirements for BIOSJ1 Degree')
+    BIO = '3970 BIOSJ1'
+
+    print('Inserting degree...')
+    h.add_degree('Science (Biology)', 'Faculty of Science', 3, BIO)
+
+    print('Inserting degree offerings and requirements...')
+    for year in range(start_year, end_year + 1):
+        print(f'... year {year}')
+        h.add_degree_offering(year, BIO)
+
+        # 108 UOC science courses: BS major + Science electives
+
+        # BS major: 78
+        uoc_6 = core_l1 + core_l2 + [gen_or]
+        for f in uoc_6:
+            h.add_degree_reqs(BIO, year, f, 6)
+
+        h.add_degree_reqs(BIO, year, l2_presc, 12)
+
+        h.add_degree_reqs(BIO, year, l3_presc, 30)
+
+        # science electives, at least 12 UOC (however many to make up 108)
+        h.add_degree_reqs(BIO, year, sci_or, 108 - 78, 'Science Electives')
+
+        # 24 UOC free electives
+        h.add_degree_reqs(BIO, year, free_filter, 24)
+
+        # 12 UOC general education
+        h.add_degree_reqs(BIO, year, gen_filter, 12)
+
+        h.add_degree_reqs(BIO, year, None, 144)
+
+        # notes
+        h.add_degree_notes(BIO, year, 'Science Electives include courses with the following field codes: ANAT, AVEN, AVIA, AVIF, AVIG, BABS, BEES, BIOC, BIOS, BIOT, CHEM, CLIM, COMP, FOOD, GEOS, MATH, MATS, MICR, MSCI, NEUR, OPTM, PATH, PHAR, PHSL, PHYS, PSYC, SCIF, SOMS, VISN')
+
+        h.add_degree_notes(BIO, year, 'GEN# courses cannot count towards the free elective component, or towards science core courses or science electives in the program. Any exceptions to these rules must be approved by the Associate Dean (Academic Programs) or nominee.')
+
+        h.add_degree_notes(BIO, year, 'Students may not take the following course as general education: any COMP, FOOD, SOMS, GENS course; any course by the Faculty of Science.')
+
+        h.add_degree_notes(BIO, year, 'Students must complete a minimum of 24 UOC of level 1 courses by the Faculty of Science.')
+
+        h.add_degree_notes(BIO, year, 'A maximum of 72 UOC of level 1 courses can be taken, including any General Education or mainstream Level 1 course taken to fulfill either the General Education or the Free Elective requirement.')
+
+        h.add_degree_notes(BIO, year, 'Students must have completed 30 UOC before taking any level 2 course.')
+
+        h.add_degree_notes(BIO, year, 'Students must have completed 72 UOC before taking any level 3, 6 courses.')
+
+# def insert_stat_degree_requirements(db='university.db', start_year=2020, end_year=2021):
+#     # https://www.handbook.unsw.edu.au/undergraduate/programs/2020/3970?q=science&ct=course
+#     h = Helper(dbaddr=db)
+
+#     # ===> course filters
+
+#     sci_elec = h.spec_courses_to_filters(['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC', 
+#         'BIOS', 'BIOT', 'CHEM', 'CLIM', 'COMP', 'FOOD', 'GEOS', 'MATH', 'MATS', 'MICR', 'MSCI', 'NEUR', 
+#         'OPTM', 'PATH', 'PHAR', 'PHSL', 'PHYS', 'PSYC', 'SCIF', 'SOMS', 'VISN'])
+#     sci_or = h.combine_course_filters('or', sci_elec)
+
+#     gen_filter = h.add_course_filter('gen')
+#     free_filter = h.add_course_filter('free')
+#     # ===> end course filters
+
+#     print('==> Inserting Degree Requirements for MATHT1 Degree')
+#     STAT = '3970 MATHT1'
+
+#     print('Inserting degree...')
+#     h.add_degree('Science (Statistics)', 'Faculty of Science', 3, STAT)
+
+#     print('Inserting degree offerings and requirements...')
+#     for year in range(start_year, end_year + 1):
+#         print(f'... year {year}')
+#         h.add_degree_offering(year, STAT)
+
+#         # 108 UOC science courses: BS major + Science electives
+
+#         # TODO BS major
+
+#         # TODO science electives, at least 12 UOC (however many to make up 108)
+#         h.add_degree_reqs(STAT, year, sci_or, 12, 'Science Electives')
+
+#         # 24 UOC free electives
+#         h.add_degree_reqs(STAT, year, free_filter, 24)
+
+#         # 12 UOC general education
+#         h.add_degree_reqs(STAT, year, gen_filter, 12)
+
+#         h.add_degree_reqs(STAT, year, None, 144)
+
+#         # notes
+#         h.add_degree_notes(STAT, year, 'Science Electives include courses with the following field codes: ANAT, AVEN, AVIA, AVIF, AVIG, BABS, BEES, BIOC, BIOS, BIOT, CHEM, CLIM, COMP, FOOD, GEOS, MATH, MATS, MICR, MSCI, NEUR, OPTM, PATH, PHAR, PHSL, PHYS, PSYC, SCIF, SOMS, VISN')
+
+#         h.add_degree_notes(STAT, year, 'GEN# courses cannot count towards the free elective component, or towards science core courses or science electives in the program. Any exceptions to these rules must be approved by the Associate Dean (Academic Programs) or nominee.')
+
+#         h.add_degree_notes(STAT, year, 'Students may not take the following course as general education: any COMP, FOOD, SOMS, GENS course; any course by the Faculty of Science.')
+
+#         h.add_degree_notes(STAT, year, 'Students must complete a minimum of 24 UOC of level 1 courses by the Faculty of Science.')
+
+#         h.add_degree_notes(STAT, year, 'A maximum of 72 UOC of level 1 courses can be taken, including any General Education or mainstream Level 1 course taken to fulfill either the General Education or the Free Elective requirement.')
+
+#         h.add_degree_notes(STAT, year, 'Students must have completed 30 UOC before taking any level 2 course.')
+
+#         h.add_degree_notes(STAT, year, 'Students must have completed 72 UOC before taking any level 3, 6 courses.')
 
 if __name__ == '__main__':
         # Computer Science (3778) (COMPA1) courses

@@ -104,6 +104,11 @@ def do_add_to_db() -> None:
     input_data.insert_fins_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
     input_data.insert_acct_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
 
+    # science majors
+    input_data.insert_stat_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+    input_data.insert_psyc_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+    input_data.insert_bio_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+
     print('DEGREE REQUIREMENTS INSERTED')
 
 @click.command('init-db')
@@ -147,8 +152,8 @@ def do_init_db() -> None:
     COMMERCE_DEG_FIELDS = ['ACCT', 'ECON', 'MGMT', 'COMM', 'FINS', 'MARK', 'TABL', 
         'ACCT', 'BLDG', 'RISK']
     SCIENCE_DEG_FIELDS = ['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC',
-        'BIOS', 'CLIM', 'FOOD', 'GEOS', 'MATS', 'MSCI', 'NEUR', 'OPTM', 'PATH',
-        'PHSL', 'PSYC', 'SCIF', 'SOMS', 'VISN']
+        'BIOS', 'BIOT', 'CLIM', 'FOOD', 'GEOS', 'MATS', 'MSCI', 'NEUR', 'OPTM', 'PATH',
+        'PHAR', 'PHSL', 'PSYC', 'SCIF', 'SOMS', 'VISN']
     GENED_FIELDS = ['ARTS']
 
     ALL_FIELDS = COMP_DEG_FIELDS + COMMERCE_DEG_FIELDS + SCIENCE_DEG_FIELDS + GENED_FIELDS

@@ -262,6 +262,9 @@ class CourseParser(object):
         # strip trailing characters and whitespace
         req = self.strip_punct_whitespace(req_str)
 
+        if not req or len(req) == 0:
+            return None
+
         # split by outer conjunctions
         tokenised, conj, success = self.split_by_conj(req)
 

@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -8,7 +8,7 @@ yearReq.py
 The course requirement to be in a specific year of a degree before enrolling
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import List
 
@@ -27,27 +27,25 @@ class YearReq(singleReq.SingleReq):
         self.year = year
 
     def __repr__(self) -> str:
-        return f"<YearReq year={self.year!r}>"
+        return f'<YearReq year={self.year!r}>'
 
     def info(self, top_level: bool=False, exclusion: bool=False) -> str:
         if self.year == -1:
-            return f"Final year in your degree"
-        return f"Year {self.year} in your degree"
+            return f'Final year in your degree'
+        return f'Year {self.year} in your degree'
 
     @property
     def requirement_name(self) -> str:
-        return "YearRequirement"
+        return 'YearRequirement'
 
     # Input: a program and a term in which the required course is taken
     # Return: any errors pertaining to this requirement
     def check(self, program: 'program.Program', term: 'term.Term',
         coreq: bool=False) -> List[str]:
-        if self.year < 0:
-            if term.year < program.final_year + self.year + 1:
-                return [self.info()]
-        elif term.year < program.intake_year + self.year - 1:
+        if program.matching_year(term, self.year):
+            return []
+        else:
             return [self.info()]
-        return []
 
     # Saves the requirement in the database
     # Return: the id of the requirement in the database

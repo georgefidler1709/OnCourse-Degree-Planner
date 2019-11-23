@@ -3,6 +3,7 @@
 export interface SimpleDegree {
   id: string; 
   name: string;
+  years: Array<number>;
 }
 
 export type SimpleDegrees = Array<SimpleDegree>;
@@ -37,6 +38,7 @@ export interface Program {
   year: number;
   duration: number; // in years
   url: string; // handbook entry for degree
+  notes: Array<string>;
   enrollments: Array<YearPlan>;
   done: Array<string>;
 }
@@ -74,5 +76,6 @@ export interface GeneratorResponse {
   program: Program;
   courses: {[index: string]: Course};
   reqs: CheckResponse;
+  full_reqs: Array<RemainReq>;
 }
 

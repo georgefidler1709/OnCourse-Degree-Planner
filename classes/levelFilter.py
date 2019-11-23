@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -9,7 +9,7 @@ Implementation of the LevelFilter class, which allows courses to be filtered
 based on course level.
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from abc import abstractmethod
 
@@ -23,15 +23,15 @@ class LevelFilter(CourseFilter):
         self.level = level
 
     def __repr__(self) -> str:
-        return f"<LevelFilter level={self.level!r}>"
+        return f'<LevelFilter level={self.level!r}>'
 
     @property
     def filter_name(self) -> str:
-        return "LevelFilter"
+        return 'LevelFilter'
 
     @property
     def info(self) -> str:
-        return f"level {self.level}"
+        return f'level {self.level}'
 
     @property
     def core(self) -> bool:

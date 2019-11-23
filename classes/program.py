@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On Coursee
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -9,7 +9,7 @@ Implementation of the Program class, which represents a specific program of
 study.
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from typing import List, Optional, Dict, Tuple
 
@@ -62,7 +62,7 @@ class Program(object):
         return self.degree.year
 
     @property
-    # Return: final year for program
+    # Return: final calendar year for program
     def final_year(self) -> int:
         final = self.degree.year + self.degree.duration - 1
         for enrol in self.courses:
@@ -70,8 +70,23 @@ class Program(object):
                 final = enrol.term.year
         return final
 
+    def matching_year(self, term: 'term.Term', year: int) -> bool:
+        if year >= 0:
+            # 8 courses per year full time load = 48 uoc
+            if self.unit_count_total(term) >= (year-1)*48:
+                return True
+            if term.year >= self.intake_year + year - 1:
+                return True
+        else:
+            if self.unit_count_total(term) >= (self.degree.duration + year)*48:
+                return True
+            if term.year >= self.final_year + year + 1:
+                return True
+        return False
+
+
     def __repr__(self) -> str:
-        return f"<Program degree={self.degree!r}, courses={self.courses!r}>"
+        return f'<Program degree={self.degree!r}, courses={self.courses!r}>'
 
     # Input: a course and a term of study
     # Create a course enrollment for that term and add to courses
@@ -149,13 +164,18 @@ class Program(object):
         for key, val in outstanding_reqs.items():
 
             new: api.RemainReq = {'units': val, 'filter_type': '', 'info': ''}
-            if key.filter:
-                new = {'units': val, 
+            if key.alttext:
+                new = {'units': val,
+                    'filter_type': 'Special requirement',
+                    'info': key.alttext,
+                }
+            elif key.filter:
+                new = {'units': val,
                     'filter_type': key.filter.simple_name,
                     'info': key.filter.info
                 }
 
-            reqs.append(new)                
+            reqs.append(new)
         return reqs;
 
 
@@ -182,29 +202,33 @@ class Program(object):
         for x in self.courses:
             enrollments_map[x.term.year][x.term.term].append(x.course.course_code)
 
-        enrollments: List["api.YearPlan"] = [ { 
-                    "year": year, 
-                    "term_plans": [ {
-                        "term": term, 
-                        "course_ids": courses,
+        enrollments: List['api.YearPlan'] = [ { 
+                    'year': year,
+                    'term_plans': [ {
+                        'term': term,
+                        'course_ids': courses,
                     } for (term, courses) in term_plan.items() ]
                 } for (year, term_plan) in enrollments_map.items()];
-        
-        return {'id': self.degree.num_code, 
+
+        return {'id': self.degree.num_code,
                 'name': self.degree.name,
                 'year': self.degree.year,
                 'duration': self.degree.duration,
                 'url': self.degree.get_url(),
+                'notes': self.degree.notes, # TODO add this to front end
                 'enrollments': enrollments,
-                'done': []};
-    
+                'done': []}
+
     def get_prereq_conflicts_api(self) -> api.CheckResponse:
         return {'degree_reqs': self.get_reqs_api(),
                 'course_reqs': self.check_course_reqs(),
-                'course_warn': self.check_course_warnings() }; 
+                'course_warn': self.check_course_warnings() };
 
     def get_generator_response_api(self) -> api.GeneratorResponse:
+        full_reqs = Program(self.degree, [], []).get_reqs_api()
+
         return {'program': self.to_api(),
                 'courses': {enrollment.course_code() : enrollment.course.to_api() for enrollment in self.courses},
-                'reqs': self.get_prereq_conflicts_api() };
+                'reqs': self.get_prereq_conflicts_api(),
+                'full_reqs': full_reqs };
 

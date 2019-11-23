@@ -1,4 +1,4 @@
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -10,10 +10,10 @@ These requirements take the form of a count of units from a particular
 filter of courses.
 
 [MORE INFO ABOUT CLASS]
-"""
+'''
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from . import courseFilter
 from . import program
 from . import course
@@ -23,14 +23,15 @@ from . import genEdFilter, freeElectiveFilter
 
 class DegreeReq(ABC):
 
-    def __init__(self, inFilter: Optional['courseFilter.CourseFilter'], uoc: int):
+    def __init__(self, inFilter: Optional['courseFilter.CourseFilter'], uoc: int, alttext: Optional[str]=None):
         # input as separate variables? or some other format
         self.uoc = uoc
         self.filter = inFilter
+        self.alttext = alttext
         super().__init__()
 
     def __repr__(self) -> str:
-        return f"<DegreeReq uoc={self.uoc}, filter={self.filter}>"
+        return f'<DegreeReq uoc={self.uoc}, filter={self.filter}, alttext={self.alttext}>'
 
     # Input: a degree and a list of courses
     # Return: whether this course list would fulfil this degree requirement
@@ -45,14 +46,14 @@ class DegreeReq(ABC):
     # Note: Deletes matching courses from list!
     @abstractmethod
     def remaining(self, courses: Optional[List['course.Course']],
-            degree: Optional['degree.Degree']) -> int:
+            degree: Optional['degree.Degree']) -> Tuple[int, List['course.Course']]:
         pass
 
     # Return whether this filter is an overall requirement (e.g. must have completed 144 UoC total)
     def overall_requirement(self) -> bool:
         return self.filter is None
 
-    # the conditions for these checking functions 
+    # the conditions for these checking functions
     # help to establish a hierarchy of requirements
 
     # Return whether this is a core requirement

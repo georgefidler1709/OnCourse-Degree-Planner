@@ -1,7 +1,7 @@
 # IF YOU EDIT THIS FILE MAKE SURE YOU UPDATE frontend/src/Api.tsx TO MATCH 
 import json;
 
-"""
+'''
 COMP4290 Group Project
 Team: On course.Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
@@ -9,16 +9,19 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 
 apiTypes.py
 Contains the json layout of the types to be sent over to the front end
-"""
+'''
 
 from typing import List, Dict
 from mypy_extensions import TypedDict
 
 class SimpleDegree(TypedDict):
     id: str;
+    years: List[str];
     name: str;
 
-SimpleDegrees = List[SimpleDegree]
+class SimpleDegrees(TypedDict):
+    degrees: List[SimpleDegree]
+    years: List[str]
 
 class SimpleCourse(TypedDict):
     id: str;
@@ -47,6 +50,7 @@ class Program(TypedDict):
     year: int;
     duration: int; # in years
     url: str; # degree handbook url
+    notes: List[str];
 
     # List of CourseEnrollments
     enrollments: List[YearPlan];
@@ -81,4 +85,5 @@ class GeneratorResponse(TypedDict):
     program: Program;
     courses: Dict[str, Course];
     reqs: CheckResponse;
+    full_reqs: List[RemainReq];
 

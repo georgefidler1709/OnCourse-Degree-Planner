@@ -5,7 +5,7 @@ import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
 import Term from './Term';
 import { RouteComponentProps } from 'react-router-dom';
 import { CheckResponse } from '../../Api';
-import {API_ADDRESS, DB_YEAR_MAX} from '../../Constants'
+import {API_ADDRESS, DB_YEAR_MAX } from '../../Constants'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import InfoBar from "./InfoBar"
 import html2canvas from 'html2canvas'
@@ -37,7 +37,16 @@ const RColumn = styled.div`
   padding: 0px;
   width: 30%;
   overflow: hidden;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 `;
+
+const Logo = styled.img`
+  width: 5%;
+  height: 5%;
+  margin: 1%;
+`
 
 const NavButton = styled(Button)`
   margin: 0px 8px;
@@ -64,9 +73,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
 
   constructor(props: RouteComponentProps<{degree: string}>) {
     super(props)
-
-    let code = props.match.params["degree"]
-    fetch(API_ADDRESS + `/${code}/gen_program.json`)
+    let code = props.location.pathname;
+    fetch(API_ADDRESS + `${code}/gen_program.json`)
     .then(response => response.json())
     .then(plan => {
       this.setState({
@@ -218,6 +226,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     fetch(request)
     .then(response => response.json())
     .then((reqs: CheckResponse) => {
+      console.log(reqs)
       this.setState({reqs}); 
       this.addMissingTerms();
     }).catch(error => console.error(error));
@@ -395,8 +404,8 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }
     newState.program.duration += updateVal
     newState.program.duration = Math.max(1, newState.program.duration)
-    if(newState.program.year + newState.program.duration > DB_YEAR_MAX) {
-      newState.program.duration = DB_YEAR_MAX - newState.program.year
+    if(newState.program.year + newState.program.duration > DB_YEAR_MAX + 1) {
+      newState.program.duration = DB_YEAR_MAX + 1 - newState.program.year
       alert("Degree planning information is not accurate beyond 2025")
     }
     
@@ -412,7 +421,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     return (
       <div>
         <Navbar bg="dark" variant="dark" id="navbar">
-          <Navbar.Brand href="/"><span role="img" aria-label="book">📖</span> OnCourse</Navbar.Brand>
+          <Navbar.Brand href="/"><Logo src={"/images/logo.png"} alt="logo"/> OnCourse</Navbar.Brand>
           <Nav className="mr-auto">
           </Nav>
           <NavButton id="save" variant="outline-info" onClick={this.savePlan}><i className="fa fa-save"></i></NavButton>
@@ -457,6 +466,9 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                     degree_id={this.state.program.id}
                     degree_name={this.state.program.name}
                     degree_reqs={this.state.reqs.degree_reqs}
+                    year={this.state.program.year}
+                    full_reqs={this.state.full_reqs}
+                    degree_notes={this.state.program.notes}
                     standby_courses={this.state.add_course.map(course_id => this.state.courses[course_id]!)}
                     done_courses={this.state.program.done.map(course_id => this.state.courses[course_id]!)}
                     add_event={this.addCourse.bind(this)}

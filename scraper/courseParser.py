@@ -24,13 +24,13 @@ from classes import orReq
 class CourseParser(object):
 
     def __init__(self):
-        self.prereq_words = ["prereq:", "prerequisite:", "pre-requisite:"]
-        self.coreq_words = ["coreq:", "corequisite:", "co-requisite", "prerequisite/corequisite:"]
-        self.and_words = [", and ", "; and ", ", including", " including ", ", plus ", " plus ", "+", ", "]
-        self.or_words = [", or ", "; or ", "/"]
-        self.uoc_words = [" units of credit ", " units ", " units credit ", " credits "]
-        self.level_words = [" level "]
-        self.ignore_words = [" at ", " in ", " overall "]
+        self.prereq_words = ['prereq:', 'prerequisite:', 'pre-requisite:']
+        self.coreq_words = ['coreq:', 'corequisite:', 'co-requisite', 'prerequisite/corequisite:']
+        self.and_words = [', and ', '; and ', ', including', ' including ', ', plus ', ' plus ', '+', ', ']
+        self.or_words = [', or ', '; or ', '/']
+        self.uoc_words = [' units of credit ', ' units ', ' units credit ', ' credits ']
+        self.level_words = [' level ']
+        self.ignore_words = [' at ', ' in ', ' overall ']
 
     # Parse the string to return the list of term offerings
     def parse_terms(self, string: str, year: int) -> List['term.Term']:
@@ -64,7 +64,7 @@ class CourseParser(object):
                     bracket_depth -= 1
                 else:
                     # Error, inconsistent bracketing
-                    print("INCONSISTENT BRACKETING")
+                    print('INCONSISTENT BRACKETING')
                     return ([string], None, False)
 
             elif bracket_depth > 0:
@@ -77,7 +77,7 @@ class CourseParser(object):
                         conj = 'and'
                     elif conj != 'and':
                         # Already have ORs, so this is an error
-                        print("MIX AND WITH OR")
+                        print('MIX AND WITH OR')
                         return ([string], None, False)
                         
                     break_points.append(i)
@@ -87,7 +87,7 @@ class CourseParser(object):
                         conj = 'or'
                     elif conj != 'or':
                         # Already have ANDs, so this is an error
-                        print("MIX OR WITH AND")
+                        print('MIX OR WITH AND')
                         return ([string], None, False)
 
                     break_points.append(i)
@@ -113,7 +113,7 @@ class CourseParser(object):
         # bracketed subphrases to consider
         if conj is None:
             # Error, if we have any subphrases then there should be a conj
-            print("SUBPHRASES WITH NO CONJ")
+            print('SUBPHRASES WITH NO CONJ')
             return ([string], None, False)
         strs: List[str] = []
 
@@ -139,10 +139,10 @@ class CourseParser(object):
         f: bool = False
         l: bool = False
         for word in req[2:]:
-            if word == "f":
+            if word == 'f':
                 f = True
                 l = False
-            elif word == "l":
+            elif word == 'l':
                 f = False
                 l = True
             elif f:
@@ -193,35 +193,36 @@ class CourseParser(object):
                     return scrapedSubjectReq.ScrapedSubjectReq(course, int(mark))
 
         # WAM requirements
-        elif "wam" in split:
-            if split[0] == "wam" and split[1].isdigit() and len(split) == 2:
+        elif 'wam' in split:
+            if split[0] == 'wam' and split[1].isdigit() and len(split) == 2:
                 return wamReq.WAMReq(int(split[1]))
-            elif split[1] == "wam" and split[0].isdigit() and len(split) == 2:
+            elif split[1] == 'wam' and split[0].isdigit() and len(split) == 2:
                 return wamReq.WAMReq(int(split[0]))
             else:
-                print("COULD NOT PARSE WAM REQ")
+                print('COULD NOT PARSE WAM REQ')
                 return None
 
         # year requirements
-        elif split[0] == "year" and len(split) == 2:
+        elif split[0] == 'year' and len(split) == 2:
             return yearReq.YearReq(int(split[1]))
 
         # UOC requirements
-        elif "uoc" in split:
+        elif 'uoc' in split:
             print(split)
-            if split[0] == "uoc" and split[1].isdigit() and int(split[1]) % 6 == 0:
+            if split[0] == 'uoc' and split[1].isdigit() and int(split[1]) % 6 == 0:
                 units = int(split[1])
-            elif split[1] == "uoc" and split[0].isdigit() and int(split[0]) % 6 == 0:
+            elif split[1] == 'uoc' and split[0].isdigit() and int(split[0]) % 6 == 0:
                 units = int(split[0])
             else:
                 # could not parse req
-                print("COULD NOT PARSE UOC REQ")
+                print('COULD NOT PARSE UOC REQ')
                 return None
+
             if len(split) > 2:
                 filter = self.parse_uoc_req_filter(split)
                 if filter is None:
                     # could not parse filter
-                    print("COULD NOT PARSE COURSE FILTER")
+                    print('COULD NOT PARSE COURSE FILTER')
                     return None
                 else:
                     return uocReq.UOCReq(units, filter)
@@ -229,12 +230,13 @@ class CourseParser(object):
                 return uocReq.UOCReq(units)
 
         # enrollment requirements
-        elif split[0] == "enrol" and len(split) == 2:
+        elif split[0] == 'enrol' and len(split) == 2:
+
             degree = int(split[1])
             return scrapedEnrollmentReq.ScrapedEnrollmentReq(degree)
 
         # something has gone wrong
-        print("ERROR: could not parse course req")
+        print('ERROR: could not parse course req')
         print(string)
         return None
 
@@ -287,16 +289,16 @@ class CourseParser(object):
 
     def strip_punct_whitespace(self, string: str) -> str:
         result = string.strip()
-        result = result.strip(".")
-        result = result.strip(";")
+        result = result.strip('.')
+        result = result.strip(';')
         result = result.strip()
         return result
 
     def replace_prereq_coreq(self, string: str) -> str:
         for word in self.prereq_words:
-            string = string.replace(word, "prereq")
+            string = string.replace(word, 'prereq')
         for word in self.coreq_words:
-            string = string.replace(word, "coreq")
+            string = string.replace(word, 'coreq')
         return string
 
     def replace_conj(self, string: str) -> str:
@@ -325,7 +327,7 @@ class CourseParser(object):
         if req == None:
             return (None, None, status)
 
-        if req == "":
+        if req == '':
             return (None, None, status)
 
         # convert to lower case

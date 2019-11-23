@@ -1,3 +1,13 @@
+/**
+* COMP4290 Group Project
+* Team: On Course
+* Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
+* George Fidler (z5160384), Kevin Ni (z5025098)
+* 
+* App.tsx
+* Main routing component of the application
+* used to direct the user to other pages
+*/
 
 import Search from "./__components__/degree_search/Search"
 import Timeline from "./__components__/timeline_view/Timeline";

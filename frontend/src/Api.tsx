@@ -1,15 +1,16 @@
 /**
- * IF YOU EDIT THIS FILE MAKE SURE YOU UPDATE classes/api.py TO MATCH
- *
- * COMP4290 Group Project
- * Team: On Course
- * Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
- * George Fidler (z5160384), Kevin Ni (z5025098)
- *
- * InfoBar.tsx
- * Controls the sidebar on the right hand side of the timeline view
- * Displays information such as degree requirements as well as adds new courses into the timeline
- */
+* IF YOU EDIT THIS FILE MAKE SURE YOU UPDATE classes/api.py TO MATCH
+*
+* COMP4290 Group Project
+* Team: On Course
+* Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
+* George Fidler (z5160384), Kevin Ni (z5025098)
+* 
+* Api.tsx
+* Type interfaces for the objects received from calls to the backend
+*/
+
+// IF YOU EDIT THIS FILE MAKE SURE YOU UPDATE classes/api.py TO MATCH
 
 /**
  * compact representation of degree for searching

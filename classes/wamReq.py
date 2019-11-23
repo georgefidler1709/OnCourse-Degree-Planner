@@ -36,10 +36,11 @@ class WAMReq(singleReq.SingleReq):
     # Return: Whether this requirement is fulfilled
     def check(self, program: program.Program, term: term.Term,
             coreq: bool=False, excl: bool=False) -> List[str]:
-        errors = []
-        errors.append(self.info())
-        return errors
+        return []
 
+    # Return: all necessary warnings for this course regarding min marks required for enrollment
+    def mark_warnings(self, program: 'program.Program', term: 'term.Term') -> List[str]:
+        return [self.info()]
 
     # Input: program.Program of study, term this course is to be taken
     # Return: Whether this requirement is fulfilled

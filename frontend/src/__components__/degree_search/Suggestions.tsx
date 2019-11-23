@@ -1,3 +1,14 @@
+/**
+ * COMP4290 Group Project
+ * Team: On Course
+ * Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910), 
+ * George Fidler (z5160384), Kevin Ni (z5025098)
+ *
+ * Suggestions.tsx
+ * Implements the rendering of search results for searching for degrees and courses.
+ * Search results come from Search.tsx. 
+ */
+
 import React, {MouseEvent} from "react";
 import SuggestionInfoHover from "./SuggestionInfoHover"
 import { useHistory } from "react-router-dom";
@@ -52,11 +63,17 @@ const CourseName = styled.small`
   pointer-events: none;
 `
 
-
+/**
+ * Search results for degree searches.
+ */
 function Suggestions(props: {degrees: Array<SearchResult>, year: number}) {
   const placement : Position = "right"
   let history = useHistory();
 
+  /**
+   * Reacts to when a user clicks on the result.
+   * Redirects user to the page to plan that degree.
+   */
   function handleClick(event: MouseEvent<HTMLButtonElement>, degree: string, year: number, years: Array<number>) {
     if(years.findIndex(y => y === year) === -1) {
       alert(`${degree} was not available in starting year: ${year}`)
@@ -65,6 +82,9 @@ function Suggestions(props: {degrees: Array<SearchResult>, year: number}) {
     history.push("/" + event.currentTarget.id.toString() + "/" + year)
   }
   
+  /**
+   * Styles the look of a degree search result.
+   */
   const options = props.degrees.map((r,i) => (
     <SuggestionInfoHover
       content={
@@ -104,10 +124,18 @@ interface CourseSuggestionsProps {
   add_event: (code: string) => void;
 }
 
+/**
+ * Search results for course searches.
+ */
 function CourseSuggestions(props: CourseSuggestionsProps) {
 
   const placement : Position = "right"
 
+  /**
+   * Styles the look of a course search.
+   * Hover brings them to the handbook page.
+   * Clicking on the result adds the course to the Timeline.tsx state.
+   */
   const options = props.courses.map((r,i) => (
     <SuggestionInfoHover
       content={

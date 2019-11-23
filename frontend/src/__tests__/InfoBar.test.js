@@ -4,9 +4,7 @@ import Timeline from '../__components__/timeline_view/Timeline';
 import InfoBar from '../__components__/timeline_view/InfoBar';
 import InfoBarDropBox from '../__components__/timeline_view/InfoBarDropBox';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { Card, Collapse } from 'react-bootstrap'
-import mockCourse from '../__mocks__/mockCourse';
-
+import { Card } from 'react-bootstrap'
 
 console.error = jest.fn();
 console.warn = jest.fn();

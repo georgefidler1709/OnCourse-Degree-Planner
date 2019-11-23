@@ -217,7 +217,7 @@ class Search extends Component<{}, SearchState> {
               <Dropdown.Menu>
                 {
                   this.state.years.map(year => 
-                    <YearItem active={year === this.state.year} onClick={() => this.setState({year: year})}>{year}</YearItem>
+                    <YearItem key={year} active={year === this.state.year} onClick={() => this.setState({year: year})}>{year}</YearItem>
                   )
                 }
               </Dropdown.Menu>
@@ -388,8 +388,8 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
             //value={this.state.query}
             onChange={this.handleInputChange}
           />
-          Filter by Term:
           <Form.Group controlId="terms">
+          Filter by Term:
           {this.state.termFilters.map((checked, index) =>
             <Form.Check
               inline

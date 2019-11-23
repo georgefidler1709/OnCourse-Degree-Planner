@@ -1,8 +1,7 @@
 
 import React from 'react'
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import Search from '../__components__/degree_search/Search';
-import {Dropdown} from 'react-bootstrap'
 
 console.error = jest.fn();
 console.warn = jest.fn();

@@ -285,10 +285,6 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
   onDragEnd = (result: DropResult) => {
 
     const { destination, source, draggableId } = result
-
-    console.log(destination)
-    console.log(source)
-    console.log(draggableId)
     // if not dragged into a term, don't change state
     if(!destination) {
       this.resetTermHighlights()
@@ -340,6 +336,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     let sourceIds = getTarget(newState, source.droppableId);
     sourceIds.splice(source.index, 1);
     destIds.splice(destination.index, 0, draggableId);
+
 
     this.setState(newState, () => {
       this.updateProgram(newState);

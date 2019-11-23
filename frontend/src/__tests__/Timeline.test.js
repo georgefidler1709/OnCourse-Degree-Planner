@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap'
 import Timeline from '../__components__/timeline_view/Timeline';
 
 const mockLocation = {
-  pathname: "/3778/2020"
+  pathname: "/3778 COMPA1/2020"
 } 
 
 console.error = jest.fn();
@@ -45,12 +45,12 @@ describe('onDragEnd method', () => {
     let new_source_course = wrapper.state().program.enrollments[0].term_plans[0].course_ids[1]
 
     wrapper.instance().onDragEnd({
-      destination: {index: 2, droppableId: "1 2019"},
-      source: {index: 0, droppableId: "1 2019"},
+      destination: {index: 2, droppableId: "1 2020"},
+      source: {index: 0, droppableId: "1 2020"},
       draggableId: source_course,
     })
 
-    await sleep(100);
+    await sleep(1000);
     wrapper.update()
     expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]).toBe(new_source_course)
     expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[2]).toBe(source_course)
@@ -64,17 +64,18 @@ describe('onDragEnd method', () => {
     let source_course = wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]
     let new_source_course = wrapper.state().program.enrollments[0].term_plans[0].course_ids[1]
     let source_length = wrapper.state().program.enrollments[0].term_plans[0].course_ids.length
-    let dest_length = wrapper.state().program.enrollments[0].term_plans[1].course_ids.length
+    let dest_length = wrapper.state().program.enrollments[0].term_plans[2].course_ids.length
 
     wrapper.instance().onDragEnd({
-      destination: {index: 0, droppableId: "2 2019"},
-      source: {index: 0, droppableId: "1 2019"},
+      destination: {index: 0, droppableId: "3 2020"},
+      source: {index: 0, droppableId: "1 2020"},
       draggableId: source_course,
     })
+
     expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]).toBe(new_source_course)
     expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids).toHaveLength(source_length - 1)
-    expect(wrapper.state().program.enrollments[0].term_plans[1].course_ids[0]).toBe(source_course)
-    expect(wrapper.state().program.enrollments[0].term_plans[1].course_ids).toHaveLength(dest_length + 1)
+    expect(wrapper.state().program.enrollments[0].term_plans[2].course_ids[0]).toBe(source_course)
+    expect(wrapper.state().program.enrollments[0].term_plans[2].course_ids).toHaveLength(dest_length + 1)
   });
 });
 

@@ -21,7 +21,7 @@ const mockProgram = {
 }
 
 const mockLocation = {
-  pathname: "/3778/2020"
+  pathname: "/3778 COMPA1/2020"
 } 
 
 

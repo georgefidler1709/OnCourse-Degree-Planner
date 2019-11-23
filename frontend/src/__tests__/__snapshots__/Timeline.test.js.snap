@@ -44,34 +44,22 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
             id="timeline"
           >
             <div
-              key="2019"
+              key="2020"
             >
               <styled.div
-                key="2019"
+                key="2020"
               >
                 <Term
                   courses={
                     Array [
                       Object {
                         "code": "MATH1081",
-                        "coreqs": "(DPST1013 OR MATH1131 OR MATH1141 OR MATH1151)",
+                        "coreqs": "(MATH1131 OR DPST1013 OR MATH1141 OR MATH1151)",
                         "equivalents": "",
                         "exclusions": "MATH1090",
                         "name": "Discrete Mathematics",
                         "prereqs": "",
                         "terms": Array [
-                          Object {
-                            "term": 1,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2019,
-                          },
                           Object {
                             "term": 1,
                             "year": 2020,
@@ -150,23 +138,12 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                       Object {
                         "code": "COMP1511",
                         "coreqs": "",
-                        "equivalents": "",
+                        "equivalents": "DPST1091
+COMP1917",
                         "exclusions": "DPST1091",
                         "name": "Programming Fundamentals",
                         "prereqs": "",
                         "terms": Array [
-                          Object {
-                            "term": 1,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2019,
-                          },
                           Object {
                             "term": 1,
                             "year": 2020,
@@ -246,8 +223,8 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                   }
                   getError={[Function]}
                   getWarn={[Function]}
-                  key="1 2019"
-                  name="1 2019"
+                  key="1 2020"
+                  name="1 2020"
                   removeCourse={[Function]}
                   termWarning={false}
                 />
@@ -255,46 +232,20 @@ exports[`Render degree planning timeline view renders correctly 1`] = `
                   courses={
                     Array [
                       Object {
-                        "code": "MATH1131",
+                        "code": "COMP1521",
                         "coreqs": "",
-                        "equivalents": "DPST1013",
-                        "exclusions": "DPST1013
-MATH1151
-MATH1031
-MATH1141
-ECON2291
-MATH1011
-ECON1202",
-                        "name": "Mathematics 1A",
-                        "prereqs": "",
+                        "equivalents": "DPST1092",
+                        "exclusions": "DPST1092",
+                        "name": "Computer Systems Fundamentals",
+                        "prereqs": "(COMP1511 OR DPST1091 OR COMP1911 OR COMP1917)",
                         "terms": Array [
                           Object {
-                            "term": 1,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2020,
-                          },
-                          Object {
                             "term": 2,
                             "year": 2020,
                           },
                           Object {
                             "term": 3,
                             "year": 2020,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2021,
                           },
                           Object {
                             "term": 2,
@@ -305,20 +256,12 @@ ECON1202",
                             "year": 2021,
                           },
                           Object {
-                            "term": 1,
-                            "year": 2022,
-                          },
-                          Object {
                             "term": 2,
                             "year": 2022,
                           },
                           Object {
                             "term": 3,
                             "year": 2022,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2023,
                           },
                           Object {
                             "term": 2,
@@ -329,20 +272,12 @@ ECON1202",
                             "year": 2023,
                           },
                           Object {
-                            "term": 1,
-                            "year": 2024,
-                          },
-                          Object {
                             "term": 2,
                             "year": 2024,
                           },
                           Object {
                             "term": 3,
                             "year": 2024,
-                          },
-                          Object {
-                            "term": 1,
-                            "year": 2025,
                           },
                           Object {
                             "term": 2,
@@ -356,20 +291,16 @@ ECON1202",
                         "units": 6,
                       },
                       Object {
-                        "code": "COMP1521",
+                        "code": "COMP2521",
                         "coreqs": "",
                         "equivalents": "",
-                        "exclusions": "DPST1092",
-                        "name": "Computer Systems Fundamentals",
-                        "prereqs": "(COMP1911 OR COMP1917 OR COMP1511 OR DPST1091)",
+                        "exclusions": "COMP1927",
+                        "name": "Data Structures and Algorithms",
+                        "prereqs": "(COMP1511 OR DPST1091 OR COMP1917 OR COMP1921)",
                         "terms": Array [
                           Object {
-                            "term": 2,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2019,
+                            "term": 1,
+                            "year": 2020,
                           },
                           Object {
                             "term": 2,
@@ -380,12 +311,20 @@ ECON1202",
                             "year": 2020,
                           },
                           Object {
+                            "term": 1,
+                            "year": 2021,
+                          },
+                          Object {
                             "term": 2,
                             "year": 2021,
                           },
                           Object {
                             "term": 3,
                             "year": 2021,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2022,
                           },
                           Object {
                             "term": 2,
@@ -396,6 +335,10 @@ ECON1202",
                             "year": 2022,
                           },
                           Object {
+                            "term": 1,
+                            "year": 2023,
+                          },
+                          Object {
                             "term": 2,
                             "year": 2023,
                           },
@@ -404,12 +347,20 @@ ECON1202",
                             "year": 2023,
                           },
                           Object {
+                            "term": 1,
+                            "year": 2024,
+                          },
+                          Object {
                             "term": 2,
                             "year": 2024,
                           },
                           Object {
                             "term": 3,
                             "year": 2024,
+                          },
+                          Object {
+                            "term": 1,
+                            "year": 2025,
                           },
                           Object {
                             "term": 2,
@@ -426,24 +377,13 @@ ECON1202",
                         "code": "MATH1231",
                         "coreqs": "",
                         "equivalents": "DPST1014",
-                        "exclusions": "ECON1202
-MATH1241
-DPST1014",
+                        "exclusions": "DPST1014
+MATH1251
+MATH1021
+MATH1241",
                         "name": "Mathematics 1B",
-                        "prereqs": "(DPST1013 OR MATH1131 OR MATH1141)",
+                        "prereqs": "(MATH1131 OR DPST1013 OR MATH1141)",
                         "terms": Array [
-                          Object {
-                            "term": 1,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 2,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2019,
-                          },
                           Object {
                             "term": 1,
                             "year": 2020,
@@ -523,8 +463,8 @@ DPST1014",
                   }
                   getError={[Function]}
                   getWarn={[Function]}
-                  key="2 2019"
-                  name="2 2019"
+                  key="2 2020"
+                  name="2 2020"
                   removeCourse={[Function]}
                   termWarning={false}
                 />
@@ -533,25 +473,25 @@ DPST1014",
                   getError={[Function]}
                   getWarn={[Function]}
                   highlight={false}
-                  key="3 2019"
-                  name="3 2019"
+                  key="3 2020"
+                  name="3 2020"
                   removeCourse={[Function]}
                   termWarning={false}
                 />
               </styled.div>
             </div>
             <div
-              key="2020"
+              key="2021"
             >
               <styled.div
-                key="2020"
+                key="2021"
               >
                 <Term
                   courses={Array []}
                   getError={[Function]}
                   getWarn={[Function]}
-                  key="1 2020"
-                  name="1 2020"
+                  key="1 2021"
+                  name="1 2021"
                   removeCourse={[Function]}
                   termWarning={false}
                 />
@@ -561,18 +501,12 @@ DPST1014",
                       Object {
                         "code": "COMP3121",
                         "coreqs": "",
-                        "equivalents": "COMP3821
-COMP9801
-COMP3120
-COMP9101",
+                        "equivalents": "COMP9801
+COMP3821",
                         "exclusions": "",
                         "name": "Algorithms and Programming Techniques",
-                        "prereqs": "(COMP1927 OR COMP2521)",
+                        "prereqs": "(COMP2521 OR COMP1927)",
                         "terms": Array [
-                          Object {
-                            "term": 2,
-                            "year": 2019,
-                          },
                           Object {
                             "term": 2,
                             "year": 2020,
@@ -608,16 +542,8 @@ COMP9101",
 COMP2011",
                         "name": "Object-Oriented Design & Programming",
                         "prereqs": "COMP1531
-(COMP1927 OR COMP2521)",
+(COMP2521 OR COMP1927)",
                         "terms": Array [
-                          Object {
-                            "term": 2,
-                            "year": 2019,
-                          },
-                          Object {
-                            "term": 3,
-                            "year": 2019,
-                          },
                           Object {
                             "term": 2,
                             "year": 2020,
@@ -673,43 +599,6 @@ COMP2011",
                   }
                   getError={[Function]}
                   getWarn={[Function]}
-                  key="2 2020"
-                  name="2 2020"
-                  removeCourse={[Function]}
-                  termWarning={false}
-                />
-                <Term
-                  courses={Array []}
-                  getError={[Function]}
-                  getWarn={[Function]}
-                  key="3 2020"
-                  name="3 2020"
-                  removeCourse={[Function]}
-                  termWarning={false}
-                />
-              </styled.div>
-            </div>
-            <div
-              key="2021"
-            >
-              <styled.div
-                key="2021"
-              >
-                <Term
-                  courses={Array []}
-                  getError={[Function]}
-                  getWarn={[Function]}
-                  highlight={false}
-                  key="1 2021"
-                  name="1 2021"
-                  removeCourse={[Function]}
-                  termWarning={false}
-                />
-                <Term
-                  courses={Array []}
-                  getError={[Function]}
-                  getWarn={[Function]}
-                  highlight={false}
                   key="2 2021"
                   name="2 2021"
                   removeCourse={[Function]}
@@ -719,9 +608,46 @@ COMP2011",
                   courses={Array []}
                   getError={[Function]}
                   getWarn={[Function]}
-                  highlight={false}
                   key="3 2021"
                   name="3 2021"
+                  removeCourse={[Function]}
+                  termWarning={false}
+                />
+              </styled.div>
+            </div>
+            <div
+              key="2022"
+            >
+              <styled.div
+                key="2022"
+              >
+                <Term
+                  courses={Array []}
+                  getError={[Function]}
+                  getWarn={[Function]}
+                  highlight={false}
+                  key="1 2022"
+                  name="1 2022"
+                  removeCourse={[Function]}
+                  termWarning={false}
+                />
+                <Term
+                  courses={Array []}
+                  getError={[Function]}
+                  getWarn={[Function]}
+                  highlight={false}
+                  key="2 2022"
+                  name="2 2022"
+                  removeCourse={[Function]}
+                  termWarning={false}
+                />
+                <Term
+                  courses={Array []}
+                  getError={[Function]}
+                  getWarn={[Function]}
+                  highlight={false}
+                  key="3 2022"
+                  name="3 2022"
                   removeCourse={[Function]}
                   termWarning={false}
                 />
@@ -744,10 +670,16 @@ COMP2011",
         <styled.div>
           <InfoBar
             add_event={[Function]}
-            degree_id="3778"
+            degree_id="3778 COMPA1"
             degree_name="Computer Science"
+            degree_notes={Array []}
             degree_reqs={
               Array [
+                Object {
+                  "filter_type": "",
+                  "info": "",
+                  "units": 84,
+                },
                 Object {
                   "filter_type": "Required courses",
                   "info": "COMP3900",
@@ -771,9 +703,88 @@ COMP2011",
               ]
             }
             done_courses={Array []}
+            full_reqs={
+              Array [
+                Object {
+                  "filter_type": "",
+                  "info": "",
+                  "units": 144,
+                },
+                Object {
+                  "filter_type": "Required courses",
+                  "info": "COMP1511",
+                  "units": 6,
+                },
+                Object {
+                  "filter_type": "Required courses",
+                  "info": "COMP1521",
+                  "units": 6,
+                },
+                Object {
+                  "filter_type": "Required courses",
+                  "info": "COMP1531",
+                  "units": 6,
+                },
+                Object {
+                  "filter_type": "Required courses",
+                  "info": "COMP2511",
+                  "units": 6,
+                },
+                Object {
+                  "filter_type": "Required courses",
+                  "info": "COMP2521",
+                  "units": 6,
+                },
+                Object {
+                  "filter_type": "Required courses",
+                  "info": "COMP3900",
+                  "units": 6,
+                },
+                Object {
+                  "filter_type": "Required courses",
+                  "info": "COMP4920",
+                  "units": 6,
+                },
+                Object {
+                  "filter_type": "Required courses",
+                  "info": "MATH1081",
+                  "units": 6,
+                },
+                Object {
+                  "filter_type": "Courses with options",
+                  "info": "(MATH1131) OR (MATH1141)",
+                  "units": 6,
+                },
+                Object {
+                  "filter_type": "Courses with options",
+                  "info": "(MATH1231) OR (MATH1241)",
+                  "units": 6,
+                },
+                Object {
+                  "filter_type": "Courses with options",
+                  "info": "(COMP3121) OR (COMP3821)",
+                  "units": 6,
+                },
+                Object {
+                  "filter_type": "Courses with options",
+                  "info": "[ Field 'COMP' ] AND [ (level 3) OR (level 4) OR (level 6) OR (level 9) ]",
+                  "units": 30,
+                },
+                Object {
+                  "filter_type": "General education",
+                  "info": "Any general education course",
+                  "units": 12,
+                },
+                Object {
+                  "filter_type": "Free electives",
+                  "info": "Any free elective",
+                  "units": 36,
+                },
+              ]
+            }
             remove_course={[Function]}
             standby_courses={Array []}
-            year={2019}
+            year={2020}
           />
         </styled.div>
       </div>

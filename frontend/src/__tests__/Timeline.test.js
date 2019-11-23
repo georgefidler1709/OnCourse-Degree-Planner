@@ -77,6 +77,78 @@ describe('onDragEnd method', () => {
     expect(wrapper.state().program.enrollments[0].term_plans[2].course_ids[0]).toBe(source_course)
     expect(wrapper.state().program.enrollments[0].term_plans[2].course_ids).toHaveLength(dest_length + 1)
   });
+
+  it('will block overloading', async() => {
+    const wrapper = shallow(<Timeline location={mockLocation} />);
+    await sleep(100);
+    wrapper.update();
+    let source_course = wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]
+    let source_length = wrapper.state().program.enrollments[0].term_plans[0].course_ids.length
+
+    wrapper.instance().onDragEnd({
+      destination: {index: 0, droppableId: "2 2020"},
+      source: {index: 0, droppableId: "1 2020"},
+      draggableId: source_course,
+    })
+
+    expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids[0]).toBe(source_course)
+    expect(wrapper.state().program.enrollments[0].term_plans[0].course_ids).toHaveLength(source_length)
+  });
+
+
+  it('will block a course being dropped in a term it is not offered in', async() => {
+    const wrapper = shallow(<Timeline location={mockLocation} />);
+    await sleep(100);
+    wrapper.update();
+
+    let source_course = wrapper.state().program.enrollments[1].term_plans[1].course_ids[0]
+    let source_length = wrapper.state().program.enrollments[1].term_plans[1].course_ids.length
+
+    expect(source_course).toBe("COMP3121");
+
+    wrapper.instance().onDragEnd({
+      destination: {index: 0, droppableId: "1 2021"},
+      source: {index: 0, droppableId: "2 2021"},
+      draggableId: source_course,
+    })
+
+    expect(wrapper.state().program.enrollments[1].term_plans[1].course_ids[0]).toBe(source_course)
+    expect(wrapper.state().program.enrollments[1].term_plans[1].course_ids).toHaveLength(source_length)
+  });
+
+  it('will highlight a course being taken before prereqs are met', async() => {
+    const wrapper = shallow(<Timeline location={mockLocation} />);
+    await sleep(100);
+    wrapper.update();
+
+    let source_course = wrapper.state().program.enrollments[0].term_plans[0].course_ids[1]
+    let test_course = wrapper.state().program.enrollments[0].term_plans[1].course_ids[0]
+
+    //COMP1511 is a prereq for COMP1521
+    expect(source_course).toBe("COMP1511")
+    expect(test_course).toBe("COMP1521")
+
+    wrapper.instance().onDragEnd({
+      destination: {index: 0, droppableId: "3 2020"},
+      source: {index: 1, droppableId: "1 2020"},
+      draggableId: source_course,
+    })
+
+    await sleep(100);
+    wrapper.update();
+
+    expect(wrapper.state().reqs.courses[test_course]).toBeTruthy()
+
+
+    wrapper.instance().onDragEnd({
+      destination: {index: 1, droppableId: "1 2020"},
+      source: {index: 0, droppableId: "1 2020"},
+      draggableId: source_course,
+    })
+    
+  });
+
+
 });
 
 describe('addMissingTerms method', () => {

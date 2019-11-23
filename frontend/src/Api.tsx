@@ -94,17 +94,26 @@ export interface Course {
   exclusions: string;
 }
 
+/**
+ * representation of unmet course requirement
+ */
 export interface CourseReq {
   filter_type: string;
   info: Array<string>;
 }
 
+/**
+ * response containing all outstanding requirements and warnings
+ */
 export interface CheckResponse{
   degree_reqs: Array<RemainReq>;
   course_reqs: {[index: string]: Array<CourseReq>};
   course_warn: {[index: string]: Array<string>};
 }
 
+/**
+ * response program and all auxillary information
+ */
 export interface GeneratorResponse {
   program: Program;
   courses: {[index: string]: Course};

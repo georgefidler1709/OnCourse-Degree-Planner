@@ -1,13 +1,11 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 andFilter.py
 A filter that only allows courses that match all of the provided filters
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from typing import List
@@ -43,13 +41,6 @@ class AndFilter(courseFilter.CourseFilter):
     # so get the name of one of its components
     @property
     def simple_name(self) -> str:
-        # if len(self.filters) != 0:
-        #     return self.filters[0].simple_name
-        # else:
-        #     return 'And'
-
-        # return 'Satisfy all of these requirements'
-
         return 'Courses with options'
 
     @property
@@ -59,10 +50,10 @@ class AndFilter(courseFilter.CourseFilter):
             if res != '':
                 res += ' AND '
             res += '[ ' + f.info + ' ]'
-        
+
         return res
 
-    # Input: course.Course, degree the student is enrolled in
+    # Input: Course, degree the student is enrolled in
     # Return: Whether this course matches the filter
     def accepts_course(self, course: 'course.Course', degree: 'degree.Degree',
                 eq: bool=True) -> bool:
@@ -71,9 +62,3 @@ class AndFilter(courseFilter.CourseFilter):
 
         # Only accept if all of the filters accepted
         return all(individual_acceptance)
-
-    # Saves the filter in the database
-    # Return: the id of the filter in the database
-    def save(self) -> int:
-        # TODO
-        pass

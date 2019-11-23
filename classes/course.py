@@ -1,6 +1,6 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
@@ -8,8 +8,6 @@ course.py
 Implementation of the Course class, which represents a course, or individual subject.
 It contains a course code, course name, UoC value, offered terms, and details
 concerning requirements.
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from flask import g
@@ -36,9 +34,6 @@ class Course(object):
             exclusions: Optional[List[str]]=None,
             equivalents: Optional[List[str]]=None,
             finished: bool=True):
-        # figure out inputs - database or variables?
-        # to be assigned:
-
         assert isinstance(code, str)
         self.subject = subject
         self.code = code
@@ -61,10 +56,6 @@ class Course(object):
             self.equivalents = equivalents
 
         self.finished = finished
-
-    # WARNING getting hard to debug with this, restore later
-    # def __repr__(self) -> str:
-    #     return f'<Course subject={self.subject!r}, code={self.code!r}, name={self.name!r}, units={self.units!r}, terms={self.terms!r}, prereqs={self.prereqs!r}, coreqs={self.coreqs!r}, exclusions={self.exclusions!r}>'
 
     def __repr__(self) -> str:
         return f'{self.subject}{self.code}'

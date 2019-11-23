@@ -63,20 +63,6 @@ class ScrapedCourse(object):
         self.prereqs, self.coreqs, self.finished = parser.parse_reqs(self.requirements)
 
 
-    # Given a university with database populated excluding requirements,
-    def inflate(self, university: 'university.University') -> Optional['course.Course']:
-        course = university.find_course(self.code, allow_unfinished=True)
-        if course is None:
-            # ERROR
-            return None
-        if self.prereqs:
-            course.prereqs = self.prereqs.inflate(university)
-        if self.coreqs:
-            course.coreqs = self.coreqs.inflate(university)
-
-        return course
-
-
     # Convert to a course object
     def to_course(self) -> 'course.Course':
          # Step 1: save into db

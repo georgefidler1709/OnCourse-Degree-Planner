@@ -1,13 +1,11 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 andReq.py
 A course requirement that requires multiple requirements to be matched
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from typing import List
@@ -26,7 +24,7 @@ class AndReq(compositeReq.CompositeReq):
 
     def __repr__(self) -> str:
         return f'<AndReq reqs={self.reqs!r}>'
-    
+
     def info(self, top_level: bool=False, exclusion: bool=False) -> str:
         if top_level and not exclusion:
             # For top level prereqs and coreqs, we want to show it as a list
@@ -54,10 +52,3 @@ class AndReq(compositeReq.CompositeReq):
         for req in self.reqs:
             warnings = warnings + req.mark_warnings(program, term)
         return warnings
-
-    # Saves the requirement in the database
-    # Return: the id of the requirement in the database
-    def save(self) -> int:
-        # TODO
-        pass
-

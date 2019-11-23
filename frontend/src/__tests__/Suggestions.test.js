@@ -41,6 +41,4 @@ describe('Rendering a degree suggestion', () => {
 		const code2 = wrapper.html().indexOf(">7001</h1>")
 		expect(code1 < code2).toBeTruthy();
 	})	
-
-	//it('sends you to a timeline for the chosen degree for a given year')
 });

@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import Search from '../__components__/degree_search/Search';
 import {Dropdown} from 'react-bootstrap'
 
@@ -29,14 +29,12 @@ describe('Rendering the degree search page', () => {
     expect(wrapper.state().searchResults.findIndex(res => res.degree.name === "Computer Science") !== -1).toBeTruthy();
   });
 
-  // it('will let you select the starting year of your degree', async() => {
-  //   const wrapper = shallow(<Search />);
-  //   await sleep(100);
-  //   wrapper.update();
-  //   wrapper.find('#dropdown-basic').simulate('click')
-  //   await sleep(100);
-  //   wrapper.update();
-  //   expect(wrapper.html()).toBe('f')
+  it('will let you select the starting year of your degree', async() => {
+    const wrapper = shallow(<Search />);
+    await sleep(100);
+    wrapper.update();
+    wrapper.instance().setYear(2021);
+    expect(wrapper.html().indexOf("Start Year: 2021")).toBeTruthy()
 
-  // })
+  })
 });

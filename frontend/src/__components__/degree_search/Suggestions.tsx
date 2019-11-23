@@ -58,7 +58,6 @@ function Suggestions(props: {degrees: Array<SearchResult>, year: number}) {
   const placement : Position = "right"
   let history = useHistory();
 
-
   function handleClick(event: MouseEvent<HTMLButtonElement>, degree: string, year: number, years: Array<number>) {
     if(years.findIndex(y => y === year) === -1) {
       alert(`${degree} was not available in starting year: ${year}`)

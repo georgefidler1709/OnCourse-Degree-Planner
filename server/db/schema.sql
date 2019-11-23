@@ -59,7 +59,8 @@ create table CourseFilters (
 
     id integer primary key,
     -- And and Or filters have relationships in CourseFilterHierarchies
-    unique(min_mark, course_id)
+    unique(type_id, course_id, min_mark)
+    unique(type_id, level)
 );
 
 -- For And and Or filters, the parent is the And/Or and the child is another filter

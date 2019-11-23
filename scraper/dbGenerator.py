@@ -16,10 +16,17 @@ from typing import Callable, Tuple, Optional, List
 
 from classes import (
         university,
-        andReq,
+        andFilter,
         compositeReq,
         course,
+        courseFilter,
         courseReq,
+        fieldFilter,
+        freeElectiveFilter,
+        genEdFilter,
+        levelFilter,
+        orFilter,
+        specificCourseFilter,
         unparsedReq,
         uocReq,
         wamReq,
@@ -54,7 +61,7 @@ def get_webpage_with_retries(url: str, num_retries: int) -> str:
 
     return response.text
 
-class dbGenerator(object):
+class DbGenerator(object):
     def __init__(self, query_db: Callable[[str, DefaultArg(Tuple), DefaultArg(bool, 'one')], Row],
             store_db: Callable[[str, DefaultArg(Tuple)], int]):
         self.query_db = query_db
@@ -117,8 +124,6 @@ class dbGenerator(object):
 
     def insert_requirements(self, course_id: int, prereqs: Optional['courseReq.CourseReq'], coreqs:
             Optional['courseReq.CourseReq'], exclusions: List[str], equivalents: List[str]) -> None:
-
-        print('Exclusions are: ', exclusions)
 
         if prereqs is None:
             prereq_id = None
@@ -187,16 +192,17 @@ class dbGenerator(object):
         return req_id
 
     def store_uoc_req(self, requirement: 'uocReq.UOCReq'):
-        if requirement.filter is not None:
-            raise NotImplementedError('Cannot deal with requirements with filters currently')
-
-        filter_id = None
+        filter_id: Optional[int]
+        if requirement.filter is None:
+            filter_id = None
+        else:
+            filter_id = self.store_filter(requirement.filter)
 
         type_id = self.get_req_type_id(requirement.requirement_name)
         uoc = requirement.uoc
 
-        result = self.query_db('''select id from CourseRequirements where type_id = ? and uoc = ?
-        and filter_id = ?''', (type_id, uoc, filter_id), one=True)
+        result = self.query_db('''select id from CourseRequirements where type_id = ? and
+        uoc_amount_required = ? and uoc_course_filter = ?''', (type_id, uoc, filter_id), one=True)
 
         if result is not None:
             (req_id, ) = result
@@ -243,7 +249,7 @@ class dbGenerator(object):
         type_id = self.get_req_type_id(requirement.requirement_name)
         degree = requirement.degree
 
-        result = self.query_db('''select id from CourseRequirements where type_id = ? and degree =
+        result = self.query_db('''select id from CourseRequirements where type_id = ? and degree_id =
         ?''', (type_id, degree), one=True)
 
         if result is not None:
@@ -291,8 +297,117 @@ class dbGenerator(object):
 
         return req_id
 
+    def store_filter(self, filter: 'courseFilter.CourseFilter') -> int:
+        if isinstance(filter, andFilter.AndFilter):
+            return self.store_and_filter(filter)
+        elif isinstance(filter, orFilter.OrFilter):
+            return self.store_or_filter(filter)
+        elif isinstance(filter, fieldFilter.FieldFilter):
+            return self.store_field_filter(filter)
+        elif isinstance(filter, freeElectiveFilter.FreeElectiveFilter):
+            return self.store_free_elective_filter(filter)
+        elif isinstance(filter, genEdFilter.GenEdFilter):
+            return self.store_gen_ed_filter(filter)
+        elif isinstance(filter, levelFilter.LevelFilter):
+            return self.store_level_filter(filter)
+        elif isinstance(filter, specificCourseFilter.SpecificCourseFilter):
+            return self.store_specific_course_filter(filter)
+        else:
+            raise NotImplementedError('Cannot store course filter type {}'.format(type(filter)))
 
 
+    def store_and_filter(self, filter: 'andFilter.AndFilter') -> int:
+        return self.store_composite_filter(filter, filter.filters)
+
+    def store_or_filter(self, filter: 'orFilter.OrFilter') -> int:
+        return self.store_composite_filter(filter, filter.filters)
+
+    # Both AND and OR filters are stored the same way
+    def store_composite_filter(self, filter: 'courseFilter.CourseFilter', sub_filters:
+    List['courseFilter.CourseFilter']) -> int:
+        filter_id = self.store_db('''insert into CourseFilters(type_id) values(?)''',
+                (self.get_filter_type_id(filter.filter_name), ))
+
+        for sub_filter in sub_filters:
+            sub_filter_id = self.store_filter(sub_filter)
+
+            self.store_db('''insert into CourseFilterHierarchies(parent_id, child_id) values(?,
+            ?)''', (filter_id, sub_filter_id))
+
+        return filter_id
+
+    def store_field_filter(self, filter: 'fieldFilter.FieldFilter') -> int:
+        type_id = self.get_filter_type_id(filter.filter_name)
+        field = filter.field
+
+        result = self.query_db('''select id from CourseFilters where type_id = ? and field_code =
+        ?''', (type_id, field), one=True)
+
+        if result is not None:
+            (filter_id, ) = result
+            return filter_id
+
+        filter_id = self.store_db('''insert into CourseFilters(type_id, field_code) values(?, ?)''',
+                (type_id, field))
+
+        return filter_id
+
+    def store_free_elective_filter(self, filter: 'freeElectiveFilter.FreeElectiveFilter') -> int:
+        return self.store_filter_with_no_values(filter)
+
+    def store_gen_ed_filter(self, filter: 'genEdFilter.GenEdFilter') -> int:
+        return self.store_filter_with_no_values(filter)
+
+    # Gen ed and Free Elective filters have no extra info to go with them, so are stored the same
+    # way
+    def store_filter_with_no_values(self, filter: 'courseFilter.CourseFilter') -> int:
+        type_id = self.get_filter_type_id(filter.filter_name)
+
+        result = self.query_db('''select id from CourseFilters where type_id = ?''', (type_id, ),
+                one=True)
+
+        if result is not None:
+            (filter_id, ) = result
+            return filter_id
+
+        filter_id = self.store_db('''insert into CourseFilters(type_id) values(?)''', (type_id, ))
+
+        return filter_id
+
+    def store_level_filter(self, filter) -> int:
+        type_id = self.get_filter_type_id(filter.filter_name)
+        level = filter.level
+
+        result = self.query_db('''select id from CourseFilters where type_id = ? and level = ?''',
+                (type_id, level), one=True)
+
+        if result is not None:
+            (filter_id, ) = result
+            return filter_id
+
+        filter_id = self.store_db('''insert into CourseFilters(type_id, level) values(?, ?)''',
+                (type_id, level))
+
+        return filter_id
+
+    def store_specific_course_filter(self, filter: 'specificCourseFilter.SpecificCourseFilter') -> int:
+        type_id = self.get_filter_type_id(filter.filter_name)
+        course_id = self.find_course(filter.course.course_code)
+
+        # TODO maybe get from specific course filter if we decide we need it
+        min_mark = 50
+
+        result = self.query_db('''select id from CourseFilters where type_id = ? and course_id
+        = ? and min_mark = ?''', (type_id, course_id, min_mark), one=True)
+
+        if result is not None:
+            (filter_id, ) = result
+            return filter_id
+
+        filter_id = self.store_db('''insert into CourseFilters(type_id, course_id, min_mark) values(?, ?, ?)''',
+                (type_id, course_id, min_mark))
+
+        return filter_id
 
     def find_course(self, course_code: str):
         letter_code = course_code[:4]
@@ -315,7 +430,7 @@ class dbGenerator(object):
         return course_id
 
     # Gets the database id for a requirement type name
-    def get_req_type_id(self, requirement_name) -> int:
+    def get_req_type_id(self, requirement_name: str) -> int:
         result = self.query_db('select id from CourseRequirementTypes where name = ?',
                 (requirement_name, ), one=True)
 
@@ -325,6 +440,16 @@ class dbGenerator(object):
         (requirement_id,) = result
         return requirement_id
 
+    # Gets the database id for a filter type name
+    def get_filter_type_id(self, filter_name: str) -> int:
+        result = self.query_db('select id from CourseFilterTypes where name = ?', (filter_name, ),
+                one=True)
+
+        if result is None:
+            raise ValueError(f'No filter type with name {filter_name}')
+
+        (filter_id, ) = result
+        return filter_id
 
 
 

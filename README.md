@@ -18,7 +18,7 @@ run `mypy .` for type checking
 
 # Run Flask Server
 
-Make sure `./server/db/university.db` exists. Otherwise first run `./start.sh init-db`.
+Make sure `./server/db/university.db` exists. Otherwise first run `./start.sh init-db-full`.
 
 From root folder, run `./start.sh run`. 
 
@@ -27,6 +27,15 @@ From root folder, run `./start.sh run`.
 From frontend folder run `npm start`. this only needs to be done once. see `/frontend/README.md` for details
 
 # Regenerate Database
+
+Run `./start.sh init-db-full` to generate the full database, including manually added degrees and course
+requirements.
+
+If you only want things that were scraped and parsed from the handbook, run `./start.sh init-db`.
+
+If you have a database with only the scraped things and want to add the manual things, run
+`./start.sh add-to-db`.
+
 
 # Pytest
 

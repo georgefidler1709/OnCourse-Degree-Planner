@@ -9,6 +9,7 @@ export const SubTitle = styled.h5`
 export type Position = "auto-start" | "auto" | "auto-end" | "top-start" | "top" | "top-end" | "right-start" | "right" | "right-end" | "bottom-end" | "bottom" | "bottom-start" | "left-end" | "left" | "left-start"
 
 export interface TimelineState extends GeneratorResponse {
+  accepted_overload: boolean;
   program: ProgramState;
   add_course: Array<string>; // course to add, usually undefined
 }

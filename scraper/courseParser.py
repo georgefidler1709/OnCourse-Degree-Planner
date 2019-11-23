@@ -26,7 +26,12 @@ class CourseParser(object):
 
     def __init__(self):
         self.prereq_words = ['prereq:', 'prerequisite:', 'pre-requisite:']
-        self.coreq_words = ['coreq:', 'corequisite:', 'prerequisite/corequisite:']
+        self.coreq_words = ['coreq:', 'corequisite:', 'co-requisite', 'prerequisite/corequisite:']
+        self.and_words = [', and ', '; and ', ', including', ' including ', ', plus ', ' plus ', '+', ', ']
+        self.or_words = [', or ', '; or ', '/']
+        self.uoc_words = [' units of credit ', ' units ', ' units credit ', ' credits ']
+        self.level_words = [' level ']
+        self.ignore_words = [' at ', ' in ', ' overall ']
 
     # Parse the string to return the list of term offerings
     def parse_terms(self, string: str, year: int) -> List['term.Term']:
@@ -102,6 +107,7 @@ class CourseParser(object):
 
         # no brackets = split on conjunctions
         if len(break_points) == 0:
+            # split string
             if string.find(' or ') > 0:
                 return (string.split(' or '), 'or', True)
             elif string.find(' and ') > 0:
@@ -192,25 +198,46 @@ class CourseParser(object):
                     return scrapedSubjectReq.ScrapedSubjectReq(course, self.make_int(mark))
 
         # WAM requirements
-        elif split[0] == 'wam':
-            return wamReq.WAMReq(self.make_int(split[1]))
+        elif 'wam' in split:
+            if split[0] == 'wam' and split[1].isdigit() and len(split) == 2:
+                return wamReq.WAMReq(int(split[1]))
+            elif split[1] == 'wam' and split[0].isdigit() and len(split) == 2:
+                return wamReq.WAMReq(int(split[0]))
+            else:
+                print('COULD NOT PARSE WAM REQ')
+                return None
 
         # year requirements
-        elif split[0] == 'year':
-            return yearReq.YearReq(self.make_int(split[1]))
+        elif split[0] == 'year' and len(split) == 2:
+            return yearReq.YearReq(int(split[1]))
 
         # UOC requirements
-        elif split[0] == 'uoc':
-            units = self.make_int(split[1])
+        elif 'uoc' in split:
+            print(split)
+            if split[0] == 'uoc' and split[1].isdigit() and int(split[1]) % 6 == 0:
+                units = int(split[1])
+            elif split[1] == 'uoc' and split[0].isdigit() and int(split[0]) % 6 == 0:
+                units = int(split[0])
+            else:
+                # could not parse req
+                print('COULD NOT PARSE UOC REQ')
+                return None
+
             if len(split) > 2:
                 filter = self.parse_uoc_req_filter(split)
-                return uocReq.UOCReq(units, filter)
+                if filter is None:
+                    # could not parse filter
+                    print('COULD NOT PARSE COURSE FILTER')
+                    return None
+                else:
+                    return uocReq.UOCReq(units, filter)
             else:
                 return uocReq.UOCReq(units)
 
         # enrollment requirements
-        elif split[0] == 'enrol':
-            degree = self.make_int(split[1])
+        elif split[0] == 'enrol' and len(split) == 2:
+
+            degree = int(split[1])
             return scrapedEnrollmentReq.ScrapedEnrollmentReq(degree)
 
         # something has gone wrong
@@ -220,8 +247,11 @@ class CourseParser(object):
 
     # parse a string containing a possibly nested course requirement
     def parse_course_req(self, req_str: str) -> Optional['courseReq.CourseReq']:
+        # strip trailing characters and whitespace
+        req = self.strip_punct_whitespace(req_str)
+
         # split by outer conjunctions
-        tokenised, conj, success = self.split_by_conj(req_str)
+        tokenised, conj, success = self.split_by_conj(req)
 
         # something went wrong in splitting
         if not success:
@@ -255,18 +285,45 @@ class CourseParser(object):
 
         return None
 
-    def strip_word_and_whitespace(self, string: str, word: str) -> str:
+    def strip_word(self, string: str, word: str) -> str:
 
         result = string.strip()
         result = string.strip(word)
 
         return result.strip()
 
+    def strip_punct_whitespace(self, string: str) -> str:
+        result = string.strip()
+        result = result.strip('.')
+        result = result.strip(';')
+        result = result.strip()
+        return result
+
     def replace_prereq_coreq(self, string: str) -> str:
         for word in self.prereq_words:
             string = string.replace(word, 'prereq')
         for word in self.coreq_words:
             string = string.replace(word, 'coreq')
+        return string
+
+    def replace_conj(self, string: str) -> str:
+        for word in self.and_words:
+            string = string.replace(word, ' and ')
+        for word in self.or_words:
+            string = string.replace(word, ' or ')
+        return string
+
+    def replace_keywords(self, string: str) -> str:
+        for word in self.uoc_words:
+            string = string.replace(word, ' uoc ')
+        for word in self.level_words:
+            string = string.replace(word, ' l ')
+        return string
+
+    def strip_ignore_words(self, string: str) -> str:
+        for word in self.ignore_words:
+            if string.find(word) >= 0:
+                string = string.replace(word, ' ')
         return string
 
     # Parse a string containing a course requirement
@@ -280,8 +337,11 @@ class CourseParser(object):
 
         # convert to lower case
         req = req.lower()
-        req = req.strip()
+        req = self.strip_punct_whitespace(req)
         req = self.replace_prereq_coreq(req)
+        req = self.replace_conj(req)
+        req = self.replace_keywords(req)
+        req = self.strip_ignore_words(req)
 
         co = req.find('coreq')
         pre = req.find('prereq')
@@ -289,7 +349,7 @@ class CourseParser(object):
         if pre < 0 and co >= 0:
             prereqs = None
             coreq_str = req[co:]
-            coreq_str = self.strip_word_and_whitespace(coreq_str, 'coreq')
+            coreq_str = self.strip_word(coreq_str, 'coreq')
             coreqs = self.parse_course_req(coreq_str)
             if not coreqs:
                 status = False
@@ -297,19 +357,19 @@ class CourseParser(object):
         elif pre >= 0 and co < 0:
             coreqs = None
             prereq_str = req[pre:]
-            prereq_str = self.strip_word_and_whitespace(prereq_str, 'prereq')
+            prereq_str = self.strip_word(prereq_str, 'prereq')
             prereqs = self.parse_course_req(prereq_str)
             if not prereqs:
                 status = False
 
         elif pre >= 0 and co >= 0:
             coreq_str = req[co:]
-            coreq_str = self.strip_word_and_whitespace(coreq_str, 'coreq')
+            coreq_str = self.strip_word(coreq_str, 'coreq')
             coreqs = self.parse_course_req(coreq_str)
             if not coreqs:
                 status = False
             prereq_str = req[pre:co]
-            prereq_str = self.strip_word_and_whitespace(prereq_str, 'prereq')
+            prereq_str = self.strip_word(prereq_str, 'prereq')
             prereqs = self.parse_course_req(prereq_str)
             if not prereqs:
                 status = False

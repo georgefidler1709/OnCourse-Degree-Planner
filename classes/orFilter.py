@@ -26,7 +26,7 @@ class OrFilter(courseFilter.CourseFilter):
     # Returns whether this filters specific courses
     @property
     def core(self) -> bool:
-        return any(map(lambda x: x.core, self.filters))
+        return all(map(lambda x: x.core, self.filters))
 
     @property
     def field_filter(self) -> bool:

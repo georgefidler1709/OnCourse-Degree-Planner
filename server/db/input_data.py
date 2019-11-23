@@ -523,14 +523,14 @@ def insert_binf_degree_requirements(db='university.db', start_year=2020, end_yea
     phys_filters = h.spec_courses_to_filters(['PHYS1111', 'PHYS1121', 'PHYS1131'])
     phys_or = h.combine_course_filters('or', phys_filters)
 
-    math1_filters = h.spec_courses_to_filters(['MATH1131, MATH1141'])    
+    math1_filters = h.spec_courses_to_filters(['MATH1131', 'MATH1141'])    
     math1_or = h.combine_course_filters('or', math1_filters)
 
-    math2_filters = h.spec_courses_to_filters(['MATH1231, MATH1241'])
+    math2_filters = h.spec_courses_to_filters(['MATH1231', 'MATH1241'])
     math2_or = h.combine_course_filters('or', math2_filters)
 
     # level 2 spec
-    core_l2_filters = h.spec_courses_to_filters(['BINF2010, BIOC2201, COMP2041, COMP2511, COMP2521, DESN200'])
+    core_l2_filters = h.spec_courses_to_filters(['BINF2010', 'BIOC2201', 'COMP2041', 'COMP2511', 'COMP2521', 'DESN200'])
 
     mathl2_filters = h.spec_courses_to_filters(['MATH2801', 'MATH2901'])
     mathl2_or = h.combine_course_filters('or', mathl2_filters)

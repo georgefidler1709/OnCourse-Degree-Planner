@@ -131,4 +131,10 @@ Extra options
 
 ## Frontend
 
-TODO
+Tests are located in the `./frontend/src/__tests__` folder. 
+
+Run tests from `./frontend` with
+
+```
+npm test a
+```

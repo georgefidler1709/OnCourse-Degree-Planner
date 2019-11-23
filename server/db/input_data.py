@@ -733,8 +733,24 @@ def insert_fins_degree_requirements(db='university.db', start_year=2020, end_yea
     h = Helper(dbaddr=db)
 
     # ===> start filters needed
+    bus_core = h.spec_courses_to_filters(['ACCT1501', 'ECON1101', 'ECON1203', 'MGMT1001'])
 
+    flex_core = h.spec_courses_to_filters(['ACCT1511', 'COMM1000', 'COMM1822', 'ECON1102', 'FINS1613',
+        'INFS1602', 'MARK1012', 'MGMT1101', 'TABL1710'])
+    flex_or = h.combine_course_filters('or', flex_core)
+
+    free_filter = h.add_course_filter('free')
     gen_filter = h.add_course_filter('gen')
+
+    fins_core = h.spec_courses_to_filters(['FINS1612', 'FINS1613', 'FINS2624', 'FINS3616'])
+
+    presc_elec = h.spec_courses_to_filters(['ACCT3563', 'COMM2222', 'COMM3020', 'COMM3030',
+        'COMM3101', 'COMM3202', 'FINGS2622', 'FINS2642', 'FINS3623', 'FINS3626', 'FINS3630',
+        'FINS3631', 'FINS3633', 'FINS3634', 'FINS3635', 'FINS3636', 'FINS3637', 'FINS3640',
+        'FINS3641', 'FINS3644', 'FINS3650', 'FINS3655', 'FINS3666', 'FINS3775'])
+    presc_one = h.spec_courses_to_filters(['FINS3645', 'FINS3646', 'FINS3647', 'FINS3648'])
+    presc_filter = h.combine_course_filters('or', [presc_elec, presc_one])
+
     # ===> end filters needed
  
     print('==> Inserting Degree Requirements for FINSA1 Degree')
@@ -750,18 +766,29 @@ def insert_fins_degree_requirements(db='university.db', start_year=2020, end_yea
         h.add_degree_offering(year, FINS)
 
         # business core courses, 24 UOC (all of them)
+        for f in bus_core:
+            h.add_degree_reqs(FINS, year, f, 6)
 
         # flexible core courses, 24 UOC
+        h.add_degree_reqs(FINS, year, flex_or, 24)
 
         # business major = 48 UOC in stream and at least 18 UOC in level 3
+        for f in fins_core:
+            h.add_degree_reqs(FINS, year, f, 6)
+
+        # prescribed electives
+        h.add_degree_reqs(FINS, year, presc_filter, 24, 'Prescribed Electives')
 
         # 36 UOC free electives (GEN courses cannot count as free elective)
+        h.add_degree_reqs(FINS, year, free_filter, 36)
 
         # 12 UOC General Education
         h.add_degree_reqs(FINS, year, gen_filter, 12)
 
         # total_UOC = 144
         h.add_degree_reqs(FINS, year, None, 144)
+
+        h.add_degree_notes(FINS, year, 'Prescribed Electives include: ACCT3563, COMM2222, COMM3020, COMM3030, COMM3101, COMM3202, FINS2622, FINS2643, FINS3623, FINS3625, FINS3626, FINS3630, FINS3631, FINS3633, FINS3634, FINS3635, FINS3636, FINS3637, FINS3640, FINS3641, FINS3644, FINS3650, FINS3655, FINS3666, FINS3775. You can also choose ONE of the following: FINS3645, FINS3646, FINS3647, FINS3648. At least 2 of your prescribed electives must be level 3.')
 
         # program limit of 60 UOC level 1 courses
         h.add_degree_notes(FINS, year, 'Students must complete a maximum of 60 UOC of level 1 courses, excluding level 1 courses completed as part of the General Education requirement in Dual Programs.')
@@ -778,12 +805,89 @@ def insert_fins_degree_requirements(db='university.db', start_year=2020, end_yea
 
 
 
+def insert_acct_degree_requirements(db='university.db', start_year=2020, end_year=2021):
+    # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/ACCTA1
+    h = Helper(dbaddr=db)
+
+    # ===> start filters needed
+    bus_core = h.spec_courses_to_filters(['ACCT1501', 'ECON1101', 'ECON1203', 'MGMT1001'])
+
+    flex_core = h.spec_courses_to_filters(['ACCT1511', 'COMM1000', 'COMM1822', 'ECON1102', 'FINS1613',
+        'INFS1602', 'MARK1012', 'MGMT1101', 'TABL1710'])
+    flex_or = h.combine_course_filters('or', flex_core)
+
+    free_filter = h.add_course_filter('free')
+    gen_filter = h.add_course_filter('gen')
+
+    acct_core = h.spec_courses_to_filters(['ACCT1501', 'ACCT1511', 'ACCT2522', 'ACCT2542', 'ACCT3563'])
+
+    presc = h.spec_courses_to_filters(['ACCT2507', 'ACCT2672', 'ACCT3583', 'ACCT3601', 'ACCT3610',
+        'ACCT3708', 'COMM2222', 'COMM2233', 'COMM3020', 'COMM3030', 'COMM3101', 'COMM3202', 'FINS3626',
+        'TABL2741', 'TABL3033'])
+    presc_or = h.combine_course_filters('or', presc)
+    # ===> end filters needed
+ 
+    print('==> Inserting Degree Requirements for ACCTA1 Degree')
+
+    ACCT = '3502 ACCTA1'
+
+    print('Inserting degree...')
+    h.add_degree('Commerce (Accounting)', 'Faculty of Business', 3, ACCT)
+
+    print('Inserting degree offerings and requirements...')
+    for year in range(start_year, end_year + 1):
+        print(f'... year {year}')
+        h.add_degree_offering(year, ACCT)
+
+        # business core courses, 24 UOC (all of them)
+        for f in bus_core:
+            h.add_degree_reqs(ACCT, year, f, 6)
+
+        # flexible core courses, 24 UOC
+        h.add_degree_reqs(ACCT, year, flex_or, 24)
+
+        # business major = 48 UOC in stream and at least 18 UOC in level 3
+        for f in acct_core:
+            h.add_degree_reqs(ACCT, year, acct_core, 6)
+
+        h.add_degree_notes(ACCT, year, presc_or, 18, 'Prescribed Electives')
+
+        # 36 UOC free electives (GEN courses cannot count as free elective)
+        h.add_degree_reqs(ACCT, year, free_filter, 36)
+
+        # 12 UOC General Education
+        h.add_degree_reqs(ACCT, year, gen_filter, 12)
+
+        # total_UOC = 144
+        h.add_degree_reqs(ACCT, year, None, 144)
+
+        h.add_degree_notes(ACCT, year, 'Prescribed Electives include: ACCT2507, ACCT2672, ACCT3583, ACCT3601, ACCT3610, ACCT3708, COMM2222, COMM2233, COMM3020, COMM3030, COMM3101, COMM3202, FINS3626, TABL2741, TABL3033. At least 12 UOC must be at level 3.')
+
+        # program limit of 60 UOC level 1 courses
+        h.add_degree_notes(ACCT, year, 'Students must complete a maximum of 60 UOC of level 1 courses, excluding level 1 courses completed as part of the General Education requirement in Dual Programs.')
+
+        # general education maturity
+        h.add_degree_notes(ACCT, year, 'Students must complete at least 48 UOC before enrolling in General Education courses.')
+
+        # level 2 and 3 maturity requirements
+        h.add_degree_notes(ACCT, year, 'Students must have completed 24 UOC before taking any level 2 courses.')
+        h.add_degree_notes(ACCT, year, 'Students must have completed 48 UOC before taking any level 3 courses.')
+
+        # minimum faculty UOC, 96 UOC in business school
+        h.add_degree_notes(ACCT, year, 'Students must complete a minimum of 96 UOC of any course offered by UNSW Business School.')
+
 # def insert_fins_degree_requirements(db='university.db', start_year=2020, end_year=2021):
 #     # https://www.handbook.unsw.edu.au/undergraduate/specialisations/2020/FINSA1
 #     h = Helper(dbaddr=db)
 
 #     # ===> start filters needed
+#     bus_core = h.spec_courses_to_filters(['ACCT1501', 'ECON1101', 'ECON1203', 'MGMT1001'])
 
+#     flex_core = h.spec_courses_to_filters(['ACCT1511', 'COMM1000', 'COMM1822', 'ECON1102', 'FINS1613',
+#         'INFS1602', 'MARK1012', 'MGMT1101', 'TABL1710'])
+#     flex_or = h.combine_course_filters('or', flex_core)
+
+#     free_filter = h.add_course_filter('free')
 #     gen_filter = h.add_course_filter('gen')
 #     # ===> end filters needed
  
@@ -800,12 +904,16 @@ def insert_fins_degree_requirements(db='university.db', start_year=2020, end_yea
 #         h.add_degree_offering(year, FINS)
 
 #         # business core courses, 24 UOC (all of them)
+#         for f in bus_core:
+#             h.add_degree_reqs(FINS, year, f, 6)
 
 #         # flexible core courses, 24 UOC
+#         h.add_degree_reqs(FINS, year, flex_or, 24)
 
 #         # business major = 48 UOC in stream and at least 18 UOC in level 3
 
 #         # 36 UOC free electives (GEN courses cannot count as free elective)
+#         h.add_degree_reqs(FINS, year, free_filter, 36)
 
 #         # 12 UOC General Education
 #         h.add_degree_reqs(FINS, year, gen_filter, 12)

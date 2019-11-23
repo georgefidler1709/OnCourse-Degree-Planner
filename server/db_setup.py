@@ -100,6 +100,10 @@ def do_add_to_db() -> None:
     # computer engineering
     input_data.insert_compeng_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
 
+    # commerce majors
+    input_data.insert_fins_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+    input_data.insert_acct_degree_requirements(db=db_path, start_year=START_YEAR, end_year=END_YEAR)
+
     print('DEGREE REQUIREMENTS INSERTED')
 
 @click.command('init-db')

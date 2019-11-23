@@ -118,9 +118,9 @@ const SearchForm = styled.form`
 
 const Disclaimer = styled.p`
   position: fixed;
-  bottom: 0;
+  top: 0;
   right: 0;
-  padding: 10px;
+  padding: 20px;
   font-size: 12px;
 `
 

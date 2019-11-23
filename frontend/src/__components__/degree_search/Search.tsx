@@ -342,6 +342,9 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
     this.search();
   }
 
+  /**
+   * performs the search and populates the results
+   */
   search(): void {
     let query = this.searchBarRef.current!.value.toLowerCase();
     let searchResults: Array<CourseSearchResult> = [];

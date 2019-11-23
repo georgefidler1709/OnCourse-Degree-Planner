@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
 import '@atlaskit/css-reset';
 import styled from 'styled-components';
+import { Navbar, Nav, Button } from 'react-bootstrap'
 import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
-import Term from './Term';
+import html2canvas from 'html2canvas'
+import { saveAs } from 'file-saver'
 import { RouteComponentProps } from 'react-router-dom';
 import { CheckResponse } from '../../Api';
 import {API_ADDRESS, DB_YEAR_MAX } from '../../Constants'
-import { Navbar, Nav, Button } from 'react-bootstrap'
-import InfoBar from "./InfoBar"
-import html2canvas from 'html2canvas'
-import { saveAs } from 'file-saver'
 import { TimelineState, YearState } from '../../Types'
+import Term from './Term';
+import InfoBar from "./InfoBar"
+
 
 const TimeLineContext = styled.div`
   display: flex;
@@ -69,6 +70,9 @@ const YearButton = styled(Button)`
   padding: 0px;
 `
 
+ /**
+ * Main component for the timeline view for a degree plan
+ **/
 class Timeline extends Component<RouteComponentProps<{degree: string}>, TimelineState> {
 
   constructor(props: RouteComponentProps<{degree: string}>) {
@@ -86,6 +90,11 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }).catch(error => console.error(error));
   }
 
+ /**
+ * Fills out a degree plan with empty terms to be represented on the timeline view
+ * so that there will be a container representing every term for 
+ * the duration of the degree.
+ */
   addMissingTerms() {
     const program = this.state.program
     // fill in required years for the program duration
@@ -119,16 +128,27 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
     }
   }
 
+ /**
+ * Check if the current plan contains a given course
+ * @param {string} course - course to check
+ */
   isEnrolled(course: string): boolean {
     return course in this.state.courses;
   }
 
-  // function to pass to CourseSuggestions in Suggestions.tsx via InfoBar's SearchCourse
-
+ /**
+ * Check if the current plan has any enrollments in a given year
+ * @param {YearState} year - The year to check if there are any courses assigned to.
+ */
   isYearEmpty(year: YearState) {
     return year.term_plans.findIndex(term => term.course_ids.length > 0) === -1;
   }
 
+  /**
+ * Attempt to remove a year from the timeline.
+ * Succeeds if the year does not have any courses assigned to it.
+ * If it fails the user is alerted
+ */
   removeYear() {
     let newState = {
       ...this.state,

@@ -9,8 +9,7 @@
 * which do not interact with the backend
 */
 
-
-import { GeneratorResponse, Program, TermPlan, YearPlan, SimpleDegree, Course } from "./Api"
+import { GeneratorResponse, Program, TermPlan, YearPlan, SimpleDegree, SimpleCourse, Course } from "./Api"
 import styled from 'styled-components';
 
 export const SubTitle = styled.h5`
@@ -43,7 +42,7 @@ export interface SearchResult {
 }
 
 export interface CourseSearchResult {
-  course: Course
+  course: SimpleCourse
   text: JSX.Element
   code: JSX.Element
 }

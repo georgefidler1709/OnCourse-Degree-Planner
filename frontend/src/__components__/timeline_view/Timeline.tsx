@@ -8,8 +8,6 @@
 * Main component for the timeline view of a degree plan.
 */
 
-
-
 import React, {Component} from 'react';
 import '@atlaskit/css-reset';
 import styled from 'styled-components';
@@ -532,7 +530,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                               <Container key={year.year}>
                                 {year.term_plans.map(term => {
                                   const courses = term.course_ids.map(course_id => this.state.courses[course_id]!);
-								  const uoc = courses.reduce((acc, course) => course.units + acc, 0);
+                                  const uoc = courses.reduce((acc, course) => course.units + acc, 0);
                                   const term_tag = term.term.toString() + " " + year.year.toString()
 
                                   return <Term 
@@ -540,7 +538,7 @@ class Timeline extends Component<RouteComponentProps<{degree: string}>, Timeline
                                             name={term_tag} 
                                             courses={courses} 
                                             highlight={term.highlight} 
-											termWarning={uoc > 18}
+                                            termWarning={uoc > 18}
                                             removeCourse={this.removeCourse.bind(this)}
                                             getError={(s) => this.state.reqs.course_reqs[s]}
                                             getWarn={(s) => this.state.reqs.course_warn[s]}/>;

@@ -23,14 +23,6 @@ def load_degrees() -> str:
 
     return jsonify(uni.get_simple_degrees())
 
-@degrees_bp.route('/courses.json')
-def load_courses() -> str:
-    '''
-    Loads a dict of course choices with just the course code and name
-    '''
-    uni = University(query_db)
-    return jsonify(uni.get_simple_courses())
-
 @degrees_bp.route('/full_courses.json')
 def load_full_courses() -> str:
     '''

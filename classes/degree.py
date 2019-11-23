@@ -94,7 +94,9 @@ class Degree(object):
     def get_url(self) -> str:
         # for extensibility to postgraduate
         study_level = 'undergraduate'
-        url = f'https://www.handbook.unsw.edu.au/{study_level}/programs/{self.year}/{self.num_code}'
+
+        num_code = self.num_code.split()[0]
+        url = f'https://www.handbook.unsw.edu.au/{study_level}/programs/{self.year}/{num_code}'
         return url
 
     # Defines what it means for two degrees to be equal

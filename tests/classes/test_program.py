@@ -31,7 +31,7 @@ def plan():
     '''
     uni = University(query_db)
 
-    deg = uni.find_degree_number_code(3778, 2020)
+    deg = uni.find_degree_number_code('3778 COMPA1', 2020)
     assert deg is not None
 
     prog = Generator(deg, uni).generate()

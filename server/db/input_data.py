@@ -838,8 +838,8 @@ def insert_acct_degree_requirements(db='university.db', start_year=2020, end_yea
     risk = h.add_course_filter('field', field_code='RISK')
     tabl = h.add_course_filter('field', field_code='TABL')
     comm = h.add_course_filter('field', field_code='COMM')
-    # actl = h.add_course_filter('field', field_code='ACTL') # TODO add in
-    bus = h.combine_course_filters('or', [acct, fins, econ, infs, mgmt, mark, risk, tabl, comm])
+    actl = h.add_course_filter('field', field_code='ACTL')
+    bus = h.combine_course_filters('or', [acct, fins, econ, infs, mgmt, mark, risk, tabl, comm, actl])
     # ===> end filters needed
  
     print('==> Inserting Degree Requirements for ACCTA1 Degree')

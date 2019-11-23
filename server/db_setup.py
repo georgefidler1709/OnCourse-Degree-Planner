@@ -158,7 +158,7 @@ def do_init_db() -> None:
     COMP_DEG_FIELDS = ['COMP', 'MATH', 'ENGG', 'DESN', 'SENG', 'ELEC', 'INFS', 'TELE',
         'BABS', 'BIOC', 'MICR', 'CHEM', 'PHYS', 'BINF']
     COMMERCE_DEG_FIELDS = ['ACCT', 'ECON', 'MGMT', 'COMM', 'FINS', 'MARK', 'TABL', 
-        'ACCT', 'BLDG', 'RISK']
+        'ACTL', 'BLDG', 'RISK']
     SCIENCE_DEG_FIELDS = ['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC',
         'BIOS', 'BIOT', 'CLIM', 'FOOD', 'GEOS', 'MATS', 'MSCI', 'NEUR', 'OPTM', 'PATH',
         'PHAR', 'PHSL', 'PSYC', 'SCIF', 'SOMS', 'VISN']

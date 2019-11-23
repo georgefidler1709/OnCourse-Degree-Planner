@@ -587,6 +587,7 @@ COMP2011",
         <styled.div>
           <InfoBar
             add_event={[Function]}
+            already_enrolled={[Function]}
             degree_id="3778 COMPA1"
             degree_name="Computer Science"
             degree_notes={Array []}

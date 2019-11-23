@@ -151,7 +151,9 @@ def do_init_db() -> None:
         'PHSL', 'PSYC', 'SCIF', 'SOMS', 'VISN']
     GENED_FIELDS = ['ARTS']
 
-    FIELDS_TO_SCRAPE = COMP_DEG_FIELDS + COMMERCE_DEG_FIELDS + SCIENCE_DEG_FIELDS + GENED_FIELDS
+    ALL_FIELDS = COMP_DEG_FIELDS + COMMERCE_DEG_FIELDS + SCIENCE_DEG_FIELDS + GENED_FIELDS
+
+    FIELDS_TO_SCRAPE = list(set(ALL_FIELDS))
 
     generator.generate_db(year, FIELDS_TO_SCRAPE, postgrad, end_year=2025)
 

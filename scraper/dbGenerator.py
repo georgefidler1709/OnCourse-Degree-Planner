@@ -68,6 +68,8 @@ class dbGenerator(object):
     def generate_db(self, year: int, fields: List[str]=[''], postgrad: bool=False, end_year:
             Optional[int]=None) -> None:
 
+        fields = list(set(fields))
+
         if end_year is None:
             end_year = year
 
@@ -99,7 +101,7 @@ class dbGenerator(object):
             end_year: Optional[int]=None) -> int:
         if end_year is None:
             end_year = start_year
-        result_id = self.store_db('''insert or replace into Courses(letter_code, number_code, level, name,
+        result_id = self.store_db('''insert into Courses(letter_code, number_code, level, name,
         faculty, units, finished) values (?, ?, ?, ?, ?, ?, 0)''', (course.subject, course.code,
             course.level, course.name, course.faculty, course.units))
 

@@ -55,13 +55,12 @@ def course_info(course: str) -> str:
 
 
 @degrees_bp.route('/<code>/<year>/gen_program.json')
-def generate_program(code: int, year: int) -> str:
+def generate_program(code: str, year: int) -> str:
     '''
     Generates a program plan for the given degree code, 
     '''
     uni = University(query_db)
 
-    code = int(code)
     year = int(year)
 
     deg = uni.load_degree(code, year=year)

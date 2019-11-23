@@ -45,7 +45,7 @@ class RemainReq(TypedDict):
 
 class Program(TypedDict):
     # Degree object
-    id: int;
+    id: str;
     name: str;
     year: int;
     duration: int; # in years

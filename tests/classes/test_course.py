@@ -36,7 +36,7 @@ t2 = term.Term(2019, 2)
 
 faculty = 'SubjFaculty'
 
-degree1 = degree.Degree(1, 'Bachelor of Testing', 2019, 3, faculty, [], 'BAT1')
+degree1 = degree.Degree('1', 'Bachelor of Testing', 2019, 3, faculty, [], 'BAT1')
 
 def test_eq():
     subj1001 = course.Course('SUBJ', '1001', 'Subject1', 6, [t1, t2], faculty)

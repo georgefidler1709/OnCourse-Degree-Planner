@@ -75,6 +75,8 @@ class DbGenerator(object):
     def generate_db(self, year: int, fields: List[str]=[''], postgrad: bool=False, end_year:
             Optional[int]=None) -> None:
 
+        fields = list(set(fields))
+
         if end_year is None:
             end_year = year
 
@@ -107,7 +109,8 @@ class DbGenerator(object):
         parser = courseParser.CourseParser()
         with open(requirements_file) as f:
             for line in f:
-                if line.startswith('#'):
+                line = line.strip()
+                if line.startswith('#') or line == '':
                     # This line is a comment, continue
                     continue
 

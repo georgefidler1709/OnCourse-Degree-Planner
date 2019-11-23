@@ -47,6 +47,7 @@ class Helper:
                 Check if the given query returns results
                 True if entry exists in db, otherwise False
                 '''
+                # print(f'... has_entry: check_msg = {check_msg}, values_tuple = {values_tuple}')
                 self.cursor.execute(check_msg, values_tuple)
                 results = self.cursor.fetchall()
 

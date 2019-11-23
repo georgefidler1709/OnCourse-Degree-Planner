@@ -27,6 +27,7 @@ export interface TermState extends TermPlan {
 export interface SearchResult {
   degree: SimpleDegree 
   text: JSX.Element 
+  code: JSX.Element
 }
 
 export interface CourseSearchResult {

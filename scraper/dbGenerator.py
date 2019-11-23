@@ -1,6 +1,6 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
@@ -75,6 +75,8 @@ class DbGenerator(object):
     def generate_db(self, year: int, fields: List[str]=[''], postgrad: bool=False, end_year:
             Optional[int]=None) -> None:
 
+        fields = list(set(fields))
+
         if end_year is None:
             end_year = year
 
@@ -107,12 +109,28 @@ class DbGenerator(object):
         parser = courseParser.CourseParser()
         with open(requirements_file) as f:
             for line in f:
-                if line.startswith('#'):
+                line = line.strip()
+                if line.startswith('#') or line == '':
                     # This line is a comment, continue
                     continue
 
-                course_code, requirements = line.split('|')
+                parts = line.split('|')
+                parts = list(map(lambda x: x.strip(), parts))
+                course_code = parts[0]
+                requirements = parts[1]
                 course_code = course_code.strip()
+
+                if len(parts) > 2:
+                    exclusions = parts[2].split(',')
+                    exclusions = list(map(lambda x: x.strip(), exclusions))
+                else:
+                    exclusions = []
+
+                if len(parts) > 3:
+                    equivalents = parts[3].split(',')
+                    equivalents = list(map(lambda x: x.strip(), equivalents))
+                else:
+                    equivalents = []
 
                 print(f'INSERTING REQUIREMENTS FOR {course_code}')
 
@@ -125,7 +143,7 @@ class DbGenerator(object):
                 course_id = self.find_course(course_code)
                 # Don't need to readd exclusions and equivalents because they won't be removed by
                 # this
-                self.insert_requirements(course_id, prereqs, coreqs, [], [])
+                self.insert_requirements(course_id, prereqs, coreqs, exclusions, equivalents)
 
     def insert_course_without_requirements(self, course: 'course.Course', start_year: int,
             end_year: Optional[int]=None) -> int:

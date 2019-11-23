@@ -6,8 +6,6 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 
 test_fieldFilter.py
 Test the functions defined in fieldFilter.py
-
-[MORE INFO ABOUT CLASS]
 '''
 
 import pytest
@@ -16,7 +14,7 @@ from classes import fieldFilter
 from classes import degree
 
 f = fieldFilter.FieldFilter('SUBJ')
-deg = degree.Degree(num_code=3778, name='Computer Science', year=2019,
+deg = degree.Degree(num_code='3778', name='Computer Science', year=2019,
         duration=3, faculty='Engineering', requirements=[], alpha_code='COMPA1')
 
 def test_accepts_course_true():

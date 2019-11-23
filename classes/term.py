@@ -6,8 +6,6 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 
 term.py
 A term study period consisting of a year and a term 1-3 or summer term.
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from flask import g
@@ -66,8 +64,3 @@ class Term(object):
         if self.year < other.year: return False
         if self.term >= other.term: return True
         return False
-
-    # Saves the term in the database
-    def save(self) -> None:
-        g.db.execute('insert or ignore into Sessions(year, term) values (?, ?)', self.year,
-                self.term)

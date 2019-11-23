@@ -18,7 +18,7 @@ from . import singleReq
 
 class EnrollmentReq(singleReq.SingleReq):
 
-    def __init__(self, degree_id: int, degree_name: str):
+    def __init__(self, degree_id: str, degree_name: str):
         super().__init__()
         self.degree_id = degree_id
         self.degree_name = degree_name

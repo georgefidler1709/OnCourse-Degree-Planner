@@ -6,8 +6,6 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 
 test_degree.py
 Test the functions defined in degree.py
-
-[MORE INFO ABOUT CLASS]
 '''
 
 import pytest

@@ -7,7 +7,6 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 test_yearReq.py
 Test the functions defined in yearReq.py
 
-[MORE INFO ABOUT CLASS]
 '''
 
 import pytest

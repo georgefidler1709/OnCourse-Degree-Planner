@@ -7,8 +7,6 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 levelFilter.py
 Implementation of the LevelFilter class, which allows courses to be filtered
 based on course level.
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from abc import abstractmethod

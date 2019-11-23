@@ -1,14 +1,12 @@
 '''
 COMP4290 Group Project
-Team: On course.Course
+Team: On Course
 Alexander Rowell (z5116848), Eleni Dimitriadis (z5191013), Emily Chen (z5098910)
 George Fidler (z5160384), Kevin Ni (z5025098)
 
 scrapedEnrollmentReq.py
 The course requirement to be enrolled in a specific degree program
 A skeleton class for webscraper
-
-[MORE INFO ABOUT CLASS]
 '''
 
 from typing import List, Optional
@@ -23,7 +21,7 @@ from classes import university
 
 class ScrapedEnrollmentReq(singleReq.SingleReq):
 
-    def __init__(self, degree: int):
+    def __init__(self, degree: str):
         super().__init__()
         self.degree = degree
 

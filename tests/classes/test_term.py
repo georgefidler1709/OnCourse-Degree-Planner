@@ -6,17 +6,12 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 
 test_term.py
 Test the functions defined in term.py
-
-[MORE INFO ABOUT CLASS]
 '''
 
 import pytest
 from classes.term import Term
 
 
-'''
-testing - will write formally later
-'''
 def test_term():
     term12020 = Term(2020, 1)
     term22020 = Term(2020, 2)

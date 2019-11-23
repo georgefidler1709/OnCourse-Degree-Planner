@@ -6,7 +6,6 @@ George Fidler (z5160384), Kevin Ni (z5025098)
 
 unparsedReq.py
 A course requirement that has not properly been parsed by the parser
-
 '''
 
 from typing import List

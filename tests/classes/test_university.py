@@ -199,10 +199,8 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         filter_type_id = self.h.get_filter_type_id('SpecificCourseFilter')
         print(filter_type_id)
 
-        mark_needed = 90
-
-        self.cursor.execute('''insert into CourseFilters(type_id, min_mark, course_id) values(?, ?,
-        ?)''', (filter_type_id, mark_needed, course_id))
+        self.cursor.execute('''insert into CourseFilters(type_id, course_id) values(?, ?)''',
+                (filter_type_id, course_id))
 
         filter_id = self.cursor.lastrowid
 
@@ -240,10 +238,8 @@ class TestUniversity_FindDegreeNumberCode(TestUniversityWithDb):
         filter_type_id = self.h.get_filter_type_id('SpecificCourseFilter')
         print(filter_type_id)
 
-        mark_needed = 90
-
-        self.cursor.execute('''insert into CourseFilters(type_id, min_mark, course_id) values(?, ?,
-        ?)''', (filter_type_id, mark_needed, course_id))
+        self.cursor.execute('''insert into CourseFilters(type_id, course_id) values(?, ?)''',
+                (filter_type_id, course_id))
 
         filter_id = self.cursor.lastrowid
 

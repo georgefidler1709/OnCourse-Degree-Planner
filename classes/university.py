@@ -498,7 +498,6 @@ class University(object):
     # Input: row from the CourseFilters table in the db for a specific course filter
     # Return: The relevant filter
     def load_specific_course_filter(self, filter_data: Row) -> Optional['specificCourseFilter.SpecificCourseFilter']:
-        min_mark = filter_data['min_mark']
         course_id = filter_data['course_id']
 
         allowed_course = self.load_course(course_id, allow_unfinished=True)

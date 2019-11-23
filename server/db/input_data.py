@@ -968,12 +968,15 @@ def insert_stat_degree_requirements(db='university.db', start_year=2020, end_yea
     inf_or = h.combine_course_filters('or', inf_opts)
 
     math_elec = h.spec_courses_to_filters(['MATH3831', 'MATH3841', 'MATH3851', 'MATH3871'])
-    elec_or = h.combine_course_filters('or', elec_or)
+    elec_or = h.combine_course_filters('or', math_elec)
 
-    sci_elec = h.spec_courses_to_filters(['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC', 
-        'BIOS', 'BIOT', 'CHEM', 'CLIM', 'COMP', 'FOOD', 'GEOS', 'MATH', 'MATS', 'MICR', 'MSCI', 'NEUR', 
-        'OPTM', 'PATH', 'PHAR', 'PHSL', 'PHYS', 'PSYC', 'SCIF', 'SOMS', 'VISN'])
-    sci_or = h.combine_course_filters('or', sci_elec)
+    sci_elec = ['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC', 'BIOS', 'BIOT', 
+        'CHEM', 'CLIM', 'COMP', 'FOOD', 'GEOS', 'MATH', 'MATS', 'MICR', 'MSCI', 'NEUR', 'OPTM', 
+        'PATH', 'PHAR', 'PHSL', 'PHYS', 'PSYC', 'SCIF', 'SOMS', 'VISN']
+    field_filters = []
+    for field in sci_elec:
+        field_filters.append(h.add_course_filter('field', field_code=field))
+    sci_or = h.combine_course_filters('or', field_filters)
 
     gen_filter = h.add_course_filter('gen')
     free_filter = h.add_course_filter('free')
@@ -993,7 +996,7 @@ def insert_stat_degree_requirements(db='university.db', start_year=2020, end_yea
         # 108 UOC science courses: BS major + Science electives
 
         # BS major, stat = 60 UOC
-        uoc_6 = [math1_or, math2_or, calc_or, alg_or, stat_or, lin_or, statmodel, stoch_or, inf_or, elec_or]
+        uoc_6 = [math1_or, math2_or, calc_or, alg_or, stat_or, lin_or, stoch_or, inf_or, elec_or] + statmodel
         for f in uoc_6:
             h.add_degree_reqs(STAT, year, f, 6)
 
@@ -1038,10 +1041,13 @@ def insert_psyc_degree_requirements(db='university.db', start_year=2020, end_yea
         'PSYC3301', 'PSYC3311', 'PSYC3331', 'PSYC3341', 'PSYC3361', 'PSYC3371'])
     presc_or = h.combine_course_filters('or', l3_presc)
 
-    sci_elec = h.spec_courses_to_filters(['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC', 
-        'BIOS', 'BIOT', 'CHEM', 'CLIM', 'COMP', 'FOOD', 'GEOS', 'MATH', 'MATS', 'MICR', 'MSCI', 'NEUR', 
-        'OPTM', 'PATH', 'PHAR', 'PHSL', 'PHYS', 'PSYC', 'SCIF', 'SOMS', 'VISN'])
-    sci_or = h.combine_course_filters('or', sci_elec)
+    sci_elec = ['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC', 'BIOS', 'BIOT', 
+        'CHEM', 'CLIM', 'COMP', 'FOOD', 'GEOS', 'MATH', 'MATS', 'MICR', 'MSCI', 'NEUR', 'OPTM', 
+        'PATH', 'PHAR', 'PHSL', 'PHYS', 'PSYC', 'SCIF', 'SOMS', 'VISN']
+    field_filters = []
+    for field in sci_elec:
+        field_filters.append(h.add_course_filter('field', field_code=field))
+    sci_or = h.combine_course_filters('or', field_filters)
 
     gen_filter = h.add_course_filter('gen')
     free_filter = h.add_course_filter('free')
@@ -1118,10 +1124,13 @@ def insert_bio_degree_requirements(db='university.db', start_year=2020, end_year
         'BIOS3171', 'BIOS3221', 'BIOS3601', 'BIOS6671', 'GEOS3911'])
     l3_presc = h.combine_course_filters('or', l3_presc_opts)
 
-    sci_elec = h.spec_courses_to_filters(['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC', 
-        'BIOS', 'BIOT', 'CHEM', 'CLIM', 'COMP', 'FOOD', 'GEOS', 'MATH', 'MATS', 'MICR', 'MSCI', 'NEUR', 
-        'OPTM', 'PATH', 'PHAR', 'PHSL', 'PHYS', 'PSYC', 'SCIF', 'SOMS', 'VISN'])
-    sci_or = h.combine_course_filters('or', sci_elec)
+    sci_elec = ['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC', 'BIOS', 'BIOT', 
+        'CHEM', 'CLIM', 'COMP', 'FOOD', 'GEOS', 'MATH', 'MATS', 'MICR', 'MSCI', 'NEUR', 'OPTM', 
+        'PATH', 'PHAR', 'PHSL', 'PHYS', 'PSYC', 'SCIF', 'SOMS', 'VISN']
+    field_filters = []
+    for field in sci_elec:
+        field_filters.append(h.add_course_filter('field', field_code=field))
+    sci_or = h.combine_course_filters('or', field_filters)
 
     gen_filter = h.add_course_filter('gen')
     free_filter = h.add_course_filter('free')
@@ -1181,10 +1190,13 @@ def insert_bio_degree_requirements(db='university.db', start_year=2020, end_year
 
 #     # ===> course filters
 
-#     sci_elec = h.spec_courses_to_filters(['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC', 
-#         'BIOS', 'BIOT', 'CHEM', 'CLIM', 'COMP', 'FOOD', 'GEOS', 'MATH', 'MATS', 'MICR', 'MSCI', 'NEUR', 
-#         'OPTM', 'PATH', 'PHAR', 'PHSL', 'PHYS', 'PSYC', 'SCIF', 'SOMS', 'VISN'])
-#     sci_or = h.combine_course_filters('or', sci_elec)
+#     sci_elec = ['ANAT', 'AVEN', 'AVIA', 'AVIF', 'AVIG', 'BABS', 'BEES', 'BIOC', 'BIOS', 'BIOT', 
+#         'CHEM', 'CLIM', 'COMP', 'FOOD', 'GEOS', 'MATH', 'MATS', 'MICR', 'MSCI', 'NEUR', 'OPTM', 
+#         'PATH', 'PHAR', 'PHSL', 'PHYS', 'PSYC', 'SCIF', 'SOMS', 'VISN']
+#     field_filters = []
+#     for field in sci_elec:
+#         field_filters.append(h.add_course_filter('field', field_code=field))
+#     sci_or = h.combine_course_filters('or', field_filters)
 
 #     gen_filter = h.add_course_filter('gen')
 #     free_filter = h.add_course_filter('free')

@@ -144,7 +144,13 @@ function CourseInfoModal(props: CourseInfoModalProps) {
         {displayCourseReqs(props.equivalents, "Equivalents")}
         {displayCourseReqs(props.exclusions, "Exclusions")}
         <hr/>
-        <a href={`${COURSE_HANDBOOK_PREFIX}${props.code}`}>More Info</a>
+        <a 
+          href={`${COURSE_HANDBOOK_PREFIX}${props.code}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          More Info
+        </a>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>

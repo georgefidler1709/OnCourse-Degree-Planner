@@ -6804,7 +6804,7 @@ ECON2291"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -6832,11 +6832,61 @@ ECON2291"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-2"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-2"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -7217,7 +7267,7 @@ ECON2291"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -7245,11 +7295,61 @@ ECON2291"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-2"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-2"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -8234,7 +8334,7 @@ MATH1241",
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -8262,11 +8362,61 @@ MATH1241",
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-2"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-2"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -8647,7 +8797,7 @@ MATH1241",
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -8675,11 +8825,61 @@ MATH1241",
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-2"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-2"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -9066,7 +9266,7 @@ MATH1241"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -9094,11 +9294,61 @@ MATH1241"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-2"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-2"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -9753,7 +10003,7 @@ SENG1010"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -9781,11 +10031,61 @@ SENG1010"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-2"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-2"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -10694,7 +10994,7 @@ COMP3821"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -10722,11 +11022,61 @@ COMP3821"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-2"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-2"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -11063,7 +11413,7 @@ COMP2011"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -11091,11 +11441,61 @@ COMP2011"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-2"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-2"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -12278,7 +12678,7 @@ Final year in your degree"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -12306,11 +12706,61 @@ Final year in your degree"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-2"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-2"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -13836,7 +14286,7 @@ Final year in your degree"
                                                                                 show={false}
                                                                                 size="lg"
                                                                               >
-                                                                                <Modal
+                                                                                <ForwardRef
                                                                                   autoFocus={true}
                                                                                   backdrop={true}
                                                                                   backdropTransition={[Function]}
@@ -13864,11 +14314,61 @@ Final year in your degree"
                                                                                   onMouseUp={[Function]}
                                                                                   renderBackdrop={[Function]}
                                                                                   restoreFocus={true}
-                                                                                  role="dialog"
                                                                                   show={false}
                                                                                   style={Object {}}
                                                                                   transition={[Function]}
-                                                                                />
+                                                                                >
+                                                                                  <Modal
+                                                                                    autoFocus={true}
+                                                                                    backdrop={true}
+                                                                                    backdropTransition={[Function]}
+                                                                                    className="modal"
+                                                                                    container={
+                                                                                      <body>
+                                                                                        <div
+                                                                                          aria-atomic="true"
+                                                                                          aria-live="assertive"
+                                                                                          id="rbd-announcement-2"
+                                                                                          role="log"
+                                                                                          style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                                        />
+                                                                                        <div
+                                                                                          id="rbd-lift-instruction-2"
+                                                                                          style="display: none;"
+                                                                                        >
+                                                                                          Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                                        </div>
+                                                                                      </body>
+                                                                                    }
+                                                                                    containerClassName="modal-open"
+                                                                                    enforceFocus={true}
+                                                                                    keyboard={true}
+                                                                                    manager={
+                                                                                      BootstrapModalManager {
+                                                                                        "adjustAndStore": [Function],
+                                                                                        "containers": Array [],
+                                                                                        "data": Array [],
+                                                                                        "handleContainerOverflow": true,
+                                                                                        "hideSiblingNodes": true,
+                                                                                        "modals": Array [],
+                                                                                        "restore": [Function],
+                                                                                        "scrollbarSize": 0,
+                                                                                      }
+                                                                                    }
+                                                                                    onClick={[Function]}
+                                                                                    onEnter={[Function]}
+                                                                                    onEntering={[Function]}
+                                                                                    onExited={[Function]}
+                                                                                    onHide={[Function]}
+                                                                                    onMouseUp={[Function]}
+                                                                                    renderBackdrop={[Function]}
+                                                                                    restoreFocus={true}
+                                                                                    role="dialog"
+                                                                                    show={false}
+                                                                                    style={Object {}}
+                                                                                    transition={[Function]}
+                                                                                  />
+                                                                                </ForwardRef>
                                                                               </Modal>
                                                                             </Bootstrap(Modal)>
                                                                           </CourseInfoModal>
@@ -18228,7 +18728,7 @@ COMP1917"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -18256,11 +18756,61 @@ COMP1917"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-1"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-1"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -18653,7 +19203,7 @@ ECON2291"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -18681,11 +19231,61 @@ ECON2291"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-1"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-1"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -19066,7 +19666,7 @@ ECON2291"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -19094,11 +19694,61 @@ ECON2291"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-1"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-1"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -20083,7 +20733,7 @@ MATH1241",
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -20111,11 +20761,61 @@ MATH1241",
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-1"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-1"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -20496,7 +21196,7 @@ MATH1241",
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -20524,11 +21224,61 @@ MATH1241",
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-1"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-1"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -20915,7 +21665,7 @@ MATH1241"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -20943,11 +21693,61 @@ MATH1241"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-1"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-1"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -21602,7 +22402,7 @@ SENG1010"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -21630,11 +22430,61 @@ SENG1010"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-1"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-1"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -22543,7 +23393,7 @@ COMP3821"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -22571,11 +23421,61 @@ COMP3821"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-1"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-1"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -22912,7 +23812,7 @@ COMP2011"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -22940,11 +23840,61 @@ COMP2011"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-1"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-1"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>
@@ -24127,7 +25077,7 @@ Final year in your degree"
                                                                   show={false}
                                                                   size="lg"
                                                                 >
-                                                                  <Modal
+                                                                  <ForwardRef
                                                                     autoFocus={true}
                                                                     backdrop={true}
                                                                     backdropTransition={[Function]}
@@ -24155,11 +25105,61 @@ Final year in your degree"
                                                                     onMouseUp={[Function]}
                                                                     renderBackdrop={[Function]}
                                                                     restoreFocus={true}
-                                                                    role="dialog"
                                                                     show={false}
                                                                     style={Object {}}
                                                                     transition={[Function]}
-                                                                  />
+                                                                  >
+                                                                    <Modal
+                                                                      autoFocus={true}
+                                                                      backdrop={true}
+                                                                      backdropTransition={[Function]}
+                                                                      className="modal"
+                                                                      container={
+                                                                        <body>
+                                                                          <div
+                                                                            aria-atomic="true"
+                                                                            aria-live="assertive"
+                                                                            id="rbd-announcement-1"
+                                                                            role="log"
+                                                                            style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+                                                                          />
+                                                                          <div
+                                                                            id="rbd-lift-instruction-1"
+                                                                            style="display: none;"
+                                                                          >
+                                                                            Draggable item. Ensure your screen reader is not in browse mode and then press space bar to lift.
+                                                                          </div>
+                                                                        </body>
+                                                                      }
+                                                                      containerClassName="modal-open"
+                                                                      enforceFocus={true}
+                                                                      keyboard={true}
+                                                                      manager={
+                                                                        BootstrapModalManager {
+                                                                          "adjustAndStore": [Function],
+                                                                          "containers": Array [],
+                                                                          "data": Array [],
+                                                                          "handleContainerOverflow": true,
+                                                                          "hideSiblingNodes": true,
+                                                                          "modals": Array [],
+                                                                          "restore": [Function],
+                                                                          "scrollbarSize": 0,
+                                                                        }
+                                                                      }
+                                                                      onClick={[Function]}
+                                                                      onEnter={[Function]}
+                                                                      onEntering={[Function]}
+                                                                      onExited={[Function]}
+                                                                      onHide={[Function]}
+                                                                      onMouseUp={[Function]}
+                                                                      renderBackdrop={[Function]}
+                                                                      restoreFocus={true}
+                                                                      role="dialog"
+                                                                      show={false}
+                                                                      style={Object {}}
+                                                                      transition={[Function]}
+                                                                    />
+                                                                  </ForwardRef>
                                                                 </Modal>
                                                               </Bootstrap(Modal)>
                                                             </CourseInfoModal>

@@ -2,35 +2,52 @@
 
 exports[`Rendering the degree search page renders correctly 1`] = `
 <styled.div>
-  <styled.img
-    alt="logo"
-    src="/images/logo.png"
-  />
+  <styled.div>
+    <styled.img
+      alt="logo"
+      src="/images/logo.png"
+    />
+    <styled.p>
+      * Disclaimer: OnCourse is not
+      <br />
+       affiliated with or endorsed by UNSW.
+      <br />
+       This product is intended to aid degree planning.
+      <br />
+       However, it should not be the only resourced used
+      <br />
+       in planning your future at university,
+      <br />
+       as it may be subject to error.
+    </styled.p>
+  </styled.div>
   <styled.h1>
     OnCourse
   </styled.h1>
   <styled.form>
     <styled.div>
       <Styled(Dropdown)>
-        <Styled(Bootstrap(DropdownToggle))
+        <Styled(DropdownToggle)
           id="dropdown-basic"
           variant="light"
         >
           Start Year: 
           2020
-        </Styled(Bootstrap(DropdownToggle))>
+        </Styled(DropdownToggle)>
         <DropdownMenu
           alignRight={false}
           flip={true}
         >
           <Styled(DropdownItem)
             active={true}
+            key="2020"
             onClick={[Function]}
           >
             2020
           </Styled(DropdownItem)>
           <Styled(DropdownItem)
             active={false}
+            key="2021"
             onClick={[Function]}
           >
             2021
@@ -43,18 +60,5 @@ exports[`Rendering the degree search page renders correctly 1`] = `
       />
     </styled.div>
   </styled.form>
-  <styled.p>
-    * Disclaimer: OnCourse is not
-    <br />
-     affiliated with or endorsed by UNSW.
-    <br />
-     This product is intended to aid degree planning.
-    <br />
-     However, it should not be the only resourced used
-    <br />
-     in planning your future at university,
-    <br />
-     as it may be subject to error.
-  </styled.p>
 </styled.div>
 `;

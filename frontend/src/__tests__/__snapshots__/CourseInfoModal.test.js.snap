@@ -120,6 +120,8 @@ exports[`Rendering a course info popup renders correctly 1`] = `
     <hr />
     <a
       href="https://www.handbook.unsw.edu.au/undergraduate/courses/2020/COMP3121"
+      rel="noopener noreferrer"
+      target="_blank"
     >
       More Info
     </a>

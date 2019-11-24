@@ -19,9 +19,11 @@ import {Dropdown, Form} from 'react-bootstrap'
 
 const Logo = styled.img`
   display: block;
-  margin-left: auto;
+  margin-left: 45%;
   margin-right: auto;
+  margin-top: 2%;
   width: 10%;
+  height: 10%;
 `
 
 const Title = styled.h1`
@@ -37,6 +39,11 @@ const SearchContainer = styled.div`
   width: 100%;
   margin: 0;
   padding: 20px;
+`
+
+const SearchHeader = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 const SearchBarContainer = styled.div`
@@ -117,10 +124,8 @@ const SearchForm = styled.form`
 `
 
 const Disclaimer = styled.p`
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  padding: 10px;
+  float: right;
+  padding: 20px;
   font-size: 12px;
 `
 
@@ -231,7 +236,17 @@ class Search extends Component<{}, SearchState> {
   render() {
     return (
       <SearchContainer>
-        <Logo src={"/images/logo.png"} alt="logo"/>
+        <SearchHeader>
+          <Logo src={"/images/logo.png"} alt="logo"/>
+          <Disclaimer>
+            * Disclaimer: OnCourse is not
+            <br/> affiliated with or endorsed by UNSW.
+            <br/> This product is intended to aid degree planning.
+            <br/> However, it should not be the only resourced used
+            <br/> in planning your future at university,
+            <br/> as it may be subject to error.
+          </Disclaimer>
+        </SearchHeader>
         <Title>OnCourse</Title>
         <SearchForm>
           <SearchBarContainer>
@@ -260,14 +275,6 @@ class Search extends Component<{}, SearchState> {
           year={this.state.year}
         />
       }
-      <Disclaimer>
-        * Disclaimer: OnCourse is not
-        <br/> affiliated with or endorsed by UNSW.
-        <br/> This product is intended to aid degree planning.
-        <br/> However, it should not be the only resourced used
-        <br/> in planning your future at university,
-        <br/> as it may be subject to error.
-      </Disclaimer>
     </SearchContainer>
     )
   }
@@ -300,6 +307,13 @@ const CourseSearchBar = styled(SearchBar)`
   border: 1px solid white;
 
   box-shadow: 0px 0px;
+`
+
+const TermFilterGroup = styled(Form.Group)`
+  display: flex;
+  justify-content: space-around;
+`
+const TermFilter = styled(Form.Check)`
 `
 
 /**
@@ -434,10 +448,10 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
             placeholder="Search for a course..."
             onChange={this.handleInputChange}
           />
-          <Form.Group controlId="terms">
-          Filter by Term:
+          <TermFilterGroup controlId="terms">
+          Filter by Term:   
           {this.state.termFilters.map((checked, index) =>
-            <Form.Check
+            <TermFilter
               inline
               label={`${index + 1}`}
               name={`${index}`}
@@ -447,7 +461,7 @@ class SearchCourses extends Component<SearchCourseProps, SearchCourseState> {
               onChange={this.handleCheckChanged}
             />
           )}
-          </Form.Group>
+          </TermFilterGroup>
         </form>
       {
         this.state.searchResults.length > 0 &&

@@ -827,6 +827,19 @@ def insert_acct_degree_requirements(db='university.db', start_year=2020, end_yea
         'ACCT3708', 'COMM2222', 'COMM2233', 'COMM3020', 'COMM3030', 'COMM3101', 'COMM3202', 'FINS3626',
         'TABL2741', 'TABL3033'])
     presc_or = h.combine_course_filters('or', presc)
+
+    # school of business
+    acct = h.add_course_filter('field', field_code='ACCT')
+    fins = h.add_course_filter('field', field_code='FINS')
+    econ = h.add_course_filter('field', field_code='ECON')
+    infs = h.add_course_filter('field', field_code='INFS')
+    mgmt = h.add_course_filter('field', field_code='MGMT')
+    mark = h.add_course_filter('field', field_code='MARK')
+    risk = h.add_course_filter('field', field_code='RISK')
+    tabl = h.add_course_filter('field', field_code='TABL')
+    comm = h.add_course_filter('field', field_code='COMM')
+    actl = h.add_course_filter('field', field_code='ACTL')
+    bus = h.combine_course_filters('or', [acct, fins, econ, infs, mgmt, mark, risk, tabl, comm, actl])
     # ===> end filters needed
  
     print('==> Inserting Degree Requirements for ACCTA1 Degree')
@@ -854,6 +867,9 @@ def insert_acct_degree_requirements(db='university.db', start_year=2020, end_yea
 
         h.add_degree_reqs(ACCT, year, presc_or, 18, 'Prescribed Electives')
 
+        # one school of business elective due to overlap in business core and ACCT core
+        h.add_degree_reqs(ACCT, year, bus, 6, 'UNSW Business School Course')
+
         # 36 UOC free electives (GEN courses cannot count as free elective)
         h.add_degree_reqs(ACCT, year, free_filter, 36)
 
@@ -864,6 +880,8 @@ def insert_acct_degree_requirements(db='university.db', start_year=2020, end_yea
         h.add_degree_reqs(ACCT, year, None, 144)
 
         h.add_degree_notes(ACCT, year, 'Prescribed Electives include: ACCT2507, ACCT2672, ACCT3583, ACCT3601, ACCT3610, ACCT3708, COMM2222, COMM2233, COMM3020, COMM3030, COMM3101, COMM3202, FINS3626, TABL2741, TABL3033. At least 12 UOC must be at level 3.')
+
+        h.add_degree_notes(ACCT, year, 'UNSW Business School Courses include those with fields: ACCT, ACTL, COMM, ECON, FINS, INFS, MARK, MGMT, RISK, TABL.')
 
         # program limit of 60 UOC level 1 courses
         h.add_degree_notes(ACCT, year, 'Students must complete a maximum of 60 UOC of level 1 courses, excluding level 1 courses completed as part of the General Education requirement in Dual Programs.')

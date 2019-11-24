@@ -27,13 +27,13 @@ exports[`Rendering the degree search page renders correctly 1`] = `
   <styled.form>
     <styled.div>
       <Styled(Dropdown)>
-        <Styled(Bootstrap(DropdownToggle))
+        <Styled(DropdownToggle)
           id="dropdown-basic"
           variant="light"
         >
           Start Year: 
           2020
-        </Styled(Bootstrap(DropdownToggle))>
+        </Styled(DropdownToggle)>
         <DropdownMenu
           alignRight={false}
           flip={true}
